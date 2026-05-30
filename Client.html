@@ -1,0 +1,1037 @@
+/* Status helpers */
+function setStatus(msg) {
+  const status = document.getElementById("status");
+  if (status) status.textContent = msg;
+}
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = textOrEmpty(text);
+  return node;
+}
+
+function sectionShell(id, className) {
+  const section = el("section", "section" + (className ? " " + className : ""));
+  if (id) section.id = id;
+  return section;
+}
+
+function appendParagraph(parent, text, className) {
+  if (!text) return;
+  parent.appendChild(el("p", className || "", text));
+}
+
+const GALLERY_DATA = {
+  items: [],
+  loaded: false,
+  loadToken: 0,
+  lowerInitialCount: 6,
+  heroPreviewCount: 8
+};
+
+const HeroGalleryCarousel = {
+  items: [],
+  order: [],
+  orderPosition: -1,
+  currentIndex: -1,
+  revealed: false,
+  timers: [],
+  root: null
+};
+
+/* Homepage modules. Edit content in Config.html: SITE_CONTENT.homepage. */
+function HeroSection() {
+  const site = SITE_CONTENT.site;
+  const section = sectionShell("", "hero");
+
+  if (site.eyebrow) {
+    section.appendChild(el("div", "eyebrow", site.eyebrow));
+  }
+  section.appendChild(el("h1", "", site.name));
+  section.appendChild(HeroGalleryModule());
+  if (site.tagline) {
+    section.appendChild(el("p", "lede", site.tagline));
+  }
+  appendParagraph(section, site.intro);
+
+  const actions = el("div", "actions");
+  const primary = el("a", "button", site.primaryAction);
+  primary.href = "#order";
+  const secondary = el("a", "button secondary", site.secondaryAction);
+  secondary.href = "#gallery-section";
+  actions.appendChild(primary);
+  actions.appendChild(secondary);
+  section.appendChild(actions);
+
+  return section;
+}
+
+function HeroGalleryModule() {
+  const module = el("div", "hero-gallery");
+  module.id = "heroGallery";
+
+  const feature = el("div", "hero-gallery-feature");
+  feature.id = "heroGalleryFeature";
+  const previews = el("div", "hero-gallery-previews");
+  previews.id = "heroGalleryPreviews";
+
+  module.appendChild(feature);
+  module.appendChild(previews);
+  return module;
+}
+
+function ProductIntroSection() {
+  const content = SITE_CONTENT.homepage.productIntro;
+  const section = sectionShell("product-intro", "product-intro-section");
+
+  const visual = el("div", "product-visual");
+  visual.setAttribute("aria-label", textOrEmpty(content.visualLabel));
+  visual.setAttribute("role", "img");
+  visual.innerHTML = '<span class="product-visual-frame"><span class="product-visual-cover"></span><span class="product-visual-reveal"></span><span class="product-visual-trigger"></span></span>';
+
+  const copy = el("div", "product-intro-copy");
+  copy.appendChild(el("h2", "", content.heading));
+  appendParagraph(copy, content.text, "section-copy");
+
+  if (content.points && content.points.length) {
+    const points = el("ul", "micro-points");
+    content.points.forEach(point => points.appendChild(el("li", "", point)));
+    copy.appendChild(points);
+  }
+
+  section.appendChild(visual);
+  section.appendChild(copy);
+  return section;
+}
+
+function RevealDemoSection() {
+  const content = SITE_CONTENT.homepage.revealDemo;
+  const community = SITE_CONTENT.sections.community;
+  const section = sectionShell("gallery-section", "reveal-demo-section");
+
+  section.appendChild(el("h2", "", content.heading));
+  appendParagraph(section, content.intro, "section-copy");
+
+  const gallery = el("div", "gallery");
+  gallery.id = "gallery";
+  section.appendChild(gallery);
+
+  const submit = el("details", "submission-module");
+  const summary = el("summary", "", community.uploadHeading);
+  const card = el("div", "card");
+  appendParagraph(card, community.uploadIntro);
+
+  const title = document.createElement("input");
+  title.id = "title";
+  title.placeholder = "Cover title";
+  const revealTitle = document.createElement("input");
+  revealTitle.id = "revealTitle";
+  revealTitle.placeholder = "Reveal title";
+  const desc = document.createElement("textarea");
+  desc.id = "desc";
+  desc.placeholder = "Description (optional)";
+  const cover = document.createElement("input");
+  cover.id = "cover";
+  cover.type = "file";
+  cover.accept = "image/*";
+  const reveal = document.createElement("input");
+  reveal.id = "reveal";
+  reveal.type = "file";
+  reveal.accept = "image/*";
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = "Submit";
+  button.addEventListener("click", submitIdea);
+
+  [
+    title,
+    revealTitle,
+    desc,
+    el("label", "field-label", "Cover"),
+    cover,
+    el("label", "field-label", "Reveal"),
+    reveal,
+    button
+  ].forEach(node => card.appendChild(node));
+
+  const status = el("div", "");
+  status.id = "status";
+  card.appendChild(status);
+  appendParagraph(card, community.uploadNote, "fine-print");
+
+  submit.appendChild(summary);
+  submit.appendChild(card);
+  section.appendChild(submit);
+
+  return section;
+}
+
+function ProcessStripSection() {
+  const content = SITE_CONTENT.homepage.process;
+  const section = sectionShell("process", "process-section");
+  section.appendChild(el("h2", "", content.heading));
+
+  const strip = el("ol", "process-strip");
+  content.steps.forEach(step => strip.appendChild(el("li", "", step)));
+  section.appendChild(strip);
+
+  return section;
+}
+
+function MechanismSection() {
+  const content = SITE_CONTENT.homepage.mechanism;
+  const current = content.current;
+  const section = sectionShell("mechanism", "mechanism-section");
+
+  section.appendChild(el("h2", "", content.heading));
+
+  const module = el("div", "mechanism-module");
+  const body = el("div", "");
+  body.appendChild(el("h3", "", current.name));
+  appendParagraph(body, current.text);
+  module.appendChild(body);
+
+  if (current.details && current.details.length) {
+    const details = el("ul", "micro-points mechanism-points");
+    current.details.forEach(point => details.appendChild(el("li", "", point)));
+    module.appendChild(details);
+  }
+
+  section.appendChild(module);
+  appendParagraph(section, content.futureNote, "fine-print planned-note");
+
+  return section;
+}
+
+function TierComparisonSection() {
+  const order = SITE_CONTENT.sections.order;
+  const section = sectionShell("order", "tier-comparison-section");
+  section.appendChild(el("h2", "", order.heading));
+  appendParagraph(section, order.subhead, "section-copy");
+
+  const container = el("div", "kits");
+  container.id = "pricingTiers";
+  section.appendChild(container);
+
+  renderPricingTiers(container);
+  return section;
+}
+
+function CTASection() {
+  const cta = SITE_CONTENT.homepage.cta;
+  const order = SITE_CONTENT.sections.order;
+  const shipping = SITE_CONTENT.sections.shipping;
+  const section = sectionShell("checkout-placeholder", "cta-section");
+
+  section.appendChild(el("h2", "", cta.heading));
+  appendParagraph(section, cta.text, "section-copy");
+
+  const card = el("div", "card");
+  appendParagraph(card, order.checkoutNote);
+  const orderBox = el("div", "order-box");
+  orderBox.setAttribute("aria-label", "Order placeholder");
+
+  orderBox.appendChild(el("h3", "", order.summaryHeading));
+
+  const tierLabel = el("label", "field-label", order.tierLabel);
+  tierLabel.setAttribute("for", "orderTier");
+  const tierSelect = document.createElement("select");
+  tierSelect.id = "orderTier";
+
+  const quantityLabel = el("label", "field-label", order.quantityLabel);
+  quantityLabel.setAttribute("for", "orderQuantity");
+  const quantity = document.createElement("input");
+  quantity.id = "orderQuantity";
+  quantity.type = "number";
+  quantity.min = "1";
+  quantity.value = "1";
+
+  const subtotal = el("div", "subtotal-row");
+  subtotal.appendChild(el("span", "", order.subtotalLabel));
+  const subtotalValue = el("strong", "");
+  subtotalValue.id = "orderSubtotal";
+  subtotal.appendChild(subtotalValue);
+
+  const placeholderButton = document.createElement("button");
+  placeholderButton.id = "placeholderCheckoutButton";
+  placeholderButton.type = "button";
+  placeholderButton.textContent = order.placeholderButton;
+
+  const message = el("p", "fine-print", order.placeholderMessage);
+  message.id = "placeholderCheckoutMessage";
+
+  [tierLabel, tierSelect, quantityLabel, quantity, subtotal, placeholderButton, message].forEach(node => {
+    orderBox.appendChild(node);
+  });
+  card.appendChild(orderBox);
+
+  if (shipping.notes && shipping.notes.length) {
+    const shippingNotes = el("ul", "fine-print compact-notes");
+    shipping.notes.forEach(note => shippingNotes.appendChild(el("li", "", note)));
+    card.appendChild(shippingNotes);
+  }
+
+  section.appendChild(card);
+  return section;
+}
+
+function FooterSection() {
+  const footer = el("footer", "footer");
+  footer.appendChild(el("strong", "", SITE_CONTENT.site.name));
+  appendParagraph(footer, SITE_CONTENT.site.contactNote);
+  return footer;
+}
+
+function renderHomepage() {
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+
+  [
+    HeroSection,
+    TierComparisonSection,
+    ProductIntroSection,
+    ProcessStripSection,
+    MechanismSection,
+    RevealDemoSection,
+    CTASection,
+    FooterSection
+  ].forEach(renderSection => app.appendChild(renderSection()));
+
+  renderOrderPlaceholder();
+  loadTierIllustrationAssets();
+  scheduleGalleryDataLoad();
+}
+
+function scheduleGalleryDataLoad() {
+  setTimeout(loadGalleryData, 50);
+}
+
+/* Pricing rendering. Edit tier names/prices/bullets/images in Config.html. */
+function renderPricingTiers(container) {
+  const target = container || document.getElementById("pricingTiers");
+  target.innerHTML = "";
+
+  SITE_CONTENT.sections.order.tiers.forEach(tier => {
+    target.appendChild(createTierCard(tier));
+  });
+}
+
+function createTierCard(tier) {
+  const card = document.createElement("article");
+  card.className = "tier-card";
+  if (tier.illustration && tier.illustration.assetKey) {
+    card.dataset.tierKey = tier.illustration.assetKey;
+  }
+  if (tier.accentColor) {
+    card.style.setProperty("--tier-accent", tier.accentColor);
+  }
+
+  const intro = document.createElement("div");
+  intro.className = "tier-intro";
+
+  const name = document.createElement("h3");
+  name.className = "kit-name";
+  name.textContent = textOrEmpty(tier.name);
+
+  const description = document.createElement("p");
+  description.className = "tier-description";
+  description.textContent = textOrEmpty(tier.shortDescription);
+
+  intro.appendChild(name);
+
+  intro.appendChild(description);
+  card.appendChild(intro);
+  card.appendChild(createFramedIllustration(tier));
+
+  const body = document.createElement("div");
+  body.className = "tier-body";
+  body.appendChild(createBulletList(tier.bullets || []));
+  card.appendChild(body);
+
+  const footer = document.createElement("div");
+  footer.className = "tier-footer";
+
+  const price = document.createElement("div");
+  price.className = "kit-price";
+  price.textContent = textOrEmpty(tier.priceLabel);
+
+  const footerName = document.createElement("div");
+  footerName.className = "tier-footer-name";
+  footerName.textContent = textOrEmpty(tier.name);
+
+  footer.appendChild(price);
+  footer.appendChild(footerName);
+  card.appendChild(footer);
+
+  return card;
+}
+
+function createFramedIllustration(tier) {
+  const frame = document.createElement("div");
+  frame.className = "tier-frame living-frame";
+  frame.setAttribute("aria-label", textOrEmpty(tier.illustration && tier.illustration.alt));
+
+  const image = document.createElement("div");
+  image.className = "tier-image living-frame-art";
+  image.appendChild(createTierIllustration(tier.illustration || {}));
+
+  frame.appendChild(image);
+  return frame;
+}
+
+function createTierIllustration(illustration) {
+  const asset = resolveTierIllustrationAsset(illustration);
+  if (asset) {
+    const img = document.createElement("img");
+    img.className = "tier-asset";
+    img.src = asset;
+    img.alt = textOrEmpty(illustration.alt);
+    return img;
+  }
+
+  const scene = document.createElement("div");
+  scene.className = "tier-scene tier-scene-" + textOrEmpty(illustration.type || "default");
+  scene.setAttribute("aria-hidden", "true");
+
+  ["back", "front", "mechanism", "trigger"].forEach(part => {
+    const element = document.createElement("span");
+    element.className = "scene-part scene-" + part;
+    scene.appendChild(element);
+  });
+
+  return scene;
+}
+
+function resolveTierIllustrationAsset(illustration) {
+  if (illustration.asset) return illustration.asset;
+  if (
+    illustration.assetKey &&
+    typeof TIER_ILLUSTRATION_ASSETS !== "undefined" &&
+    TIER_ILLUSTRATION_ASSETS[illustration.assetKey]
+  ) {
+    return TIER_ILLUSTRATION_ASSETS[illustration.assetKey];
+  }
+  if (
+    illustration.assetKey &&
+    window.TIER_ILLUSTRATION_ASSETS &&
+    window.TIER_ILLUSTRATION_ASSETS[illustration.assetKey]
+  ) {
+    return window.TIER_ILLUSTRATION_ASSETS[illustration.assetKey];
+  }
+  return "";
+}
+
+function hydrateTierIllustrations() {
+  const container = document.getElementById("pricingTiers");
+  if (container) renderPricingTiers(container);
+}
+
+function hydrateStaticTierImages(assets) {
+  document.querySelectorAll(".tier-card[data-tier-key]").forEach(function(card) {
+    const key = card.getAttribute("data-tier-key");
+    const src = assets && assets[key];
+    const target = card.querySelector(".tier-image");
+    if (!src || !target) return;
+
+    const img = document.createElement("img");
+    img.className = "tier-asset";
+    img.src = src;
+    img.alt = card.querySelector(".kit-name") ? card.querySelector(".kit-name").textContent : "";
+    target.innerHTML = "";
+    target.appendChild(img);
+  });
+}
+
+function loadTierIllustrationAssets() {
+  if (!window.google || !google.script || !google.script.run) return;
+  if (window.TIER_ILLUSTRATION_ASSETS) {
+    hydrateStaticTierImages(window.TIER_ILLUSTRATION_ASSETS);
+    hydrateTierIllustrations();
+    return;
+  }
+
+  google.script.run
+    .withSuccessHandler(function(assets) {
+      window.TIER_ILLUSTRATION_ASSETS = assets || {};
+      hydrateStaticTierImages(window.TIER_ILLUSTRATION_ASSETS);
+      hydrateTierIllustrations();
+    })
+    .withFailureHandler(function() {})
+    .getTierIllustrationAssets();
+}
+
+function createBulletList(items) {
+  const list = document.createElement("ul");
+  list.className = "tier-bullets";
+
+  items.forEach(item => {
+    const bullet = typeof item === "string" ? { text: item, icon: "" } : item;
+    const li = document.createElement("li");
+
+    const icon = createBulletIcon(bullet.icon || bullet.iconClass);
+
+    const text = document.createElement("span");
+    text.textContent = textOrEmpty(bullet.text);
+
+    li.appendChild(icon);
+    li.appendChild(text);
+    list.appendChild(li);
+  });
+
+  return list;
+}
+
+function createBulletIcon(iconName) {
+  const icon = document.createElement("span");
+  icon.className = "tier-bullet-icon";
+  icon.setAttribute("aria-hidden", "true");
+  icon.innerHTML = TIER_BULLET_ICONS[textOrEmpty(iconName)] || TIER_BULLET_ICONS.default;
+  return icon;
+}
+
+const TIER_BULLET_ICONS = {
+  printer: '<svg viewBox="0 0 24 24"><path d="M6 4h12v7H6z"/><path d="M5 12h14v6H5z"/><path d="M8 18h8"/><path d="M9 8h6"/><path d="M17 4v-1"/><path d="M7 4v-1"/></svg>',
+  hardware: '<svg viewBox="0 0 24 24"><path d="M8 4h8l4 7-4 7H8l-4-7z"/><circle cx="12" cy="11" r="3"/></svg>',
+  photos: '<svg viewBox="0 0 24 24"><path d="M6 8h10v10H6z"/><path d="M9 5h10v10"/><path d="M8 16l3-3 2 2 2-3"/></svg>',
+  frame: '<svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 7h8v10H8z"/></svg>',
+  wrench: '<svg viewBox="0 0 24 24"><path d="M15 5a5 5 0 0 0-6 6l-5 5 4 4 5-5a5 5 0 0 0 6-6l-3 3-3-3z"/></svg>',
+  gear: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/><path d="M5.6 5.6l2.1 2.1"/><path d="M16.3 16.3l2.1 2.1"/><path d="M18.4 5.6l-2.1 2.1"/><path d="M7.7 16.3l-2.1 2.1"/></svg>',
+  align: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><path d="M12 2v5"/><path d="M12 17v5"/><path d="M2 12h5"/><path d="M17 12h5"/></svg>',
+  gearCheck: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="3"/><path d="M11 3v3"/><path d="M3 11h3"/><path d="M16 6l2-2"/><path d="M6 16l-2 2"/><path d="M15 17l2 2 4-5"/></svg>',
+  pictureFrame: '<svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 7h8v10H8z"/><path d="M9 16l2.5-3 2 2 1.5-2"/></svg>',
+  photosCheck: '<svg viewBox="0 0 24 24"><path d="M5 8h10v10H5z"/><path d="M8 5h10v9"/><path d="M14 17l2 2 4-5"/></svg>',
+  gift: '<svg viewBox="0 0 24 24"><path d="M4 10h16v10H4z"/><path d="M4 14h16"/><path d="M12 10v10"/><path d="M12 10c-3-1-4-3-3-4 1-1 3 0 3 4z"/><path d="M12 10c3-1 4-3 3-4-1-1-3 0-3 4z"/></svg>',
+  default: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>'
+};
+
+/* Order placeholder. No real checkout or payment is performed. */
+function renderOrderPlaceholder() {
+  const select = document.getElementById("orderTier");
+  const quantity = document.getElementById("orderQuantity");
+  const button = document.getElementById("placeholderCheckoutButton");
+  if (!select || !quantity || !button) return;
+
+  select.innerHTML = "";
+
+  SITE_CONTENT.sections.order.tiers.forEach((tier, index) => {
+    const option = document.createElement("option");
+    option.value = String(index);
+    option.textContent = tier.name + " - " + tier.priceLabel;
+    select.appendChild(option);
+  });
+
+  select.addEventListener("change", updateOrderSummary);
+  quantity.addEventListener("input", updateOrderSummary);
+  button.addEventListener("click", function() {
+    const message = document.getElementById("placeholderCheckoutMessage");
+    if (message) message.textContent = SITE_CONTENT.sections.order.placeholderMessage;
+  });
+
+  updateOrderSummary();
+}
+
+function updateOrderSummary() {
+  const select = document.getElementById("orderTier");
+  const quantity = document.getElementById("orderQuantity");
+  const subtotal = document.getElementById("orderSubtotal");
+  if (!select || !quantity || !subtotal) return;
+
+  const tiers = SITE_CONTENT.sections.order.tiers;
+  const tier = tiers[Number(select.value)] || tiers[0];
+  const qty = Math.max(1, Number(quantity.value) || 1);
+  quantity.value = String(qty);
+
+  subtotal.textContent = "$" + (tier.priceValue * qty);
+}
+
+/* Upload handling */
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = () => reject(new Error("Could not read file"));
+    r.readAsDataURL(file);
+  });
+}
+
+async function submitIdea() {
+  try {
+    const coverFile = document.getElementById("cover").files[0];
+    const revealFile = document.getElementById("reveal").files[0];
+
+    if (!coverFile || !revealFile) {
+      setStatus("Upload both images.");
+      return;
+    }
+
+    const data = {
+      title: document.getElementById("title").value,
+      revealTitle: document.getElementById("revealTitle").value,
+      description: document.getElementById("desc").value,
+      cover: await fileToBase64(coverFile),
+      reveal: await fileToBase64(revealFile)
+    };
+
+    google.script.run
+      .withSuccessHandler(function(msg) {
+        setStatus(msg);
+        loadGallery();
+      })
+      .withFailureHandler(function(err) {
+        setStatus("Error: " + err.message);
+      })
+      .submitConcept(data);
+
+  } catch (err) {
+    setStatus("Browser error: " + err.message);
+  }
+}
+
+/* Gallery data loading */
+function normalizeGalleryItems(items) {
+  return (Array.isArray(items) ? items : [])
+    .filter(item => item && item.cover && item.reveal)
+    .map(item => ({
+      title: textOrEmpty(item.title),
+      revealTitle: textOrEmpty(item.revealTitle),
+      description: textOrEmpty(item.description),
+      cover: item.cover,
+      reveal: item.reveal
+    }));
+}
+
+function loadGalleryData() {
+  const token = GALLERY_DATA.loadToken + 1;
+  GALLERY_DATA.loadToken = token;
+  GALLERY_DATA.loaded = false;
+
+  const g = document.getElementById("gallery");
+  if (g) {
+    g.innerHTML = "";
+    const loading = document.createElement("div");
+    loading.className = "card fine-print";
+    loading.textContent = "Loading reveals...";
+    g.appendChild(loading);
+  }
+
+  if (!window.google || !google.script || !google.script.run) {
+    setGalleryData([]);
+    return;
+  }
+
+  setTimeout(function() {
+    if (!GALLERY_DATA.loaded && GALLERY_DATA.loadToken === token && g) {
+      g.innerHTML = "";
+      const slow = document.createElement("div");
+      slow.className = "card fine-print";
+      slow.textContent = "Reveals are still loading. The rest of the page is ready.";
+      g.appendChild(slow);
+    }
+  }, 5000);
+
+  google.script.run
+    .withSuccessHandler(function(items) {
+      if (GALLERY_DATA.loadToken !== token) return;
+      setGalleryData(items);
+    })
+    .withFailureHandler(function(err) {
+      if (GALLERY_DATA.loadToken !== token) return;
+      renderGalleryError(err);
+    })
+    .getGallery();
+}
+
+function setGalleryData(items) {
+  GALLERY_DATA.items = normalizeGalleryItems(items);
+  GALLERY_DATA.loaded = true;
+  const g = document.getElementById("gallery");
+  if (g && !GALLERY_DATA.items.length) {
+    g.innerHTML = '<div class="card fine-print">Gallery returned no image pairs.</div>';
+  }
+  renderHeroGallery(GALLERY_DATA.items);
+  runAfterFirstPaint(function() {
+    renderGallery(GALLERY_DATA.items, GALLERY_DATA.lowerInitialCount);
+  });
+}
+
+function loadGallery() {
+  loadGalleryData();
+}
+
+function runAfterFirstPaint(fn) {
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(fn, { timeout: 1200 });
+    return;
+  }
+  setTimeout(fn, 120);
+}
+
+/* Hero gallery carousel */
+function renderHeroGallery(items) {
+  const root = document.getElementById("heroGallery");
+  const feature = document.getElementById("heroGalleryFeature");
+  const previews = document.getElementById("heroGalleryPreviews");
+  if (!root || !feature || !previews) return;
+
+  clearHeroGalleryTimers();
+  HeroGalleryCarousel.root = root;
+  HeroGalleryCarousel.items = items.slice();
+  HeroGalleryCarousel.currentIndex = -1;
+  HeroGalleryCarousel.revealed = false;
+  HeroGalleryCarousel.order = createHeroGalleryOrder(HeroGalleryCarousel.items.length, -1);
+  HeroGalleryCarousel.orderPosition = -1;
+
+  root.hidden = !HeroGalleryCarousel.items.length;
+  feature.innerHTML = "";
+  previews.innerHTML = "";
+  if (!HeroGalleryCarousel.items.length) return;
+
+  HeroGalleryCarousel.items.slice(0, GALLERY_DATA.heroPreviewCount).forEach((item, index) => {
+    previews.appendChild(createHeroGalleryPreview(item, index));
+  });
+
+  showNextHeroGalleryItem();
+}
+
+function createHeroGalleryPreview(item, index) {
+  const preview = document.createElement("button");
+  preview.type = "button";
+  preview.className = "hero-gallery-preview";
+  preview.setAttribute("aria-label", "Select reveal pair");
+  preview.addEventListener("click", function() {
+    showHeroGalleryItem(index);
+  });
+
+  const image = document.createElement("img");
+  setGalleryImageSource(image, item.cover);
+  image.alt = "";
+  preview.appendChild(image);
+  preview.appendChild(el("span", "gallery-acrylic-glare"));
+
+  return preview;
+}
+
+function createHeroGalleryOrder(count, previousIndex) {
+  const order = [];
+  for (let i = 0; i < count; i++) order.push(i);
+
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = order[i];
+    order[i] = order[j];
+    order[j] = temp;
+  }
+
+  if (order.length > 1 && order[0] === previousIndex) {
+    const temp = order[0];
+    order[0] = order[1];
+    order[1] = temp;
+  }
+
+  return order;
+}
+
+function showNextHeroGalleryItem() {
+  const state = HeroGalleryCarousel;
+  if (!state.items.length) return;
+
+  state.orderPosition += 1;
+  if (state.orderPosition >= state.order.length) {
+    state.order = createHeroGalleryOrder(state.items.length, state.currentIndex);
+    state.orderPosition = 0;
+  }
+
+  showHeroGalleryItem(state.order[state.orderPosition]);
+}
+
+function showHeroGalleryItem(index) {
+  const state = HeroGalleryCarousel;
+  if (!state.items[index]) return;
+
+  clearHeroGalleryTimers();
+  state.currentIndex = index;
+  state.revealed = false;
+
+  const feature = document.getElementById("heroGalleryFeature");
+  feature.innerHTML = "";
+  feature.appendChild(createHeroFeaturedPair(state.items[index]));
+  updateHeroGalleryPreviewState(index);
+  scheduleHeroGalleryReveal();
+}
+
+function createHeroFeaturedPair(item) {
+  const control = document.createElement("button");
+  control.type = "button";
+  control.className = "hero-feature-button";
+  control.setAttribute("aria-label", "Reveal featured image");
+  control.addEventListener("click", triggerHeroGalleryReveal);
+
+  const frame = el("span", "hero-feature-frame gallery-shadowbox-frame");
+  const art = el("span", "hero-feature-art gallery-frame-art");
+
+  const cover = document.createElement("img");
+  cover.className = "hero-cover-img";
+  cover.alt = "";
+  setGalleryImageSource(cover, item.cover);
+
+  const reveal = document.createElement("img");
+  reveal.className = "hero-reveal-img";
+  reveal.alt = "";
+  setGalleryImageSource(reveal, item.reveal);
+
+  art.appendChild(cover);
+  art.appendChild(reveal);
+  frame.appendChild(art);
+  frame.appendChild(el("span", "gallery-acrylic-glare"));
+  control.appendChild(frame);
+
+  return control;
+}
+
+function scheduleHeroGalleryReveal() {
+  const delay = Number(SITE_CONTENT.homepage.heroGallery.coverDelayMs) || 3600;
+  HeroGalleryCarousel.timers.push(setTimeout(triggerHeroGalleryReveal, delay));
+}
+
+function triggerHeroGalleryReveal() {
+  const state = HeroGalleryCarousel;
+  if (state.revealed) return;
+
+  state.revealed = true;
+  clearHeroGalleryTimers();
+  applyHeroRevealTransition(document.getElementById("heroGalleryFeature"));
+
+  const hold = Number(SITE_CONTENT.homepage.heroGallery.revealHoldMs) || 2200;
+  state.timers.push(setTimeout(showNextHeroGalleryItem, hold));
+}
+
+function applyHeroRevealTransition(root) {
+  if (!root) return;
+  const frame = root.querySelector(".hero-feature-frame");
+  if (!frame) return;
+  frame.classList.add("is-revealed");
+}
+
+function clearHeroGalleryTimers() {
+  HeroGalleryCarousel.timers.forEach(timer => clearTimeout(timer));
+  HeroGalleryCarousel.timers = [];
+}
+
+function updateHeroGalleryPreviewState(activeIndex) {
+  document.querySelectorAll(".hero-gallery-preview").forEach((preview, index) => {
+    preview.classList.toggle("is-active", index === activeIndex);
+  });
+}
+
+function renderGalleryError(err) {
+  const g = document.getElementById("gallery");
+  const message = "Gallery error: " + (err && err.message ? err.message : "Could not load submissions.");
+  if (!g) {
+    setStatus(message);
+    return;
+  }
+
+  g.innerHTML = "";
+  const error = document.createElement("div");
+  error.className = "card fine-print";
+  error.textContent = message;
+  g.appendChild(error);
+}
+
+function renderGallery(items, limit) {
+  const g = document.getElementById("gallery");
+  if (!g) return;
+  g.innerHTML = "";
+
+  items = Array.isArray(items) ? items : [];
+
+  if (!items.length) {
+    const empty = document.createElement("div");
+    empty.className = "card fine-print";
+    empty.textContent = SITE_CONTENT.sections.community.emptyGallery;
+    g.appendChild(empty);
+    return;
+  }
+
+  const ordered = items.slice().reverse();
+  const visibleItems = typeof limit === "number" ? ordered.slice(0, limit) : ordered;
+
+  visibleItems.forEach(i => {
+    const title = textOrEmpty(i.title);
+    const revealTitle = textOrEmpty(i.revealTitle);
+    const description = textOrEmpty(i.description);
+
+    const d = document.createElement("div");
+    d.className = "card";
+
+    const topTitle = document.createElement("div");
+    topTitle.className = "top-title";
+    topTitle.innerHTML = "<strong>" + escapeHtml(title || "Untitled") + "</strong>";
+
+    const container = document.createElement("div");
+    container.setAttribute("role", "button");
+    container.setAttribute("tabindex", "0");
+    container.className = "gallery-frame-button";
+    container.onclick = function(){ toggleReveal(container); };
+    container.onkeydown = function(event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleReveal(container);
+      }
+    };
+
+    const frame = document.createElement("span");
+    frame.className = "gallery-shadowbox-frame";
+
+    const artwork = document.createElement("span");
+    artwork.className = "gallery-frame-art";
+
+    const cover = document.createElement("img");
+    cover.className = "cover-img";
+    cover.alt = title || "Cover image";
+    cover.loading = "lazy";
+    setGalleryImageSource(cover, i.cover);
+
+    const reveal = document.createElement("img");
+    reveal.className = "reveal-img";
+    reveal.alt = revealTitle || "Reveal image";
+    reveal.loading = "lazy";
+    reveal.style.display = "none";
+    setGalleryImageSource(reveal, i.reveal);
+
+    artwork.appendChild(cover);
+    artwork.appendChild(reveal);
+    frame.appendChild(artwork);
+    frame.appendChild(el("span", "gallery-acrylic-glare"));
+    container.appendChild(frame);
+
+    const bottomTitle = document.createElement("div");
+    bottomTitle.className = "bottom-title";
+    bottomTitle.innerHTML = escapeHtml(revealTitle);
+
+    const desc = document.createElement("div");
+    desc.className = "reveal-description";
+    desc.textContent = description;
+
+    d.appendChild(topTitle);
+    d.appendChild(container);
+    d.appendChild(bottomTitle);
+    if (description) d.appendChild(desc);
+
+    g.appendChild(d);
+  });
+
+  if (visibleItems.length < ordered.length) {
+    const more = document.createElement("button");
+    more.type = "button";
+    more.className = "button secondary gallery-load-more";
+    more.textContent = "Show all reveals";
+    more.addEventListener("click", function() {
+      renderGallery(items);
+    });
+    g.appendChild(more);
+  }
+}
+
+function setGalleryImageSource(image, src) {
+  image.classList.toggle("is-inline-data", String(src || "").indexOf("data:image/") === 0);
+  image.onerror = function() {
+    loadGalleryImageFallback(image, src);
+  };
+  image.onload = function() {
+    image.classList.add("is-loaded");
+  };
+  image.src = src;
+}
+
+function loadGalleryImageFallback(image, src) {
+  if (image.dataset.fallbackRequested === "true") return;
+  image.dataset.fallbackRequested = "true";
+
+  if (!window.google || !google.script || !google.script.run) return;
+
+  google.script.run
+    .withSuccessHandler(function(dataUrl) {
+      image.onerror = null;
+      image.src = dataUrl;
+    })
+    .withFailureHandler(function() {
+      image.classList.add("is-missing");
+      image.alt = image.alt || "Image could not load";
+    })
+    .getGalleryImageDataUrl(src);
+}
+
+/* Reveal toggle */
+function toggleReveal(container){
+  const cover = container.querySelector('.cover-img');
+  const reveal = container.querySelector('.reveal-img');
+
+  const card = container.parentElement;
+  const topTitle = card.querySelector('.top-title');
+  const bottomTitle = card.querySelector('.bottom-title');
+  const desc = card.querySelector('.reveal-description');
+
+  const showingCover = reveal.style.display === 'none';
+
+  cover.style.display = showingCover ? 'none' : 'block';
+  reveal.style.display = showingCover ? 'block' : 'none';
+
+  topTitle.innerHTML = showingCover
+    ? escapeHtml(topTitle.textContent)
+    : "<strong>" + escapeHtml(topTitle.textContent) + "</strong>";
+
+  bottomTitle.innerHTML = showingCover
+    ? "<strong>" + escapeHtml(bottomTitle.textContent) + "</strong>"
+    : escapeHtml(bottomTitle.textContent);
+
+  if (desc) {
+    desc.style.display = showingCover ? "block" : "none";
+  }
+}
+
+/* Escaping */
+function textOrEmpty(value) {
+  return value == null ? "" : String(value);
+}
+
+function escapeHtml(str) {
+  return textOrEmpty(str).replace(/[&<>'"]/g, function(c) {
+    switch (c) {
+      case "&": return "&amp;";
+      case "<": return "&lt;";
+      case ">": return "&gt;";
+      case "'": return "&#39;";
+      case '"': return "&quot;";
+      default: return c;
+    }
+  });
+}
+
+/* Startup */
+function startApp() {
+  try {
+    renderHomepage();
+  } catch (err) {
+    showStartupError(err);
+    throw err;
+  }
+}
+
+function showStartupError(err) {
+  const app = document.getElementById("app");
+  if (app) {
+    app.innerHTML = "";
+    const error = document.createElement("section");
+    error.className = "section card fine-print";
+    error.textContent = "Page render error: " + (err && err.message ? err.message : "Unknown error.");
+    app.appendChild(error);
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startApp);
+} else {
+  startApp();
+}

@@ -1,0 +1,269 @@
+// EDIT VISIBLE SITE CONTENT HERE.
+// This is the one place for headlines, descriptions, tier names, prices,
+// bullets, CTA text, placeholder checkout copy, FAQ, and gallery copy.
+// Keep values plain and readable so the site can be hand-edited later.
+
+const SITE_CONTENT = {
+  site: {
+    name: "Living Frames",
+    eyebrow: "",
+    tagline: "",
+    intro: "",
+    primaryAction: "Compare kit paths",
+    secondaryAction: "Browse reveals",
+    contactNote: "For orders, questions, or custom reveal ideas, contact the maker directly."
+  },
+
+  homepage: {
+    productIntro: {
+      heading: "The object",
+      text: "Two printed images live inside one physical frame. The first stays visible until the mechanism releases the second image all at once.",
+      visualLabel: "Printed image + hidden reveal",
+      points: [
+        "Printed, not digital",
+        "Mechanical second state",
+        "Built around timing"
+      ]
+    },
+
+    process: {
+      heading: "From image pair to reveal",
+      steps: [
+        "Pick two images",
+        "Choose a build path",
+        "Load and set",
+        "Wait for the reveal"
+      ]
+    },
+
+    mechanism: {
+      heading: "Current mechanism",
+      current: {
+        name: "Clock Reveal",
+        text: "A timed clock-style movement releases the hidden image after the chosen delay.",
+        details: [
+          "Best for gifts",
+          "Timed surprises",
+          "Delayed punchlines"
+        ]
+      },
+      futureNote: "Future mechanisms are planned, including reveal-as-action triggers such as water activation."
+    },
+
+    revealDemo: {
+      heading: "Submitted reveals",
+      intro: "Click any image to switch between its cover and reveal state."
+    },
+
+    heroGallery: {
+      coverDelayMs: 3600,
+      revealHoldMs: 2200
+    },
+
+    cta: {
+      heading: "Ready to plan one?",
+      text: "Choose a kit path below or submit an image pair to test the idea."
+    }
+  },
+
+  sections: {
+    object: {
+      heading: "The object",
+      blocks: [
+        {
+          title: "Printed, not digital",
+          text: "Both states are real printed images. The change happens through the object, not pixels."
+        },
+        {
+          title: "A sudden second state",
+          text: "The cover image stays put until the mechanism releases the hidden reveal image."
+        },
+        {
+          title: "Built around timing",
+          text: "The point is the wait, the trigger, and the instant people realize the picture changed."
+        }
+      ]
+    },
+
+    howItWorks: {
+      heading: "From image pair to reveal",
+      steps: [
+        {
+          title: "Pick two images",
+          text: "One image is visible first. The second is hidden until the reveal."
+        },
+        {
+          title: "Choose the mechanism",
+          text: "Start with a timed Clock Reveal; other physical triggers can fit the same idea later."
+        },
+        {
+          title: "Choose how much to build",
+          text: "Order parts, a self-assembly kit, a mostly prepared setup, or a finished gift."
+        },
+        {
+          title: "Set it up and wait",
+          text: "When the trigger hits, the frame changes state all at once."
+        }
+      ]
+    },
+
+    revealTypes: {
+      heading: "Reveal mechanisms",
+      items: [
+        {
+          name: "Clock Reveal",
+          status: "First mechanism",
+          trigger: "Chosen time delay",
+          mechanism: "Clock-style movement releases the hidden image",
+          text: "The frame waits, then changes state at the set moment.",
+          notes: "Best fit for gifts, timed surprises, and delayed punchlines."
+        },
+        {
+          name: "Add-Water Reveal",
+          status: "Planned mechanism",
+          trigger: "Liquid activation",
+          mechanism: "Water starts the physical transformation",
+          text: "Adding liquid causes the hidden state to appear.",
+          notes: "Useful for ritual, invitation, or reveal-as-action concepts."
+        }
+      ]
+    },
+
+    order: {
+      heading: "Choose your version.",
+      subhead: "From self-assembly to finished gift.",
+      summaryHeading: "Order summary",
+      tierLabel: "Kit",
+      quantityLabel: "Quantity",
+      subtotalLabel: "Estimated subtotal",
+      checkoutHeading: "Order placeholder",
+      checkoutNote: "This order area is a planning placeholder. It shows kit selection and subtotal only; it does not collect payment or place an order.",
+      placeholderButton: "Placeholder only",
+      placeholderMessage: "No payment is collected here yet.",
+      tiers: [
+        {
+          name: "Maker Kit",
+          priceLabel: "$45",
+          priceValue: 45,
+          shortDescription: "Print your own frame. Precision parts and images included.",
+          bullets: [
+            { text: "3D print the frame and stand", icon: "printer" },
+            { text: "Precision hardware and tools", icon: "hardware" },
+            { text: "Load the image pair yourself", icon: "photos" }
+          ],
+          accentColor: "#6f7f53",
+          illustration: {
+            type: "maker",
+            assetKey: "maker",
+            alt: "Framed symbolic parts layout for the Maker Kit"
+          }
+        },
+        {
+          name: "Builder Kit",
+          priceLabel: "$70",
+          priceValue: 70,
+          shortDescription: "Full self-assembly. Frame, hardware, and images included.",
+          bullets: [
+            { text: "3D printed frame included", icon: "frame" },
+            { text: "Assemble the mechanism", icon: "wrench" },
+            { text: "Hardware and mechanism included", icon: "gear" }
+          ],
+          accentColor: "#6b7f92",
+          illustration: {
+            type: "builder",
+            assetKey: "builder",
+            alt: "Framed symbolic assembly layout for the Builder Kit"
+          }
+        },
+        {
+          name: "Setup Kit",
+          priceLabel: "$90",
+          priceValue: 90,
+          shortDescription: "Fully assembled. Final image loading and calibration required.",
+          bullets: [
+            { text: "Load the final image pair", icon: "photos" },
+            { text: "Align and calibrate the reveal", icon: "align" },
+            { text: "Completed mechanism", icon: "gearCheck" }
+          ],
+          accentColor: "#9a7b4f",
+          illustration: {
+            type: "setup",
+            assetKey: "setup",
+            alt: "Framed symbolic setup layout for the Setup Kit"
+          }
+        },
+        {
+          name: "Finished Gift",
+          priceLabel: "$160",
+          priceValue: 160,
+          shortDescription: "Fully assembled, loaded, and ready to give.",
+          bullets: [
+            { text: "Completed frame", icon: "pictureFrame" },
+            { text: "Images loaded and tested", icon: "photosCheck" },
+            { text: "Ready to display or gift", icon: "gift" }
+          ],
+          accentColor: "#7f5d68",
+          illustration: {
+            type: "gift",
+            assetKey: "gift",
+            alt: "Framed symbolic finished gift layout"
+          }
+        }
+      ]
+    },
+
+    shipping: {
+      heading: "Shipping and fine print",
+      notes: [
+        "Production timing and shipping details are still being finalized.",
+        "Custom image products may have limited returns once images are printed or loaded.",
+        "Finished gifts may include small mechanical parts and a battery depending on the reveal type."
+      ]
+    },
+
+    faq: {
+      heading: "FAQ",
+      items: [
+        {
+          question: "Is it a screen?",
+          answer: "No. The reveal is physical and uses printed images."
+        },
+        {
+          question: "Can I use my own images?",
+          answer: "That is the core idea. The current upload form collects cover/reveal concept pairs."
+        },
+        {
+          question: "Can I choose the reveal timing?",
+          answer: "Timed reveal options are planned for the Clock Reveal version, but advanced configuration is not live yet."
+        },
+        {
+          question: "Is checkout live?",
+          answer: "No. Checkout is a placeholder until real ordering and payment details are ready."
+        }
+      ]
+    },
+
+    community: {
+      uploadHeading: "Submit an image pair",
+      uploadIntro: "Try a cover image and reveal image that would make sense as a physical surprise.",
+      uploadNote: "Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.",
+      galleryHeading: "Submitted reveals",
+      galleryIntro: "Click any image to switch between its cover and reveal state.",
+      emptyGallery: "No gallery submissions yet."
+    },
+
+    setup: {
+      heading: "Setup and loading notes",
+      notes: [
+        {
+          title: "Kit setup",
+          text: "Detailed kit instructions will live here as the mechanical designs settle."
+        },
+        {
+          title: "Image loading",
+          text: "Future instructions will explain how to prepare, print, and load image pairs."
+        }
+      ]
+    }
+  }
+};

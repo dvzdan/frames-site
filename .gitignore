@@ -1,0 +1,31 @@
+# OS/editor/temp files
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+~$*
+*.bak
+
+# Dependencies/build/cache
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+.vite/
+coverage/
+*.log
+
+# Local/scratch project folders
+.clasp-head-check/
+.clasp-v30-check/
+tmp-assets/
+assets/preview-test.html
+
+# Large source rasters not needed for Apps Script deployment
+assets/*.png
+
+# Local Apps Script auth/config
+.clasp.json
+.clasprc.json
+.clasprc
