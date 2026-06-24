@@ -109,6 +109,28 @@
     </div>
   </section>
 
+  <section class="section reveal-demo-section" id="gallery-section">
+    <h2>Gallery</h2>
+    <p class="section-copy">Click any image to switch between its cover and reveal state.</p>
+    <details class="submission-module">
+      <summary>Submit your own</summary>
+      <div class="card">
+        <p>Try a cover image and reveal image that would make sense as a physical surprise.</p>
+        <input id="title" placeholder="Cover title">
+        <input id="revealTitle" placeholder="Reveal title">
+        <textarea id="desc" placeholder="Description (optional)"></textarea>
+        <label class="field-label" for="cover">Cover</label>
+        <input id="cover" type="file" accept="image/png,image/jpeg">
+        <label class="field-label" for="reveal">Reveal</label>
+        <input id="reveal" type="file" accept="image/png,image/jpeg">
+        <button type="button" data-submit-concept>Submit</button>
+        <div id="status"></div>
+        <p class="fine-print">Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.</p>
+      </div>
+    </details>
+    <div class="gallery" id="gallery"><?!= renderInitialGalleryHtml() ?></div>
+  </section>
+
   <section class="section setup-kit-inventory-section" id="setup-manual">
     <h2>Setup Kit Inventory</h2>
     <p class="section-copy">Individual parts included with the setup path.</p>
@@ -160,27 +182,6 @@
     </div>
   </section>
 
-  <section class="section reveal-demo-section" id="gallery-section">
-    <h2>Gallery</h2>
-    <p class="section-copy">Click any image to switch between its cover and reveal state.</p>
-    <details class="submission-module">
-      <summary>Submit your own</summary>
-      <div class="card">
-        <p>Try a cover image and reveal image that would make sense as a physical surprise.</p>
-        <input id="title" placeholder="Cover title">
-        <input id="revealTitle" placeholder="Reveal title">
-        <textarea id="desc" placeholder="Description (optional)"></textarea>
-        <label class="field-label" for="cover">Cover</label>
-        <input id="cover" type="file" accept="image/png,image/jpeg">
-        <label class="field-label" for="reveal">Reveal</label>
-        <input id="reveal" type="file" accept="image/png,image/jpeg">
-        <button type="button" data-submit-concept>Submit</button>
-        <div id="status"></div>
-        <p class="fine-print">Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.</p>
-      </div>
-    </details>
-    <div class="gallery" id="gallery"><?!= renderInitialGalleryHtml() ?></div>
-  </section>
 </main>
 
 <script>
@@ -225,7 +226,6 @@ window.INITIAL_GALLERY_ITEMS = <?!= getInitialGalleryJson() ?>;
         bootstrapTier("gift", "Finished Gift", "$160", "Fully assembled, loaded, and ready to give.", "#7f5d68") +
       '</div>' +
     '</section>' +
-    bootstrapInventorySection() +
     '<section class="section reveal-demo-section" id="gallery-section">' +
       '<h2>Gallery</h2>' +
       '<p class="section-copy">Click any image to switch between its cover and reveal state.</p>' +
@@ -246,7 +246,8 @@ window.INITIAL_GALLERY_ITEMS = <?!= getInitialGalleryJson() ?>;
         '</div>' +
       '</details>' +
       '<div class="gallery" id="gallery"><div class="card fine-print">Reveals are loading separately.</div></div>' +
-    '</section>';
+    '</section>' +
+    bootstrapInventorySection();
 
   function bootstrapTier(key, name, price, text, accent) {
     return '<article class="tier-card" data-tier-key="' + key + '" style="--tier-accent:' + accent + '">' +
