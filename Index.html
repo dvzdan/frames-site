@@ -10,71 +10,182 @@
 
 <main class="page" id="app">
   <section class="section hero">
-    <h1>Living Frames</h1>
-    <div class="actions">
-      <a class="button" href="#order">Compare kit paths</a>
-      <a class="button secondary" href="#gallery-section">Browse reveals</a>
+    <div class="hero-text">
+      <div class="eyebrow">One frame. Two takes.</div>
+      <h1>Double Take Frames</h1>
+      <div class="hero-copy">
+        <p class="lede">Physical photos that change in the blink of an eye, according to a timer you set.</p>
+        <p>Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.</p>
+      </div>
+      <div class="actions">
+        <a class="button" href="#kits">Compare kit paths</a>
+        <a class="button secondary" href="#gallery-section">Browse reveals</a>
+      </div>
+    </div>
+    <div class="hero-gallery" id="heroGallery" hidden>
+      <div class="hero-gallery-feature" id="heroGalleryFeature"></div>
+      <div class="hero-gallery-selector">
+        <div class="hero-gallery-previews" id="heroGalleryPreviews"></div>
+      </div>
     </div>
   </section>
 
-  <section class="section tier-comparison-section" id="order">
+  <section class="section tier-comparison-section" id="kits">
+    <span id="order" class="anchor-target" aria-hidden="true"></span>
     <h2>Choose your version.</h2>
     <p class="section-copy">From self-assembly to finished gift.</p>
     <div class="kits" id="pricingTiers">
       <article class="tier-card" data-tier-key="maker" style="--tier-accent:#6f7f53">
         <div class="tier-intro"><h3 class="kit-name">Maker Kit</h3><p class="tier-description">Print your own frame. Precision parts and images included.</p></div>
         <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('maker') ?>" alt="Framed symbolic parts layout for the Maker Kit"></div></div>
+        <div class="tier-body">
+          <div class="tier-detail-sections">
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('packageCheck') ?></span><span>INCLUDED</span></div>
+              <ul class="tier-detail-list"><li>Hardware kit</li><li>Assembly supplies</li><li>Two custom prints on specialty media</li><li>Digital files for the frame and stand</li></ul>
+            </section>
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
+              <ul class="tier-detail-list"><li>3D print the frame and stand</li><li>Assemble the mechanism</li><li>Load your image pair</li></ul>
+              <p class="tier-detail-note">Some basic hand tools required.</p>
+            </section>
+          </div>
+        </div>
         <div class="tier-footer"><div class="kit-price">$45</div><div class="tier-footer-name">Maker Kit</div></div>
       </article>
       <article class="tier-card" data-tier-key="builder" style="--tier-accent:#6b7f92">
         <div class="tier-intro"><h3 class="kit-name">Builder Kit</h3><p class="tier-description">Full self-assembly. Frame, hardware, and images included.</p></div>
         <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('builder') ?>" alt="Framed symbolic assembly layout for the Builder Kit"></div></div>
+        <div class="tier-body">
+          <div class="tier-detail-sections">
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('packageCheck') ?></span><span>INCLUDED</span></div>
+              <ul class="tier-detail-list"><li>3D printed frame and stand</li><li>Hardware kit</li><li>Two custom prints on specialty media</li><li>Assembly supplies</li></ul>
+            </section>
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
+              <ul class="tier-detail-list"><li>Assemble the mechanism</li><li>Load your image pair</li></ul>
+              <p class="tier-detail-note">Some basic hand tools required.</p>
+            </section>
+          </div>
+        </div>
         <div class="tier-footer"><div class="kit-price">$70</div><div class="tier-footer-name">Builder Kit</div></div>
       </article>
       <article class="tier-card" data-tier-key="setup" style="--tier-accent:#9a7b4f">
         <div class="tier-intro"><h3 class="kit-name">Setup Kit</h3><p class="tier-description">Fully assembled. Final image loading and calibration required.</p></div>
         <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('setup') ?>" alt="Framed symbolic setup layout for the Setup Kit"></div></div>
+        <div class="tier-body">
+          <div class="tier-detail-sections">
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('packageCheck') ?></span><span>INCLUDED</span></div>
+              <ul class="tier-detail-list"><li>Assembled frame and mechanism</li><li>Two custom prints on specialty media</li><li>Reveal system aligned and tested</li></ul>
+            </section>
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
+              <ul class="tier-detail-list"><li>Load your image pair</li><li>Set the timer</li></ul>
+            </section>
+          </div>
+          <div class="tier-card-action"><a class="button secondary tier-manual-link" href="#setup-manual">Setup Manual</a></div>
+        </div>
         <div class="tier-footer"><div class="kit-price">$90</div><div class="tier-footer-name">Setup Kit</div></div>
       </article>
       <article class="tier-card" data-tier-key="gift" style="--tier-accent:#7f5d68">
         <div class="tier-intro"><h3 class="kit-name">Finished Gift</h3><p class="tier-description">Fully assembled, loaded, and ready to give.</p></div>
         <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('gift') ?>" alt="Framed symbolic finished gift layout"></div></div>
+        <div class="tier-body">
+          <div class="tier-detail-sections">
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('packageCheck') ?></span><span>INCLUDED</span></div>
+              <ul class="tier-detail-list"><li>Completed frame</li><li>Images loaded and tested</li><li>Two custom prints on specialty media</li><li>Ready to display or gift</li></ul>
+            </section>
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
+              <ul class="tier-detail-list"><li>Optional: remove the battery pull tab to begin the countdown, or receive the frame with the countdown already underway</li></ul>
+            </section>
+          </div>
+        </div>
         <div class="tier-footer"><div class="kit-price">$160</div><div class="tier-footer-name">Finished Gift</div></div>
       </article>
     </div>
   </section>
 
-  <section class="section product-intro-section" id="product-intro">
-    <div class="product-visual" role="img" aria-label="Printed image + hidden reveal">
-      <span class="product-visual-frame"><span class="product-visual-cover"></span><span class="product-visual-reveal"></span><span class="product-visual-trigger"></span></span>
+  <section class="section setup-kit-inventory-section" id="setup-manual">
+    <h2>Setup Kit Inventory</h2>
+    <p class="section-copy">Individual parts included with the setup path.</p>
+    <p class="manual-back-link"><a class="button secondary" href="#kits">Back to comparison</a></p>
+    <div class="inventory-groups">
+      <section class="inventory-group">
+        <h3>Frame / Display</h3>
+        <div class="inventory-grid">
+          <article class="inventory-card"><span class="inventory-number">1</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/frame.png" alt="Frame"></div><div class="inventory-name">Frame</div></article>
+          <article class="inventory-card"><span class="inventory-number">2</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/stand.png" alt="Stand"></div><div class="inventory-name">Stand</div></article>
+          <article class="inventory-card"><span class="inventory-number">3</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/acrylic.png" alt="Acrylic"></div><div class="inventory-name">Acrylic</div></article>
+          <article class="inventory-card"><span class="inventory-number">4</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/backing-board.png" alt="Backing Board"></div><div class="inventory-name">Backing Board</div></article>
+          <article class="inventory-card"><span class="inventory-number">5</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/qr-sticker.png" alt="QR Sticker"></div><div class="inventory-name">QR Sticker</div></article>
+        </div>
+      </section>
+      <section class="inventory-group">
+        <h3>Images</h3>
+        <div class="inventory-grid">
+          <article class="inventory-card"><span class="inventory-number">6</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/cover-image.png" alt="Cover Image"></div><div class="inventory-name">Cover Image</div></article>
+          <article class="inventory-card"><span class="inventory-number">7</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/reveal-image.png" alt="Reveal Image"></div><div class="inventory-name">Reveal Image</div></article>
+        </div>
+      </section>
+      <section class="inventory-group">
+        <h3>Roller / Low-Friction Path</h3>
+        <div class="inventory-grid">
+          <article class="inventory-card"><span class="inventory-number">8</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/roller.png" alt="Roller"></div><div class="inventory-name">Roller</div></article>
+          <article class="inventory-card"><span class="inventory-number">9</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/uhmw-tape.png" alt="UHMW Tape"></div><div class="inventory-name">UHMW Tape</div></article>
+          <article class="inventory-card"><span class="inventory-number">10</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/zipper-track.png" alt="Zipper Track"></div><div class="inventory-name">Zipper Track</div></article>
+        </div>
+      </section>
+      <section class="inventory-group">
+        <h3>Clock / String System</h3>
+        <div class="inventory-grid">
+          <article class="inventory-card"><span class="inventory-number">11</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/clock-movement.png" alt="Clock Movement"></div><div class="inventory-name">Clock Movement</div></article>
+          <article class="inventory-card"><span class="inventory-number">12</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/capstan.png" alt="Capstan"></div><div class="inventory-name">Capstan</div></article>
+          <article class="inventory-card"><span class="inventory-number">13</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/string-clock-locator.png" alt="String Clock Locator"></div><div class="inventory-name">String Clock Locator</div></article>
+          <article class="inventory-card"><span class="inventory-number">14</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/fishing-line.png" alt="Fishing Line"></div><div class="inventory-name">Fishing Line</div></article>
+        </div>
+      </section>
+      <section class="inventory-group">
+        <h3>Trap Door / Release System</h3>
+        <div class="inventory-grid">
+          <article class="inventory-card"><span class="inventory-number">15</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/dry-trap-door-rig.png" alt="Dry Trap Door Rig"></div><div class="inventory-name">Dry Trap Door Rig</div></article>
+          <article class="inventory-card"><span class="inventory-number">16</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/weight-rig.png" alt="Weight Rig"></div><div class="inventory-name">Weight Rig</div></article>
+          <article class="inventory-card"><span class="inventory-number">17</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/weight-latch.png" alt="Weight Latch"></div><div class="inventory-name">Weight Latch</div></article>
+          <article class="inventory-card"><span class="inventory-number">18</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/latch-clip.png" alt="Latch Clip"></div><div class="inventory-name">Latch Clip</div></article>
+        </div>
+      </section>
     </div>
-    <div class="product-intro-copy">
-      <h2>The object</h2>
-      <p class="section-copy">Two printed images live inside one physical frame. The first stays visible until the mechanism releases the second image all at once.</p>
-      <ul class="micro-points"><li>Printed, not digital</li><li>Mechanical second state</li><li>Built around timing</li></ul>
-    </div>
-  </section>
-
-  <section class="section process-section" id="process">
-    <h2>From image pair to reveal</h2>
-    <ol class="process-strip"><li>Pick two images</li><li>Choose a build path</li><li>Load and set</li><li>Wait for the reveal</li></ol>
-  </section>
-
-  <section class="section mechanism-section" id="mechanism">
-    <h2>Current mechanism</h2>
-    <div class="mechanism-module">
-      <div><h3>Clock Reveal</h3><p>A timed clock-style movement releases the hidden image after the chosen delay.</p></div>
-      <ul class="micro-points mechanism-points"><li>Best for gifts</li><li>Timed surprises</li><li>Delayed punchlines</li></ul>
-    </div>
-    <p class="fine-print planned-note">Future mechanisms are planned, including reveal-as-action triggers such as water activation.</p>
   </section>
 
   <section class="section reveal-demo-section" id="gallery-section">
-    <h2>Submitted reveals</h2>
+    <h2>Gallery</h2>
     <p class="section-copy">Click any image to switch between its cover and reveal state.</p>
+    <details class="submission-module">
+      <summary>Submit your own</summary>
+      <div class="card">
+        <p>Try a cover image and reveal image that would make sense as a physical surprise.</p>
+        <input id="title" placeholder="Cover title">
+        <input id="revealTitle" placeholder="Reveal title">
+        <textarea id="desc" placeholder="Description (optional)"></textarea>
+        <label class="field-label" for="cover">Cover</label>
+        <input id="cover" type="file" accept="image/png,image/jpeg">
+        <label class="field-label" for="reveal">Reveal</label>
+        <input id="reveal" type="file" accept="image/png,image/jpeg">
+        <button type="button" data-submit-concept>Submit</button>
+        <div id="status"></div>
+        <p class="fine-print">Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.</p>
+      </div>
+    </details>
     <div class="gallery" id="gallery"><?!= renderInitialGalleryHtml() ?></div>
   </section>
 </main>
+
+<script>
+window.INITIAL_GALLERY_ITEMS = <?!= getInitialGalleryJson() ?>;
+</script>
 
 <script>
 (function() {
@@ -84,13 +195,27 @@
 
   app.innerHTML =
     '<section class="section hero">' +
-      '<h1>Living Frames</h1>' +
-      '<div class="actions">' +
-        '<a class="button" href="#order">Compare kit paths</a>' +
-        '<a class="button secondary" href="#gallery-section">Browse reveals</a>' +
+      '<div class="hero-text">' +
+        '<div class="eyebrow">One frame. Two takes.</div>' +
+        '<h1>Double Take Frames</h1>' +
+        '<div class="hero-copy">' +
+          '<p class="lede">Physical photos that change in the blink of an eye, according to a timer you set.</p>' +
+          '<p>Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.</p>' +
+        '</div>' +
+        '<div class="actions">' +
+          '<a class="button" href="#kits">Compare kit paths</a>' +
+          '<a class="button secondary" href="#gallery-section">Browse reveals</a>' +
+        '</div>' +
+      '</div>' +
+      '<div class="hero-gallery" id="heroGallery" hidden>' +
+        '<div class="hero-gallery-feature" id="heroGalleryFeature"></div>' +
+        '<div class="hero-gallery-selector">' +
+          '<div class="hero-gallery-previews" id="heroGalleryPreviews"></div>' +
+        '</div>' +
       '</div>' +
     '</section>' +
-    '<section class="section tier-comparison-section" id="order">' +
+    '<section class="section tier-comparison-section" id="kits">' +
+      '<span id="order" class="anchor-target" aria-hidden="true"></span>' +
       '<h2>Choose your version.</h2>' +
       '<p class="section-copy">From self-assembly to finished gift.</p>' +
       '<div class="kits" id="pricingTiers">' +
@@ -100,29 +225,26 @@
         bootstrapTier("gift", "Finished Gift", "$160", "Fully assembled, loaded, and ready to give.", "#7f5d68") +
       '</div>' +
     '</section>' +
-    '<section class="section product-intro-section" id="product-intro">' +
-      '<div class="product-visual" role="img" aria-label="Printed image + hidden reveal">' +
-        '<span class="product-visual-frame"><span class="product-visual-cover"></span><span class="product-visual-reveal"></span><span class="product-visual-trigger"></span></span>' +
-      '</div>' +
-      '<div class="product-intro-copy">' +
-        '<h2>The object</h2>' +
-        '<p class="section-copy">Two printed images live inside one physical frame. The first stays visible until the mechanism releases the second image all at once.</p>' +
-        '<ul class="micro-points"><li>Printed, not digital</li><li>Mechanical second state</li><li>Built around timing</li></ul>' +
-      '</div>' +
-    '</section>' +
-    '<section class="section process-section" id="process">' +
-      '<h2>From image pair to reveal</h2>' +
-      '<ol class="process-strip"><li>Pick two images</li><li>Choose a build path</li><li>Load and set</li><li>Wait for the reveal</li></ol>' +
-    '</section>' +
-    '<section class="section mechanism-section" id="mechanism">' +
-      '<h2>Current mechanism</h2>' +
-      '<div class="mechanism-module"><div><h3>Clock Reveal</h3><p>A timed clock-style movement releases the hidden image after the chosen delay.</p></div>' +
-      '<ul class="micro-points mechanism-points"><li>Best for gifts</li><li>Timed surprises</li><li>Delayed punchlines</li></ul></div>' +
-      '<p class="fine-print planned-note">Future mechanisms are planned, including reveal-as-action triggers such as water activation.</p>' +
-    '</section>' +
+    bootstrapInventorySection() +
     '<section class="section reveal-demo-section" id="gallery-section">' +
-      '<h2>Submitted reveals</h2>' +
+      '<h2>Gallery</h2>' +
       '<p class="section-copy">Click any image to switch between its cover and reveal state.</p>' +
+      '<details class="submission-module">' +
+        '<summary>Submit your own</summary>' +
+        '<div class="card">' +
+          '<p>Try a cover image and reveal image that would make sense as a physical surprise.</p>' +
+          '<input id="title" placeholder="Cover title">' +
+          '<input id="revealTitle" placeholder="Reveal title">' +
+          '<textarea id="desc" placeholder="Description (optional)"></textarea>' +
+          '<label class="field-label" for="cover">Cover</label>' +
+          '<input id="cover" type="file" accept="image/png,image/jpeg">' +
+          '<label class="field-label" for="reveal">Reveal</label>' +
+          '<input id="reveal" type="file" accept="image/png,image/jpeg">' +
+          '<button type="button" data-submit-concept>Submit</button>' +
+          '<div id="status"></div>' +
+          '<p class="fine-print">Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.</p>' +
+        '</div>' +
+      '</details>' +
       '<div class="gallery" id="gallery"><div class="card fine-print">Reveals are loading separately.</div></div>' +
     '</section>';
 
@@ -130,8 +252,110 @@
     return '<article class="tier-card" data-tier-key="' + key + '" style="--tier-accent:' + accent + '">' +
       '<div class="tier-intro"><h3 class="kit-name">' + name + '</h3><p class="tier-description">' + text + '</p></div>' +
       '<div class="tier-frame living-frame"><div class="tier-image living-frame-art"><div class="tier-scene tier-scene-default" aria-hidden="true"><span class="scene-part scene-back"></span><span class="scene-part scene-front"></span><span class="scene-part scene-mechanism"></span><span class="scene-part scene-trigger"></span></div></div></div>' +
+      bootstrapTierDetails(key) +
       '<div class="tier-footer"><div class="kit-price">' + price + '</div><div class="tier-footer-name">' + name + '</div></div>' +
     '</article>';
+  }
+
+  function bootstrapTierDetails(key) {
+    var details = {
+      maker: {
+        included: ["Hardware kit", "Assembly supplies", "Two custom prints on specialty media", "Digital files for the frame and stand"],
+        youDo: ["3D print the frame and stand", "Assemble the mechanism", "Load your image pair"],
+        note: "Some basic hand tools required."
+      },
+      builder: {
+        included: ["3D printed frame and stand", "Hardware kit", "Two custom prints on specialty media", "Assembly supplies"],
+        youDo: ["Assemble the mechanism", "Load your image pair"],
+        note: "Some basic hand tools required."
+      },
+      setup: {
+        included: ["Assembled frame and mechanism", "Two custom prints on specialty media", "Reveal system aligned and tested"],
+        youDo: ["Load your image pair", "Set the timer"]
+      },
+      gift: {
+        included: ["Completed frame", "Images loaded and tested", "Two custom prints on specialty media", "Ready to display or gift"],
+        youDo: ["Optional: remove the battery pull tab to begin the countdown, or receive the frame with the countdown already underway"]
+      }
+    };
+    var tier = details[key] || details.maker;
+    return '<div class="tier-body"><div class="tier-detail-sections">' +
+      bootstrapTierSection("INCLUDED", "packageCheck", tier.included) +
+      bootstrapTierSection("YOU DO", "wrench", tier.youDo, tier.note) +
+      '</div>' +
+      (key === "setup" ? '<div class="tier-card-action"><a class="button secondary tier-manual-link" href="#setup-manual">Setup Manual</a></div>' : '') +
+      '</div>';
+  }
+
+  function bootstrapTierSection(heading, iconName, items, note) {
+    return '<section class="tier-detail-section">' +
+      '<div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true">' + bootstrapTierIcon(iconName) + '</span><span>' + heading + '</span></div>' +
+      '<ul class="tier-detail-list">' + items.map(function(item) { return '<li>' + item + '</li>'; }).join("") + '</ul>' +
+      (note ? '<p class="tier-detail-note">' + note + '</p>' : '') +
+      '</section>';
+  }
+
+  function bootstrapTierIcon(name) {
+    var icons = {
+      packageCheck: '<svg viewBox="0 0 24 24"><path d="m16 16 2 2 4-4"/><path d="M21 10V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l2-1.1"/><path d="m7.5 4.3 9 5.1"/><polyline points="3.3 7 12 12 20.7 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>',
+      wrench: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></svg>'
+    };
+    return icons[name] || "";
+  }
+
+  function bootstrapInventorySection() {
+    var groups = [
+      { heading: "Frame / Display", items: [
+        [1, "Frame", "frame.png"],
+        [2, "Stand", "stand.png"],
+        [3, "Acrylic", "acrylic.png"],
+        [4, "Backing Board", "backing-board.png"],
+        [5, "QR Sticker", "qr-sticker.png"]
+      ] },
+      { heading: "Images", items: [
+        [6, "Cover Image", "cover-image.png"],
+        [7, "Reveal Image", "reveal-image.png"]
+      ] },
+      { heading: "Roller / Low-Friction Path", items: [
+        [8, "Roller", "roller.png"],
+        [9, "UHMW Tape", "uhmw-tape.png"],
+        [10, "Zipper Track", "zipper-track.png"]
+      ] },
+      { heading: "Clock / String System", items: [
+        [11, "Clock Movement", "clock-movement.png"],
+        [12, "Capstan", "capstan.png"],
+        [13, "String Clock Locator", "string-clock-locator.png"],
+        [14, "Fishing Line", "fishing-line.png"]
+      ] },
+      { heading: "Trap Door / Release System", items: [
+        [15, "Dry Trap Door Rig", "dry-trap-door-rig.png"],
+        [16, "Weight Rig", "weight-rig.png"],
+        [17, "Weight Latch", "weight-latch.png"],
+        [18, "Latch Clip", "latch-clip.png"]
+      ] }
+    ];
+
+    return '<section class="section setup-kit-inventory-section" id="setup-manual">' +
+      '<h2>Setup Kit Inventory</h2>' +
+      '<p class="section-copy">Individual parts included with the setup path.</p>' +
+      '<p class="manual-back-link"><a class="button secondary" href="#kits">Back to comparison</a></p>' +
+      '<div class="inventory-groups">' +
+        groups.map(function(group) {
+          return '<section class="inventory-group"><h3>' + group.heading + '</h3><div class="inventory-grid">' +
+            group.items.map(function(item) { return bootstrapInventoryCard(item[0], item[1], item[2]); }).join("") +
+            '</div></section>';
+        }).join("") +
+      '</div>' +
+    '</section>';
+  }
+
+  function bootstrapInventoryCard(number, name, filename) {
+    var url = "https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/" + filename;
+    return '<article class="inventory-card">' +
+      '<span class="inventory-number">' + number + '</span>' +
+      '<div class="inventory-image"><img src="' + url + '" alt="' + name + '"></div>' +
+      '<div class="inventory-name">' + name + '</div>' +
+      '</article>';
   }
 })();
 </script>
@@ -141,9 +365,36 @@
     var cover = container.querySelector(".cover-img");
     var reveal = container.querySelector(".reveal-img");
     if (!cover || !reveal) return;
+    var card = container.parentElement;
+    var topTitle = card ? card.querySelector(".top-title") : null;
+    var bottomTitle = card ? card.querySelector(".bottom-title") : null;
+    var desc = card ? card.querySelector(".reveal-description") : null;
     var showingCover = reveal.style.display === "none";
-    cover.style.display = showingCover ? "none" : "block";
-    reveal.style.display = showingCover ? "block" : "none";
+    var swap = function() {
+      cover.style.display = showingCover ? "none" : "block";
+      reveal.style.display = showingCover ? "block" : "none";
+      setTitleEmphasis(topTitle, !showingCover);
+      setTitleEmphasis(bottomTitle, showingCover);
+      if (desc) desc.style.display = showingCover ? "block" : "none";
+    };
+    if (typeof window.runBlinkTransition === "function") {
+      window.runBlinkTransition(container.querySelector(".gallery-frame-art"), swap);
+      return;
+    }
+    swap();
+  }
+
+  function setTitleEmphasis(node, isActive) {
+    if (!node) return;
+    var text = node.textContent;
+    node.textContent = "";
+    if (!isActive) {
+      node.textContent = text;
+      return;
+    }
+    var strong = document.createElement("strong");
+    strong.textContent = text;
+    node.appendChild(strong);
   }
 
   document.querySelectorAll(".server-gallery-toggle").forEach(function(container) {
@@ -167,7 +418,7 @@
 <script>
 (function loadBootstrapTierImages(attempt) {
   if (!window.google || !google.script || !google.script.run) {
-    if ((attempt || 0) < 20) setTimeout(function() { loadBootstrapTierImages((attempt || 0) + 1); }, 150);
+    if ((attempt || 0) !== 20) setTimeout(function() { loadBootstrapTierImages((attempt || 0) + 1); }, 150);
     return;
   }
 
