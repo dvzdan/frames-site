@@ -1,14 +1,14 @@
 // EDIT VISIBLE SITE CONTENT HERE.
 // This is the one place for headlines, descriptions, tier names, prices,
-// bullets, CTA text, placeholder checkout copy, FAQ, and gallery copy.
+// tier details, CTA text, placeholder checkout copy, FAQ, and gallery copy.
 // Keep values plain and readable so the site can be hand-edited later.
 
 const SITE_CONTENT = {
   site: {
-    name: "Living Frames",
-    eyebrow: "",
-    tagline: "",
-    intro: "",
+    name: "Double Take Frames",
+    eyebrow: "One frame. Two takes.",
+    tagline: "Physical photos that change in the blink of an eye, according to a timer you set.",
+    intro: "Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.",
     primaryAction: "Compare kit paths",
     secondaryAction: "Browse reveals",
     contactNote: "For orders, questions, or custom reveal ideas, contact the maker directly."
@@ -16,42 +16,29 @@ const SITE_CONTENT = {
 
   homepage: {
     productIntro: {
-      heading: "The object",
-      text: "Two printed images live inside one physical frame. The first stays visible until the mechanism releases the second image all at once.",
-      visualLabel: "Printed image + hidden reveal",
-      points: [
-        "Printed, not digital",
-        "Mechanical second state",
-        "Built around timing"
-      ]
+      heading: "",
+      text: "",
+      visualLabel: "",
+      points: []
     },
 
     process: {
-      heading: "From image pair to reveal",
-      steps: [
-        "Pick two images",
-        "Choose a build path",
-        "Load and set",
-        "Wait for the reveal"
-      ]
+      heading: "",
+      steps: []
     },
 
     mechanism: {
-      heading: "Current mechanism",
+      heading: "",
       current: {
-        name: "Clock Reveal",
-        text: "A timed clock-style movement releases the hidden image after the chosen delay.",
-        details: [
-          "Best for gifts",
-          "Timed surprises",
-          "Delayed punchlines"
-        ]
+        name: "",
+        text: "",
+        details: []
       },
-      futureNote: "Future mechanisms are planned, including reveal-as-action triggers such as water activation."
+      futureNote: ""
     },
 
     revealDemo: {
-      heading: "Submitted reveals",
+      heading: "Gallery",
       intro: "Click any image to switch between its cover and reveal state."
     },
 
@@ -68,65 +55,18 @@ const SITE_CONTENT = {
 
   sections: {
     object: {
-      heading: "The object",
-      blocks: [
-        {
-          title: "Printed, not digital",
-          text: "Both states are real printed images. The change happens through the object, not pixels."
-        },
-        {
-          title: "A sudden second state",
-          text: "The cover image stays put until the mechanism releases the hidden reveal image."
-        },
-        {
-          title: "Built around timing",
-          text: "The point is the wait, the trigger, and the instant people realize the picture changed."
-        }
-      ]
+      heading: "",
+      blocks: []
     },
 
     howItWorks: {
-      heading: "From image pair to reveal",
-      steps: [
-        {
-          title: "Pick two images",
-          text: "One image is visible first. The second is hidden until the reveal."
-        },
-        {
-          title: "Choose the mechanism",
-          text: "Start with a timed Clock Reveal; other physical triggers can fit the same idea later."
-        },
-        {
-          title: "Choose how much to build",
-          text: "Order parts, a self-assembly kit, a mostly prepared setup, or a finished gift."
-        },
-        {
-          title: "Set it up and wait",
-          text: "When the trigger hits, the frame changes state all at once."
-        }
-      ]
+      heading: "",
+      steps: []
     },
 
     revealTypes: {
-      heading: "Reveal mechanisms",
-      items: [
-        {
-          name: "Clock Reveal",
-          status: "First mechanism",
-          trigger: "Chosen time delay",
-          mechanism: "Clock-style movement releases the hidden image",
-          text: "The frame waits, then changes state at the set moment.",
-          notes: "Best fit for gifts, timed surprises, and delayed punchlines."
-        },
-        {
-          name: "Add-Water Reveal",
-          status: "Planned mechanism",
-          trigger: "Liquid activation",
-          mechanism: "Water starts the physical transformation",
-          text: "Adding liquid causes the hidden state to appear.",
-          notes: "Useful for ritual, invitation, or reveal-as-action concepts."
-        }
-      ]
+      heading: "",
+      items: []
     },
 
     order: {
@@ -146,11 +86,18 @@ const SITE_CONTENT = {
           priceLabel: "$45",
           priceValue: 45,
           shortDescription: "Print your own frame. Precision parts and images included.",
-          bullets: [
-            { text: "3D print the frame and stand", icon: "printer" },
-            { text: "Precision hardware and tools", icon: "hardware" },
-            { text: "Load the image pair yourself", icon: "photos" }
+          included: [
+            "Hardware kit",
+            "Assembly supplies",
+            "Two custom prints on specialty media",
+            "Digital files for the frame and stand"
           ],
+          youDo: [
+            "3D print the frame and stand",
+            "Assemble the mechanism",
+            "Load your image pair"
+          ],
+          note: "Some basic hand tools required.",
           accentColor: "#6f7f53",
           illustration: {
             type: "maker",
@@ -163,11 +110,17 @@ const SITE_CONTENT = {
           priceLabel: "$70",
           priceValue: 70,
           shortDescription: "Full self-assembly. Frame, hardware, and images included.",
-          bullets: [
-            { text: "3D printed frame included", icon: "frame" },
-            { text: "Assemble the mechanism", icon: "wrench" },
-            { text: "Hardware and mechanism included", icon: "gear" }
+          included: [
+            "3D printed frame and stand",
+            "Hardware kit",
+            "Two custom prints on specialty media",
+            "Assembly supplies"
           ],
+          youDo: [
+            "Assemble the mechanism",
+            "Load your image pair"
+          ],
+          note: "Some basic hand tools required.",
           accentColor: "#6b7f92",
           illustration: {
             type: "builder",
@@ -180,11 +133,19 @@ const SITE_CONTENT = {
           priceLabel: "$90",
           priceValue: 90,
           shortDescription: "Fully assembled. Final image loading and calibration required.",
-          bullets: [
-            { text: "Load the final image pair", icon: "photos" },
-            { text: "Align and calibrate the reveal", icon: "align" },
-            { text: "Completed mechanism", icon: "gearCheck" }
+          included: [
+            "Assembled frame and mechanism",
+            "Two custom prints on specialty media",
+            "Reveal system aligned and tested"
           ],
+          youDo: [
+            "Load your image pair",
+            "Set the timer"
+          ],
+          action: {
+            label: "Setup Manual",
+            href: "#setup-manual"
+          },
           accentColor: "#9a7b4f",
           illustration: {
             type: "setup",
@@ -197,10 +158,14 @@ const SITE_CONTENT = {
           priceLabel: "$160",
           priceValue: 160,
           shortDescription: "Fully assembled, loaded, and ready to give.",
-          bullets: [
-            { text: "Completed frame", icon: "pictureFrame" },
-            { text: "Images loaded and tested", icon: "photosCheck" },
-            { text: "Ready to display or gift", icon: "gift" }
+          included: [
+            "Completed frame",
+            "Images loaded and tested",
+            "Two custom prints on specialty media",
+            "Ready to display or gift"
+          ],
+          youDo: [
+            "Optional: remove the battery pull tab to begin the countdown, or receive the frame with the countdown already underway"
           ],
           accentColor: "#7f5d68",
           illustration: {
@@ -234,7 +199,7 @@ const SITE_CONTENT = {
         },
         {
           question: "Can I choose the reveal timing?",
-          answer: "Timed reveal options are planned for the Clock Reveal version, but advanced configuration is not live yet."
+          answer: "Advanced configuration is not live yet."
         },
         {
           question: "Is checkout live?",
@@ -244,10 +209,10 @@ const SITE_CONTENT = {
     },
 
     community: {
-      uploadHeading: "Submit an image pair",
+      uploadHeading: "Submit your own",
       uploadIntro: "Try a cover image and reveal image that would make sense as a physical surprise.",
       uploadNote: "Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.",
-      galleryHeading: "Submitted reveals",
+      galleryHeading: "Gallery",
       galleryIntro: "Click any image to switch between its cover and reveal state.",
       emptyGallery: "No gallery submissions yet."
     },
