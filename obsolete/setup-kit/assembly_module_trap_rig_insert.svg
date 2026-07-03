@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Install trap door rig</title>
+  <desc id="desc">Slide the trap door rig up into the upper-left slot, then slide right into the other two slots until secure.</desc>
+
+  <rect x="0" y="0" width="1200" height="800" fill="#ffffff"/>
+
+  <g id="cassette" stroke-linejoin="round">
+    <rect x="260" y="110" width="420" height="560" rx="16" fill="#eeeeef" stroke="#8f8f96" stroke-width="4"/>
+
+    <path d="M360 300 H425 V365 H485 V300 H550 V570 H360 Z" fill="#f8f8f6" stroke="#9d9da3" stroke-width="4"/>
+
+    <g id="receivers" fill="#a5a5aa" stroke="#737378" stroke-width="3">
+      <path d="M350 150 H395 V180 H365 V190 H350 Z"/>
+      <path d="M465 150 H520 V178 H488 V190 H465 Z"/>
+      <rect x="355" y="225" width="28" height="10" rx="1"/>
+      <path d="M465 215 H520 V245 H488 V257 H465 Z"/>
+    </g>
+  </g>
+
+  <g id="ghost-rig" opacity="0.28" fill="#676a70" stroke="#34373c" stroke-width="3" stroke-dasharray="8 7" stroke-linejoin="round">
+    <rect x="314" y="278" width="150" height="54" rx="4" fill="#f8f8f6"/>
+    <path d="M338 308 H382 V286 H398 V328 H338 Z"/>
+    <path d="M414 308 H456 V286 H472 V328 H414 Z"/>
+  </g>
+
+  <g id="motion-arrows" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke="#2875d9" stroke-width="8">
+      <line x1="370" y1="275" x2="370" y2="217"/>
+      <polygon points="370,188 352,220 388,220" fill="#2875d9" stroke="none"/>
+    </g>
+    <g stroke="#d2453b" stroke-width="8">
+      <line x1="386" y1="202" x2="492" y2="202"/>
+      <polygon points="522,202 490,184 490,220" fill="#d2453b" stroke="none"/>
+    </g>
+  </g>
+
+  <g id="generic-rig" fill="#676a70" stroke="#34373c" stroke-width="4" stroke-linejoin="round">
+    <rect x="760" y="180" width="300" height="130" rx="4" fill="#f8f8f6" stroke="#8f8f96"/>
+    <path d="M800 250 H870 V202 H892 V282 H800 Z"/>
+    <path d="M930 250 H1000 V202 H1022 V282 H930 Z"/>
+  </g>
+
+  <text x="600" y="720" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#34373c">
+    Slide the trap door rig up into the upper-left slot, then slide right
+  </text>
+  <text x="600" y="758" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#34373c">
+    into the other two slots until secure.
+  </text>
+</svg>

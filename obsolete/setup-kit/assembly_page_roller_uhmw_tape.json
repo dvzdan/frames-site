@@ -1,0 +1,16 @@
+{
+  "id": "roller_uhmw_tape",
+  "title": "Apply UHMW tape to roller ridges",
+  "image": "assembly_page_roller_uhmw_tape.svg",
+  "base_image": "assembly_step_roller_uhmw_ridges.png",
+  "source_scene": "../../../Documents/codex-scad-experiment/assembly_step_roller_uhmw_ridges.scad",
+  "caption": "Cut three pieces of UHMW tape and apply them over the three raised ridges on the Roller.",
+  "parts": ["roller", "uhmw_tape"],
+  "action": "cut_and_apply_tape",
+  "depends_on": [],
+  "notes": [
+    "The Roller is the gray substrate/base workpiece.",
+    "The three raised ridges are yellow target features.",
+    "The UHMW tape is the blue moving/applied part."
+  ]
+}

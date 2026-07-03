@@ -22,6 +22,10 @@ coverage/
 tmp-assets/
 assets/preview-test.html
 
+# Generated image staging
+drafts/generated-images/failed/*
+!drafts/generated-images/failed/.gitkeep
+
 # Large source rasters not needed for Apps Script deployment
 assets/*.png
 

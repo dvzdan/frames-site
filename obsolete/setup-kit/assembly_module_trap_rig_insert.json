@@ -1,0 +1,11 @@
+{
+  "id": "trap_rig_insert",
+  "title": "Install trap door rig",
+  "image": "assembly_module_trap_rig_insert.svg",
+  "caption": "Slide the trap door rig up into the upper-left slot, then slide right into the other two slots until secure.",
+  "applies_to": ["clock_rig", "water_rig"],
+  "parts": ["trap_door_rig", "cassette"],
+  "action": "slide_up_then_right",
+  "depends_on": [],
+  "notes": []
+}
