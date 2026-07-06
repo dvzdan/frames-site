@@ -303,6 +303,9 @@ function AssemblyManualSection() {
   const link = el("a", "button secondary", "Back to comparison");
   link.href = "#kits";
   back.appendChild(link);
+  const included = el("a", "button secondary", "What's included");
+  included.href = "#setup-inventory";
+  back.appendChild(included);
   section.appendChild(back);
 
   const guide = el("div", "assembly-guide");
@@ -310,6 +313,80 @@ function AssemblyManualSection() {
   guide.appendChild(el("div", "card fine-print", "Assembly guide is loading."));
   section.appendChild(guide);
   return section;
+}
+
+function SetupKitInventorySection() {
+  const groups = [
+    { heading: "Frame / Display", items: [
+      [1, "Frame", "frame.png"],
+      [2, "Stand", "stand.png"],
+      [3, "Acrylic", "acrylic.png"],
+      [4, "Backing Board", "backing-board.png"],
+      [5, "QR Sticker", "qr-sticker.png"]
+    ] },
+    { heading: "Images", items: [
+      [6, "Cover Image", "cover-image.png"],
+      [7, "Reveal Image", "reveal-image.png"]
+    ] },
+    { heading: "Roller / Low-Friction Path", items: [
+      [8, "Roller", "roller.png"],
+      [9, "UHMW Tape", "uhmw-tape.png"],
+      [10, "Zipper Track", "zipper-track.png"]
+    ] },
+    { heading: "Clock / String System", items: [
+      [11, "Clock Movement", "clock-movement.png"],
+      [12, "Capstan", "capstan.png"],
+      [13, "String Clock Locator", "string-clock-locator.png"],
+      [14, "Fishing Line", "fishing-line.png"]
+    ] },
+    { heading: "Trap Door / Release System", items: [
+      [15, "Dry Trap Door Rig", "dry-trap-door-rig.png"],
+      [16, "Weight Rig", "weight-rig.png"],
+      [17, "Weight Latch", "weight-latch.png"],
+      [18, "Latch Clip", "latch-clip.png"]
+    ] }
+  ];
+
+  const section = sectionShell("setup-inventory", "setup-kit-inventory-section");
+  section.appendChild(el("h2", "", "What's Included"));
+  appendParagraph(section, "Individual parts included with the setup path.", "section-copy");
+
+  const links = el("p", "manual-back-link");
+  const back = el("a", "button secondary", "Back to comparison");
+  back.href = "#kits";
+  const manual = el("a", "button secondary", "Setup manual");
+  manual.href = "#setup-manual";
+  links.appendChild(back);
+  links.appendChild(manual);
+  section.appendChild(links);
+
+  const list = el("div", "inventory-groups");
+  groups.forEach(group => {
+    const groupSection = el("section", "inventory-group");
+    groupSection.appendChild(el("h3", "", group.heading));
+    const grid = el("div", "inventory-grid");
+    group.items.forEach(item => grid.appendChild(SetupKitInventoryCard(item[0], item[1], item[2])));
+    groupSection.appendChild(grid);
+    list.appendChild(groupSection);
+  });
+  section.appendChild(list);
+  return section;
+}
+
+function SetupKitInventoryCard(number, name, filename) {
+  const card = el("article", "inventory-card");
+  card.appendChild(el("span", "inventory-number", number));
+
+  const imageShell = el("div", "inventory-image");
+  const image = document.createElement("img");
+  image.src = "https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/" + filename;
+  image.alt = name;
+  image.loading = "lazy";
+  imageShell.appendChild(image);
+  card.appendChild(imageShell);
+
+  card.appendChild(el("div", "inventory-name", name));
+  return card;
 }
 
 function renderHomepage() {
@@ -323,6 +400,7 @@ function renderHomepage() {
     ProcessStripSection,
     MechanismSection,
     RevealDemoSection,
+    SetupKitInventorySection,
     AssemblyManualSection,
     CTASection,
     FooterSection
