@@ -294,6 +294,24 @@ function FooterSection() {
   return footer;
 }
 
+function AssemblyManualSection() {
+  const section = sectionShell("setup-manual", "assembly-guide-section-shell");
+  section.appendChild(el("h2", "", "Setup Kit Assembly"));
+  appendParagraph(section, "Step-by-step assembly sequence for the setup kit.", "section-copy");
+
+  const back = el("p", "manual-back-link");
+  const link = el("a", "button secondary", "Back to comparison");
+  link.href = "#kits";
+  back.appendChild(link);
+  section.appendChild(back);
+
+  const guide = el("div", "assembly-guide");
+  guide.id = "assemblyGuide";
+  guide.appendChild(el("div", "card fine-print", "Assembly guide is loading."));
+  section.appendChild(guide);
+  return section;
+}
+
 function renderHomepage() {
   const app = document.getElementById("app");
   app.innerHTML = "";
@@ -305,11 +323,13 @@ function renderHomepage() {
     ProcessStripSection,
     MechanismSection,
     RevealDemoSection,
+    AssemblyManualSection,
     CTASection,
     FooterSection
   ].forEach(renderSection => app.appendChild(renderSection()));
 
   renderOrderPlaceholder();
+  if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
   loadTierIllustrationAssets();
   renderInitialHeroGallery();
   scheduleGalleryDataLoad();
@@ -319,6 +339,7 @@ function hydrateStaticHomepage() {
   renderInitialHeroGallery();
   loadTierIllustrationAssets();
   hydrateSubmissionModule();
+  if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
 }
 
 function hydrateSubmissionModule() {

@@ -1,0 +1,124 @@
+(function() {
+  function text(value) {
+    return value == null ? "" : String(value);
+  }
+
+  function byOrder(a, b) {
+    return (Number(a && a.order) || 0) - (Number(b && b.order) || 0);
+  }
+
+  function createElement(tag, className, content) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (content != null) node.textContent = text(content);
+    return node;
+  }
+
+  function getAssemblyManifest() {
+    var manifest = window.ASSEMBLY_MANIFEST || {};
+    return {
+      version: manifest.version || 1,
+      imageBase: text(manifest.imageBase).replace(/\/$/, ""),
+      sections: Array.isArray(manifest.sections) ? manifest.sections.slice().sort(byOrder) : []
+    };
+  }
+
+  function getStepImageUrl(manifest, section, step) {
+    return [
+      manifest.imageBase,
+      encodeURIComponent(text(section.folder)),
+      encodeURIComponent(text(step.image))
+    ].join("/");
+  }
+
+  function getDisplayStepNumber(sectionIndex, step) {
+    var order = Number(step.order);
+    var whole = Math.floor(order);
+    var suffix = "";
+
+    if (step.kind === "addendum") {
+      suffix = "a";
+    } else if (order % 1 !== 0) {
+      suffix = String(order).split(".")[1] || "";
+    }
+
+    return String(sectionIndex + 1) + "." + String(whole) + suffix;
+  }
+
+  function createSectionNav(sections) {
+    var nav = createElement("nav", "assembly-section-nav");
+    nav.setAttribute("aria-label", "Assembly sections");
+
+    sections.forEach(function(section, index) {
+      var link = createElement("a", "assembly-section-link", String(index + 1) + ". " + text(section.title));
+      link.href = "#assembly-" + text(section.id);
+      nav.appendChild(link);
+    });
+
+    return nav;
+  }
+
+  function createStepCard(manifest, section, sectionIndex, step) {
+    var card = createElement("article", "assembly-step-card");
+    if (step.kind) card.dataset.kind = step.kind;
+
+    var imageWrap = createElement("div", "assembly-step-image");
+    var image = document.createElement("img");
+    image.src = getStepImageUrl(manifest, section, step);
+    image.alt = text(step.title);
+    image.loading = "lazy";
+    imageWrap.appendChild(image);
+
+    var meta = createElement("div", "assembly-step-meta");
+    meta.appendChild(createElement("span", "assembly-step-number", getDisplayStepNumber(sectionIndex, step)));
+    meta.appendChild(createElement("h4", "", step.title));
+    if (step.kind === "addendum") {
+      meta.appendChild(createElement("span", "assembly-step-kind", "Addendum"));
+    }
+
+    card.appendChild(imageWrap);
+    card.appendChild(meta);
+    return card;
+  }
+
+  function createSection(manifest, section, sectionIndex) {
+    var block = createElement("section", "assembly-guide-section");
+    block.id = "assembly-" + text(section.id);
+
+    var heading = createElement("div", "assembly-guide-section-heading");
+    heading.appendChild(createElement("span", "assembly-section-number", String(sectionIndex + 1)));
+    heading.appendChild(createElement("h3", "", section.title));
+    block.appendChild(heading);
+
+    var steps = createElement("div", "assembly-step-grid");
+    (Array.isArray(section.steps) ? section.steps.slice().sort(byOrder) : []).forEach(function(step) {
+      steps.appendChild(createStepCard(manifest, section, sectionIndex, step));
+    });
+    block.appendChild(steps);
+
+    return block;
+  }
+
+  function renderAssemblyGuide() {
+    var root = document.getElementById("assemblyGuide");
+    if (!root) return;
+
+    var manifest = getAssemblyManifest();
+    root.innerHTML = "";
+
+    if (!manifest.sections.length || !manifest.imageBase) {
+      root.appendChild(createElement("div", "card fine-print", "Assembly guide is not configured."));
+      return;
+    }
+
+    root.appendChild(createSectionNav(manifest.sections));
+
+    var content = createElement("div", "assembly-guide-sections");
+    manifest.sections.forEach(function(section, index) {
+      content.appendChild(createSection(manifest, section, index));
+    });
+    root.appendChild(content);
+  }
+
+  window.renderAssemblyGuide = renderAssemblyGuide;
+})();

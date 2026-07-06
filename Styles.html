@@ -923,6 +923,167 @@ p {
   min-height: 2.4em;
 }
 
+/* Assembly guide */
+.assembly-guide-section-shell {
+  --assembly-accent: #6b7f92;
+  border-top: 1px solid var(--line);
+  margin-top: clamp(48px, 8vw, 88px);
+  padding-top: clamp(26px, 5vw, 42px);
+  position: relative;
+}
+
+.assembly-guide-section-shell::before {
+  color: var(--text-muted);
+  content: "Manual";
+  display: block;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.assembly-guide {
+  display: grid;
+  gap: 24px;
+}
+
+.assembly-section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 4px;
+}
+
+.assembly-section-link {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-strong);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 9px 11px;
+  text-decoration: none;
+}
+
+.assembly-section-link:hover,
+.assembly-section-link:focus-visible {
+  border-color: color-mix(in srgb, var(--assembly-accent) 55%, var(--line));
+  outline: none;
+}
+
+.assembly-guide-sections {
+  display: grid;
+  gap: 30px;
+}
+
+.assembly-guide-section {
+  scroll-margin-top: 18px;
+}
+
+.assembly-guide-section-heading {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.assembly-guide-section-heading h3 {
+  font-size: 18px;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.assembly-section-number {
+  align-items: center;
+  background: color-mix(in srgb, var(--assembly-accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--assembly-accent) 36%, transparent);
+  border-radius: 999px;
+  color: var(--text-strong);
+  display: inline-flex;
+  flex: 0 0 28px;
+  font-size: 12px;
+  font-weight: 800;
+  height: 28px;
+  justify-content: center;
+  line-height: 1;
+  width: 28px;
+}
+
+.assembly-step-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.assembly-step-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(42, 35, 28, 0.06);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.assembly-step-card[data-kind="addendum"] {
+  border-style: dashed;
+}
+
+.assembly-step-image {
+  align-items: center;
+  aspect-ratio: 16 / 11;
+  background: #f6f3ea;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.assembly-step-image img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
+.assembly-step-meta {
+  align-items: start;
+  display: grid;
+  gap: 4px 8px;
+  grid-template-columns: auto 1fr;
+  padding: 10px 11px 12px;
+}
+
+.assembly-step-meta h4 {
+  font-size: 13px;
+  line-height: 1.25;
+  margin: 1px 0 0;
+}
+
+.assembly-step-number {
+  align-items: center;
+  background: var(--text-strong);
+  border-radius: 999px;
+  color: var(--surface);
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 800;
+  height: 24px;
+  justify-content: center;
+  line-height: 1;
+  min-width: 24px;
+  padding: 0 7px;
+}
+
+.assembly-step-kind {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 750;
+  grid-column: 2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 @media (min-width: 920px) {
   .inventory-groups {
     gap: 9px;
@@ -946,6 +1107,10 @@ p {
 
   .inventory-group:first-child .inventory-grid {
     grid-template-columns: repeat(5, minmax(84px, 96px));
+  }
+
+  .assembly-step-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

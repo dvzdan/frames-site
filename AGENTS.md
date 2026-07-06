@@ -2,18 +2,20 @@
 
 When creating assembly-instruction visuals, build a dedicated instruction SCAD scene rather than using the full master assembly.
 
-Use `assets/setup-kit/trap_door_rig_insert_style_reference.png` as the current style target for assembly-instruction panels. Match its overall layout language, neutral arrows with motion chevrons, compact step bubbles, white image cards with black labels, semantic SCAD colors, ghosted blue rig features where appropriate, and caption styling. Do not treat the geometry in the reference image as authoritative for future steps; use each step's SCAD scene for geometry.
+Use `assets/instruction images/03-trap-and-weight/01-insert-trap-rig.png` as the current style target for assembly-instruction panels. Match its overall layout language, neutral arrows with motion chevrons, compact step bubbles, white image cards with black labels, semantic SCAD colors, ghosted blue rig features where appropriate, and caption styling. Do not treat the geometry in the reference image as authoritative for future steps; use each step's SCAD scene for geometry.
 
 ## Asset staging
 
-Live image assets belong only in `assets/` and `assets/setup-kit/`.
+Live image assets belong only in `assets/`, `assets/setup-kit/`, and
+`assets/instruction images/`.
 
 When creating or testing generated images, save candidates under
 `drafts/generated-images/candidates/` first. Put failed or rejected attempts in
 `drafts/generated-images/failed/`.
 
-Move an image into `assets/` or `assets/setup-kit/` only after it is selected as
-the live website or manual asset.
+Move an image into `assets/`, `assets/setup-kit/`, or
+`assets/instruction images/` only after it is selected as the live website,
+setup-kit, or finished instruction asset.
 
 ### SCAD scene rules
 
