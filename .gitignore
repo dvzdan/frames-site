@@ -21,6 +21,7 @@ coverage/
 .clasp-v30-check/
 tmp-assets/
 assets/preview-test.html
+.image-snapshots/
 
 # Generated image staging
 drafts/generated-images/failed/*
