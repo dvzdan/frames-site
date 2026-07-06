@@ -55,12 +55,26 @@
 
     manifest.sections.forEach(function(section, sectionIndex) {
       var sectionSteps = Array.isArray(section.steps) ? section.steps.slice().sort(byOrder) : [];
+      var parentNumber = "";
+      var parentTitle = "";
+
       sectionSteps.forEach(function(step) {
+        var isAddendum = step.kind === "addendum";
+        var number = getDisplayStepNumber(sectionIndex, step);
+
+        if (!isAddendum) {
+          parentNumber = number;
+          parentTitle = text(step.title);
+        }
+
         steps.push({
           section: section,
           sectionIndex: sectionIndex,
           step: step,
-          number: getDisplayStepNumber(sectionIndex, step),
+          number: number,
+          isAddendum: isAddendum,
+          parentNumber: isAddendum ? parentNumber : number,
+          parentTitle: isAddendum ? parentTitle : text(step.title),
           imageUrl: getStepImageUrl(manifest, section, step)
         });
       });
@@ -100,16 +114,23 @@
     var number = viewer.querySelector("[data-assembly-number]");
     var progress = viewer.querySelector("[data-assembly-progress]");
     var addendum = viewer.querySelector("[data-assembly-addendum]");
+    var addendumTitle = viewer.querySelector("[data-assembly-addendum-title]");
     var prev = viewer.querySelector("[data-assembly-prev]");
     var next = viewer.querySelector("[data-assembly-next]");
 
     image.src = active.imageUrl;
-    image.alt = text(active.step.title);
+    image.alt = active.isAddendum
+      ? text(active.step.title) + " detail for " + text(active.parentTitle)
+      : text(active.step.title);
     section.textContent = text(active.section.title);
-    title.textContent = text(active.step.title);
-    number.textContent = active.number;
-    progress.textContent = "Step " + String(state.activeIndex + 1) + " of " + String(state.steps.length);
-    addendum.hidden = active.step.kind !== "addendum";
+    title.textContent = active.isAddendum ? text(active.parentTitle) : text(active.step.title);
+    number.textContent = active.isAddendum ? active.parentNumber : active.number;
+    progress.textContent = active.isAddendum
+      ? "Detail for step " + active.parentNumber
+      : "Step " + String(state.activeIndex + 1) + " of " + String(state.steps.length);
+    addendum.hidden = !active.isAddendum;
+    addendumTitle.hidden = !active.isAddendum;
+    addendumTitle.textContent = active.isAddendum ? text(active.step.title) : "";
     prev.disabled = state.activeIndex === 0;
     next.disabled = state.activeIndex === state.steps.length - 1;
 
@@ -148,6 +169,11 @@
     flags.appendChild(addendum);
     meta.appendChild(flags);
 
+    var addendumTitle = createElement("div", "assembly-addendum-title", "");
+    addendumTitle.setAttribute("data-assembly-addendum-title", "true");
+    addendumTitle.hidden = true;
+    meta.appendChild(addendumTitle);
+
     var controls = createElement("div", "assembly-viewer-controls");
     var prev = createButton("Previous", "button secondary assembly-nav-button", function() {
       moveStep(-1);
@@ -181,12 +207,19 @@
 
     var list = createElement("div", "assembly-contents-list");
     state.steps.forEach(function(item, index) {
-      var button = createButton(item.number + " " + text(item.step.title), "assembly-contents-item", function() {
+      var label = item.isAddendum
+        ? "Detail: " + text(item.step.title)
+        : item.number + " " + text(item.step.title);
+      var button = createButton(label, "assembly-contents-item" + (item.isAddendum ? " is-addendum" : ""), function() {
         setActiveStep(index);
         details.open = false;
       });
       button.setAttribute("data-assembly-jump", String(index));
-      var section = createElement("span", "assembly-contents-section", item.section.title);
+      var section = createElement(
+        "span",
+        "assembly-contents-section",
+        item.isAddendum ? "For " + item.parentNumber + " " + item.parentTitle : item.section.title
+      );
       button.appendChild(section);
       list.appendChild(button);
     });
