@@ -1050,17 +1050,19 @@ p {
 
 .assembly-image-stage {
   align-items: center;
+  aspect-ratio: 3 / 2;
   background: #fafafa;
   display: flex;
   justify-content: center;
-  min-height: min(66vh, 720px);
   overflow: hidden;
   padding: 0;
+  width: 100%;
 }
 
 .assembly-image-stage img {
   display: block;
-  max-height: min(66vh, 720px);
+  height: 100%;
+  max-height: none;
   object-fit: contain;
   width: 100%;
 }
@@ -1230,12 +1232,8 @@ p {
     font-size: 18px;
   }
 
-  .assembly-image-stage {
-    min-height: min(58vh, 560px);
-  }
-
   .assembly-image-stage img {
-    max-height: min(58vh, 560px);
+    max-height: none;
   }
 }
 
