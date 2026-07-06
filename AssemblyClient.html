@@ -129,7 +129,6 @@
     var image = viewer.querySelector("[data-assembly-image]");
     var section = viewer.querySelector("[data-assembly-section]");
     var title = viewer.querySelector("[data-assembly-title]");
-    var number = viewer.querySelector("[data-assembly-number]");
     var progress = viewer.querySelector("[data-assembly-progress]");
     var addendum = viewer.querySelector("[data-assembly-addendum]");
     var addendumTitle = viewer.querySelector("[data-assembly-addendum-title]");
@@ -142,8 +141,7 @@
       : text(active.step.title);
     section.textContent = text(active.section.title);
     title.textContent = active.isAddendum ? text(active.parentTitle) : text(active.step.title);
-    number.textContent = active.isAddendum ? active.parentNumber : active.number;
-    progress.textContent = "Step " + String(state.activeIndex + 1) + " of " + String(state.steps.length);
+    progress.textContent = String(state.activeIndex + 1) + " / " + String(state.steps.length);
     addendum.hidden = !active.isAddendum;
     addendumTitle.hidden = !active.isAddendum;
     addendumTitle.textContent = active.isAddendum ? text(active.step.title) : "";
@@ -165,11 +163,8 @@
     var meta = createElement("div", "assembly-viewer-meta");
 
     var titleRow = createElement("div", "assembly-current-title-row");
-    var number = createElement("span", "assembly-current-number", "");
-    number.setAttribute("data-assembly-number", "true");
     var title = createElement("h3", "", "");
     title.setAttribute("data-assembly-title", "true");
-    titleRow.appendChild(number);
     titleRow.appendChild(title);
     meta.appendChild(titleRow);
 
@@ -243,7 +238,7 @@
     state.steps.forEach(function(item, index) {
       var label = item.isAddendum
         ? "Detail: " + text(item.step.title)
-        : item.number + " " + text(item.step.title);
+        : text(item.step.title);
       var button = createButton(label, "assembly-contents-item" + (item.isAddendum ? " is-addendum" : ""), function() {
         setActiveStep(index);
         details.open = false;
@@ -252,7 +247,7 @@
       var section = createElement(
         "span",
         "assembly-contents-section",
-        item.isAddendum ? "For " + item.parentNumber + " " + item.parentTitle : item.section.title
+        item.isAddendum ? "For " + item.parentTitle : item.section.title
       );
       button.appendChild(section);
       list.appendChild(button);
