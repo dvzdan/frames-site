@@ -957,7 +957,7 @@ p {
 }
 
 .instruction-stage {
-  background: color-mix(in srgb, var(--paper) 74%, var(--surface));
+  background: #fafafa;
   border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
   border-radius: 8px;
   box-shadow: 0 12px 34px rgba(30, 29, 27, 0.06);
@@ -1051,13 +1051,11 @@ p {
 .assembly-image-stage {
   align-items: center;
   background: #fafafa;
-  border-bottom: 1px solid color-mix(in srgb, var(--line) 62%, transparent);
-  border-top: 1px solid color-mix(in srgb, var(--line) 62%, transparent);
   display: flex;
   justify-content: center;
   min-height: min(66vh, 720px);
   overflow: hidden;
-  padding: clamp(8px, 1.8vw, 18px);
+  padding: 0;
 }
 
 .assembly-image-stage img {
@@ -1234,7 +1232,6 @@ p {
 
   .assembly-image-stage {
     min-height: min(58vh, 560px);
-    padding: 6px;
   }
 
   .assembly-image-stage img {
