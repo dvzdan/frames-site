@@ -945,141 +945,176 @@ p {
 
 .assembly-guide {
   display: grid;
-  gap: 24px;
+  gap: 14px;
 }
 
-.assembly-section-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-bottom: 4px;
-}
-
-.assembly-section-link {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--text-strong);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
-  padding: 9px 11px;
-  text-decoration: none;
-}
-
-.assembly-section-link:hover,
-.assembly-section-link:focus-visible {
-  border-color: color-mix(in srgb, var(--assembly-accent) 55%, var(--line));
-  outline: none;
-}
-
-.assembly-guide-sections {
-  display: grid;
-  gap: 30px;
-}
-
-.assembly-guide-section {
-  scroll-margin-top: 18px;
-}
-
-.assembly-guide-section-heading {
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.assembly-guide-section-heading h3 {
-  font-size: 18px;
-  line-height: 1.15;
-  margin: 0;
-}
-
-.assembly-section-number {
-  align-items: center;
-  background: color-mix(in srgb, var(--assembly-accent) 16%, transparent);
-  border: 1px solid color-mix(in srgb, var(--assembly-accent) 36%, transparent);
-  border-radius: 999px;
-  color: var(--text-strong);
-  display: inline-flex;
-  flex: 0 0 28px;
-  font-size: 12px;
-  font-weight: 800;
-  height: 28px;
-  justify-content: center;
-  line-height: 1;
-  width: 28px;
-}
-
-.assembly-step-grid {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.assembly-step-card {
+.assembly-viewer {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(42, 35, 28, 0.06);
-  min-width: 0;
+  box-shadow: 0 10px 28px rgba(42, 35, 28, 0.08);
   overflow: hidden;
 }
 
-.assembly-step-card[data-kind="addendum"] {
-  border-style: dashed;
-}
-
-.assembly-step-image {
+.assembly-viewer-top {
   align-items: center;
-  aspect-ratio: 16 / 11;
-  background: #f6f3ea;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.assembly-step-image img {
-  display: block;
-  height: 100%;
-  object-fit: contain;
-  width: 100%;
-}
-
-.assembly-step-meta {
-  align-items: start;
+  border-bottom: 1px solid var(--line);
   display: grid;
-  gap: 4px 8px;
-  grid-template-columns: auto 1fr;
-  padding: 10px 11px 12px;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  padding: 12px;
 }
 
-.assembly-step-meta h4 {
-  font-size: 13px;
-  line-height: 1.25;
-  margin: 1px 0 0;
+.assembly-viewer-meta {
+  min-width: 0;
 }
 
-.assembly-step-number {
+.assembly-current-section {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.assembly-current-title-row {
+  align-items: center;
+  display: flex;
+  gap: 9px;
+}
+
+.assembly-current-title-row h3 {
+  font-size: clamp(18px, 3vw, 28px);
+  line-height: 1.1;
+  margin: 0;
+  min-width: 0;
+}
+
+.assembly-current-number {
   align-items: center;
   background: var(--text-strong);
   border-radius: 999px;
   color: var(--surface);
   display: inline-flex;
-  font-size: 10px;
-  font-weight: 800;
-  height: 24px;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 850;
+  height: 30px;
   justify-content: center;
   line-height: 1;
-  min-width: 24px;
-  padding: 0 7px;
+  min-width: 30px;
+  padding: 0 8px;
+}
+
+.assembly-current-flags {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.assembly-progress {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .assembly-step-kind {
-  color: var(--text-muted);
+  background: color-mix(in srgb, var(--assembly-accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--assembly-accent) 34%, transparent);
+  border-radius: 999px;
+  color: var(--text-strong);
   font-size: 10px;
   font-weight: 750;
-  grid-column: 2;
+  letter-spacing: 0.08em;
+  padding: 4px 7px;
+  text-transform: uppercase;
+}
+
+.assembly-viewer-controls {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.assembly-nav-button {
+  justify-content: center;
+  min-height: 40px;
+  text-align: center;
+}
+
+.assembly-nav-button:disabled {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.assembly-image-stage {
+  align-items: center;
+  background: #f6f3ea;
+  display: flex;
+  justify-content: center;
+  min-height: min(72vh, 780px);
+  overflow: hidden;
+}
+
+.assembly-image-stage img {
+  display: block;
+  max-height: min(72vh, 780px);
+  object-fit: contain;
+  width: 100%;
+}
+
+.assembly-contents {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.assembly-contents summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  list-style-position: inside;
+  padding: 12px 14px;
+}
+
+.assembly-contents-list {
+  border-top: 1px solid var(--line);
+  display: grid;
+  max-height: 56vh;
+  overflow: auto;
+  padding: 6px;
+}
+
+.assembly-contents-item {
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: var(--text-strong);
+  display: grid;
+  font-size: 13px;
+  font-weight: 750;
+  gap: 3px;
+  justify-items: start;
+  line-height: 1.25;
+  padding: 9px 10px;
+  text-align: left;
+}
+
+.assembly-contents-item:hover,
+.assembly-contents-item:focus-visible,
+.assembly-contents-item.is-active {
+  background: color-mix(in srgb, var(--assembly-accent) 12%, transparent);
+  outline: none;
+}
+
+.assembly-contents-section {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -1109,8 +1144,13 @@ p {
     grid-template-columns: repeat(5, minmax(84px, 96px));
   }
 
-  .assembly-step-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .assembly-viewer-top {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 14px 16px;
+  }
+
+  .assembly-viewer-controls {
+    min-width: 230px;
   }
 }
 

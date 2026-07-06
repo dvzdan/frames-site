@@ -1,4 +1,9 @@
 (function() {
+  var state = {
+    steps: [],
+    activeIndex: 0
+  };
+
   function text(value) {
     return value == null ? "" : String(value);
   }
@@ -45,58 +50,149 @@
     return String(sectionIndex + 1) + "." + String(whole) + suffix;
   }
 
-  function createSectionNav(sections) {
-    var nav = createElement("nav", "assembly-section-nav");
-    nav.setAttribute("aria-label", "Assembly sections");
+  function flattenManifest(manifest) {
+    var steps = [];
 
-    sections.forEach(function(section, index) {
-      var link = createElement("a", "assembly-section-link", String(index + 1) + ". " + text(section.title));
-      link.href = "#assembly-" + text(section.id);
-      nav.appendChild(link);
+    manifest.sections.forEach(function(section, sectionIndex) {
+      var sectionSteps = Array.isArray(section.steps) ? section.steps.slice().sort(byOrder) : [];
+      sectionSteps.forEach(function(step) {
+        steps.push({
+          section: section,
+          sectionIndex: sectionIndex,
+          step: step,
+          number: getDisplayStepNumber(sectionIndex, step),
+          imageUrl: getStepImageUrl(manifest, section, step)
+        });
+      });
     });
 
-    return nav;
+    return steps;
   }
 
-  function createStepCard(manifest, section, sectionIndex, step) {
-    var card = createElement("article", "assembly-step-card");
-    if (step.kind) card.dataset.kind = step.kind;
+  function createButton(label, className, onClick) {
+    var button = createElement("button", className, label);
+    button.type = "button";
+    button.addEventListener("click", onClick);
+    return button;
+  }
 
-    var imageWrap = createElement("div", "assembly-step-image");
+  function setActiveStep(index) {
+    if (!state.steps[index]) return;
+    state.activeIndex = index;
+    renderActiveStep();
+  }
+
+  function moveStep(delta) {
+    setActiveStep(Math.max(0, Math.min(state.steps.length - 1, state.activeIndex + delta)));
+  }
+
+  function renderActiveStep() {
+    var root = document.getElementById("assemblyGuide");
+    var active = state.steps[state.activeIndex];
+    if (!root || !active) return;
+
+    var viewer = root.querySelector("[data-assembly-viewer]");
+    if (!viewer) return;
+
+    var image = viewer.querySelector("[data-assembly-image]");
+    var section = viewer.querySelector("[data-assembly-section]");
+    var title = viewer.querySelector("[data-assembly-title]");
+    var number = viewer.querySelector("[data-assembly-number]");
+    var progress = viewer.querySelector("[data-assembly-progress]");
+    var addendum = viewer.querySelector("[data-assembly-addendum]");
+    var prev = viewer.querySelector("[data-assembly-prev]");
+    var next = viewer.querySelector("[data-assembly-next]");
+
+    image.src = active.imageUrl;
+    image.alt = text(active.step.title);
+    section.textContent = text(active.section.title);
+    title.textContent = text(active.step.title);
+    number.textContent = active.number;
+    progress.textContent = "Step " + String(state.activeIndex + 1) + " of " + String(state.steps.length);
+    addendum.hidden = active.step.kind !== "addendum";
+    prev.disabled = state.activeIndex === 0;
+    next.disabled = state.activeIndex === state.steps.length - 1;
+
+    root.querySelectorAll("[data-assembly-jump]").forEach(function(button) {
+      var isActive = Number(button.dataset.assemblyJump) === state.activeIndex;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-current", isActive ? "step" : "false");
+    });
+  }
+
+  function createViewer() {
+    var viewer = createElement("div", "assembly-viewer");
+    viewer.setAttribute("data-assembly-viewer", "true");
+
+    var top = createElement("div", "assembly-viewer-top");
+    var meta = createElement("div", "assembly-viewer-meta");
+    meta.appendChild(createElement("div", "assembly-current-section", ""));
+    meta.lastChild.setAttribute("data-assembly-section", "true");
+
+    var titleRow = createElement("div", "assembly-current-title-row");
+    var number = createElement("span", "assembly-current-number", "");
+    number.setAttribute("data-assembly-number", "true");
+    var title = createElement("h3", "", "");
+    title.setAttribute("data-assembly-title", "true");
+    titleRow.appendChild(number);
+    titleRow.appendChild(title);
+    meta.appendChild(titleRow);
+
+    var flags = createElement("div", "assembly-current-flags");
+    var progress = createElement("span", "assembly-progress", "");
+    progress.setAttribute("data-assembly-progress", "true");
+    var addendum = createElement("span", "assembly-step-kind", "Addendum");
+    addendum.setAttribute("data-assembly-addendum", "true");
+    addendum.hidden = true;
+    flags.appendChild(progress);
+    flags.appendChild(addendum);
+    meta.appendChild(flags);
+
+    var controls = createElement("div", "assembly-viewer-controls");
+    var prev = createButton("Previous", "button secondary assembly-nav-button", function() {
+      moveStep(-1);
+    });
+    prev.setAttribute("data-assembly-prev", "true");
+    var next = createButton("Next", "button assembly-nav-button", function() {
+      moveStep(1);
+    });
+    next.setAttribute("data-assembly-next", "true");
+    controls.appendChild(prev);
+    controls.appendChild(next);
+
+    top.appendChild(meta);
+    top.appendChild(controls);
+
+    var stage = createElement("div", "assembly-image-stage");
     var image = document.createElement("img");
-    image.src = getStepImageUrl(manifest, section, step);
-    image.alt = text(step.title);
-    image.loading = "lazy";
-    imageWrap.appendChild(image);
+    image.setAttribute("data-assembly-image", "true");
+    image.loading = "eager";
+    stage.appendChild(image);
 
-    var meta = createElement("div", "assembly-step-meta");
-    meta.appendChild(createElement("span", "assembly-step-number", getDisplayStepNumber(sectionIndex, step)));
-    meta.appendChild(createElement("h4", "", step.title));
-    if (step.kind === "addendum") {
-      meta.appendChild(createElement("span", "assembly-step-kind", "Addendum"));
-    }
-
-    card.appendChild(imageWrap);
-    card.appendChild(meta);
-    return card;
+    viewer.appendChild(top);
+    viewer.appendChild(stage);
+    return viewer;
   }
 
-  function createSection(manifest, section, sectionIndex) {
-    var block = createElement("section", "assembly-guide-section");
-    block.id = "assembly-" + text(section.id);
+  function createContents() {
+    var details = createElement("details", "assembly-contents");
+    var summary = createElement("summary", "", "All steps");
+    details.appendChild(summary);
 
-    var heading = createElement("div", "assembly-guide-section-heading");
-    heading.appendChild(createElement("span", "assembly-section-number", String(sectionIndex + 1)));
-    heading.appendChild(createElement("h3", "", section.title));
-    block.appendChild(heading);
-
-    var steps = createElement("div", "assembly-step-grid");
-    (Array.isArray(section.steps) ? section.steps.slice().sort(byOrder) : []).forEach(function(step) {
-      steps.appendChild(createStepCard(manifest, section, sectionIndex, step));
+    var list = createElement("div", "assembly-contents-list");
+    state.steps.forEach(function(item, index) {
+      var button = createButton(item.number + " " + text(item.step.title), "assembly-contents-item", function() {
+        setActiveStep(index);
+        details.open = false;
+      });
+      button.setAttribute("data-assembly-jump", String(index));
+      var section = createElement("span", "assembly-contents-section", item.section.title);
+      button.appendChild(section);
+      list.appendChild(button);
     });
-    block.appendChild(steps);
 
-    return block;
+    details.appendChild(list);
+    return details;
   }
 
   function renderAssemblyGuide() {
@@ -104,20 +200,18 @@
     if (!root) return;
 
     var manifest = getAssemblyManifest();
+    state.steps = flattenManifest(manifest);
+    state.activeIndex = 0;
     root.innerHTML = "";
 
-    if (!manifest.sections.length || !manifest.imageBase) {
+    if (!state.steps.length || !manifest.imageBase) {
       root.appendChild(createElement("div", "card fine-print", "Assembly guide is not configured."));
       return;
     }
 
-    root.appendChild(createSectionNav(manifest.sections));
-
-    var content = createElement("div", "assembly-guide-sections");
-    manifest.sections.forEach(function(section, index) {
-      content.appendChild(createSection(manifest, section, index));
-    });
-    root.appendChild(content);
+    root.appendChild(createViewer());
+    root.appendChild(createContents());
+    renderActiveStep();
   }
 
   window.renderAssemblyGuide = renderAssemblyGuide;
