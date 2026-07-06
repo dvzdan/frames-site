@@ -149,9 +149,10 @@
     next.disabled = state.activeIndex === state.steps.length - 1;
 
     root.querySelectorAll("[data-assembly-jump]").forEach(function(button) {
-      var isActive = Number(button.dataset.assemblyJump) === state.activeIndex;
+      var target = state.steps[Number(button.dataset.assemblyJump)];
+      var isActive = Boolean(target && target.section === active.section);
       button.classList.toggle("is-active", isActive);
-      button.setAttribute("aria-current", isActive ? "step" : "false");
+      button.setAttribute("aria-current", isActive ? "location" : "false");
     });
   }
 
@@ -235,21 +236,17 @@
     details.appendChild(summary);
 
     var list = createElement("div", "assembly-contents-list");
+    var seenSections = {};
     state.steps.forEach(function(item, index) {
-      var label = item.isAddendum
-        ? "Detail: " + text(item.step.title)
-        : text(item.step.title);
-      var button = createButton(label, "assembly-contents-item" + (item.isAddendum ? " is-addendum" : ""), function() {
+      var sectionId = text(item.section.id || item.section.title);
+      if (seenSections[sectionId]) return;
+      seenSections[sectionId] = true;
+
+      var button = createButton(text(item.section.title), "assembly-contents-item", function() {
         setActiveStep(index);
         details.open = false;
       });
       button.setAttribute("data-assembly-jump", String(index));
-      var section = createElement(
-        "span",
-        "assembly-contents-section",
-        item.isAddendum ? "For " + item.parentTitle : item.section.title
-      );
-      button.appendChild(section);
       list.appendChild(button);
     });
 
