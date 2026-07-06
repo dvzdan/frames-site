@@ -1,7 +1,8 @@
 (function() {
   var state = {
     steps: [],
-    activeIndex: 0
+    activeIndex: 0,
+    reference: null
   };
 
   function text(value) {
@@ -24,8 +25,16 @@
     return {
       version: manifest.version || 1,
       imageBase: text(manifest.imageBase).replace(/\/$/, ""),
+      reference: manifest.reference || null,
       sections: Array.isArray(manifest.sections) ? manifest.sections.slice().sort(byOrder) : []
     };
+  }
+
+  function getManifestImageUrl(manifest, image) {
+    return [
+      manifest.imageBase,
+      encodeURIComponent(text(image))
+    ].join("/");
   }
 
   function getStepImageUrl(manifest, section, step) {
@@ -81,6 +90,15 @@
     });
 
     return steps;
+  }
+
+  function getReference(manifest) {
+    if (!manifest.reference || !manifest.reference.image) return null;
+
+    return {
+      title: text(manifest.reference.title || "Reference"),
+      imageUrl: getManifestImageUrl(manifest, manifest.reference.image)
+    };
   }
 
   function createButton(label, className, onClick) {
@@ -200,6 +218,22 @@
     return viewer;
   }
 
+  function createReference() {
+    if (!state.reference) return null;
+
+    var reference = createElement("details", "assembly-reference");
+    var summary = createElement("summary", "", state.reference.title + " Reference");
+    reference.appendChild(summary);
+
+    var image = document.createElement("img");
+    image.src = state.reference.imageUrl;
+    image.alt = state.reference.title;
+    image.loading = "lazy";
+    reference.appendChild(image);
+
+    return reference;
+  }
+
   function createContents() {
     var details = createElement("details", "assembly-contents");
     var summary = createElement("summary", "", "All steps");
@@ -235,6 +269,7 @@
     var manifest = getAssemblyManifest();
     state.steps = flattenManifest(manifest);
     state.activeIndex = 0;
+    state.reference = getReference(manifest);
     root.innerHTML = "";
 
     if (!state.steps.length || !manifest.imageBase) {
@@ -243,6 +278,8 @@
     }
 
     root.appendChild(createViewer());
+    var reference = createReference();
+    if (reference) root.appendChild(reference);
     root.appendChild(createContents());
     renderActiveStep();
   }
