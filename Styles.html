@@ -363,12 +363,19 @@ p {
 }
 
 .product-visual {
-  background: white;
-  border: 1px solid #dedede;
-  border-radius: 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
   display: grid;
   min-height: 150px;
   place-items: center;
+}
+
+.product-visual img {
+  display: block;
+  max-height: 360px;
+  object-fit: contain;
+  width: 100%;
 }
 
 .product-visual-frame {

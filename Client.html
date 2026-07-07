@@ -102,7 +102,7 @@ function ProductIntroSection() {
   const visual = el("div", "product-visual");
   visual.setAttribute("aria-label", textOrEmpty(visualLabel));
   visual.setAttribute("role", "img");
-  visual.innerHTML = '<span class="product-visual-frame"><span class="product-visual-cover"></span><span class="product-visual-reveal"></span><span class="product-visual-trigger"></span></span>';
+  visual.innerHTML = '<img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/instruction%20images/final%20setup.png" alt="">';
 
   const copy = el("div", "product-intro-copy");
   copy.appendChild(el("h2", "", heading));
