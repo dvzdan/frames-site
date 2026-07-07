@@ -102,7 +102,20 @@ function ProductIntroSection() {
   const visual = el("div", "product-visual");
   visual.setAttribute("aria-label", textOrEmpty(visualLabel));
   visual.setAttribute("role", "img");
-  visual.innerHTML = '<img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/instruction%20images/final%20setup.png" alt="">';
+  visual.innerHTML =
+    '<div class="how-works-flow">' +
+      '<div class="how-works-frame">' +
+        '<div class="how-works-art"><img src="https://drive.google.com/thumbnail?id=16L423SgUeeURPMvn7TjQGv_ZLMVfKlwg&amp;sz=w1000" alt=""></div>' +
+      '</div>' +
+      '<div class="how-works-connector" aria-hidden="true"></div>' +
+      '<div class="how-works-mechanism">' +
+        '<img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/instruction%20images/final%20setup.png" alt="">' +
+      '</div>' +
+      '<div class="how-works-connector" aria-hidden="true"></div>' +
+      '<div class="how-works-frame">' +
+        '<div class="how-works-art"><img src="https://drive.google.com/thumbnail?id=1_qgrqmaCVJANYeujBkqQddRvBvXmYRbR&amp;sz=w1000" alt=""></div>' +
+      '</div>' +
+    '</div>';
 
   const copy = el("div", "product-intro-copy");
   copy.appendChild(el("h2", "", heading));
@@ -1504,3 +1517,4 @@ if (document.readyState === "loading") {
 } else {
   startApp();
 }
+

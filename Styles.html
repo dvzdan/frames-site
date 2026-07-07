@@ -381,8 +381,8 @@ p {
 .product-intro-section {
   align-items: center;
   display: grid;
-  gap: 18px;
-  grid-template-columns: minmax(150px, 220px) 1fr;
+  gap: 26px;
+  grid-template-columns: minmax(360px, 1.55fr) minmax(260px, 0.8fr);
 }
 
 .product-visual {
@@ -399,6 +399,65 @@ p {
   max-height: 360px;
   object-fit: contain;
   width: 100%;
+}
+
+.how-works-flow {
+  align-items: center;
+  display: grid;
+  gap: clamp(8px, 1.4vw, 16px);
+  grid-template-columns: minmax(90px, 0.82fr) 22px minmax(150px, 1.3fr) 22px minmax(90px, 0.82fr);
+  width: min(100%, 760px);
+}
+
+.how-works-frame {
+  background: linear-gradient(135deg, #8b8d8c, #5d615f);
+  border: 1px solid #4b4d4c;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18), 0 12px 28px rgba(40, 35, 30, 0.14);
+  padding: clamp(8px, 1.2vw, 13px);
+}
+
+.how-works-art {
+  aspect-ratio: 0.74;
+  background: #f7f3ed;
+  box-shadow: inset 0 0 0 1px rgba(44, 38, 32, 0.16);
+  overflow: hidden;
+}
+
+.how-works-art img {
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+  width: 100%;
+}
+
+.how-works-mechanism {
+  background: #f7f3ed;
+  box-shadow: 0 10px 24px rgba(40, 35, 30, 0.11);
+  display: grid;
+  min-width: 0;
+  padding: clamp(6px, 1vw, 10px);
+  place-items: center;
+}
+
+.how-works-mechanism img {
+  max-height: 310px;
+}
+
+.how-works-connector {
+  background: #a68d67;
+  height: 2px;
+  position: relative;
+}
+
+.how-works-connector::after {
+  border-bottom: 6px solid transparent;
+  border-left: 8px solid #a68d67;
+  border-top: 6px solid transparent;
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .product-visual-frame {
@@ -1741,6 +1800,34 @@ input[type="number"] {
   .mechanism-module,
   .process-strip {
     grid-template-columns: 1fr;
+  }
+
+  .how-works-flow {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    max-width: 360px;
+  }
+
+  .how-works-frame,
+  .how-works-mechanism {
+    width: min(100%, 280px);
+  }
+
+  .how-works-connector {
+    height: 24px;
+    width: 2px;
+  }
+
+  .how-works-connector::after {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #a68d67;
+    border-bottom: 0;
+    bottom: -1px;
+    left: 50%;
+    right: auto;
+    top: auto;
+    transform: translateX(-50%);
   }
 
   .mechanism-points {
