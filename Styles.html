@@ -382,7 +382,7 @@ p {
   align-items: center;
   display: grid;
   gap: 26px;
-  grid-template-columns: minmax(360px, 1.55fr) minmax(260px, 0.8fr);
+  grid-template-columns: minmax(520px, 1.7fr) minmax(260px, 0.7fr);
 }
 
 .product-visual {
@@ -405,22 +405,28 @@ p {
   align-items: center;
   display: grid;
   gap: clamp(8px, 1.4vw, 16px);
-  grid-template-columns: minmax(90px, 0.82fr) 22px minmax(150px, 1.3fr) 22px minmax(90px, 0.82fr);
-  width: min(100%, 760px);
+  grid-template-columns: minmax(150px, 1fr) minmax(150px, 1fr) 22px minmax(150px, 1fr);
+  width: min(100%, 880px);
 }
 
 .how-works-frame {
   background: linear-gradient(135deg, #8b8d8c, #5d615f);
   border: 1px solid #4b4d4c;
   box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18), 0 12px 28px rgba(40, 35, 30, 0.14);
-  padding: clamp(8px, 1.2vw, 13px);
+  aspect-ratio: 4 / 5;
+  position: relative;
+  width: 100%;
 }
 
 .how-works-art {
-  aspect-ratio: 0.74;
   background: #f7f3ed;
   box-shadow: inset 0 0 0 1px rgba(44, 38, 32, 0.16);
+  height: 70%;
+  left: 18.75%;
   overflow: hidden;
+  position: absolute;
+  top: 10%;
+  width: 62.5%;
 }
 
 .how-works-art img {
@@ -431,16 +437,14 @@ p {
 }
 
 .how-works-mechanism {
-  background: #f7f3ed;
-  box-shadow: 0 10px 24px rgba(40, 35, 30, 0.11);
   display: grid;
   min-width: 0;
-  padding: clamp(6px, 1vw, 10px);
   place-items: center;
+  width: 100%;
 }
 
 .how-works-mechanism img {
-  max-height: 310px;
+  max-height: none;
 }
 
 .how-works-connector {
