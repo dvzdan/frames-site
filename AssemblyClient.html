@@ -1,8 +1,7 @@
 (function() {
   var state = {
     steps: [],
-    activeIndex: 0,
-    reference: null
+    activeIndex: 0
   };
 
   function text(value) {
@@ -25,16 +24,8 @@
     return {
       version: manifest.version || 1,
       imageBase: text(manifest.imageBase).replace(/\/$/, ""),
-      reference: manifest.reference || null,
       sections: Array.isArray(manifest.sections) ? manifest.sections.slice().sort(byOrder) : []
     };
-  }
-
-  function getManifestImageUrl(manifest, image) {
-    return [
-      manifest.imageBase,
-      encodeURIComponent(text(image))
-    ].join("/");
   }
 
   function getStepImageUrl(manifest, section, step) {
@@ -90,15 +81,6 @@
     });
 
     return steps;
-  }
-
-  function getReference(manifest) {
-    if (!manifest.reference || !manifest.reference.image) return null;
-
-    return {
-      title: text(manifest.reference.title || "Reference"),
-      imageUrl: getManifestImageUrl(manifest, manifest.reference.image)
-    };
   }
 
   function createButton(label, className, onClick) {
@@ -214,22 +196,6 @@
     return viewer;
   }
 
-  function createReference() {
-    if (!state.reference) return null;
-
-    var reference = createElement("details", "assembly-reference");
-    var summary = createElement("summary", "", state.reference.title + " Reference");
-    reference.appendChild(summary);
-
-    var image = document.createElement("img");
-    image.src = state.reference.imageUrl;
-    image.alt = state.reference.title;
-    image.loading = "lazy";
-    reference.appendChild(image);
-
-    return reference;
-  }
-
   function createContents() {
     var details = createElement("details", "assembly-contents");
     var summary = createElement("summary", "", "Jump to section");
@@ -261,7 +227,6 @@
     var manifest = getAssemblyManifest();
     state.steps = flattenManifest(manifest);
     state.activeIndex = 0;
-    state.reference = getReference(manifest);
     root.innerHTML = "";
 
     if (!state.steps.length || !manifest.imageBase) {
@@ -273,10 +238,6 @@
     root.appendChild(viewer);
     var top = viewer.querySelector(".assembly-viewer-top");
     if (top) top.appendChild(createContents());
-    var tools = createElement("div", "assembly-stage-tools");
-    var reference = createReference();
-    if (reference) tools.appendChild(reference);
-    if (tools.childNodes.length) viewer.appendChild(tools);
     renderActiveStep();
   }
 
