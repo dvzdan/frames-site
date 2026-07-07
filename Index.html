@@ -8,8 +8,20 @@
 </head>
 <body>
 
+<header class="site-nav" aria-label="Primary navigation">
+  <a class="site-nav-brand" href="#top">Double Take Frames</a>
+  <nav class="site-nav-links">
+    <a href="#how-it-works">How it works</a>
+    <a href="#order">Kit paths</a>
+    <a href="#gallery-section">Reveals</a>
+    <a href="#setup-manual">Assembly</a>
+    <a href="#faq">FAQ</a>
+    <a class="site-nav-buy" href="#checkout-placeholder">Buy</a>
+  </nav>
+</header>
+
 <main class="page" id="app">
-  <section class="section hero">
+  <section class="section hero" id="top">
     <div class="hero-text">
       <div class="eyebrow">One frame. Two takes.</div>
       <h1>Double Take Frames</h1>
@@ -27,6 +39,16 @@
       <div class="hero-gallery-selector">
         <div class="hero-gallery-previews" id="heroGalleryPreviews"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section product-intro-section" id="how-it-works">
+    <div class="product-visual" role="img" aria-label="Layered physical reveal frame">
+      <span class="product-visual-frame"><span class="product-visual-cover"></span><span class="product-visual-reveal"></span><span class="product-visual-trigger"></span></span>
+    </div>
+    <div class="product-intro-copy">
+      <h2>How it works</h2>
+      <p class="section-copy">Two printed images sit inside one physical frame. A small timer-driven mechanism reveals the hidden image later.</p>
     </div>
   </section>
 
@@ -191,6 +213,28 @@
     </div>
   </section>
 
+  <section class="section faq-section" id="faq">
+    <h2>FAQ</h2>
+    <div class="faq-list">
+      <details class="faq-item"><summary>Is it a screen?</summary><p>No. The reveal is physical and uses printed images.</p></details>
+      <details class="faq-item"><summary>Can I use my own images?</summary><p>That is the core idea. The current upload form collects cover/reveal concept pairs.</p></details>
+      <details class="faq-item"><summary>Can I choose the reveal timing?</summary><p>Advanced configuration is not live yet.</p></details>
+      <details class="faq-item"><summary>Is checkout live?</summary><p>No. Checkout is a placeholder until real ordering and payment details are ready.</p></details>
+    </div>
+  </section>
+
+  <section class="section cta-section" id="checkout-placeholder">
+    <h2>Ready to plan one?</h2>
+    <p class="section-copy">Choose a kit path below or submit an image pair to test the idea.</p>
+    <div class="card">
+      <p>This order area is a planning placeholder. It shows kit selection and subtotal only; it does not collect payment or place an order.</p>
+      <div class="order-box">
+        <h3>Order summary</h3>
+        <p class="fine-print">No payment is collected here yet.</p>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <script>
@@ -203,8 +247,8 @@ window.INITIAL_GALLERY_ITEMS = <?!= getInitialGalleryJson() ?>;
   if (!app) return;
   if (app.querySelector("#gallery-section")) return;
 
-  app.innerHTML =
-    '<section class="section hero">' +
+    app.innerHTML =
+    '<section class="section hero" id="top">' +
       '<div class="hero-text">' +
         '<div class="eyebrow">One frame. Two takes.</div>' +
         '<h1>Double Take Frames</h1>' +
@@ -223,8 +267,17 @@ window.INITIAL_GALLERY_ITEMS = <?!= getInitialGalleryJson() ?>;
           '<div class="hero-gallery-previews" id="heroGalleryPreviews"></div>' +
         '</div>' +
       '</div>' +
-    '</section>' +
-    '<section class="section tier-comparison-section" id="kits">' +
+      '</section>' +
+      '<section class="section product-intro-section" id="how-it-works">' +
+        '<div class="product-visual" role="img" aria-label="Layered physical reveal frame">' +
+          '<span class="product-visual-frame"><span class="product-visual-cover"></span><span class="product-visual-reveal"></span><span class="product-visual-trigger"></span></span>' +
+        '</div>' +
+        '<div class="product-intro-copy">' +
+          '<h2>How it works</h2>' +
+          '<p class="section-copy">Two printed images sit inside one physical frame. A small timer-driven mechanism reveals the hidden image later.</p>' +
+        '</div>' +
+      '</section>' +
+      '<section class="section tier-comparison-section" id="kits">' +
       '<span id="order" class="anchor-target" aria-hidden="true"></span>' +
       '<h2>Choose your version.</h2>' +
       '<p class="section-copy">From self-assembly to finished gift.</p>' +
@@ -257,7 +310,9 @@ window.INITIAL_GALLERY_ITEMS = <?!= getInitialGalleryJson() ?>;
       '<div class="gallery" id="gallery"><div class="card fine-print">Reveals are loading separately.</div></div>' +
     '</section>' +
     bootstrapInventorySection() +
-    bootstrapAssemblySection();
+    bootstrapAssemblySection() +
+    bootstrapFaqSection() +
+    bootstrapBuySection();
 
   function bootstrapTier(key, name, price, text, accent) {
     return '<article class="tier-card" data-tier-key="' + key + '" style="--tier-accent:' + accent + '">' +
@@ -321,6 +376,38 @@ window.INITIAL_GALLERY_ITEMS = <?!= getInitialGalleryJson() ?>;
       '<p class="manual-back-link"><a class="button secondary" href="#kits">Back to comparison</a><a class="button secondary" href="#setup-inventory">What&#39;s included</a></p>' +
       '<div class="assembly-guide" id="assemblyGuide">' +
         '<div class="card fine-print">Assembly guide is loading.</div>' +
+      '</div>' +
+    '</section>';
+  }
+
+  function bootstrapFaqSection() {
+    var items = [
+      ["Is it a screen?", "No. The reveal is physical and uses printed images."],
+      ["Can I use my own images?", "That is the core idea. The current upload form collects cover/reveal concept pairs."],
+      ["Can I choose the reveal timing?", "Advanced configuration is not live yet."],
+      ["Is checkout live?", "No. Checkout is a placeholder until real ordering and payment details are ready."]
+    ];
+
+    return '<section class="section faq-section" id="faq">' +
+      '<h2>FAQ</h2>' +
+      '<div class="faq-list">' +
+        items.map(function(item) {
+          return '<details class="faq-item"><summary>' + item[0] + '</summary><p>' + item[1] + '</p></details>';
+        }).join("") +
+      '</div>' +
+    '</section>';
+  }
+
+  function bootstrapBuySection() {
+    return '<section class="section cta-section" id="checkout-placeholder">' +
+      '<h2>Ready to plan one?</h2>' +
+      '<p class="section-copy">Choose a kit path below or submit an image pair to test the idea.</p>' +
+      '<div class="card">' +
+        '<p>This order area is a planning placeholder. It shows kit selection and subtotal only; it does not collect payment or place an order.</p>' +
+        '<div class="order-box">' +
+          '<h3>Order summary</h3>' +
+          '<p class="fine-print">No payment is collected here yet.</p>' +
+        '</div>' +
       '</div>' +
     '</section>';
   }

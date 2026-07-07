@@ -47,7 +47,7 @@ let frameColorCursor = Math.floor(Math.random() * FRAME_COLOR_CLASS_COUNT);
 /* Homepage modules. Edit content in Config.html: SITE_CONTENT.homepage. */
 function HeroSection() {
   const site = SITE_CONTENT.site;
-  const section = sectionShell("", "hero");
+  const section = sectionShell("top", "hero");
   const text = el("div", "hero-text");
 
   if (site.eyebrow) {
@@ -94,16 +94,19 @@ function HeroGalleryModule() {
 
 function ProductIntroSection() {
   const content = SITE_CONTENT.homepage.productIntro;
-  const section = sectionShell("product-intro", "product-intro-section");
+  const section = sectionShell("how-it-works", "product-intro-section");
+  const heading = content.heading || "How it works";
+  const text = content.text || "Two printed images sit inside one physical frame. A small timer-driven mechanism reveals the hidden image later.";
+  const visualLabel = content.visualLabel || "Layered physical reveal frame";
 
   const visual = el("div", "product-visual");
-  visual.setAttribute("aria-label", textOrEmpty(content.visualLabel));
+  visual.setAttribute("aria-label", textOrEmpty(visualLabel));
   visual.setAttribute("role", "img");
   visual.innerHTML = '<span class="product-visual-frame"><span class="product-visual-cover"></span><span class="product-visual-reveal"></span><span class="product-visual-trigger"></span></span>';
 
   const copy = el("div", "product-intro-copy");
-  copy.appendChild(el("h2", "", content.heading));
-  appendParagraph(copy, content.text, "section-copy");
+  copy.appendChild(el("h2", "", heading));
+  appendParagraph(copy, text, "section-copy");
 
   if (content.points && content.points.length) {
     const points = el("ul", "micro-points");
@@ -389,6 +392,22 @@ function SetupKitInventoryCard(number, name, filename) {
   return card;
 }
 
+function FAQSection() {
+  const content = SITE_CONTENT.sections.faq;
+  const section = sectionShell("faq", "faq-section");
+  section.appendChild(el("h2", "", content.heading || "FAQ"));
+
+  const list = el("div", "faq-list");
+  (content.items || []).forEach(item => {
+    const detail = el("details", "faq-item");
+    detail.appendChild(el("summary", "", item.question));
+    appendParagraph(detail, item.answer);
+    list.appendChild(detail);
+  });
+  section.appendChild(list);
+  return section;
+}
+
 function renderHomepage() {
   const app = document.getElementById("app");
   app.innerHTML = "";
@@ -402,6 +421,7 @@ function renderHomepage() {
     RevealDemoSection,
     SetupKitInventorySection,
     AssemblyManualSection,
+    FAQSection,
     CTASection,
     FooterSection
   ].forEach(renderSection => app.appendChild(renderSection()));
