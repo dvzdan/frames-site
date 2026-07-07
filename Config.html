@@ -17,9 +17,43 @@ const SITE_CONTENT = {
   homepage: {
     productIntro: {
       heading: "",
-      text: "",
+      text: "Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.",
       visualLabel: "",
-      points: []
+      points: [],
+      detailGroups: [
+        {
+          heading: "Wait, why?",
+          body: "Halloween. April Fools. Baby reveals. Pet nonsense.\n\nFamily holiday cards. Promposals.\n\nSincere messages of hope and inspiration, if you must insist.\n\nImagine giving someone a framed photo, letting it sit quietly on a shelf, and then - days or weeks later - it suddenly becomes a different picture."
+        },
+        {
+          heading: "How exactly does it work?",
+          body: "Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another."
+        },
+        {
+          heading: "Is it fragile?",
+          body: "Not especially. Once it is set up, the mechanism can handle normal jostling, packing, shipping, and being tilted around. It does not need to stay perfectly upright the whole time. Just return it upright before the timer finishes so gravity can do its job."
+        },
+        {
+          heading: "Can I use my own images?",
+          body: "Yes. That is the point. Send us any two images and we will size and print them for the frame."
+        },
+        {
+          heading: "Can I choose one of the image pairs in the gallery?",
+          body: "Yes, but we would rather see what you come up with."
+        },
+        {
+          heading: "Can I just use my own photos?",
+          body: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty media we provide."
+        },
+        {
+          heading: "Won't it seem weird to give someone a photo in this frame?",
+          body: "Probably. A cover story helps. Try: \"My friend started 3D-printing frames and gave me one.\""
+        },
+        {
+          heading: "Does it make noise?",
+          body: "A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.\n\nThe reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it."
+        }
+      ]
     },
 
     process: {
@@ -232,3 +266,27 @@ const SITE_CONTENT = {
     }
   }
 };
+
+applySiteCmsContent(SITE_CONTENT, window.SITE_CMS_CONTENT);
+
+function applySiteCmsContent(target, source) {
+  if (!source || typeof source !== "object") return;
+
+  Object.keys(source).forEach(function(key) {
+    const next = source[key];
+    if (Array.isArray(next)) {
+      target[key] = next;
+      return;
+    }
+
+    if (next && typeof next === "object") {
+      if (!target[key] || typeof target[key] !== "object" || Array.isArray(target[key])) {
+        target[key] = {};
+      }
+      applySiteCmsContent(target[key], next);
+      return;
+    }
+
+    if (next != null && next !== "") target[key] = next;
+  });
+}

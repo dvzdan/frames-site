@@ -118,7 +118,7 @@ function ProductIntroSection() {
 
   const copy = el("div", "product-intro-copy");
   copy.appendChild(el("h2", "", heading));
-  appendParagraph(copy, text, "section-copy");
+  appendParagraph(copy, text, "section-copy how-works-primary-copy");
 
   if (content.points && content.points.length) {
     const points = el("ul", "micro-points");
@@ -126,9 +126,40 @@ function ProductIntroSection() {
     copy.appendChild(points);
   }
 
+  const details = renderHowWorksDetails(content.detailGroups);
+  if (details) copy.appendChild(details);
+
   section.appendChild(visual);
   section.appendChild(copy);
   return section;
+}
+
+function renderHowWorksDetails(groups) {
+  if (!Array.isArray(groups) || !groups.length) return null;
+
+  const list = el("div", "how-works-details");
+  groups.forEach((group, index) => {
+    if (!group || !group.body) return;
+
+    const detail = el("details", "how-works-detail");
+    if (index < 2) detail.open = true;
+    detail.appendChild(el("summary", "", group.heading || "More"));
+
+    const body = el("div", "how-works-detail-body");
+    appendMultilineText(body, group.body);
+    detail.appendChild(body);
+    list.appendChild(detail);
+  });
+
+  return list.children.length ? list : null;
+}
+
+function appendMultilineText(parent, text, className) {
+  textOrEmpty(text)
+    .split(/\n\s*\n/)
+    .map(part => part.trim())
+    .filter(Boolean)
+    .forEach(part => appendParagraph(parent, part, className));
 }
 
 function RevealDemoSection() {
@@ -446,10 +477,24 @@ function renderHomepage() {
 }
 
 function hydrateStaticHomepage() {
+  hydrateHowWorksCmsContent();
   renderInitialHeroGallery();
   loadTierIllustrationAssets();
   hydrateSubmissionModule();
   if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
+}
+
+function hydrateHowWorksCmsContent() {
+  const content = SITE_CONTENT.homepage.productIntro || {};
+  const copy = document.querySelector("#how-it-works .product-intro-copy");
+  if (!copy) return;
+
+  const primary = copy.querySelector(".how-works-primary-copy") || copy.querySelector(".section-copy");
+  if (primary && content.text) primary.textContent = content.text;
+
+  copy.querySelectorAll(".how-works-details").forEach(node => node.remove());
+  const details = renderHowWorksDetails(content.detailGroups);
+  if (details) copy.appendChild(details);
 }
 
 function hydrateSubmissionModule() {

@@ -19,6 +19,19 @@ function tierSectionIcon(name) {
 const SHEET_ID = "1nS6mq8u5N3WhBiwoFTnbXBvKDUki-iM37vc5CQ-W7pM";
 const FOLDER_ID = "16s11FtG5CEIorTk1kxXL6iTQwNLPqxIO";
 const GALLERY_INLINE_IMAGE_WIDTH = 720;
+const CMS_SHEET_NAME = "Site CMS";
+const CMS_HEADERS = ["section", "type", "sort", "heading", "body", "enabled", "notes"];
+const CMS_DEFAULT_ROWS = [
+  ["how-it-works", "primary", 10, "", "Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.", true, "Main paragraph under How it works."],
+  ["how-it-works", "detail", 20, "Wait, why?", "Halloween. April Fools. Baby reveals. Pet nonsense.\n\nFamily holiday cards. Promposals.\n\nSincere messages of hope and inspiration, if you must insist.\n\nImagine giving someone a framed photo, letting it sit quietly on a shelf, and then - days or weeks later - it suddenly becomes a different picture.", true, "Appears below the main How it works paragraph."],
+  ["how-it-works", "detail", 30, "How exactly does it work?", "Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another.", true, ""],
+  ["how-it-works", "detail", 40, "Is it fragile?", "Not especially. Once it is set up, the mechanism can handle normal jostling, packing, shipping, and being tilted around. It does not need to stay perfectly upright the whole time. Just return it upright before the timer finishes so gravity can do its job.", true, ""],
+  ["how-it-works", "detail", 50, "Can I use my own images?", "Yes. That is the point. Send us any two images and we will size and print them for the frame.", true, ""],
+  ["how-it-works", "detail", 60, "Can I choose one of the image pairs in the gallery?", "Yes, but we would rather see what you come up with.", true, ""],
+  ["how-it-works", "detail", 70, "Can I just use my own photos?", "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty media we provide.", true, ""],
+  ["how-it-works", "detail", 80, "Won't it seem weird to give someone a photo in this frame?", "Probably. A cover story helps. Try: \"My friend started 3D-printing frames and gave me one.\"", true, ""],
+  ["how-it-works", "detail", 90, "Does it make noise?", "A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.\n\nThe reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.", true, ""]
+];
 
 function submitConcept(data) {
   validateSubmission(data);
@@ -34,7 +47,7 @@ function submitConcept(data) {
   coverFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
   revealFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
-  const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
+  const sheet = getGallerySheet_();
 
   sheet.appendRow([
     new Date(),
@@ -82,7 +95,7 @@ function dataUrlToBlob(dataUrl, basename) {
 }
 
 function getGallery() {
-  const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
+  const sheet = getGallerySheet_();
   const rows = sheet.getDataRange().getValues();
 
   if (rows.length <= 1) return [];
@@ -115,7 +128,7 @@ function getInitialGalleryJson() {
 }
 
 function getInitialGalleryItems(limit) {
-  const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
+  const sheet = getGallerySheet_();
   const rows = sheet.getDataRange().getValues();
   if (rows.length <= 1) return [];
 
@@ -194,6 +207,109 @@ function driveThumbnailUrl(id, size) {
     encodeURIComponent(id) +
     "&sz=w" +
     String(size || 1000);
+}
+
+function getSiteCmsContentJson() {
+  try {
+    return JSON.stringify(getSiteCmsContent_()).replace(/<\//g, "<\\/");
+  } catch (err) {
+    console.warn("Site CMS error: " + (err && err.message ? err.message : err));
+    return "{}";
+  }
+}
+
+function getSiteCmsContent_() {
+  const sheet = getOrCreateSiteCmsSheet_();
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) return {};
+
+  const headers = rows.shift().map(function(header) {
+    return String(header || "").trim().toLowerCase();
+  });
+
+  const index = {};
+  headers.forEach(function(header, i) {
+    index[header] = i;
+  });
+
+  const howItWorksRows = rows
+    .map(function(row) {
+      return {
+        section: textOrEmpty(row[index.section]).trim(),
+        type: textOrEmpty(row[index.type]).trim(),
+        sort: Number(row[index.sort]) || 0,
+        heading: textOrEmpty(row[index.heading]).trim(),
+        body: textOrEmpty(row[index.body]).trim(),
+        enabled: row[index.enabled]
+      };
+    })
+    .filter(function(row) {
+      return row.section === "how-it-works" && row.body && isCmsRowEnabled_(row.enabled);
+    })
+    .sort(function(a, b) {
+      return a.sort - b.sort;
+    });
+
+  const primary = howItWorksRows.find(function(row) {
+    return row.type === "primary";
+  });
+
+  const detailGroups = howItWorksRows
+    .filter(function(row) {
+      return row.type === "detail";
+    })
+    .map(function(row) {
+      return {
+        heading: row.heading,
+        body: row.body
+      };
+    });
+
+  const content = { homepage: { productIntro: {} } };
+  if (primary) content.homepage.productIntro.text = primary.body;
+  if (detailGroups.length) content.homepage.productIntro.detailGroups = detailGroups;
+  return content;
+}
+
+function getOrCreateSiteCmsSheet_() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sheet = ss.getSheetByName(CMS_SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(CMS_SHEET_NAME);
+  }
+
+  if (sheet.getLastRow() === 0) {
+    seedSiteCmsSheet_(sheet);
+  } else {
+    const firstRow = sheet.getRange(1, 1, 1, CMS_HEADERS.length).getValues()[0];
+    const hasHeaders = firstRow.some(function(value) {
+      return String(value || "").trim();
+    });
+    if (!hasHeaders) seedSiteCmsSheet_(sheet);
+  }
+
+  return sheet;
+}
+
+function seedSiteCmsSheet_(sheet) {
+  sheet.clear();
+  sheet.getRange(1, 1, 1, CMS_HEADERS.length).setValues([CMS_HEADERS]);
+  sheet.getRange(2, 1, CMS_DEFAULT_ROWS.length, CMS_HEADERS.length).setValues(CMS_DEFAULT_ROWS);
+  sheet.setFrozenRows(1);
+  sheet.autoResizeColumns(1, CMS_HEADERS.length);
+}
+
+function isCmsRowEnabled_(value) {
+  const s = textOrEmpty(value).trim().toLowerCase();
+  return s === "" || s === "true" || s === "yes" || s === "1";
+}
+
+function getGallerySheet_() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const sheets = ss.getSheets();
+  return sheets.find(function(sheet) {
+    return sheet.getName() !== CMS_SHEET_NAME;
+  }) || ss.getActiveSheet();
 }
 
 function getGalleryImageDataUrl(url) {
