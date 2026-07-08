@@ -372,11 +372,7 @@ function renderAssemblyPreamble(content) {
   if (content.sequenceItems && content.sequenceItems.length) {
     const sequence = el("div", "assembly-preamble-block");
     if (content.sequenceHeading) sequence.appendChild(el("h3", "", content.sequenceHeading));
-    const list = el("ol", "assembly-mechanism-list");
-    content.sequenceItems.forEach(item => {
-      list.appendChild(el("li", "", item));
-    });
-    sequence.appendChild(list);
+    sequence.appendChild(renderNestedBulletList(content.sequenceItems, "assembly-mechanism-list"));
     root.appendChild(sequence);
   }
 
@@ -398,6 +394,46 @@ function renderAssemblyPreamble(content) {
   }
 
   return root.children.length ? root : null;
+}
+
+function renderNestedBulletList(items, className) {
+  const root = el("ul", className || "");
+  let lastTopLevel = null;
+
+  items.forEach(item => {
+    const normalized = normalizeListItem(item);
+    if (!normalized.text) return;
+
+    const li = el("li", "", normalized.text);
+    if (normalized.level > 0 && lastTopLevel) {
+      let nested = lastTopLevel.querySelector(":scope > ul");
+      if (!nested) {
+        nested = el("ul", "assembly-mechanism-sublist");
+        lastTopLevel.appendChild(nested);
+      }
+      nested.appendChild(li);
+      return;
+    }
+
+    root.appendChild(li);
+    lastTopLevel = li;
+  });
+
+  return root;
+}
+
+function normalizeListItem(item) {
+  if (item && typeof item === "object") {
+    return {
+      text: textOrEmpty(item.text),
+      level: Number(item.level) || 0
+    };
+  }
+
+  return {
+    text: textOrEmpty(item),
+    level: 0
+  };
 }
 
 function SetupKitInventorySection() {

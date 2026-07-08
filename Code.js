@@ -32,7 +32,7 @@ const CMS_DEFAULT_ROWS = [
   ["how-it-works", "detail", 80, "Won't it seem weird to give someone a photo in this frame?", "Probably. A cover story helps. Try: \"My friend started 3D-printing frames and gave me one.\"", true, ""],
   ["how-it-works", "detail", 90, "Does it make noise?", "A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.\n\nThe reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.", true, ""],
   ["assembly", "intro", 10, "", "Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.", true, "Appears above the assembly step viewer."],
-  ["assembly", "sequence", 20, "How the mechanism works:", "Clock mechanism sits inside the frame.\nCapstan presses onto the clock mechanism.\nString ties to the capstan.\nThen runs through the clock/string guide hole.\nAnd through the top-left eyelet.\nThen ties to the zipper anchor.\nZipper head supports the latch.\nLatch supports the weight.\nWeight is tethered to the sliding cover image.\nCover image sits over the reveal image.\nWhen the timer runs, the clock winds the string, pulls the zipper, releases the latch, drops the weight, slides the cover image up, and reveals the image underneath.", true, "Each line appears as a numbered sequence item."],
+  ["assembly", "sequence", 20, "How the mechanism works:", "Clock mechanism sits inside the frame.\nCapstan presses onto the clock mechanism.\nString ties to the capstan.\n  Then runs through the clock/string guide hole.\n  And through the top-left eyelet.\n  Then ties to the zipper anchor.\nZipper head supports the latch.\nLatch supports the weight.\nWeight is tethered to the sliding cover image.\nCover image sits over the reveal image.\nWhen the timer runs, the clock winds the string, pulls the zipper, releases the latch, drops the weight, slides the cover image up, and reveals the image underneath.", true, "Each line appears as a bulleted sequence item. Indent lines with spaces for nested bullets."],
   ["assembly", "checklist", 30, "Easy-to-miss checks:", "Tuck the stem of the weight inside the roller lip so it cannot fall out.\nFasten the trap-door latch with the C-clip.\nThread the string through both the boss guide and the top-left eyelet.\nPull any remaining slack above the string/clock guide.", true, "Each line appears as a checkbox."]
 ];
 
@@ -300,7 +300,7 @@ function buildAssemblyCmsContent_(rows) {
   if (intro) assembly.intro = intro.body;
   if (sequence) {
     assembly.sequenceHeading = sequence.heading;
-    assembly.sequenceItems = splitCmsLines_(sequence.body);
+    assembly.sequenceItems = inferAssemblySequenceLevels_(splitCmsListItems_(sequence.body));
   }
   if (checklist) {
     assembly.checklistHeading = checklist.heading;
@@ -317,6 +317,42 @@ function splitCmsLines_(value) {
       return line.trim().replace(/^[•*-]\s*/, "");
     })
     .filter(Boolean);
+}
+
+function splitCmsListItems_(value) {
+  return textOrEmpty(value)
+    .split(/\n+/)
+    .map(function(line) {
+      const leading = line.match(/^\s*/)[0].length;
+      const text = line.trim().replace(/^[•*-]\s*/, "");
+      return {
+        text: text,
+        level: leading > 0 ? 1 : 0
+      };
+    })
+    .filter(function(item) {
+      return item.text;
+    });
+}
+
+function inferAssemblySequenceLevels_(items) {
+  const hasNestedItems = items.some(function(item) {
+    return item.level > 0;
+  });
+  if (hasNestedItems) return items;
+
+  const nested = {
+    "Then runs through the clock/string guide hole.": true,
+    "And through the top-left eyelet.": true,
+    "Then ties to the zipper anchor.": true
+  };
+
+  return items.map(function(item) {
+    return {
+      text: item.text,
+      level: nested[item.text] ? 1 : 0
+    };
+  });
 }
 
 function getOrCreateSiteCmsSheet_() {
