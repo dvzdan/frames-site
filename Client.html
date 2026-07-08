@@ -95,6 +95,7 @@ function HeroGalleryModule() {
 function ProductIntroSection() {
   const content = SITE_CONTENT.homepage.productIntro;
   const section = sectionShell("how-it-works", "product-intro-section");
+  const top = el("div", "how-works-top");
   const heading = content.heading || "How it works";
   const text = content.text || "Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.";
   const visualLabel = content.visualLabel || "Layered physical reveal frame";
@@ -126,29 +127,29 @@ function ProductIntroSection() {
     copy.appendChild(points);
   }
 
-  const details = renderHowWorksDetails(content.detailGroups);
-  if (details) copy.appendChild(details);
+  top.appendChild(visual);
+  top.appendChild(copy);
+  section.appendChild(top);
 
-  section.appendChild(visual);
-  section.appendChild(copy);
+  const longCopy = renderHowWorksLongCopy(content.detailGroups);
+  if (longCopy) section.appendChild(longCopy);
   return section;
 }
 
-function renderHowWorksDetails(groups) {
+function renderHowWorksLongCopy(groups) {
   if (!Array.isArray(groups) || !groups.length) return null;
 
-  const list = el("div", "how-works-details");
-  groups.forEach((group, index) => {
+  const list = el("div", "how-works-long-copy");
+  groups.forEach(group => {
     if (!group || !group.body) return;
 
-    const detail = el("details", "how-works-detail");
-    if (index < 2) detail.open = true;
-    detail.appendChild(el("summary", "", group.heading || "More"));
+    const item = el("section", "how-works-copy-item");
+    if (group.heading) item.appendChild(el("h3", "", group.heading));
 
-    const body = el("div", "how-works-detail-body");
+    const body = el("div", "how-works-copy-body");
     appendMultilineText(body, group.body);
-    detail.appendChild(body);
-    list.appendChild(detail);
+    item.appendChild(body);
+    list.appendChild(item);
   });
 
   return list.children.length ? list : null;
@@ -531,9 +532,12 @@ function hydrateHowWorksCmsContent() {
   const primary = copy.querySelector(".how-works-primary-copy") || copy.querySelector(".section-copy");
   if (primary && content.text) primary.textContent = content.text;
 
-  copy.querySelectorAll(".how-works-details").forEach(node => node.remove());
-  const details = renderHowWorksDetails(content.detailGroups);
-  if (details) copy.appendChild(details);
+  const section = document.querySelector("#how-it-works");
+  if (!section) return;
+
+  section.querySelectorAll(":scope > .how-works-long-copy").forEach(node => node.remove());
+  const longCopy = renderHowWorksLongCopy(content.detailGroups);
+  if (longCopy) section.appendChild(longCopy);
 }
 
 function hydrateAssemblyCmsContent() {

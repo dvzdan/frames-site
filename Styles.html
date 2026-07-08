@@ -379,6 +379,11 @@ p {
 }
 
 .product-intro-section {
+  display: grid;
+  gap: 26px;
+}
+
+.how-works-top {
   align-items: center;
   display: grid;
   gap: 26px;
@@ -464,39 +469,38 @@ p {
   transform: translateY(-50%);
 }
 
-.how-works-details {
+.how-works-long-copy {
   border-top: 1px solid rgba(80, 70, 58, 0.18);
   display: grid;
-  gap: 0;
-  margin-top: 22px;
-  max-width: 680px;
+  gap: 18px;
+  max-width: 760px;
+  padding-top: 24px;
 }
 
-.how-works-detail {
-  border-bottom: 1px solid rgba(80, 70, 58, 0.14);
-  padding: 11px 0;
+.how-works-copy-item {
+  display: grid;
+  gap: 7px;
 }
 
-.how-works-detail summary {
+.how-works-copy-item h3 {
   color: var(--text);
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 750;
   line-height: 1.35;
+  margin: 0;
 }
 
-.how-works-detail-body {
+.how-works-copy-body {
   color: var(--text-muted);
-  font-size: 15px;
-  line-height: 1.5;
-  padding-top: 9px;
+  font-size: 16px;
+  line-height: 1.58;
 }
 
-.how-works-detail-body p {
-  margin: 0 0 9px;
+.how-works-copy-body p {
+  margin: 0 0 10px;
 }
 
-.how-works-detail-body p:last-child {
+.how-works-copy-body p:last-child {
   margin-bottom: 0;
 }
 
@@ -1878,7 +1882,7 @@ input[type="number"] {
     grid-template-columns: 1fr;
   }
 
-  .product-intro-section,
+  .how-works-top,
   .mechanism-module,
   .process-strip {
     grid-template-columns: 1fr;
