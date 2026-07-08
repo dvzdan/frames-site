@@ -342,8 +342,9 @@ function FooterSection() {
 
 function AssemblyManualSection() {
   const section = sectionShell("setup-manual", "assembly-guide-section-shell");
-  section.appendChild(el("h2", "", "Setup Kit Assembly"));
-  appendParagraph(section, "Step-by-step assembly sequence for the setup kit.", "section-copy");
+  section.appendChild(el("h2", "", "Assembly Instructions"));
+  const preamble = renderAssemblyPreamble(SITE_CONTENT.sections.assembly);
+  if (preamble) section.appendChild(preamble);
 
   const back = el("p", "manual-back-link");
   const link = el("a", "button secondary", "Back to comparison");
@@ -359,6 +360,43 @@ function AssemblyManualSection() {
   guide.appendChild(el("div", "card fine-print", "Assembly guide is loading."));
   section.appendChild(guide);
   return section;
+}
+
+function renderAssemblyPreamble(content) {
+  if (!content) return null;
+
+  const root = el("div", "assembly-preamble");
+  appendParagraph(root, content.intro, "section-copy assembly-preamble-intro");
+
+  if (content.sequenceItems && content.sequenceItems.length) {
+    const sequence = el("div", "assembly-preamble-block");
+    if (content.sequenceHeading) sequence.appendChild(el("h3", "", content.sequenceHeading));
+    const list = el("ol", "assembly-mechanism-list");
+    content.sequenceItems.forEach(item => {
+      list.appendChild(el("li", "", item));
+    });
+    sequence.appendChild(list);
+    root.appendChild(sequence);
+  }
+
+  if (content.checklistItems && content.checklistItems.length) {
+    const checklist = el("div", "assembly-preamble-block assembly-checklist-block");
+    if (content.checklistHeading) checklist.appendChild(el("h3", "", content.checklistHeading));
+    const list = el("div", "assembly-checklist");
+    content.checklistItems.forEach((item, index) => {
+      const label = el("label", "assembly-check-item");
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.id = "assembly-check-" + index;
+      label.appendChild(input);
+      label.appendChild(el("span", "", item));
+      list.appendChild(label);
+    });
+    checklist.appendChild(list);
+    root.appendChild(checklist);
+  }
+
+  return root.children.length ? root : null;
 }
 
 function SetupKitInventorySection() {
@@ -478,6 +516,7 @@ function renderHomepage() {
 
 function hydrateStaticHomepage() {
   hydrateHowWorksCmsContent();
+  hydrateAssemblyCmsContent();
   renderInitialHeroGallery();
   loadTierIllustrationAssets();
   hydrateSubmissionModule();
@@ -495,6 +534,27 @@ function hydrateHowWorksCmsContent() {
   copy.querySelectorAll(".how-works-details").forEach(node => node.remove());
   const details = renderHowWorksDetails(content.detailGroups);
   if (details) copy.appendChild(details);
+}
+
+function hydrateAssemblyCmsContent() {
+  const section = document.querySelector("#setup-manual");
+  if (!section) return;
+
+  const heading = section.querySelector("h2");
+  if (heading) heading.textContent = "Assembly Instructions";
+
+  section.querySelectorAll(":scope > .section-copy").forEach(node => node.remove());
+  section.querySelectorAll(":scope > .assembly-preamble").forEach(node => node.remove());
+
+  const preamble = renderAssemblyPreamble(SITE_CONTENT.sections.assembly);
+  if (!preamble) return;
+
+  const links = section.querySelector(".manual-back-link");
+  if (links) {
+    section.insertBefore(preamble, links);
+  } else {
+    section.appendChild(preamble);
+  }
 }
 
 function hydrateSubmissionModule() {

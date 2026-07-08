@@ -30,7 +30,10 @@ const CMS_DEFAULT_ROWS = [
   ["how-it-works", "detail", 60, "Can I choose one of the image pairs in the gallery?", "Yes, but we would rather see what you come up with.", true, ""],
   ["how-it-works", "detail", 70, "Can I just use my own photos?", "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty media we provide.", true, ""],
   ["how-it-works", "detail", 80, "Won't it seem weird to give someone a photo in this frame?", "Probably. A cover story helps. Try: \"My friend started 3D-printing frames and gave me one.\"", true, ""],
-  ["how-it-works", "detail", 90, "Does it make noise?", "A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.\n\nThe reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.", true, ""]
+  ["how-it-works", "detail", 90, "Does it make noise?", "A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.\n\nThe reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.", true, ""],
+  ["assembly", "intro", 10, "", "Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.", true, "Appears above the assembly step viewer."],
+  ["assembly", "sequence", 20, "How the mechanism works:", "Clock mechanism sits inside the frame.\nCapstan presses onto the clock mechanism.\nString ties to the capstan.\nThen runs through the clock/string guide hole.\nAnd through the top-left eyelet.\nThen ties to the zipper anchor.\nZipper head supports the latch.\nLatch supports the weight.\nWeight is tethered to the sliding cover image.\nCover image sits over the reveal image.\nWhen the timer runs, the clock winds the string, pulls the zipper, releases the latch, drops the weight, slides the cover image up, and reveals the image underneath.", true, "Each line appears as a numbered sequence item."],
+  ["assembly", "checklist", 30, "Easy-to-miss checks:", "Tuck the stem of the weight inside the roller lip so it cannot fall out.\nFasten the trap-door latch with the C-clip.\nThread the string through both the boss guide and the top-left eyelet.\nPull any remaining slack above the string/clock guide.", true, "Each line appears as a checkbox."]
 ];
 
 function submitConcept(data) {
@@ -232,7 +235,7 @@ function getSiteCmsContent_() {
     index[header] = i;
   });
 
-  const howItWorksRows = rows
+  const cmsRows = rows
     .map(function(row) {
       return {
         section: textOrEmpty(row[index.section]).trim(),
@@ -244,11 +247,18 @@ function getSiteCmsContent_() {
       };
     })
     .filter(function(row) {
-      return row.section === "how-it-works" && row.body && isCmsRowEnabled_(row.enabled);
+      return row.section && row.body && isCmsRowEnabled_(row.enabled);
     })
     .sort(function(a, b) {
       return a.sort - b.sort;
     });
+
+  const howItWorksRows = cmsRows.filter(function(row) {
+    return row.section === "how-it-works";
+  });
+  const assemblyRows = cmsRows.filter(function(row) {
+    return row.section === "assembly";
+  });
 
   const primary = howItWorksRows.find(function(row) {
     return row.type === "primary";
@@ -268,7 +278,45 @@ function getSiteCmsContent_() {
   const content = { homepage: { productIntro: {} } };
   if (primary) content.homepage.productIntro.text = primary.body;
   if (detailGroups.length) content.homepage.productIntro.detailGroups = detailGroups;
+  const assembly = buildAssemblyCmsContent_(assemblyRows);
+  if (assembly) content.sections = { assembly: assembly };
   return content;
+}
+
+function buildAssemblyCmsContent_(rows) {
+  if (!rows.length) return null;
+
+  const assembly = {};
+  const intro = rows.find(function(row) {
+    return row.type === "intro";
+  });
+  const sequence = rows.find(function(row) {
+    return row.type === "sequence";
+  });
+  const checklist = rows.find(function(row) {
+    return row.type === "checklist";
+  });
+
+  if (intro) assembly.intro = intro.body;
+  if (sequence) {
+    assembly.sequenceHeading = sequence.heading;
+    assembly.sequenceItems = splitCmsLines_(sequence.body);
+  }
+  if (checklist) {
+    assembly.checklistHeading = checklist.heading;
+    assembly.checklistItems = splitCmsLines_(checklist.body);
+  }
+
+  return assembly;
+}
+
+function splitCmsLines_(value) {
+  return textOrEmpty(value)
+    .split(/\n+/)
+    .map(function(line) {
+      return line.trim().replace(/^[•*-]\s*/, "");
+    })
+    .filter(Boolean);
 }
 
 function getOrCreateSiteCmsSheet_() {
@@ -288,6 +336,7 @@ function getOrCreateSiteCmsSheet_() {
     if (!hasHeaders) seedSiteCmsSheet_(sheet);
   }
 
+  appendMissingCmsDefaultRows_(sheet);
   return sheet;
 }
 
@@ -296,6 +345,23 @@ function seedSiteCmsSheet_(sheet) {
   sheet.getRange(1, 1, 1, CMS_HEADERS.length).setValues([CMS_HEADERS]);
   sheet.getRange(2, 1, CMS_DEFAULT_ROWS.length, CMS_HEADERS.length).setValues(CMS_DEFAULT_ROWS);
   sheet.setFrozenRows(1);
+  sheet.autoResizeColumns(1, CMS_HEADERS.length);
+}
+
+function appendMissingCmsDefaultRows_(sheet) {
+  const rows = sheet.getDataRange().getValues();
+  const existingKeys = {};
+  rows.slice(1).forEach(function(row) {
+    existingKeys[[row[0], row[1], row[2]].join("|")] = true;
+  });
+
+  const missing = CMS_DEFAULT_ROWS.filter(function(row) {
+    return !existingKeys[[row[0], row[1], row[2]].join("|")];
+  });
+
+  if (!missing.length) return;
+
+  sheet.getRange(sheet.getLastRow() + 1, 1, missing.length, CMS_HEADERS.length).setValues(missing);
   sheet.autoResizeColumns(1, CMS_HEADERS.length);
 }
 
