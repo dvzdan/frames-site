@@ -61,11 +61,19 @@ function HeroSection() {
   appendParagraph(copy, site.intro);
   text.appendChild(copy);
 
+  const launch = SITE_CONTENT.homepage.launchStatus;
+  if (launch && (launch.label || launch.text)) {
+    const status = el("div", "launch-status");
+    if (launch.label) status.appendChild(el("strong", "", launch.label));
+    appendParagraph(status, launch.text);
+    text.appendChild(status);
+  }
+
   const actions = el("div", "actions");
   const primary = el("a", "button", site.primaryAction);
   primary.href = "#order";
   const secondary = el("a", "button secondary", site.secondaryAction);
-  secondary.href = "#gallery-section";
+  secondary.href = "#checkout-placeholder";
   actions.appendChild(primary);
   actions.appendChild(secondary);
   text.appendChild(actions);
@@ -217,6 +225,7 @@ function RevealDemoSection() {
   status.id = "status";
   card.appendChild(status);
   appendParagraph(card, community.uploadNote, "fine-print");
+  appendParagraph(card, community.uploadConsent, "fine-print submission-consent");
 
   submit.appendChild(summary);
   submit.appendChild(card);
@@ -267,6 +276,15 @@ function TierComparisonSection() {
   const section = sectionShell("order", "tier-comparison-section");
   section.appendChild(el("h2", "", order.heading));
   appendParagraph(section, order.subhead, "section-copy");
+  if (order.statusHeading || order.statusText) {
+    const status = el("aside", "production-status");
+    if (order.statusHeading) status.appendChild(el("strong", "", order.statusHeading));
+    appendParagraph(status, order.statusText);
+    const link = el("a", "", order.requestButton || "Request a quote");
+    link.href = "#checkout-placeholder";
+    status.appendChild(link);
+    section.appendChild(status);
+  }
 
   const container = el("div", "kits");
   container.id = "pricingTiers";
@@ -278,60 +296,104 @@ function TierComparisonSection() {
 
 function CTASection() {
   const cta = SITE_CONTENT.homepage.cta;
-  const order = SITE_CONTENT.sections.order;
   const shipping = SITE_CONTENT.sections.shipping;
+  const inquiry = SITE_CONTENT.sections.inquiry;
   const section = sectionShell("checkout-placeholder", "cta-section");
 
   section.appendChild(el("h2", "", cta.heading));
   appendParagraph(section, cta.text, "section-copy");
 
-  const card = el("div", "card");
-  appendParagraph(card, order.checkoutNote);
-  const orderBox = el("div", "order-box");
-  orderBox.setAttribute("aria-label", "Order placeholder");
-
-  orderBox.appendChild(el("h3", "", order.summaryHeading));
-
-  const tierLabel = el("label", "field-label", order.tierLabel);
-  tierLabel.setAttribute("for", "orderTier");
-  const tierSelect = document.createElement("select");
-  tierSelect.id = "orderTier";
-
-  const quantityLabel = el("label", "field-label", order.quantityLabel);
-  quantityLabel.setAttribute("for", "orderQuantity");
-  const quantity = document.createElement("input");
-  quantity.id = "orderQuantity";
-  quantity.type = "number";
-  quantity.min = "1";
-  quantity.value = "1";
-
-  const subtotal = el("div", "subtotal-row");
-  subtotal.appendChild(el("span", "", order.subtotalLabel));
-  const subtotalValue = el("strong", "");
-  subtotalValue.id = "orderSubtotal";
-  subtotal.appendChild(subtotalValue);
-
-  const placeholderButton = document.createElement("button");
-  placeholderButton.id = "placeholderCheckoutButton";
-  placeholderButton.type = "button";
-  placeholderButton.textContent = order.placeholderButton;
-
-  const message = el("p", "fine-print", order.placeholderMessage);
-  message.id = "placeholderCheckoutMessage";
-
-  [tierLabel, tierSelect, quantityLabel, quantity, subtotal, placeholderButton, message].forEach(node => {
-    orderBox.appendChild(node);
-  });
-  card.appendChild(orderBox);
+  const card = el("div", "inquiry-card");
+  const form = createInquiryForm(inquiry);
+  card.appendChild(form);
 
   if (shipping.notes && shipping.notes.length) {
-    const shippingNotes = el("ul", "fine-print compact-notes");
+    const shippingNotes = el("ul", "fine-print inquiry-notes");
     shipping.notes.forEach(note => shippingNotes.appendChild(el("li", "", note)));
     card.appendChild(shippingNotes);
   }
 
   section.appendChild(card);
   return section;
+}
+
+function createInquiryForm(inquiry) {
+  const form = el("form", "inquiry-form");
+  form.id = "inquiryForm";
+
+  const type = createSelectField("inquiryType", inquiry.typeLabel, inquiry.typeOptions || []);
+  const kitOptions = [inquiry.kitPlaceholder || "Not sure yet"].concat(
+    SITE_CONTENT.sections.order.tiers.map(tier => tier.name)
+  );
+  const kit = createSelectField("inquiryKit", inquiry.kitLabel, kitOptions);
+  const name = createInputField("inquiryName", inquiry.nameLabel, "text");
+  const email = createInputField("inquiryEmail", inquiry.emailLabel, "email", true);
+  const timeline = createInputField("inquiryTimeline", inquiry.timelineLabel, "text", false, inquiry.timelinePlaceholder);
+  const message = createTextareaField("inquiryMessage", inquiry.messageLabel, inquiry.messagePlaceholder);
+
+  const grid = el("div", "inquiry-grid");
+  [type, kit, name, email, timeline].forEach(node => grid.appendChild(node));
+  form.appendChild(grid);
+  form.appendChild(message);
+
+  const actions = el("div", "inquiry-actions");
+  const button = document.createElement("button");
+  button.type = "submit";
+  button.id = "inquirySubmit";
+  button.textContent = inquiry.submitLabel || "Send request";
+  const status = el("p", "fine-print inquiry-status");
+  status.id = "inquiryStatus";
+  actions.appendChild(button);
+  actions.appendChild(status);
+  form.appendChild(actions);
+
+  return form;
+}
+
+function createFieldShell(labelText, id) {
+  const shell = el("label", "inquiry-field");
+  shell.setAttribute("for", id);
+  shell.appendChild(el("span", "field-label", labelText));
+  return shell;
+}
+
+function createInputField(id, labelText, type, required, placeholder) {
+  const shell = createFieldShell(labelText, id);
+  const input = document.createElement("input");
+  input.id = id;
+  input.name = id;
+  input.type = type || "text";
+  input.required = Boolean(required);
+  if (placeholder) input.placeholder = placeholder;
+  shell.appendChild(input);
+  return shell;
+}
+
+function createTextareaField(id, labelText, placeholder) {
+  const shell = createFieldShell(labelText, id);
+  const textarea = document.createElement("textarea");
+  textarea.id = id;
+  textarea.name = id;
+  textarea.required = true;
+  textarea.rows = 7;
+  if (placeholder) textarea.placeholder = placeholder;
+  shell.appendChild(textarea);
+  return shell;
+}
+
+function createSelectField(id, labelText, options) {
+  const shell = createFieldShell(labelText, id);
+  const select = document.createElement("select");
+  select.id = id;
+  select.name = id;
+  options.forEach(optionText => {
+    const option = document.createElement("option");
+    option.value = optionText;
+    option.textContent = optionText;
+    select.appendChild(option);
+  });
+  shell.appendChild(select);
+  return shell;
 }
 
 function FooterSection() {
@@ -372,7 +434,15 @@ function renderAssemblyPreamble(content) {
   if (content.sequenceItems && content.sequenceItems.length) {
     const sequence = el("div", "assembly-preamble-block");
     if (content.sequenceHeading) sequence.appendChild(el("h3", "", content.sequenceHeading));
-    sequence.appendChild(renderNestedBulletList(content.sequenceItems, "assembly-mechanism-list"));
+    const explainer = el("div", "assembly-mechanism-explainer");
+    explainer.appendChild(renderNestedBulletList(content.sequenceItems, "assembly-mechanism-list"));
+    const figure = el("figure", "assembly-mechanism-reference");
+    const image = document.createElement("img");
+    image.src = "https://cdn.jsdelivr.net/gh/dvzdan/frames-site@dace05b/assets/instruction%20images/final%20setup.png";
+    image.alt = "Full colored mechanism overview";
+    figure.appendChild(image);
+    explainer.appendChild(figure);
+    sequence.appendChild(explainer);
     root.appendChild(sequence);
   }
 
@@ -404,7 +474,8 @@ function renderNestedBulletList(items, className) {
     const normalized = normalizeListItem(item);
     if (!normalized.text) return;
 
-    const li = el("li", "", normalized.text);
+    const li = el("li");
+    appendMechanismListText(li, normalized.text, className);
     if (normalized.level > 0 && lastTopLevel) {
       let nested = lastTopLevel.querySelector(":scope > ul");
       if (!nested) {
@@ -420,6 +491,46 @@ function renderNestedBulletList(items, className) {
   });
 
   return root;
+}
+
+function appendMechanismListText(target, value, listClassName) {
+  const source = textOrEmpty(value);
+  if (listClassName !== "assembly-mechanism-list") {
+    target.textContent = source;
+    return;
+  }
+
+  const terms = [
+    ["clock mechanism", "clock"],
+    ["clock/string guide", "guide"],
+    ["cover image", "cover"],
+    ["capstan", "capstan"],
+    ["string", "string"],
+    ["eyelet", "eyelet"],
+    ["zipper", "zipper"],
+    ["latch", "latch"],
+    ["weight", "weight"]
+  ];
+  const pattern = new RegExp("(" + terms.map(([term]) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "gi");
+  let cursor = 0;
+  let match;
+
+  while ((match = pattern.exec(source)) !== null) {
+    if (match.index > cursor) {
+      target.appendChild(document.createTextNode(source.slice(cursor, match.index)));
+    }
+
+    const original = match[0];
+    const normalized = original.toLowerCase();
+    const found = terms.find(([term]) => term === normalized);
+    const span = el("span", "mechanism-term mechanism-term-" + (found ? found[1] : "generic"), original);
+    target.appendChild(span);
+    cursor = match.index + original.length;
+  }
+
+  if (source.length > cursor) {
+    target.appendChild(document.createTextNode(source.slice(cursor)));
+  }
 }
 
 function normalizeListItem(item) {
@@ -513,17 +624,26 @@ function SetupKitInventoryCard(number, name, filename) {
 function FAQSection() {
   const content = SITE_CONTENT.sections.faq;
   const section = sectionShell("faq", "faq-section");
-  section.appendChild(el("h2", "", content.heading || "FAQ"));
+  renderFaqContent(section, content);
+  return section;
+}
+
+function renderFaqContent(section, content) {
+  section.innerHTML = "";
+  section.appendChild(el("h2", "", (content && content.heading) || "FAQ"));
 
   const list = el("div", "faq-list");
-  (content.items || []).forEach(item => {
+  const items = content && Array.isArray(content.items) ? content.items : [];
+  items.forEach(item => {
+    if (!item || !item.question || !item.answer) return;
     const detail = el("details", "faq-item");
     detail.appendChild(el("summary", "", item.question));
-    appendParagraph(detail, item.answer);
+    const body = el("div", "faq-answer");
+    splitParagraphs(item.answer).forEach(paragraph => appendParagraph(body, paragraph));
+    detail.appendChild(body);
     list.appendChild(detail);
   });
   section.appendChild(list);
-  return section;
 }
 
 function renderHomepage() {
@@ -544,7 +664,7 @@ function renderHomepage() {
     FooterSection
   ].forEach(renderSection => app.appendChild(renderSection()));
 
-  renderOrderPlaceholder();
+  hydrateInquiryForm();
   if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
   loadTierIllustrationAssets();
   renderInitialHeroGallery();
@@ -554,10 +674,13 @@ function renderHomepage() {
 function hydrateStaticHomepage() {
   hydrateHowWorksCmsContent();
   hydrateAssemblyCmsContent();
+  hydrateFaqCmsContent();
+  if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
   renderInitialHeroGallery();
+  hydrateTierIllustrations();
   loadTierIllustrationAssets();
   hydrateSubmissionModule();
-  if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
+  hydrateInquiryForm();
 }
 
 function hydrateHowWorksCmsContent() {
@@ -597,11 +720,24 @@ function hydrateAssemblyCmsContent() {
   }
 }
 
+function hydrateFaqCmsContent() {
+  const section = document.querySelector("#faq");
+  if (!section) return;
+  renderFaqContent(section, SITE_CONTENT.sections.faq || {});
+}
+
 function hydrateSubmissionModule() {
   const button = document.querySelector("[data-submit-concept]");
   if (!button || button.dataset.submitBound === "true") return;
   button.dataset.submitBound = "true";
   button.addEventListener("click", submitIdea);
+}
+
+function hydrateInquiryForm() {
+  const form = document.getElementById("inquiryForm");
+  if (!form || form.dataset.bound === "true") return;
+  form.dataset.bound = "true";
+  form.addEventListener("submit", submitInquiryForm);
 }
 
 function renderInitialHeroGallery() {
@@ -938,7 +1074,10 @@ function hydrateStaticTierImages(assets) {
 }
 
 function loadTierIllustrationAssets() {
-  if (!window.google || !google.script || !google.script.run) return;
+  if (!window.google || !google.script || !google.script.run) {
+    hydrateTierIllustrations();
+    return;
+  }
   if (window.TIER_ILLUSTRATION_ASSETS) {
     hydrateStaticTierImages(window.TIER_ILLUSTRATION_ASSETS);
     hydrateTierIllustrations();
@@ -951,7 +1090,9 @@ function loadTierIllustrationAssets() {
       hydrateStaticTierImages(window.TIER_ILLUSTRATION_ASSETS);
       hydrateTierIllustrations();
     })
-    .withFailureHandler(function() {})
+    .withFailureHandler(function() {
+      hydrateTierIllustrations();
+    })
     .getTierIllustrationAssets();
 }
 
@@ -1007,44 +1148,65 @@ const TIER_SECTION_ICONS = {
   wrench: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></svg>'
 };
 
-/* Order placeholder. No real checkout or payment is performed. */
-function renderOrderPlaceholder() {
-  const select = document.getElementById("orderTier");
-  const quantity = document.getElementById("orderQuantity");
-  const button = document.getElementById("placeholderCheckoutButton");
-  if (!select || !quantity || !button) return;
+/* Quote and contact requests */
+function submitInquiryForm(event) {
+  event.preventDefault();
 
-  select.innerHTML = "";
+  const inquiry = SITE_CONTENT.sections.inquiry;
+  const form = event.currentTarget;
+  const button = document.getElementById("inquirySubmit");
+  const status = document.getElementById("inquiryStatus");
+  const data = {
+    type: valueOf("inquiryType"),
+    kit: valueOf("inquiryKit"),
+    name: valueOf("inquiryName"),
+    email: valueOf("inquiryEmail"),
+    timeline: valueOf("inquiryTimeline"),
+    message: valueOf("inquiryMessage")
+  };
 
-  SITE_CONTENT.sections.order.tiers.forEach((tier, index) => {
-    const option = document.createElement("option");
-    option.value = String(index);
-    option.textContent = tier.name + " - " + tier.priceLabel;
-    select.appendChild(option);
-  });
+  if (!data.email || !data.message) {
+    if (status) status.textContent = "Email and message are required.";
+    return;
+  }
 
-  select.addEventListener("change", updateOrderSummary);
-  quantity.addEventListener("input", updateOrderSummary);
-  button.addEventListener("click", function() {
-    const message = document.getElementById("placeholderCheckoutMessage");
-    if (message) message.textContent = SITE_CONTENT.sections.order.placeholderMessage;
-  });
+  if (!window.google || !google.script || !google.script.run) {
+    if (status) status.textContent = inquiry.errorMessage || "Request could not be sent. Please try again later.";
+    return;
+  }
 
-  updateOrderSummary();
+  if (button) {
+    button.disabled = true;
+    button.textContent = inquiry.sendingLabel || "Sending...";
+  }
+  if (status) status.textContent = "";
+
+  google.script.run
+    .withSuccessHandler(function() {
+      form.reset();
+      if (button) {
+        button.disabled = false;
+        button.textContent = inquiry.submitLabel || "Send request";
+      }
+      if (status) status.textContent = inquiry.successMessage || "Request sent.";
+    })
+    .withFailureHandler(function(err) {
+      if (button) {
+        button.disabled = false;
+        button.textContent = inquiry.submitLabel || "Send request";
+      }
+      if (status) {
+        status.textContent = err && err.message
+          ? err.message
+          : (inquiry.errorMessage || "Request could not be sent. Please try again later.");
+      }
+    })
+    .submitInquiry(data);
 }
 
-function updateOrderSummary() {
-  const select = document.getElementById("orderTier");
-  const quantity = document.getElementById("orderQuantity");
-  const subtotal = document.getElementById("orderSubtotal");
-  if (!select || !quantity || !subtotal) return;
-
-  const tiers = SITE_CONTENT.sections.order.tiers;
-  const tier = tiers[Number(select.value)] || tiers[0];
-  const qty = Math.max(1, Number(quantity.value) || 1);
-  quantity.value = String(qty);
-
-  subtotal.textContent = "$" + (tier.priceValue * qty);
+function valueOf(id) {
+  const node = document.getElementById(id);
+  return node ? textOrEmpty(node.value).trim() : "";
 }
 
 /* Upload handling */
@@ -1622,11 +1784,18 @@ function textOrEmpty(value) {
   return value == null ? "" : String(value);
 }
 
+function splitParagraphs(value) {
+  return textOrEmpty(value)
+    .split(/\n{2,}/)
+    .map(paragraph => paragraph.trim())
+    .filter(Boolean);
+}
+
 function escapeHtml(str) {
-  return textOrEmpty(str).replace(/[&<>'"]/g, function(c) {
+  return textOrEmpty(str).replace(new RegExp("[&\\x3c>'\"]", "g"), function(c) {
     switch (c) {
       case "&": return "&amp;";
-      case "<": return "&lt;";
+      case "\x3c": return "&lt;";
       case ">": return "&gt;";
       case "'": return "&#39;";
       case '"': return "&quot;";

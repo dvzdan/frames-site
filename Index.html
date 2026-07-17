@@ -16,7 +16,7 @@
     <a href="#gallery-section">Reveals</a>
     <a href="#setup-manual">Assembly</a>
     <a href="#faq">FAQ</a>
-    <a class="site-nav-buy" href="#checkout-placeholder">Buy</a>
+    <a class="site-nav-buy" href="#checkout-placeholder">Request quote</a>
   </nav>
 </header>
 
@@ -29,9 +29,10 @@
         <p class="lede">Physical photos that change in the blink of an eye, according to a timer you set.</p>
         <p>Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.</p>
       </div>
+      <div class="launch-status"><strong>Early small-batch release</strong><p>Double Take Frames is being built in public. The mechanism works, the kits are taking shape, and requests are handled directly while the polished ordering flow is still in progress.</p></div>
       <div class="actions">
         <a class="button" href="#kits">Compare kit paths</a>
-        <a class="button secondary" href="#gallery-section">Browse reveals</a>
+        <a class="button secondary" href="#checkout-placeholder">Request a quote</a>
       </div>
     </div>
     <div class="hero-gallery" id="heroGallery" hidden>
@@ -50,7 +51,7 @@
             <div class="how-works-art"><img src="https://drive.google.com/thumbnail?id=16L423SgUeeURPMvn7TjQGv_ZLMVfKlwg&amp;sz=w1000" alt=""></div>
           </div>
           <div class="how-works-mechanism">
-            <img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/instruction%20images/final%20setup.png" alt="">
+            <img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@e136512/assets/instruction%20images/final%20setup.png" alt="">
           </div>
           <div class="how-works-connector" aria-hidden="true"></div>
           <div class="how-works-frame">
@@ -79,9 +80,10 @@
     <span id="order" class="anchor-target" aria-hidden="true"></span>
     <h2>Choose your version.</h2>
     <p class="section-copy">From self-assembly to finished gift.</p>
+    <aside class="production-status"><strong>Current status: early production</strong><p>Kit paths, pricing, and availability are preliminary while the project moves toward a more streamlined ordering process.</p><a href="#checkout-placeholder">Request a quote</a></aside>
     <div class="kits" id="pricingTiers">
       <article class="tier-card" data-tier-key="maker" style="--tier-accent:#6f7f53">
-        <div class="tier-intro"><h3 class="kit-name">Maker Kit</h3><p class="tier-description">Print your own frame. Precision parts and images included.</p></div>
+        <div class="tier-intro"><h3 class="kit-name">Maker Kit</h3><p class="tier-description">3D print your own frame. Precision parts and images included.</p></div>
         <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('maker') ?>" alt="Framed symbolic parts layout for the Maker Kit"></div></div>
         <div class="tier-body">
           <div class="tier-detail-sections">
@@ -115,24 +117,6 @@
           </div>
         </div>
         <div class="tier-footer"><div class="kit-price">$70</div><div class="tier-footer-name">Builder Kit</div></div>
-      </article>
-      <article class="tier-card" data-tier-key="setup" style="--tier-accent:#9a7b4f">
-        <div class="tier-intro"><h3 class="kit-name">Setup Kit</h3><p class="tier-description">Fully assembled. Final image loading and calibration required.</p></div>
-        <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('setup') ?>" alt="Framed symbolic setup layout for the Setup Kit"></div></div>
-        <div class="tier-body">
-          <div class="tier-detail-sections">
-            <section class="tier-detail-section">
-              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('packageCheck') ?></span><span>INCLUDED</span></div>
-              <ul class="tier-detail-list"><li>Assembled frame and mechanism</li><li>Two custom prints on specialty media</li><li>Reveal system aligned and tested</li></ul>
-            </section>
-            <section class="tier-detail-section">
-              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
-              <ul class="tier-detail-list"><li>Load your image pair</li><li>Set the timer</li></ul>
-            </section>
-          </div>
-          <div class="tier-card-action"><a class="button secondary tier-manual-link" href="#setup-manual">Setup Manual</a></div>
-        </div>
-        <div class="tier-footer"><div class="kit-price">$90</div><div class="tier-footer-name">Setup Kit</div></div>
       </article>
       <article class="tier-card" data-tier-key="gift" style="--tier-accent:#7f5d68">
         <div class="tier-intro"><h3 class="kit-name">Finished Gift</h3><p class="tier-description">Fully assembled, loaded, and ready to give.</p></div>
@@ -171,6 +155,7 @@
         <button type="button" data-submit-concept>Submit</button>
         <div id="status"></div>
         <p class="fine-print">Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.</p>
+        <p class="fine-print submission-consent">By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.</p>
       </div>
     </details>
     <div class="gallery" id="gallery"><?!= renderInitialGalleryHtml() ?></div>
@@ -233,16 +218,21 @@
       <p class="section-copy assembly-preamble-intro">Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.</p>
       <div class="assembly-preamble-block">
         <h3>How the mechanism works:</h3>
-        <ul class="assembly-mechanism-list">
-          <li>Clock mechanism sits inside the frame.</li>
-          <li>Capstan presses onto the clock mechanism.</li>
-          <li>String ties to the capstan.<ul class="assembly-mechanism-sublist"><li>Then runs through the clock/string guide hole.</li><li>And through the top-left eyelet.</li><li>Then ties to the zipper anchor.</li></ul></li>
-          <li>Zipper head supports the latch.</li>
-          <li>Latch supports the weight.</li>
-          <li>Weight is tethered to the sliding cover image.</li>
-          <li>Cover image sits over the reveal image.</li>
-          <li>When the timer runs, the clock winds the string, pulls the zipper, releases the latch, drops the weight, slides the cover image up, and reveals the image underneath.</li>
-        </ul>
+        <div class="assembly-mechanism-explainer">
+          <ul class="assembly-mechanism-list">
+            <li><span class="mechanism-term mechanism-term-clock">Clock mechanism</span> sits inside the frame.</li>
+            <li><span class="mechanism-term mechanism-term-capstan">Capstan</span> presses onto the <span class="mechanism-term mechanism-term-clock">clock mechanism</span>.</li>
+            <li><span class="mechanism-term mechanism-term-string">String</span> ties to the <span class="mechanism-term mechanism-term-capstan">capstan</span>.<ul class="assembly-mechanism-sublist"><li>Then runs through the <span class="mechanism-term mechanism-term-guide">clock/string guide</span> hole.</li><li>And through the top-left <span class="mechanism-term mechanism-term-eyelet">eyelet</span>.</li><li>Then ties to the <span class="mechanism-term mechanism-term-zipper">zipper</span> anchor.</li></ul></li>
+            <li><span class="mechanism-term mechanism-term-zipper">Zipper</span> head supports the <span class="mechanism-term mechanism-term-latch">latch</span>.</li>
+            <li><span class="mechanism-term mechanism-term-latch">Latch</span> supports the <span class="mechanism-term mechanism-term-weight">weight</span>.</li>
+            <li><span class="mechanism-term mechanism-term-weight">Weight</span> is tethered to the sliding <span class="mechanism-term mechanism-term-cover">cover image</span>.</li>
+            <li><span class="mechanism-term mechanism-term-cover">Cover image</span> sits over the reveal image.</li>
+            <li>When the timer runs, the clock winds the <span class="mechanism-term mechanism-term-string">string</span>, pulls the <span class="mechanism-term mechanism-term-zipper">zipper</span>, releases the <span class="mechanism-term mechanism-term-latch">latch</span>, drops the <span class="mechanism-term mechanism-term-weight">weight</span>, slides the <span class="mechanism-term mechanism-term-cover">cover image</span> up, and reveals the image underneath.</li>
+          </ul>
+          <figure class="assembly-mechanism-reference">
+            <img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@dace05b/assets/instruction%20images/final%20setup.png" alt="Full colored mechanism overview">
+          </figure>
+        </div>
       </div>
       <div class="assembly-preamble-block assembly-checklist-block">
         <h3>Easy-to-miss checks:</h3>
@@ -263,22 +253,29 @@
   <section class="section faq-section" id="faq">
     <h2>FAQ</h2>
     <div class="faq-list">
-      <details class="faq-item"><summary>Is it a screen?</summary><p>No. The reveal is physical and uses printed images.</p></details>
-      <details class="faq-item"><summary>Can I use my own images?</summary><p>That is the core idea. The current upload form collects cover/reveal concept pairs.</p></details>
-      <details class="faq-item"><summary>Can I choose the reveal timing?</summary><p>Advanced configuration is not live yet.</p></details>
-      <details class="faq-item"><summary>Is checkout live?</summary><p>No. Checkout is a placeholder until real ordering and payment details are ready.</p></details>
+      <details class="faq-item"><summary>Will I enjoy putting this together?</summary><div class="faq-answer"><p>That depends almost entirely on what kind of project you enjoy.</p><p>If you like examining unfamiliar parts, understanding how they interact, making small adjustments, and eventually watching a mechanism come to life, this is probably your kind of fun. It is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. The instructions will guide you, but the real satisfaction comes from understanding what the mechanism is doing and getting it dialed in.</p><p>If you are looking for a quick, linear project where you follow each step once, never need to inspect or adjust anything, and can assume that every part will behave perfectly on the first try, this may be more aggravating than enjoyable. There is nothing unusually difficult about it, but it rewards curiosity, patience, and a willingness to tinker.</p></div></details>
+      <details class="faq-item"><summary>How do I reset the mechanism?</summary><div class="faq-answer"><p>Return to the assembly instructions and repeat the steps that set the mechanism in motion. You will need to redo some of the assembly process, but not all of it.</p></div></details>
+      <details class="faq-item"><summary>Threading the string is a nuisance.</summary><div class="faq-answer"><p>It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.</p></div></details>
+      <details class="faq-item"><summary>I'm worried I assembled it incorrectly and it won't work.</summary><div class="faq-answer"><p>The design and assembly instructions include multiple layers of redundancy. Most individual steps are not essential on their own; instead, they work together to reduce the overall likelihood of failure to below 1%. If you get one detail slightly wrong, the mechanism will usually still work - you have most likely increased the risk of failure only marginally.</p></div></details>
     </div>
   </section>
 
   <section class="section cta-section" id="checkout-placeholder">
-    <h2>Ready to plan one?</h2>
-    <p class="section-copy">Choose a kit path below or submit an image pair to test the idea.</p>
-    <div class="card">
-      <p>This order area is a planning placeholder. It shows kit selection and subtotal only; it does not collect payment or place an order.</p>
-      <div class="order-box">
-        <h3>Order summary</h3>
-        <p class="fine-print">No payment is collected here yet.</p>
-      </div>
+    <h2>Request a quote or send a note</h2>
+    <p class="section-copy">Tell me what you are interested in, what image idea you have, and when you might need it. I will reply with feasibility, timing, and a quote if it makes sense to move forward.</p>
+    <div class="inquiry-card">
+      <form class="inquiry-form" id="inquiryForm">
+        <div class="inquiry-grid">
+          <label class="inquiry-field" for="inquiryType"><span class="field-label">What is this about?</span><select id="inquiryType" name="inquiryType"><option>Order or quote</option><option>Question</option><option>Feedback</option><option>Collaboration or testing</option></select></label>
+          <label class="inquiry-field" for="inquiryKit"><span class="field-label">Kit path</span><select id="inquiryKit" name="inquiryKit"><option>Not sure yet</option><option>Maker Kit</option><option>Builder Kit</option><option>Finished Gift</option></select></label>
+          <label class="inquiry-field" for="inquiryName"><span class="field-label">Name</span><input id="inquiryName" name="inquiryName" type="text"></label>
+          <label class="inquiry-field" for="inquiryEmail"><span class="field-label">Email</span><input id="inquiryEmail" name="inquiryEmail" type="email" required></label>
+          <label class="inquiry-field" for="inquiryTimeline"><span class="field-label">Timeline</span><input id="inquiryTimeline" name="inquiryTimeline" type="text" placeholder="No deadline, gift date, event date, etc."></label>
+        </div>
+        <label class="inquiry-field" for="inquiryMessage"><span class="field-label">What do you have in mind?</span><textarea id="inquiryMessage" name="inquiryMessage" required rows="7" placeholder="Tell me about the image idea, occasion, quantity, constraints, or anything you want feedback on."></textarea></label>
+        <div class="inquiry-actions"><button id="inquirySubmit" type="submit">Send request</button><p class="fine-print inquiry-status" id="inquiryStatus"></p></div>
+      </form>
+      <ul class="fine-print inquiry-notes"><li>No payment is collected on this site yet.</li><li>Each request is reviewed directly before a quote is provided.</li><li>Custom image products may have limited returns once images are printed or loaded.</li></ul>
     </div>
   </section>
 
@@ -299,15 +296,16 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
     '<section class="section hero" id="top">' +
       '<div class="hero-text">' +
         '<div class="eyebrow">One frame. Two takes.</div>' +
-        '<h1>Double Take Frames</h1>' +
-        '<div class="hero-copy">' +
-          '<p class="lede">Physical photos that change in the blink of an eye, according to a timer you set.</p>' +
-          '<p>Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.</p>' +
-        '</div>' +
-        '<div class="actions">' +
-          '<a class="button" href="#kits">Compare kit paths</a>' +
-          '<a class="button secondary" href="#gallery-section">Browse reveals</a>' +
-        '</div>' +
+      '<h1>Double Take Frames</h1>' +
+      '<div class="hero-copy">' +
+        '<p class="lede">Physical photos that change in the blink of an eye, according to a timer you set.</p>' +
+        '<p>Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.</p>' +
+      '</div>' +
+      '<div class="launch-status"><strong>Early small-batch release</strong><p>Double Take Frames is being built in public. The mechanism works, the kits are taking shape, and requests are handled directly while the polished ordering flow is still in progress.</p></div>' +
+      '<div class="actions">' +
+        '<a class="button" href="#kits">Compare kit paths</a>' +
+        '<a class="button secondary" href="#checkout-placeholder">Request a quote</a>' +
+      '</div>' +
       '</div>' +
       '<div class="hero-gallery" id="heroGallery" hidden>' +
         '<div class="hero-gallery-feature" id="heroGalleryFeature"></div>' +
@@ -324,7 +322,7 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
                 '<div class="how-works-art"><img src="https://drive.google.com/thumbnail?id=16L423SgUeeURPMvn7TjQGv_ZLMVfKlwg&amp;sz=w1000" alt=""></div>' +
               '</div>' +
               '<div class="how-works-mechanism">' +
-                '<img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/instruction%20images/final%20setup.png" alt="">' +
+                '<img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@e136512/assets/instruction%20images/final%20setup.png" alt="">' +
               '</div>' +
               '<div class="how-works-connector" aria-hidden="true"></div>' +
               '<div class="how-works-frame">' +
@@ -352,10 +350,10 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
       '<span id="order" class="anchor-target" aria-hidden="true"></span>' +
       '<h2>Choose your version.</h2>' +
       '<p class="section-copy">From self-assembly to finished gift.</p>' +
+      '<aside class="production-status"><strong>Current status: early production</strong><p>Kit paths, pricing, and availability are preliminary while the project moves toward a more streamlined ordering process.</p><a href="#checkout-placeholder">Request a quote</a></aside>' +
       '<div class="kits" id="pricingTiers">' +
-        bootstrapTier("maker", "Maker Kit", "$45", "Print your own frame. Precision parts and images included.", "#6f7f53") +
+        bootstrapTier("maker", "Maker Kit", "$45", "3D print your own frame. Precision parts and images included.", "#6f7f53") +
         bootstrapTier("builder", "Builder Kit", "$70", "Full self-assembly. Frame, hardware, and images included.", "#6b7f92") +
-        bootstrapTier("setup", "Setup Kit", "$90", "Fully assembled. Final image loading and calibration required.", "#9a7b4f") +
         bootstrapTier("gift", "Finished Gift", "$160", "Fully assembled, loaded, and ready to give.", "#7f5d68") +
       '</div>' +
     '</section>' +
@@ -376,6 +374,7 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
           '<button type="button" data-submit-concept>Submit</button>' +
           '<div id="status"></div>' +
           '<p class="fine-print">Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.</p>' +
+          '<p class="fine-print submission-consent">By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.</p>' +
         '</div>' +
       '</details>' +
       '<div class="gallery" id="gallery"><div class="card fine-print">Reveals are loading separately.</div></div>' +
@@ -447,16 +446,19 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
         '<p class="section-copy assembly-preamble-intro">Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.</p>' +
         '<div class="assembly-preamble-block">' +
           '<h3>How the mechanism works:</h3>' +
-          '<ul class="assembly-mechanism-list">' +
-            '<li>Clock mechanism sits inside the frame.</li>' +
-            '<li>Capstan presses onto the clock mechanism.</li>' +
-            '<li>String ties to the capstan.<ul class="assembly-mechanism-sublist"><li>Then runs through the clock/string guide hole.</li><li>And through the top-left eyelet.</li><li>Then ties to the zipper anchor.</li></ul></li>' +
-            '<li>Zipper head supports the latch.</li>' +
-            '<li>Latch supports the weight.</li>' +
-            '<li>Weight is tethered to the sliding cover image.</li>' +
-            '<li>Cover image sits over the reveal image.</li>' +
-            '<li>When the timer runs, the clock winds the string, pulls the zipper, releases the latch, drops the weight, slides the cover image up, and reveals the image underneath.</li>' +
-          '</ul>' +
+          '<div class="assembly-mechanism-explainer">' +
+            '<ul class="assembly-mechanism-list">' +
+              '<li><span class="mechanism-term mechanism-term-clock">Clock mechanism</span> sits inside the frame.</li>' +
+              '<li><span class="mechanism-term mechanism-term-capstan">Capstan</span> presses onto the <span class="mechanism-term mechanism-term-clock">clock mechanism</span>.</li>' +
+              '<li><span class="mechanism-term mechanism-term-string">String</span> ties to the <span class="mechanism-term mechanism-term-capstan">capstan</span>.<ul class="assembly-mechanism-sublist"><li>Then runs through the <span class="mechanism-term mechanism-term-guide">clock/string guide</span> hole.</li><li>And through the top-left <span class="mechanism-term mechanism-term-eyelet">eyelet</span>.</li><li>Then ties to the <span class="mechanism-term mechanism-term-zipper">zipper</span> anchor.</li></ul></li>' +
+              '<li><span class="mechanism-term mechanism-term-zipper">Zipper</span> head supports the <span class="mechanism-term mechanism-term-latch">latch</span>.</li>' +
+              '<li><span class="mechanism-term mechanism-term-latch">Latch</span> supports the <span class="mechanism-term mechanism-term-weight">weight</span>.</li>' +
+              '<li><span class="mechanism-term mechanism-term-weight">Weight</span> is tethered to the sliding <span class="mechanism-term mechanism-term-cover">cover image</span>.</li>' +
+              '<li><span class="mechanism-term mechanism-term-cover">Cover image</span> sits over the reveal image.</li>' +
+              '<li>When the timer runs, the clock winds the <span class="mechanism-term mechanism-term-string">string</span>, pulls the <span class="mechanism-term mechanism-term-zipper">zipper</span>, releases the <span class="mechanism-term mechanism-term-latch">latch</span>, drops the <span class="mechanism-term mechanism-term-weight">weight</span>, slides the <span class="mechanism-term mechanism-term-cover">cover image</span> up, and reveals the image underneath.</li>' +
+            '</ul>' +
+            '<figure class="assembly-mechanism-reference"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@dace05b/assets/instruction%20images/final%20setup.png" alt="Full colored mechanism overview"></figure>' +
+          '</div>' +
         '</div>' +
         '<div class="assembly-preamble-block assembly-checklist-block">' +
           '<h3>Easy-to-miss checks:</h3>' +
@@ -477,17 +479,23 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
 
   function bootstrapFaqSection() {
     var items = [
-      ["Is it a screen?", "No. The reveal is physical and uses printed images."],
-      ["Can I use my own images?", "That is the core idea. The current upload form collects cover/reveal concept pairs."],
-      ["Can I choose the reveal timing?", "Advanced configuration is not live yet."],
-      ["Is checkout live?", "No. Checkout is a placeholder until real ordering and payment details are ready."]
+      ["Will I enjoy putting this together?", [
+        "That depends almost entirely on what kind of project you enjoy.",
+        "If you like examining unfamiliar parts, understanding how they interact, making small adjustments, and eventually watching a mechanism come to life, this is probably your kind of fun. It is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. The instructions will guide you, but the real satisfaction comes from understanding what the mechanism is doing and getting it dialed in.",
+        "If you are looking for a quick, linear project where you follow each step once, never need to inspect or adjust anything, and can assume that every part will behave perfectly on the first try, this may be more aggravating than enjoyable. There is nothing unusually difficult about it, but it rewards curiosity, patience, and a willingness to tinker."
+      ]],
+      ["How do I reset the mechanism?", ["Return to the assembly instructions and repeat the steps that set the mechanism in motion. You will need to redo some of the assembly process, but not all of it."]],
+      ["Threading the string is a nuisance.", ["It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle."]],
+      ["I'm worried I assembled it incorrectly and it won't work.", ["The design and assembly instructions include multiple layers of redundancy. Most individual steps are not essential on their own; instead, they work together to reduce the overall likelihood of failure to below 1%. If you get one detail slightly wrong, the mechanism will usually still work - you have most likely increased the risk of failure only marginally."]]
     ];
 
     return '<section class="section faq-section" id="faq">' +
       '<h2>FAQ</h2>' +
       '<div class="faq-list">' +
         items.map(function(item) {
-          return '<details class="faq-item"><summary>' + item[0] + '</summary><p>' + item[1] + '</p></details>';
+          return '<details class="faq-item"><summary>' + item[0] + '</summary><div class="faq-answer">' +
+            item[1].map(function(paragraph) { return '<p>' + paragraph + '</p>'; }).join("") +
+            '</div></details>';
         }).join("") +
       '</div>' +
     '</section>';
@@ -495,14 +503,21 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
 
   function bootstrapBuySection() {
     return '<section class="section cta-section" id="checkout-placeholder">' +
-      '<h2>Ready to plan one?</h2>' +
-      '<p class="section-copy">Choose a kit path below or submit an image pair to test the idea.</p>' +
-      '<div class="card">' +
-        '<p>This order area is a planning placeholder. It shows kit selection and subtotal only; it does not collect payment or place an order.</p>' +
-        '<div class="order-box">' +
-          '<h3>Order summary</h3>' +
-          '<p class="fine-print">No payment is collected here yet.</p>' +
-        '</div>' +
+      '<h2>Request a quote or send a note</h2>' +
+      '<p class="section-copy">Tell me what you are interested in, what image idea you have, and when you might need it. I will reply with feasibility, timing, and a quote if it makes sense to move forward.</p>' +
+      '<div class="inquiry-card">' +
+        '<form class="inquiry-form" id="inquiryForm">' +
+          '<div class="inquiry-grid">' +
+            '<label class="inquiry-field" for="inquiryType"><span class="field-label">What is this about?</span><select id="inquiryType" name="inquiryType"><option>Order or quote</option><option>Question</option><option>Feedback</option><option>Collaboration or testing</option></select></label>' +
+            '<label class="inquiry-field" for="inquiryKit"><span class="field-label">Kit path</span><select id="inquiryKit" name="inquiryKit"><option>Not sure yet</option><option>Maker Kit</option><option>Builder Kit</option><option>Finished Gift</option></select></label>' +
+            '<label class="inquiry-field" for="inquiryName"><span class="field-label">Name</span><input id="inquiryName" name="inquiryName" type="text"></label>' +
+            '<label class="inquiry-field" for="inquiryEmail"><span class="field-label">Email</span><input id="inquiryEmail" name="inquiryEmail" type="email" required></label>' +
+            '<label class="inquiry-field" for="inquiryTimeline"><span class="field-label">Timeline</span><input id="inquiryTimeline" name="inquiryTimeline" type="text" placeholder="No deadline, gift date, event date, etc."></label>' +
+          '</div>' +
+          '<label class="inquiry-field" for="inquiryMessage"><span class="field-label">What do you have in mind?</span><textarea id="inquiryMessage" name="inquiryMessage" required rows="7" placeholder="Tell me about the image idea, occasion, quantity, constraints, or anything you want feedback on."></textarea></label>' +
+          '<div class="inquiry-actions"><button id="inquirySubmit" type="submit">Send request</button><p class="fine-print inquiry-status" id="inquiryStatus"></p></div>' +
+        '</form>' +
+        '<ul class="fine-print inquiry-notes"><li>No payment is collected on this site yet.</li><li>Each request is reviewed directly before a quote is provided.</li><li>Custom image products may have limited returns once images are printed or loaded.</li></ul>' +
       '</div>' +
     '</section>';
   }
@@ -634,7 +649,9 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
       if (typeof hydrateStaticTierImages === "function") hydrateStaticTierImages(window.TIER_ILLUSTRATION_ASSETS);
       if (typeof hydrateTierIllustrations === "function") hydrateTierIllustrations();
     })
-    .withFailureHandler(function() {})
+    .withFailureHandler(function() {
+      if (typeof hydrateTierIllustrations === "function") hydrateTierIllustrations();
+    })
     .getTierIllustrationAssets();
 })();
 </script>

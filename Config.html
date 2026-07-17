@@ -10,11 +10,17 @@ const SITE_CONTENT = {
     tagline: "Physical photos that change in the blink of an eye, according to a timer you set.",
     intro: "Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.",
     primaryAction: "Compare kit paths",
-    secondaryAction: "Browse reveals",
-    contactNote: "For orders, questions, or custom reveal ideas, contact the maker directly."
+    secondaryAction: "Request a quote",
+    navContactLabel: "Request quote",
+    contactNote: "For orders, feedback, or custom reveal ideas, send a note through the request form."
   },
 
   homepage: {
+    launchStatus: {
+      label: "Early small-batch release",
+      text: "Double Take Frames is being built in public. The mechanism works, the kits are taking shape, and requests are handled directly while the polished ordering flow is still in progress."
+    },
+
     productIntro: {
       heading: "",
       text: "Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.",
@@ -82,8 +88,8 @@ const SITE_CONTENT = {
     },
 
     cta: {
-      heading: "Ready to plan one?",
-      text: "Choose a kit path below or submit an image pair to test the idea."
+      heading: "Request a quote or send a note",
+      text: "Tell me what you are interested in, what image idea you have, and when you might need it. I will reply with feasibility, timing, and a quote if it makes sense to move forward."
     }
   },
 
@@ -106,20 +112,15 @@ const SITE_CONTENT = {
     order: {
       heading: "Choose your version.",
       subhead: "From self-assembly to finished gift.",
-      summaryHeading: "Order summary",
-      tierLabel: "Kit",
-      quantityLabel: "Quantity",
-      subtotalLabel: "Estimated subtotal",
-      checkoutHeading: "Order placeholder",
-      checkoutNote: "This order area is a planning placeholder. It shows kit selection and subtotal only; it does not collect payment or place an order.",
-      placeholderButton: "Placeholder only",
-      placeholderMessage: "No payment is collected here yet.",
+      statusHeading: "Current status: early production",
+      statusText: "Kit paths, pricing, and availability are preliminary while the project moves toward a more streamlined ordering process.",
+      requestButton: "Request a quote",
       tiers: [
         {
           name: "Maker Kit",
           priceLabel: "$45",
           priceValue: 45,
-          shortDescription: "Print your own frame. Precision parts and images included.",
+          shortDescription: "3D print your own frame. Precision parts and images included.",
           included: [
             "Hardware kit",
             "Assembly supplies",
@@ -163,31 +164,6 @@ const SITE_CONTENT = {
           }
         },
         {
-          name: "Setup Kit",
-          priceLabel: "$90",
-          priceValue: 90,
-          shortDescription: "Fully assembled. Final image loading and calibration required.",
-          included: [
-            "Assembled frame and mechanism",
-            "Two custom prints on specialty media",
-            "Reveal system aligned and tested"
-          ],
-          youDo: [
-            "Load your image pair",
-            "Set the timer"
-          ],
-          action: {
-            label: "Setup Manual",
-            href: "#setup-manual"
-          },
-          accentColor: "#9a7b4f",
-          illustration: {
-            type: "setup",
-            assetKey: "setup",
-            alt: "Framed symbolic setup layout for the Setup Kit"
-          }
-        },
-        {
           name: "Finished Gift",
           priceLabel: "$160",
           priceValue: 160,
@@ -212,32 +188,54 @@ const SITE_CONTENT = {
     },
 
     shipping: {
-      heading: "Shipping and fine print",
+      heading: "Request details",
       notes: [
-        "Production timing and shipping details are still being finalized.",
-        "Custom image products may have limited returns once images are printed or loaded.",
-        "Finished gifts may include small mechanical parts and a battery depending on the reveal type."
+        "No payment is collected on this site yet.",
+        "Each request is reviewed directly before a quote is provided.",
+        "Custom image products may have limited returns once images are printed or loaded."
       ]
+    },
+
+    inquiry: {
+      typeLabel: "What is this about?",
+      typeOptions: [
+        "Order or quote",
+        "Question",
+        "Feedback",
+        "Collaboration or testing"
+      ],
+      kitLabel: "Kit path",
+      kitPlaceholder: "Not sure yet",
+      nameLabel: "Name",
+      emailLabel: "Email",
+      timelineLabel: "Timeline",
+      timelinePlaceholder: "No deadline, gift date, event date, etc.",
+      messageLabel: "What do you have in mind?",
+      messagePlaceholder: "Tell me about the image idea, occasion, quantity, constraints, or anything you want feedback on.",
+      submitLabel: "Send request",
+      sendingLabel: "Sending...",
+      successMessage: "Request sent. I will follow up directly.",
+      errorMessage: "Request could not be sent. Please try again later."
     },
 
     faq: {
       heading: "FAQ",
       items: [
         {
-          question: "Is it a screen?",
-          answer: "No. The reveal is physical and uses printed images."
+          question: "Will I enjoy putting this together?",
+          answer: "That depends almost entirely on what kind of project you enjoy.\n\nIf you like examining unfamiliar parts, understanding how they interact, making small adjustments, and eventually watching a mechanism come to life, this is probably your kind of fun. It is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. The instructions will guide you, but the real satisfaction comes from understanding what the mechanism is doing and getting it dialed in.\n\nIf you are looking for a quick, linear project where you follow each step once, never need to inspect or adjust anything, and can assume that every part will behave perfectly on the first try, this may be more aggravating than enjoyable. There is nothing unusually difficult about it, but it rewards curiosity, patience, and a willingness to tinker."
         },
         {
-          question: "Can I use my own images?",
-          answer: "That is the core idea. The current upload form collects cover/reveal concept pairs."
+          question: "How do I reset the mechanism?",
+          answer: "Return to the assembly instructions and repeat the steps that set the mechanism in motion. You will need to redo some of the assembly process, but not all of it."
         },
         {
-          question: "Can I choose the reveal timing?",
-          answer: "Advanced configuration is not live yet."
+          question: "Threading the string is a nuisance.",
+          answer: "It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle."
         },
         {
-          question: "Is checkout live?",
-          answer: "No. Checkout is a placeholder until real ordering and payment details are ready."
+          question: "I'm worried I assembled it incorrectly and it won't work.",
+          answer: "The design and assembly instructions include multiple layers of redundancy. Most individual steps are not essential on their own; instead, they work together to reduce the overall likelihood of failure to below 1%. If you get one detail slightly wrong, the mechanism will usually still work - you have most likely increased the risk of failure only marginally."
         }
       ]
     },
@@ -246,6 +244,7 @@ const SITE_CONTENT = {
       uploadHeading: "Submit your own",
       uploadIntro: "Try a cover image and reveal image that would make sense as a physical surprise.",
       uploadNote: "Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.",
+      uploadConsent: "By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.",
       galleryHeading: "Gallery",
       galleryIntro: "Click any image to switch between its cover and reveal state.",
       emptyGallery: "No gallery submissions yet."

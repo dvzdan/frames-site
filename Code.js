@@ -20,6 +20,8 @@ const SHEET_ID = "1nS6mq8u5N3WhBiwoFTnbXBvKDUki-iM37vc5CQ-W7pM";
 const FOLDER_ID = "16s11FtG5CEIorTk1kxXL6iTQwNLPqxIO";
 const GALLERY_INLINE_IMAGE_WIDTH = 720;
 const CMS_SHEET_NAME = "Site CMS";
+const INQUIRY_SHEET_NAME = "Inquiries";
+const INQUIRY_NOTIFICATION_EMAIL = "friedman.zack@gmail.com";
 const CMS_HEADERS = ["section", "type", "sort", "heading", "body", "enabled", "notes"];
 const CMS_DEFAULT_ROWS = [
   ["how-it-works", "primary", 10, "", "Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.", true, "Main paragraph under How it works."],
@@ -31,6 +33,10 @@ const CMS_DEFAULT_ROWS = [
   ["how-it-works", "detail", 70, "Can I just use my own photos?", "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty media we provide.", true, ""],
   ["how-it-works", "detail", 80, "Won't it seem weird to give someone a photo in this frame?", "Probably. A cover story helps. Try: \"My friend started 3D-printing frames and gave me one.\"", true, ""],
   ["how-it-works", "detail", 90, "Does it make noise?", "A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.\n\nThe reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.", true, ""],
+  ["faq", "item", 10, "Will I enjoy putting this together?", "That depends almost entirely on what kind of project you enjoy.\n\nIf you like examining unfamiliar parts, understanding how they interact, making small adjustments, and eventually watching a mechanism come to life, this is probably your kind of fun. It is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. The instructions will guide you, but the real satisfaction comes from understanding what the mechanism is doing and getting it dialed in.\n\nIf you are looking for a quick, linear project where you follow each step once, never need to inspect or adjust anything, and can assume that every part will behave perfectly on the first try, this may be more aggravating than enjoyable. There is nothing unusually difficult about it, but it rewards curiosity, patience, and a willingness to tinker.", true, "FAQ item from docs/FAQ.docx."],
+  ["faq", "item", 20, "How do I reset the mechanism?", "Return to the assembly instructions and repeat the steps that set the mechanism in motion. You will need to redo some of the assembly process, but not all of it.", true, "FAQ item from docs/FAQ.docx."],
+  ["faq", "item", 30, "Threading the string is a nuisance.", "It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.", true, "FAQ item from docs/FAQ.docx."],
+  ["faq", "item", 40, "I'm worried I assembled it incorrectly and it won't work.", "The design and assembly instructions include multiple layers of redundancy. Most individual steps are not essential on their own; instead, they work together to reduce the overall likelihood of failure to below 1%. If you get one detail slightly wrong, the mechanism will usually still work - you have most likely increased the risk of failure only marginally.", true, "FAQ item from docs/FAQ.docx."],
   ["assembly", "intro", 10, "", "Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.", true, "Appears above the assembly step viewer."],
   ["assembly", "sequence", 20, "How the mechanism works:", "Clock mechanism sits inside the frame.\nCapstan presses onto the clock mechanism.\nString ties to the capstan.\n  Then runs through the clock/string guide hole.\n  And through the top-left eyelet.\n  Then ties to the zipper anchor.\nZipper head supports the latch.\nLatch supports the weight.\nWeight is tethered to the sliding cover image.\nCover image sits over the reveal image.\nWhen the timer runs, the clock winds the string, pulls the zipper, releases the latch, drops the weight, slides the cover image up, and reveals the image underneath.", true, "Each line appears as a bulleted sequence item. Indent lines with spaces for nested bullets."],
   ["assembly", "checklist", 30, "Easy-to-miss checks:", "Tuck the stem of the weight inside the roller lip so it cannot fall out.\nFasten the trap-door latch with the C-clip.\nThread the string through both the boss guide and the top-left eyelet.\nPull any remaining slack above the string/clock guide.", true, "Each line appears as a checkbox."]
@@ -62,6 +68,70 @@ function submitConcept(data) {
   ]);
 
   return "Submitted";
+}
+
+function submitInquiry(data) {
+  validateInquiry(data);
+
+  const sheet = getOrCreateInquirySheet_();
+  const timestamp = new Date();
+  sheet.appendRow([
+    timestamp,
+    textOrEmpty(data.type),
+    textOrEmpty(data.kit),
+    textOrEmpty(data.name),
+    textOrEmpty(data.email),
+    textOrEmpty(data.timeline),
+    textOrEmpty(data.message)
+  ]);
+  sendInquiryNotification_(data, timestamp);
+
+  return "Submitted";
+}
+
+function sendInquiryNotification_(data, timestamp) {
+  const type = textOrEmpty(data.type);
+  const kit = textOrEmpty(data.kit);
+  const name = textOrEmpty(data.name);
+  const email = textOrEmpty(data.email);
+  const timeline = textOrEmpty(data.timeline);
+  const message = textOrEmpty(data.message);
+  const body = [
+    "New Double Take Frames request",
+    "",
+    "Submitted: " + timestamp,
+    "Type: " + type,
+    "Kit path: " + kit,
+    "Name: " + name,
+    "Email: " + email,
+    "Timeline: " + timeline,
+    "",
+    "Message:",
+    message
+  ].join("\n");
+  const options = {
+    to: INQUIRY_NOTIFICATION_EMAIL,
+    subject: "Double Take Frames: " + (type || "Website request"),
+    body: body,
+    name: "Double Take Frames"
+  };
+
+  if (email) options.replyTo = email;
+  MailApp.sendEmail(options);
+}
+
+function validateInquiry(data) {
+  if (!data) {
+    throw new Error("Missing request data.");
+  }
+
+  if (!textOrEmpty(data.email).trim()) {
+    throw new Error("Email is required.");
+  }
+
+  if (!textOrEmpty(data.message).trim()) {
+    throw new Error("Message is required.");
+  }
 }
 
 function validateSubmission(data) {
@@ -259,6 +329,9 @@ function getSiteCmsContent_() {
   const assemblyRows = cmsRows.filter(function(row) {
     return row.section === "assembly";
   });
+  const faqRows = cmsRows.filter(function(row) {
+    return row.section === "faq";
+  });
 
   const primary = howItWorksRows.find(function(row) {
     return row.type === "primary";
@@ -279,8 +352,34 @@ function getSiteCmsContent_() {
   if (primary) content.homepage.productIntro.text = primary.body;
   if (detailGroups.length) content.homepage.productIntro.detailGroups = detailGroups;
   const assembly = buildAssemblyCmsContent_(assemblyRows);
-  if (assembly) content.sections = { assembly: assembly };
+  const faq = buildFaqCmsContent_(faqRows);
+  if (assembly || faq) content.sections = {};
+  if (assembly) content.sections.assembly = assembly;
+  if (faq) content.sections.faq = faq;
   return content;
+}
+
+function buildFaqCmsContent_(rows) {
+  const items = rows
+    .filter(function(row) {
+      return row.type === "item";
+    })
+    .map(function(row) {
+      return {
+        question: row.heading,
+        answer: row.body
+      };
+    })
+    .filter(function(item) {
+      return item.question && item.answer;
+    });
+
+  if (!items.length) return null;
+
+  return {
+    heading: "FAQ",
+    items: items
+  };
 }
 
 function buildAssemblyCmsContent_(rows) {
@@ -410,8 +509,29 @@ function getGallerySheet_() {
   const ss = SpreadsheetApp.openById(SHEET_ID);
   const sheets = ss.getSheets();
   return sheets.find(function(sheet) {
-    return sheet.getName() !== CMS_SHEET_NAME;
+    const name = sheet.getName();
+    return name !== CMS_SHEET_NAME && name !== INQUIRY_SHEET_NAME;
   }) || ss.getActiveSheet();
+}
+
+function getOrCreateInquirySheet_() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sheet = ss.getSheetByName(INQUIRY_SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(INQUIRY_SHEET_NAME);
+    sheet.getRange(1, 1, 1, 7).setValues([[
+      "Timestamp",
+      "Type",
+      "Kit path",
+      "Name",
+      "Email",
+      "Timeline",
+      "Message"
+    ]]);
+    sheet.setFrozenRows(1);
+    sheet.autoResizeColumns(1, 7);
+  }
+  return sheet;
 }
 
 function getGalleryImageDataUrl(url) {
