@@ -273,7 +273,11 @@ function MechanismSection() {
 
 function TierComparisonSection() {
   const order = SITE_CONTENT.sections.order;
-  const section = sectionShell("order", "tier-comparison-section");
+  const section = sectionShell("kits", "tier-comparison-section");
+  const anchor = el("span", "anchor-target");
+  anchor.id = "order";
+  anchor.setAttribute("aria-hidden", "true");
+  section.appendChild(anchor);
   section.appendChild(el("h2", "", order.heading));
   appendParagraph(section, order.subhead, "section-copy");
   if (order.statusHeading || order.statusText) {
@@ -291,6 +295,66 @@ function TierComparisonSection() {
   section.appendChild(container);
 
   renderPricingTiers(container);
+  return section;
+}
+
+function PlansSection() {
+  const plans = SITE_CONTENT.sections.plans;
+  const section = sectionShell("plans", "plans-section");
+  section.appendChild(el("h2", "plans-heading", plans.heading));
+  appendParagraph(section, plans.intro, "section-copy plans-intro");
+
+  const columns = el("div", "plans-columns");
+  const downloads = el("div", "plans-downloads");
+  downloads.appendChild(el("h3", "plans-downloads-heading", plans.downloadsHeading));
+  const list = el("div", "downloads-list");
+  list.id = "downloadsList";
+  list.innerHTML = '<div class="downloads-empty fine-print">Design files are loading.</div>';
+  downloads.appendChild(list);
+
+  if (plans.license) {
+    const license = el("p", "fine-print plans-license");
+    const link = el("a", "plans-license-link", plans.license.name);
+    link.href = plans.license.url;
+    link.target = "_blank";
+    link.rel = "noopener";
+    license.appendChild(link);
+    license.appendChild(document.createTextNode(" "));
+    license.appendChild(el("span", "plans-license-text", plans.license.text));
+    downloads.appendChild(license);
+  }
+
+  const tool = el("aside", "plans-tool-card");
+  if (plans.tool) {
+    tool.appendChild(el("h3", "plans-tool-heading", plans.tool.heading));
+    appendParagraph(tool, plans.tool.text, "plans-tool-text");
+    const toolLink = el("a", "button secondary plans-tool-link", plans.tool.linkLabel);
+    toolLink.href = "?page=make5x7";
+    toolLink.target = "_blank";
+    toolLink.rel = "noopener";
+    tool.appendChild(toolLink);
+  }
+
+  columns.appendChild(downloads);
+  columns.appendChild(tool);
+  section.appendChild(columns);
+  return section;
+}
+
+function PartsSection() {
+  const parts = SITE_CONTENT.sections.parts;
+  const section = sectionShell("parts", "parts-section");
+  section.appendChild(el("h2", "parts-heading", parts.heading));
+  appendParagraph(section, parts.intro, "section-copy parts-intro");
+  const wrap = el("div", "parts-table-wrap");
+  const table = el("div", "parts-table");
+  table.id = "partsTable";
+  wrap.appendChild(table);
+  section.appendChild(wrap);
+  const note = el("p", "fine-print parts-note", parts.note);
+  note.id = "partsNote";
+  section.appendChild(note);
+  hydratePartsSectionFromConfig(section, parts);
   return section;
 }
 
@@ -581,7 +645,7 @@ function SetupKitInventorySection() {
 
   const section = sectionShell("setup-inventory", "setup-kit-inventory-section");
   section.appendChild(el("h2", "", "What's Included"));
-  appendParagraph(section, "Individual parts included with the setup path.", "section-copy");
+  appendParagraph(section, "The physical pieces used by the parts-kit and finished-frame paths.", "section-copy");
 
   const links = el("p", "manual-back-link");
   const back = el("a", "button secondary", "Back to comparison");
@@ -652,8 +716,10 @@ function renderHomepage() {
 
   [
     HeroSection,
-    TierComparisonSection,
     ProductIntroSection,
+    TierComparisonSection,
+    PlansSection,
+    PartsSection,
     ProcessStripSection,
     MechanismSection,
     RevealDemoSection,
@@ -675,6 +741,8 @@ function hydrateStaticHomepage() {
   hydrateHowWorksCmsContent();
   hydrateAssemblyCmsContent();
   hydrateFaqCmsContent();
+  hydratePlansSection();
+  hydratePartsSection();
   if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
   renderInitialHeroGallery();
   hydrateTierIllustrations();
@@ -724,6 +792,95 @@ function hydrateFaqCmsContent() {
   const section = document.querySelector("#faq");
   if (!section) return;
   renderFaqContent(section, SITE_CONTENT.sections.faq || {});
+}
+
+/* Plans section: refresh copy from Config. The download list itself is
+   server-rendered from the Drive downloads folder and left untouched here. */
+function hydratePlansSection() {
+  const plans = SITE_CONTENT.sections.plans;
+  const section = document.querySelector("#plans");
+  if (!section || !plans) return;
+
+  const setText = function(selector, value) {
+    const node = section.querySelector(selector);
+    if (node && value) node.textContent = value;
+  };
+
+  setText(".plans-heading", plans.heading);
+  setText(".plans-intro", plans.intro);
+  setText(".plans-downloads-heading", plans.downloadsHeading);
+  if (plans.license) {
+    const link = section.querySelector(".plans-license-link");
+    if (link && plans.license.name) link.textContent = plans.license.name;
+    if (link && plans.license.url) link.href = plans.license.url;
+    setText(".plans-license-text", plans.license.text);
+  }
+  if (plans.tool) {
+    setText(".plans-tool-heading", plans.tool.heading);
+    setText(".plans-tool-text", plans.tool.text);
+    const toolLink = section.querySelector(".plans-tool-link");
+    if (toolLink && plans.tool.linkLabel) toolLink.textContent = plans.tool.linkLabel;
+  }
+}
+
+/* Source-it-yourself parts table, rendered from Config sections.parts. */
+function hydratePartsSection() {
+  const parts = SITE_CONTENT.sections.parts;
+  const section = document.querySelector("#parts");
+  if (!section || !parts) return;
+  hydratePartsSectionFromConfig(section, parts);
+}
+
+function hydratePartsSectionFromConfig(section, parts) {
+  const heading = section.querySelector(".parts-heading");
+  if (heading && parts.heading) heading.textContent = parts.heading;
+  const intro = section.querySelector(".parts-intro");
+  if (intro && parts.intro) intro.textContent = parts.intro;
+  const note = section.querySelector("#partsNote");
+  if (note && parts.note) note.textContent = parts.note;
+
+  const table = section.querySelector("#partsTable");
+  if (!table) return;
+  table.innerHTML = "";
+
+  (parts.items || []).forEach(function(item) {
+    if (!item || !item.name) return;
+    const row = el("div", "parts-row");
+
+    const info = el("div", "parts-info");
+    info.appendChild(el("div", "parts-name", item.name));
+    if (item.role) info.appendChild(el("p", "parts-role", item.role));
+    row.appendChild(info);
+
+    const facts = el("div", "parts-facts");
+    if (item.kitAmount) {
+      const kit = el("div", "parts-fact");
+      kit.appendChild(el("span", "parts-fact-label", "In the kit"));
+      kit.appendChild(el("span", "parts-fact-value", item.kitAmount));
+      facts.appendChild(kit);
+    }
+    if (item.bulkReality) {
+      const bulk = el("div", "parts-fact");
+      bulk.appendChild(el("span", "parts-fact-label", "On your own"));
+      bulk.appendChild(el("span", "parts-fact-value", item.bulkReality));
+      facts.appendChild(bulk);
+    }
+    row.appendChild(facts);
+
+    const action = el("div", "parts-action");
+    if (item.link) {
+      const link = el("a", "parts-link", parts.linkLabel || "Where to buy");
+      link.href = item.link;
+      link.target = "_blank";
+      link.rel = "noopener";
+      action.appendChild(link);
+    } else {
+      action.appendChild(el("span", "parts-link-missing", parts.missingLinkText || "Link coming soon"));
+    }
+    row.appendChild(action);
+
+    table.appendChild(row);
+  });
 }
 
 function hydrateSubmissionModule() {
@@ -1833,4 +1990,3 @@ if (document.readyState === "loading") {
 } else {
   startApp();
 }
-

@@ -18,7 +18,7 @@ Last updated: 2026-07-19
 - Versioned live deployment:
   `AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg`
 - Current verified live version:
-  `@190 - add order image crop caveat`
+  `@193 - revise site copy hierarchy`
 - Deployment workflow:
   1. `clasp.cmd push`
   2. `clasp.cmd version "short description"`
@@ -79,6 +79,12 @@ Recent commits on `main`:
 - Added an order/request form caveat:
   `Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.`
   This caveat is only in the ordering/request area, not the gallery submission module.
+- Revised site copy/information hierarchy after the open-design/parts-kit refactor draft:
+  - Hero sells the timed physical reveal, not free files or licensing.
+  - Primary paths are `Build from scratch`, `Parts Kit`, and `Finished Gift`.
+  - Design files and licensing are available after the product/options sections.
+  - Parts-kit value is framed as tested compatible parts, pre-cut materials, and one-frame quantities.
+  - Removed defensive margin/raw-bulk-cost language from visible site copy.
 - Replaced the gallery reveal image for the `Trojan` / `Troy` item with `trojan party.png` from:
   `C:\Users\zack and lil\OneDrive\Documents\OpenSCAD\photo stuff`
   The live reveal image now uses Drive image ID `1Y6yk4mI9--aYN1zrzyg8bXJozmI0oAgM`.
@@ -117,20 +123,44 @@ Recent commits on `main`:
 
 ## Current Kit Paths
 
-Maker Kit:
+Build from scratch:
 
-- Customer 3D prints frame and stand, assembles mechanism, loads image pair.
-- Includes hardware kit, assembly supplies, two custom prints, digital frame/stand files.
+- Customer uses the design files, sources hardware, prints image pair, and assembles the mechanism.
+- Includes SCAD/STL/3MF design files, site assembly instructions, Make-5x7 tool, and parts list.
 
-Builder Kit:
+Parts Kit:
 
-- Customer assembles mechanism and loads image pair.
-- Includes 3D printed frame and stand, hardware kit, two custom prints, assembly supplies.
+- Customer 3D prints frame and stand, assembles mechanism, prints/loads image pair.
+- Includes tested compatible one-frame quantities: clock mechanism, specialty media, pre-cut acrylic/backing, UHMW tape, string/threading wire, zipper/latch/eyelets/C-clip/fasteners.
 
 Finished Gift:
 
 - Completed frame, images loaded/tested, ready to display or gift.
 - Customer may remove battery pull tab to begin countdown, or receive with countdown already underway.
+
+## Design Files And Parts List
+
+Keep this subordinate in public copy: demonstrate the openness, do not lead with it.
+
+- SCAD/STL/3MF design files are available from the site downloads section.
+- License: CC BY-NC-SA 4.0 for personal, noncommercial use.
+- Files are auto-listed on the site from the Drive folder `<gallery folder>/downloads`
+  (child folder of `FOLDER_ID` in Code.js, created automatically on first render).
+  Drop files in; the site lists them with size/date and a public download link.
+- The `Source it yourself` table (`sections.parts` in Config.html) lists
+  each hardware part with `link: ""` placeholders - fill in buy-yourself links there.
+- Make-5x7 tool is served at `<exec url>?page=make5x7` from `Make5x7.html`
+  (copied from `Documents/codex-scad-experiment/photo stuff/make 5x7.html`).
+- Tiers are now: Build from scratch / Parts Kit (defaultActive) / Finished Gift.
+- GitHub for design files deliberately deferred; Drive-first. Revisit if a remix
+  community forms.
+
+## Archived Maker/Builder Tiers
+
+Replaced by Build from scratch + Parts Kit on 2026-07-19. Restore from git history
+(`git log -- Config.html`, commit before that date) if needed. Key facts: Maker Kit
+($45) = hardware kit + supplies + 2 custom prints + digital files, you print and
+assemble; Builder Kit ($70) = printed frame/stand + hardware + prints, you assemble.
 
 ## Archived Setup Kit Tier
 

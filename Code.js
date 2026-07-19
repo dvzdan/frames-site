@@ -1,4 +1,9 @@
-function doGet() {
+function doGet(e) {
+  if (e && e.parameter && e.parameter.page === "make5x7") {
+    return HtmlService.createHtmlOutputFromFile('Make5x7')
+      .setTitle('Make 5x7 - Double Take Frames');
+  }
+
   return HtmlService.createTemplateFromFile('Index')
     .evaluate()
     .setTitle('Double Take Frames');
@@ -21,6 +26,7 @@ const FOLDER_ID = "16s11FtG5CEIorTk1kxXL6iTQwNLPqxIO";
 const GALLERY_INLINE_IMAGE_WIDTH = 720;
 const CMS_SHEET_NAME = "Site CMS";
 const INQUIRY_SHEET_NAME = "Inquiries";
+const DOWNLOADS_FOLDER_NAME = "downloads";
 const INQUIRY_NOTIFICATION_EMAIL = "friedman.zack@gmail.com";
 const CMS_HEADERS = ["section", "type", "sort", "heading", "body", "enabled", "notes"];
 const CMS_DEFAULT_ROWS = [
@@ -37,6 +43,8 @@ const CMS_DEFAULT_ROWS = [
   ["faq", "item", 20, "How do I reset the mechanism?", "Return to the assembly instructions and repeat the steps that set the mechanism in motion. You will need to redo some of the assembly process, but not all of it.", true, "FAQ item from docs/FAQ.docx."],
   ["faq", "item", 30, "Threading the string is a nuisance.", "It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.", true, "FAQ item from docs/FAQ.docx."],
   ["faq", "item", 40, "I'm worried I assembled it incorrectly and it won't work.", "The design and assembly instructions include multiple layers of redundancy. Most individual steps are not essential on their own; instead, they work together to reduce the overall likelihood of failure to below 1%. If you get one detail slightly wrong, the mechanism will usually still work - you have most likely increased the risk of failure only marginally.", true, "FAQ item from docs/FAQ.docx."],
+  ["faq", "item", 50, "Can I build one entirely myself?", "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the parts kit gathers the tested compatible pieces in one-frame quantities.", true, "Open-model FAQ item."],
+  ["faq", "item", 60, "Can I sell frames made from these files?", "The files are licensed CC BY-NC-SA 4.0: free for personal, noncommercial use, and remixing is encouraged as long as remixes carry the same license. If you want to use the design commercially, get in touch through the request form.", true, "Open-model FAQ item."],
   ["assembly", "intro", 10, "", "Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.", true, "Appears above the assembly step viewer."],
   ["assembly", "sequence", 20, "How the mechanism works:", "Clock mechanism sits inside the frame.\nCapstan presses onto the clock mechanism.\nString ties to the capstan.\n  Then runs through the clock/string guide hole.\n  And through the top-left eyelet.\n  Then ties to the zipper anchor.\nZipper head supports the latch.\nLatch supports the weight.\nWeight is tethered to the sliding cover image.\nCover image sits over the reveal image.\nWhen the timer runs, the clock winds the string, pulls the zipper, releases the latch, drops the weight, slides the cover image up, and reveals the image underneath.", true, "Each line appears as a bulleted sequence item. Indent lines with spaces for nested bullets."],
   ["assembly", "checklist", 30, "Easy-to-miss checks:", "Tuck the stem of the weight inside the roller lip so it cannot fall out.\nFasten the trap-door latch with the C-clip.\nThread the string through both the boss guide and the top-left eyelet.\nPull any remaining slack above the string/clock guide.", true, "Each line appears as a checkbox."]
@@ -512,6 +520,70 @@ function getGallerySheet_() {
     const name = sheet.getName();
     return name !== CMS_SHEET_NAME && name !== INQUIRY_SHEET_NAME;
   }) || ss.getActiveSheet();
+}
+
+/* Design file downloads. Drop SCAD/STL/3MF files into the Drive folder
+   "<gallery folder>/downloads" and they are listed on the site automatically. */
+function getDownloadsFolder_() {
+  const parent = DriveApp.getFolderById(FOLDER_ID);
+  const existing = parent.getFoldersByName(DOWNLOADS_FOLDER_NAME);
+  if (existing.hasNext()) return existing.next();
+  return parent.createFolder(DOWNLOADS_FOLDER_NAME);
+}
+
+function listDownloadFiles_() {
+  const folder = getDownloadsFolder_();
+  const iterator = folder.getFiles();
+  const files = [];
+
+  while (iterator.hasNext()) {
+    const file = iterator.next();
+    try {
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    } catch (err) {
+      console.warn("Could not set sharing for " + file.getName() + ": " + err.message);
+    }
+    files.push({
+      name: file.getName(),
+      size: file.getSize(),
+      updated: file.getLastUpdated(),
+      id: file.getId()
+    });
+  }
+
+  files.sort(function(a, b) {
+    return a.name.localeCompare(b.name);
+  });
+  return files;
+}
+
+function formatFileSize_(bytes) {
+  if (!bytes) return "";
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+}
+
+function renderInitialDownloadsHtml() {
+  try {
+    const files = listDownloadFiles_();
+    if (!files.length) {
+      return '<div class="downloads-empty fine-print">Design files are being staged - check back shortly, or send a request below and I will email them to you directly.</div>';
+    }
+
+    return files.map(function(file) {
+      const meta = [formatFileSize_(file.size),
+        "Updated " + Utilities.formatDate(file.updated, Session.getScriptTimeZone(), "MMM d, yyyy")]
+        .filter(Boolean).join(" · ");
+      return '<a class="download-row" target="_blank" rel="noopener" href="https://drive.google.com/uc?export=download&id=' + file.id + '">' +
+        '<span class="download-name">' + escapeHtmlServer(file.name) + '</span>' +
+        '<span class="download-meta">' + escapeHtmlServer(meta) + '</span>' +
+        '<span class="download-action" aria-hidden="true">Download</span>' +
+        '</a>';
+    }).join("");
+  } catch (err) {
+    return '<div class="downloads-empty fine-print">Download list error: ' + escapeHtmlServer(err.message || err) + '</div>';
+  }
 }
 
 function getOrCreateInquirySheet_() {

@@ -9,7 +9,7 @@ const SITE_CONTENT = {
     eyebrow: "One frame. Two takes.",
     tagline: "Physical photos that change in the blink of an eye, according to a timer you set.",
     intro: "Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.",
-    primaryAction: "Compare kit paths",
+    primaryAction: "See your options",
     secondaryAction: "Request a quote",
     navContactLabel: "Request quote",
     contactNote: "For orders, feedback, or custom reveal ideas, send a note through the request form."
@@ -18,7 +18,7 @@ const SITE_CONTENT = {
   homepage: {
     launchStatus: {
       label: "Early small-batch release",
-      text: "Double Take Frames is being built in public. The mechanism works, the kits are taking shape, and requests are handled directly while the polished ordering flow is still in progress."
+      text: "The mechanism works, the frames are real, and requests are handled directly while the ordering flow catches up."
     },
 
     productIntro: {
@@ -110,53 +110,57 @@ const SITE_CONTENT = {
     },
 
     order: {
-      heading: "Choose your version.",
-      subhead: "From self-assembly to finished gift.",
+      heading: "Three ways to get one.",
+      subhead: "Build from scratch, start with the tricky parts already gathered, or hand the whole thing off.",
       statusHeading: "Current status: early production",
-      statusText: "Kit paths, pricing, and availability are preliminary while the project moves toward a more streamlined ordering process.",
+      statusText: "Kit contents, pricing, and availability are preliminary while the project moves toward a more streamlined ordering process.",
       requestButton: "Request a quote",
       tiers: [
         {
-          name: "Maker Kit",
-          shortDescription: "3D print your own frame. Precision parts and images included.",
+          name: "Build from scratch",
+          shortDescription: "Use the design files, source the parts, and make the whole thing yourself.",
           included: [
-            "Hardware kit",
-            "Assembly supplies",
-            "Two custom prints on specialty media",
-            "Digital files for the frame and stand"
+            "SCAD, STL, and 3MF design files",
+            "Full assembly instructions on this site",
+            "Make-5x7 image formatting tool",
+            "A complete parts list with sourcing notes"
           ],
           youDo: [
             "3D print the frame and stand",
-            "Assemble the mechanism",
-            "Load your image pair"
+            "Source the hardware parts",
+            "Print your image pair",
+            "Assemble the mechanism"
           ],
-          note: "Some basic hand tools required.",
+          note: "For people who enjoy the full hunt-and-build version of the project.",
           accentColor: "#6f7f53",
           illustration: {
             type: "maker",
             assetKey: "maker",
-            alt: "Framed symbolic parts layout for the Maker Kit"
+            alt: "Framed symbolic parts layout for the build-from-scratch path"
           }
         },
         {
-          name: "Builder Kit",
-          shortDescription: "Full self-assembly. Frame, hardware, and images included.",
+          name: "Parts Kit",
+          defaultActive: true,
+          shortDescription: "Tested compatible components in the quantities needed for one frame.",
           included: [
-            "3D printed frame and stand",
-            "Hardware kit",
-            "Two custom prints on specialty media",
-            "Assembly supplies"
+            "Clock mechanism, tested and ready",
+            "Specialty cover media and photo stock",
+            "Acrylic sheet and backing board, pre-cut to size",
+            "UHMW tape, string, and threading wire",
+            "Zipper, latch hardware, eyelets, C-clip, and fasteners"
           ],
           youDo: [
+            "3D print the frame and stand",
             "Assemble the mechanism",
-            "Load your image pair"
+            "Print and load your image pair"
           ],
-          note: "Some basic hand tools required.",
+          note: "Useful if you want to build it, but not buy full rolls, sheets, bags, and multi-packs for one frame.",
           accentColor: "#6b7f92",
           illustration: {
-            type: "builder",
-            assetKey: "builder",
-            alt: "Framed symbolic assembly layout for the Builder Kit"
+            type: "setup",
+            assetKey: "setup",
+            alt: "Framed symbolic parts layout for the Parts Kit"
           }
         },
         {
@@ -181,6 +185,106 @@ const SITE_CONTENT = {
       ]
     },
 
+    // Design file downloads section. File list itself is auto-generated from the
+    // Drive folder "<gallery folder>/downloads" - drop files there to publish them.
+    plans: {
+      heading: "Design files and image tool",
+      intro: "If you want the full DIY route, the printable files and source files are here. Print the frame and stand, use the assembly guide, and source the rest yourself or start with a parts kit.",
+      downloadsHeading: "Design files",
+      license: {
+        name: "CC BY-NC-SA 4.0",
+        url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        text: "For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form."
+      },
+      tool: {
+        heading: "Make-5x7 image tool",
+        text: "The same placement tool used for kit prints: drop in any image, position it for a 5x7 frame, and print it at home on standard 8.5x11 paper.",
+        linkLabel: "Open the Make-5x7 tool"
+      }
+    },
+
+    // Source-it-yourself parts table. Fill in the buy links as you find good ones;
+    // rows with an empty link show the missingLinkText instead.
+    parts: {
+      heading: "Source it yourself",
+      intro: "The parts list is here for builders who want total control. The parts kit is simply the same kind of compatible, tested, pre-cut, single-build set I would want if I were making one frame instead of stocking a drawer.",
+      note: "Sourcing everything yourself is absolutely an option; expect some items to come as larger packs, rolls, sheets, or bags than one build needs.",
+      linkLabel: "Where to buy",
+      missingLinkText: "Link coming soon",
+      items: [
+        {
+          name: "Clock mechanism",
+          role: "Drives the countdown and winds the string.",
+          kitAmount: "1, tested",
+          bulkReality: "Sold individually, but quality varies wildly between batches.",
+          link: ""
+        },
+        {
+          name: "Specialty cover media",
+          role: "The sliding cover image. This stock has a job to do - weight and stiffness matter.",
+          kitAmount: "2 sheets",
+          bulkReality: "Sold in 50-sheet packs.",
+          link: ""
+        },
+        {
+          name: "Photo paper (reveal image)",
+          role: "The hidden image. Most 5x7 photo stock works.",
+          kitAmount: "2 sheets",
+          bulkReality: "Sold in 25-100 sheet packs.",
+          link: ""
+        },
+        {
+          name: "Acrylic sheet",
+          role: "The glazing. Needs to be cut cleanly to size.",
+          kitAmount: "1, pre-cut",
+          bulkReality: "Sold in large sheets; cutting acrylic cleanly at home is its own project.",
+          link: ""
+        },
+        {
+          name: "Backing board",
+          role: "Stiffens the frame and carries the mechanism.",
+          kitAmount: "1, pre-cut",
+          bulkReality: "Sold in large sheets.",
+          link: ""
+        },
+        {
+          name: "UHMW tape",
+          role: "Low-friction surface so the cover image slides freely.",
+          kitAmount: "Exact strips",
+          bulkReality: "Sold in 15-foot rolls.",
+          link: ""
+        },
+        {
+          name: "Braided string",
+          role: "Connects the capstan to the zipper anchor.",
+          kitAmount: "Exact length",
+          bulkReality: "Sold in 100-yard spools.",
+          link: ""
+        },
+        {
+          name: "Threading wire",
+          role: "Tiny wire used as a threading needle for the string.",
+          kitAmount: "1",
+          bulkReality: "Sold in coils.",
+          link: ""
+        },
+        {
+          name: "Zipper",
+          role: "The release element - the head supports the latch until the string pulls it free.",
+          kitAmount: "1",
+          bulkReality: "Sold in multi-packs; the specific type matters.",
+          link: ""
+        },
+        {
+          name: "Eyelets, C-clip, and fasteners",
+          role: "String guides, trap-door latch retention, and assembly hardware.",
+          kitAmount: "Exact set",
+          bulkReality: "Each sold in 50-200 count bags.",
+          link: ""
+        }
+      ]
+    },
+
     shipping: {
       heading: "Request details",
       notes: [
@@ -194,7 +298,8 @@ const SITE_CONTENT = {
     inquiry: {
       typeLabel: "What is this about?",
       typeOptions: [
-        "Order or quote",
+        "Parts kit order",
+        "Finished frame or quote",
         "Question",
         "Feedback",
         "Collaboration or testing"
@@ -231,6 +336,14 @@ const SITE_CONTENT = {
         {
           question: "I'm worried I assembled it incorrectly and it won't work.",
           answer: "The design and assembly instructions include multiple layers of redundancy. Most individual steps are not essential on their own; instead, they work together to reduce the overall likelihood of failure to below 1%. If you get one detail slightly wrong, the mechanism will usually still work - you have most likely increased the risk of failure only marginally."
+        },
+        {
+          question: "Can I build one entirely myself?",
+          answer: "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the parts kit gathers the tested compatible pieces in one-frame quantities."
+        },
+        {
+          question: "Can I sell frames made from these files?",
+          answer: "The files are licensed CC BY-NC-SA 4.0: free for personal, noncommercial use, and remixing is encouraged as long as remixes carry the same license. If you want to use the design commercially, get in touch through the request form."
         }
       ]
     },

@@ -1,0 +1,797 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4.9x6.9 on 8.5x11 Image Placement</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #dbe2ea;
+      --text: #0f172a;
+      --muted: #475569;
+      --muted-2: #64748b;
+      --accent: #2563eb;
+      --accent-2: #1d4ed8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 20px 8px;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+
+    .card-subtitle {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .section {
+      margin-bottom: 22px;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .dropzone {
+      border: 2px dashed var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      text-align: center;
+      background: #fff;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .dropzone.dragover {
+      border-color: var(--accent);
+      background: #eff6ff;
+    }
+
+    .dropzone p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    select, input[type="text"], input[type="color"] {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input[type="color"] {
+      padding: 4px;
+      height: 42px;
+    }
+
+    .color-row {
+      display: grid;
+      grid-template-columns: 68px 1fr;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn:hover { background: #f8fafc; }
+    .btn:disabled { opacity: 0.5; cursor: default; }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-2);
+      border-color: var(--accent-2);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .small-note {
+      color: var(--muted-2);
+      font-size: 12px;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    .preview-wrap {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .page-preview {
+      position: relative;
+      width: 280px;
+      aspect-ratio: 8.5 / 11;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: white;
+      overflow: hidden;
+    }
+
+    .box-preview {
+      position: absolute;
+      border: 2px dashed #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .box-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .mode-badge {
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .files-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .file-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .thumb {
+      aspect-ratio: 4 / 5;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .file-body {
+      padding: 14px;
+    }
+
+    .file-name {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+
+    .empty {
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      padding: 40px;
+      text-align: center;
+      color: var(--muted-2);
+      background: #fff;
+    }
+
+    #fileInput { display: none; }
+
+    @media (max-width: 980px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+  
+    details.accordion {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    details.accordion summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    details.accordion summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.accordion .accordion-body {
+      padding: 0 14px 14px;
+    }
+
+
+    .optional-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .optional-controls {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .optional-controls.enabled {
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h1 class="card-title">4.9×6.9 on 8.5×11</h1>
+          <p class="card-subtitle">Drop in one image. Each one gets placed into a 4.9×6.9 area on an 8.5×11 page, ready to print.</p>
+        </div>
+        <div class="card-content">
+          <div class="section">
+            <label class="label">Upload images</label>
+            <div id="dropzone" class="dropzone">
+              <p>Drag an image here</p>
+              <button id="chooseBtn" class="btn" type="button">Choose image</button>
+              <input id="fileInput" type="file" accept="image/*" />
+            </div>
+          </div>
+
+          <div class="section row">
+            <div>
+              <label class="label" for="anchorSelect">Placement</label>
+              <select id="anchorSelect">
+                <option value="bottom-left">Bottom left</option>
+                <option value="bottom-right">Bottom right</option>
+                <option value="top-left">Top left</option>
+                <option value="top-right">Top right</option>
+                <option value="left">Left edge</option>
+                <option value="right">Right edge</option>
+                <option value="top">Top edge</option>
+                <option value="bottom">Bottom edge</option>
+                <option value="center">Center</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label" for="modeSelect">Scaling</label>
+              <select id="modeSelect">
+                <option value="fill">Fill / crop</option>
+                <option value="fit">Fit / no crop</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="section">
+            <label class="optional-toggle">
+              <input id="enableBg" type="checkbox" />
+              Use a custom page background
+            </label>
+            <div id="bgControls" class="optional-controls">
+              <div class="color-row">
+                <input id="bgColor" type="color" value="#ffffff" />
+                <input id="bgText" type="text" value="#ffffff" />
+              </div>
+              <div class="small-note">Leave this off for the normal white page background.</div>
+            </div>
+          </div>
+
+          <div class="section">
+            <label class="label">Output</label>
+            <div class="small-note" style="margin-top: 0; margin-bottom: 12px; font-size: 13px; color: var(--muted);">Page: 8.5×11 inches • Image area: 4.9×6.9 inches • Resolution: 300 DPI</div>
+            <div class="button-row">
+              <button id="clearAllBtn" class="btn" type="button">Clear all</button>
+            </div>
+            <div class="small-note">Print exported files at actual size or 100% on 8.5×11 paper. Do not use fit-to-page.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-header">
+          <h2 class="card-title" style="font-size: 20px;">Preview</h2>
+        </div>
+        <div class="card-content">
+          <div class="preview-wrap">
+            <div id="pagePreview" class="page-preview">
+              <div id="boxPreview" class="box-preview">
+                <div id="boxPlaceholder" style="font-size: 12px; color: #64748b;">4.9×6.9 area</div>
+                <img id="previewImg" alt="Preview" style="display:none;" />
+                <div id="modeBadge" class="mode-badge">fill</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title" style="font-size: 20px;">Image</h2>
+        </div>
+        <div class="card-content">
+          <div id="filesEmpty" class="empty">No image loaded.</div>
+          <div id="filesGrid" class="files-grid" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DPI = 300;
+    const PAGE_W_IN = 8.5;
+    const PAGE_H_IN = 11;
+    const BOX_W_IN = 4.9;
+    const BOX_H_IN = 6.9;
+
+    const PAGE_W_PX = PAGE_W_IN * DPI;
+    const PAGE_H_PX = PAGE_H_IN * DPI;
+    const BOX_W_PX = BOX_W_IN * DPI;
+    const BOX_H_PX = BOX_H_IN * DPI;
+
+    const state = {
+      items: [],
+      anchor: 'bottom-left',
+      mode: 'fill',
+      bg: '#ffffff'
+    };
+
+    const els = {
+      dropzone: document.getElementById('dropzone'),
+      chooseBtn: document.getElementById('chooseBtn'),
+      fileInput: document.getElementById('fileInput'),
+      anchorSelect: document.getElementById('anchorSelect'),
+      modeSelect: document.getElementById('modeSelect'),
+      enableBg: document.getElementById('enableBg'),
+      bgControls: document.getElementById('bgControls'),
+      bgColor: document.getElementById('bgColor'),
+      bgText: document.getElementById('bgText'),
+      clearAllBtn: document.getElementById('clearAllBtn'),
+      filesEmpty: document.getElementById('filesEmpty'),
+      filesGrid: document.getElementById('filesGrid'),
+      pagePreview: document.getElementById('pagePreview'),
+      boxPreview: document.getElementById('boxPreview'),
+      previewImg: document.getElementById('previewImg'),
+      boxPlaceholder: document.getElementById('boxPlaceholder'),
+      modeBadge: document.getElementById('modeBadge')
+    };
+
+    function getAnchorPosition(pageW, pageH, boxW, boxH, anchor) {
+      const xCenter = Math.round((pageW - boxW) / 2);
+      const yCenter = Math.round((pageH - boxH) / 2);
+      switch (anchor) {
+        case 'bottom-left': return { x: 0, y: pageH - boxH };
+        case 'bottom-right': return { x: pageW - boxW, y: pageH - boxH };
+        case 'top-left': return { x: 0, y: 0 };
+        case 'top-right': return { x: pageW - boxW, y: 0 };
+        case 'left': return { x: 0, y: yCenter };
+        case 'right': return { x: pageW - boxW, y: yCenter };
+        case 'top': return { x: xCenter, y: 0 };
+        case 'bottom': return { x: xCenter, y: pageH - boxH };
+        case 'center':
+        default: return { x: xCenter, y: yCenter };
+      }
+    }
+
+    function sanitizeBaseName(name) {
+      return name.replace(/\.[^.]+$/, '').replace(/[^a-z0-9-_]+/gi, '_');
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    async function renderPlacedCanvas({ src, mode, anchor, bg }) {
+      const img = await loadImage(src);
+      const canvas = document.createElement('canvas');
+      canvas.width = PAGE_W_PX;
+      canvas.height = PAGE_H_PX;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const pos = getAnchorPosition(PAGE_W_PX, PAGE_H_PX, BOX_W_PX, BOX_H_PX, anchor);
+      const x = pos.x;
+      const y = pos.y;
+
+      if (mode === 'fit') {
+        const scale = Math.min(BOX_W_PX / img.width, BOX_H_PX / img.height);
+        const drawW = Math.round(img.width * scale);
+        const drawH = Math.round(img.height * scale);
+        const dx = x + Math.round((BOX_W_PX - drawW) / 2);
+        const dy = y + Math.round((BOX_H_PX - drawH) / 2);
+        ctx.fillStyle = bg;
+        ctx.fillRect(x, y, BOX_W_PX, BOX_H_PX);
+        ctx.drawImage(img, dx, dy, drawW, drawH);
+      } else {
+        const scale = Math.max(BOX_W_PX / img.width, BOX_H_PX / img.height);
+        const srcW = BOX_W_PX / scale;
+        const srcH = BOX_H_PX / scale;
+        const sx = (img.width - srcW) / 2;
+        const sy = (img.height - srcH) / 2;
+        ctx.drawImage(img, sx, sy, srcW, srcH, x, y, BOX_W_PX, BOX_H_PX);
+      }
+
+      return canvas;
+    }
+
+    async function downloadOne(item) {
+      const canvas = await renderPlacedCanvas({
+        src: item.src,
+        mode: state.mode,
+        anchor: state.anchor,
+        bg: state.bg
+      });
+
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+      downloadBlob(blob, `${sanitizeBaseName(item.name)}_4.9x6.9_on_8.5x11.png`);
+    }
+
+    async function printOne(item) {
+      const canvas = await renderPlacedCanvas({
+        src: item.src,
+        mode: state.mode,
+        anchor: state.anchor,
+        bg: state.bg
+      });
+
+      const dataUrl = canvas.toDataURL('image/png');
+      const win = window.open('', '_blank');
+      if (!win) return;
+
+      win.document.write(`
+        <html>
+          <head>
+            <title>Print</title>
+            <style>
+              @page { size: 8.5in 11in; margin: 0; }
+              html, body { margin: 0; padding: 0; background: white; }
+              img { display: block; width: 8.5in; height: 11in; max-width: none; max-height: none; }
+            
+    details.accordion {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    details.accordion summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    details.accordion summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.accordion .accordion-body {
+      padding: 0 14px 14px;
+    }
+
+
+    .optional-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .optional-controls {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .optional-controls.enabled {
+      display: block;
+    }
+
+  </style>
+          </head>
+          <body>
+            <img src="${dataUrl}" alt="Print image" />
+            <script>
+              window.onload = function() {
+                setTimeout(function() { window.print(); }, 150);
+              };
+            <\/script>
+          </body>
+        </html>
+      `);
+      win.document.close();
+    }
+
+    function updatePreview() {
+      const pos = getAnchorPosition(PAGE_W_PX, PAGE_H_PX, BOX_W_PX, BOX_H_PX, state.anchor);
+      els.boxPreview.style.left = `${(pos.x / PAGE_W_PX) * 100}%`;
+      els.boxPreview.style.top = `${(pos.y / PAGE_H_PX) * 100}%`;
+      els.boxPreview.style.width = `${(BOX_W_PX / PAGE_W_PX) * 100}%`;
+      els.boxPreview.style.height = `${(BOX_H_PX / PAGE_H_PX) * 100}%`;
+      els.boxPreview.style.background = state.bg;
+      els.modeBadge.textContent = state.mode;
+
+      const first = state.items[0];
+      if (first) {
+        els.previewImg.src = first.src;
+        els.previewImg.style.display = 'block';
+        els.previewImg.style.objectFit = state.mode === 'fill' ? 'cover' : 'contain';
+        els.boxPlaceholder.style.display = 'none';
+      } else {
+        els.previewImg.style.display = 'none';
+        els.previewImg.removeAttribute('src');
+        els.boxPlaceholder.style.display = 'block';
+      }
+    }
+
+    function renderFiles() {
+      els.filesGrid.innerHTML = '';
+
+      if (!state.items.length) {
+        els.filesEmpty.style.display = 'block';
+        els.filesGrid.style.display = 'none';
+        updatePreview();
+        return;
+      }
+
+      els.filesEmpty.style.display = 'none';
+      els.filesGrid.style.display = 'grid';
+
+      state.items.forEach((item) => {
+        const card = document.createElement('div');
+        card.className = 'file-card';
+
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = item.name;
+        thumb.appendChild(img);
+
+        const body = document.createElement('div');
+        body.className = 'file-body';
+
+        const name = document.createElement('div');
+        name.className = 'file-name';
+        name.textContent = item.name;
+
+        const buttonRow = document.createElement('div');
+        buttonRow.className = 'button-row';
+
+        const printBtn = document.createElement('button');
+        printBtn.className = 'btn btn-primary';
+        printBtn.type = 'button';
+        printBtn.textContent = 'Print';
+        printBtn.addEventListener('click', () => printOne(item));
+
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'btn';
+        downloadBtn.type = 'button';
+        downloadBtn.textContent = 'Download PNG';
+        downloadBtn.addEventListener('click', () => downloadOne(item));
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'btn';
+        removeBtn.type = 'button';
+        removeBtn.textContent = 'Remove';
+        removeBtn.addEventListener('click', () => removeOne(item.id));
+
+        buttonRow.appendChild(printBtn);
+        buttonRow.appendChild(downloadBtn);
+        buttonRow.appendChild(removeBtn);
+
+        body.appendChild(name);
+        body.appendChild(buttonRow);
+
+        card.appendChild(thumb);
+        card.appendChild(body);
+        els.filesGrid.appendChild(card);
+      });
+
+      updatePreview();
+    }
+
+    function addFiles(fileList) {
+      const file = Array.from(fileList || []).find(file => file.type.startsWith('image/'));
+      if (!file) return;
+
+      state.items.forEach(item => URL.revokeObjectURL(item.src));
+      state.items = [{
+        id: `${file.name}-${file.size}-${file.lastModified}-${Date.now()}`,
+        name: file.name,
+        file,
+        src: URL.createObjectURL(file)
+      }];
+
+      renderFiles();
+    }
+
+    function removeOne(id) {
+      const index = state.items.findIndex(item => item.id === id);
+      if (index === -1) return;
+      URL.revokeObjectURL(state.items[index].src);
+      state.items.splice(index, 1);
+      renderFiles();
+    }
+
+    function clearAll() {
+      state.items.forEach(item => URL.revokeObjectURL(item.src));
+      state.items = [];
+      renderFiles();
+    }
+
+    els.chooseBtn.addEventListener('click', () => els.fileInput.click());
+    els.fileInput.addEventListener('change', (e) => {
+      addFiles(e.target.files);
+      e.target.value = '';
+    });
+
+    els.dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      els.dropzone.classList.add('dragover');
+    });
+
+    els.dropzone.addEventListener('dragleave', () => {
+      els.dropzone.classList.remove('dragover');
+    });
+
+    els.dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      els.dropzone.classList.remove('dragover');
+      addFiles(e.dataTransfer.files);
+    });
+
+    els.anchorSelect.addEventListener('change', (e) => {
+      state.anchor = e.target.value;
+      updatePreview();
+    });
+
+    els.modeSelect.addEventListener('change', (e) => {
+      state.mode = e.target.value;
+      updatePreview();
+    });
+
+
+    els.enableBg.addEventListener('change', (e) => {
+      const enabled = e.target.checked;
+      els.bgControls.classList.toggle('enabled', enabled);
+      if (!enabled) {
+        state.bg = '#ffffff';
+        els.bgColor.value = '#ffffff';
+        els.bgText.value = '#ffffff';
+        updatePreview();
+      }
+    });
+
+    els.bgColor.addEventListener('input', (e) => {
+      state.bg = e.target.value;
+      els.bgText.value = state.bg;
+      updatePreview();
+    });
+
+    els.bgText.addEventListener('input', (e) => {
+      state.bg = e.target.value || '#ffffff';
+      if (/^#[0-9a-fA-F]{6}$/.test(state.bg)) {
+        els.bgColor.value = state.bg;
+      }
+      updatePreview();
+    });
+
+    els.clearAllBtn.addEventListener('click', clearAll);
+
+    updatePreview();
+  </script>
+</body>
+</html>
