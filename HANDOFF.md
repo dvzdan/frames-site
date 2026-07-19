@@ -1,6 +1,6 @@
 # Frames Site Handoff
 
-Last updated: 2026-07-16
+Last updated: 2026-07-19
 
 ## Project
 
@@ -18,7 +18,7 @@ Last updated: 2026-07-16
 - Versioned live deployment:
   `AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg`
 - Current verified live version:
-  `@185 - generalize early production status copy retry`
+  `@190 - add order image crop caveat`
 - Deployment workflow:
   1. `clasp.cmd push`
   2. `clasp.cmd version "short description"`
@@ -31,25 +31,21 @@ Last updated: 2026-07-16
 
 ## Current Git State
 
-As of this handoff, `git status --short --branch` showed intentional deployed work not yet committed:
+As of this handoff, `git status --short --branch` is clean against `origin/main` except for unrelated untracked generated-image draft folders:
 
 ```text
 ## main...origin/main
- M AssemblyData.html
- M Client.html
- M Code.js
- M Config.html
- M Index.html
- M Styles.html
-?? HANDOFF.md
-?? "docs/Assembly preamble.docx"
-?? docs/FAQ.docx
-?? "docs/How it works.docx"
-?? docs/custom-gpt-instructions.md
-?? docs/customer-facing-knowledge.md
+?? drafts/generated-images/candidates/gallery-pairs-v2/
+?? drafts/generated-images/candidates/gallery-pairs/
 ```
 
-These changes should be committed together unless the user says otherwise. They represent the current live site state plus docs.
+Do not delete those draft folders unless the user asks; they predate the latest handoff update and are not part of the deployed site state.
+
+Recent commits on `main`:
+
+- `527aacd Add order image crop caveat`
+- `bb51152 Remove kit prices from site`
+- `2b83a60 Update live site messaging and docs`
 
 ## Recent Live Changes
 
@@ -79,6 +75,13 @@ These changes should be committed together unless the user says otherwise. They 
   `By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.`
 - Generalized the kit status note to:
   `Kit paths, pricing, and availability are preliminary while the project moves toward a more streamlined ordering process.`
+- Removed public kit prices from the live kit cards. The renderer still supports `priceLabel` if prices are restored later, but current visible kit paths do not show dollar amounts.
+- Added an order/request form caveat:
+  `Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.`
+  This caveat is only in the ordering/request area, not the gallery submission module.
+- Replaced the gallery reveal image for the `Trojan` / `Troy` item with `trojan party.png` from:
+  `C:\Users\zack and lil\OneDrive\Documents\OpenSCAD\photo stuff`
+  The live reveal image now uses Drive image ID `1Y6yk4mI9--aYN1zrzyg8bXJozmI0oAgM`.
 - Created Custom GPT support docs:
   - `docs/custom-gpt-instructions.md`
   - `docs/customer-facing-knowledge.md`
@@ -106,27 +109,26 @@ These changes should be committed together unless the user says otherwise. They 
 - The product is a physical photo reveal, not a screen.
 - Current public status: early small-batch release.
 - The mechanism works, but kit paths, pricing, and availability are preliminary.
+- Public kit prices are currently hidden; quotes are handled directly through the request form.
 - No payment is collected on the site.
 - Visitors should use the request form for quotes, questions, feedback, testing, or collaboration.
 - Requests are handled directly; each request is reviewed before quote/timing is provided.
+- Order/request form image guidance: roughly 5x7 proportions are ideal, and important content should stay away from the margins when submitted images have different proportions.
 
 ## Current Kit Paths
 
 Maker Kit:
 
-- $45
 - Customer 3D prints frame and stand, assembles mechanism, loads image pair.
 - Includes hardware kit, assembly supplies, two custom prints, digital frame/stand files.
 
 Builder Kit:
 
-- $70
 - Customer assembles mechanism and loads image pair.
 - Includes 3D printed frame and stand, hardware kit, two custom prints, assembly supplies.
 
 Finished Gift:
 
-- $160
 - Completed frame, images loaded/tested, ready to display or gift.
 - Customer may remove battery pull tab to begin countdown, or receive with countdown already underway.
 
@@ -208,4 +210,3 @@ For a customer-facing Custom GPT, use:
   - `docs/website-spec.md`
 
 Avoid uploading raw source code unless the GPT is meant to help maintain the site.
-
