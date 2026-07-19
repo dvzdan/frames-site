@@ -915,7 +915,9 @@ function createActiveTierPanel(tier) {
   const intro = el("div", "tier-intro tier-active-intro");
   intro.appendChild(el("h3", "kit-name", tier.name));
   intro.appendChild(el("p", "tier-description", tier.shortDescription));
-  intro.appendChild(el("div", "kit-price tier-active-price", tier.priceLabel));
+  if (tier.priceLabel) {
+    intro.appendChild(el("div", "kit-price tier-active-price", tier.priceLabel));
+  }
   top.appendChild(intro);
 
   const body = document.createElement("div");
@@ -968,15 +970,16 @@ function createTierCard(tier) {
   const footer = document.createElement("div");
   footer.className = "tier-footer";
 
-  const price = document.createElement("div");
-  price.className = "kit-price";
-  price.textContent = textOrEmpty(tier.priceLabel);
-
   const footerName = document.createElement("div");
   footerName.className = "tier-footer-name";
   footerName.textContent = textOrEmpty(tier.name);
 
-  footer.appendChild(price);
+  if (tier.priceLabel) {
+    const price = document.createElement("div");
+    price.className = "kit-price";
+    price.textContent = textOrEmpty(tier.priceLabel);
+    footer.appendChild(price);
+  }
   footer.appendChild(footerName);
   card.appendChild(footer);
 

@@ -98,7 +98,7 @@
             </section>
           </div>
         </div>
-        <div class="tier-footer"><div class="kit-price">$45</div><div class="tier-footer-name">Maker Kit</div></div>
+        <div class="tier-footer"><div class="tier-footer-name">Maker Kit</div></div>
       </article>
       <article class="tier-card" data-tier-key="builder" style="--tier-accent:#6b7f92">
         <div class="tier-intro"><h3 class="kit-name">Builder Kit</h3><p class="tier-description">Full self-assembly. Frame, hardware, and images included.</p></div>
@@ -116,7 +116,7 @@
             </section>
           </div>
         </div>
-        <div class="tier-footer"><div class="kit-price">$70</div><div class="tier-footer-name">Builder Kit</div></div>
+        <div class="tier-footer"><div class="tier-footer-name">Builder Kit</div></div>
       </article>
       <article class="tier-card" data-tier-key="gift" style="--tier-accent:#7f5d68">
         <div class="tier-intro"><h3 class="kit-name">Finished Gift</h3><p class="tier-description">Fully assembled, loaded, and ready to give.</p></div>
@@ -133,7 +133,7 @@
             </section>
           </div>
         </div>
-        <div class="tier-footer"><div class="kit-price">$160</div><div class="tier-footer-name">Finished Gift</div></div>
+        <div class="tier-footer"><div class="tier-footer-name">Finished Gift</div></div>
       </article>
     </div>
   </section>
@@ -352,9 +352,9 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
       '<p class="section-copy">From self-assembly to finished gift.</p>' +
       '<aside class="production-status"><strong>Current status: early production</strong><p>Kit paths, pricing, and availability are preliminary while the project moves toward a more streamlined ordering process.</p><a href="#checkout-placeholder">Request a quote</a></aside>' +
       '<div class="kits" id="pricingTiers">' +
-        bootstrapTier("maker", "Maker Kit", "$45", "3D print your own frame. Precision parts and images included.", "#6f7f53") +
-        bootstrapTier("builder", "Builder Kit", "$70", "Full self-assembly. Frame, hardware, and images included.", "#6b7f92") +
-        bootstrapTier("gift", "Finished Gift", "$160", "Fully assembled, loaded, and ready to give.", "#7f5d68") +
+        bootstrapTier("maker", "Maker Kit", "", "3D print your own frame. Precision parts and images included.", "#6f7f53") +
+        bootstrapTier("builder", "Builder Kit", "", "Full self-assembly. Frame, hardware, and images included.", "#6b7f92") +
+        bootstrapTier("gift", "Finished Gift", "", "Fully assembled, loaded, and ready to give.", "#7f5d68") +
       '</div>' +
     '</section>' +
     '<section class="section reveal-demo-section" id="gallery-section">' +
@@ -389,7 +389,7 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
       '<div class="tier-intro"><h3 class="kit-name">' + name + '</h3><p class="tier-description">' + text + '</p></div>' +
       '<div class="tier-frame living-frame"><div class="tier-image living-frame-art"><div class="tier-scene tier-scene-default" aria-hidden="true"><span class="scene-part scene-back"></span><span class="scene-part scene-front"></span><span class="scene-part scene-mechanism"></span><span class="scene-part scene-trigger"></span></div></div></div>' +
       bootstrapTierDetails(key) +
-      '<div class="tier-footer"><div class="kit-price">' + price + '</div><div class="tier-footer-name">' + name + '</div></div>' +
+      '<div class="tier-footer">' + (price ? '<div class="kit-price">' + price + '</div>' : '') + '<div class="tier-footer-name">' + name + '</div></div>' +
     '</article>';
   }
 
