@@ -1,0 +1,117 @@
+<style>html,body{margin:0;padding:0;overflow:hidden}</style>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400">
+  <defs>
+    <linearGradient id="parchment" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8d5a8"/>
+      <stop offset="0.5" stop-color="#dcc188"/>
+      <stop offset="1" stop-color="#c9a86b"/>
+    </linearGradient>
+    <radialGradient id="parch-vignette" cx="0.5" cy="0.5" r="0.72">
+      <stop offset="0.62" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#5c3f1e" stop-opacity="0.42"/>
+    </radialGradient>
+    <filter id="paper-rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14"/>
+    </filter>
+    <filter id="grain7">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.35  0 0 0 0 0.25  0 0 0 0 0.1  0 0 0 0.14 0"/>
+    </filter>
+  </defs>
+
+  <!-- desk background -->
+  <rect width="1000" height="1400" fill="#4a3020"/>
+  <g stroke="#3a2416" stroke-width="10" opacity="0.7">
+    <line x1="140" y1="0" x2="140" y2="1400"/>
+    <line x1="880" y1="0" x2="880" y2="1400"/>
+  </g>
+
+  <!-- the map, slightly rotated -->
+  <g transform="rotate(-2.5 500 700)">
+    <!-- parchment with rough edge -->
+    <g filter="url(#paper-rough)">
+      <rect x="90" y="130" width="820" height="1140" fill="url(#parchment)"/>
+    </g>
+
+    <!-- map contents -->
+    <g>
+      <!-- coastline: island -->
+      <path d="M240 420 Q330 330 470 360 Q560 300 660 370 Q790 400 770 540
+               Q830 640 750 720 Q790 850 680 900 Q640 1010 520 980
+               Q400 1050 330 950 Q210 930 240 800 Q170 700 240 610 Q200 490 240 420 Z"
+            fill="#cdb27e" stroke="#6b4a24" stroke-width="7"/>
+      <!-- water hatching around island -->
+      <g stroke="#8a6b3d" stroke-width="4" fill="none" opacity="0.6">
+        <path d="M180 380 Q220 370 260 380"/>
+        <path d="M700 310 Q740 300 780 310"/>
+        <path d="M820 620 Q855 610 890 620"/>
+        <path d="M150 760 Q185 750 220 760"/>
+        <path d="M790 940 Q825 930 860 940"/>
+        <path d="M300 1060 Q340 1050 380 1060"/>
+        <path d="M600 1080 Q640 1070 680 1080"/>
+      </g>
+
+      <!-- mountains -->
+      <g fill="none" stroke="#6b4a24" stroke-width="6" stroke-linejoin="round">
+        <path d="M420 480 L460 420 L500 480"/>
+        <path d="M480 500 L520 440 L560 500"/>
+        <path d="M540 470 L575 420 L610 470"/>
+      </g>
+
+      <!-- palm trees -->
+      <g stroke="#5c5230" stroke-width="6" fill="none" stroke-linecap="round">
+        <path d="M320 700 Q326 660 318 630"/>
+        <path d="M318 630 Q290 616 272 626 M318 630 Q344 610 364 622 M318 630 Q310 600 288 596 M318 630 Q332 602 356 600"/>
+        <path d="M640 780 Q646 740 638 710"/>
+        <path d="M638 710 Q610 696 592 706 M638 710 Q664 690 684 702 M638 710 Q630 680 608 676 M638 710 Q652 682 676 680"/>
+      </g>
+
+      <!-- dashed route wandering to the X -->
+      <path d="M250 1160 Q360 1120 380 1020 Q400 920 330 860 Q280 800 360 760 Q460 720 470 800 Q480 880 560 850 Q650 810 620 730 Q600 660 500 660"
+            fill="none" stroke="#8a2f2f" stroke-width="8" stroke-dasharray="24 20" stroke-linecap="round"/>
+
+      <!-- X marks the spot -->
+      <g stroke="#a32626" stroke-width="20" stroke-linecap="round">
+        <line x1="462" y1="622" x2="538" y2="698"/>
+        <line x1="538" y1="622" x2="462" y2="698"/>
+      </g>
+      <circle cx="500" cy="660" r="64" fill="none" stroke="#a32626" stroke-width="6" stroke-dasharray="14 12"/>
+
+      <!-- compass rose -->
+      <g transform="translate(750 1120)">
+        <circle r="58" fill="none" stroke="#6b4a24" stroke-width="5"/>
+        <path d="M0 -52 L12 0 L0 52 L-12 0 Z" fill="#6b4a24"/>
+        <path d="M-52 0 L0 -12 L52 0 L0 12 Z" fill="#9c7845"/>
+        <path d="M0 -52 L12 0 L0 10 L-12 0 Z" fill="#a32626"/>
+        <text y="-66" text-anchor="middle" font-family="Georgia, serif" font-size="30" fill="#6b4a24" font-weight="bold">N</text>
+      </g>
+
+      <!-- sea monster doodle -->
+      <g fill="none" stroke="#6b4a24" stroke-width="6" stroke-linecap="round">
+        <path d="M180 1000 Q200 970 230 1000"/>
+        <path d="M250 1000 Q270 970 300 1000" opacity="0.85"/>
+        <circle cx="182" cy="985" r="4" fill="#6b4a24"/>
+      </g>
+
+      <!-- title cartouche -->
+      <g>
+        <rect x="270" y="190" width="460" height="110" rx="12" fill="none" stroke="#6b4a24" stroke-width="6"/>
+        <rect x="282" y="202" width="436" height="86" rx="8" fill="none" stroke="#6b4a24" stroke-width="2.5"/>
+        <text x="500" y="242" text-anchor="middle" font-family="Georgia, serif" font-size="38" fill="#5c3f1e" font-weight="bold" letter-spacing="3">YE OLDE MAP</text>
+        <text x="500" y="278" text-anchor="middle" font-family="Georgia, serif" font-size="23" fill="#7a5a30" font-style="italic">the spot is marked</text>
+      </g>
+    </g>
+
+    <!-- vignette + stains -->
+    <rect x="90" y="130" width="820" height="1140" fill="url(#parch-vignette)"/>
+    <circle cx="790" cy="330" r="46" fill="#8a6b3d" opacity="0.2"/>
+    <circle cx="775" cy="318" r="30" fill="#8a6b3d" opacity="0.16"/>
+    <circle cx="230" cy="1190" r="34" fill="#8a6b3d" opacity="0.18"/>
+    <!-- fold creases -->
+    <line x1="500" y1="136" x2="500" y2="1264" stroke="#6b4a24" stroke-width="3" opacity="0.3"/>
+    <line x1="96" y1="700" x2="904" y2="700" stroke="#6b4a24" stroke-width="3" opacity="0.28"/>
+  </g>
+
+  <rect width="1000" height="1400" filter="url(#grain7)" opacity="0.5"/>
+</svg>

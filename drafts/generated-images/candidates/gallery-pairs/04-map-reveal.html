@@ -1,0 +1,137 @@
+<style>html,body{margin:0;padding:0;overflow:hidden}</style>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400">
+  <defs>
+    <radialGradient id="cave" cx="0.5" cy="0.62" r="0.85">
+      <stop offset="0" stop-color="#4a3a20"/>
+      <stop offset="0.5" stop-color="#2c2213"/>
+      <stop offset="1" stop-color="#120d08"/>
+    </radialGradient>
+    <radialGradient id="goldglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffe9a0" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#ffc95e" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ffc95e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="chestwood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7a4a26"/>
+      <stop offset="1" stop-color="#4a2a12"/>
+    </linearGradient>
+    <linearGradient id="lidwood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8a5a30"/>
+      <stop offset="1" stop-color="#5c3a1c"/>
+    </linearGradient>
+    <filter id="grain8">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.6 0.6 0.6 0 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="1400" fill="url(#cave)"/>
+
+  <!-- cave rock shapes -->
+  <g fill="#0d0905">
+    <path d="M0 0 L1000 0 L1000 240 Q820 180 700 260 Q560 160 420 240 Q260 150 120 250 Q40 200 0 260 Z"/>
+    <path d="M0 260 Q60 480 20 700 L0 700 Z"/>
+    <path d="M1000 240 Q930 460 980 680 L1000 680 Z"/>
+  </g>
+  <!-- stalactites -->
+  <g fill="#1c130a">
+    <path d="M300 210 L330 210 L315 330 Z"/>
+    <path d="M640 190 L676 190 L658 340 Z"/>
+    <path d="M800 220 L826 220 L813 300 Z"/>
+    <path d="M180 230 L204 230 L192 296 Z"/>
+  </g>
+
+  <!-- glow from the chest -->
+  <ellipse cx="500" cy="880" rx="480" ry="420" fill="url(#goldglow)"/>
+
+  <!-- light rays -->
+  <g fill="#ffe9a0" opacity="0.22">
+    <path d="M500 820 L330 380 L410 360 Z"/>
+    <path d="M500 820 L500 320 L560 330 Z"/>
+    <path d="M500 820 L680 400 L620 370 Z"/>
+    <path d="M500 820 L220 560 L260 510 Z"/>
+    <path d="M500 820 L790 570 L750 520 Z"/>
+  </g>
+
+  <!-- ground -->
+  <path d="M0 1120 Q240 1080 500 1110 Q760 1140 1000 1100 L1000 1400 L0 1400 Z" fill="#1a120a"/>
+
+  <!-- scattered coins on ground -->
+  <g fill="#e8b84a" stroke="#a37c22" stroke-width="3">
+    <ellipse cx="270" cy="1160" rx="26" ry="10"/>
+    <ellipse cx="330" cy="1190" rx="24" ry="9"/>
+    <ellipse cx="700" cy="1170" rx="26" ry="10"/>
+    <ellipse cx="760" cy="1200" rx="22" ry="9"/>
+    <ellipse cx="520" cy="1230" rx="25" ry="10"/>
+    <ellipse cx="200" cy="1240" rx="20" ry="8"/>
+    <ellipse cx="820" cy="1260" rx="23" ry="9"/>
+  </g>
+
+  <!-- the chest -->
+  <g>
+    <!-- open lid -->
+    <g transform="rotate(-38 320 880)">
+      <rect x="300" y="800" width="400" height="96" rx="26" fill="url(#lidwood)"/>
+      <rect x="300" y="800" width="400" height="96" rx="26" fill="none" stroke="#2c1a0c" stroke-width="6"/>
+      <rect x="330" y="800" width="26" height="96" fill="#c9a24b"/>
+      <rect x="644" y="800" width="26" height="96" fill="#c9a24b"/>
+      <rect x="478" y="800" width="44" height="96" fill="#c9a24b"/>
+    </g>
+
+    <!-- treasure heap -->
+    <g>
+      <path d="M330 880 Q400 790 500 800 Q610 790 670 880 Q600 850 500 856 Q400 850 330 880 Z" fill="#f5cf6a"/>
+      <g fill="#e8b84a" stroke="#a37c22" stroke-width="3">
+        <ellipse cx="400" cy="836" rx="24" ry="10"/>
+        <ellipse cx="460" cy="820" rx="24" ry="10"/>
+        <ellipse cx="530" cy="818" rx="24" ry="10"/>
+        <ellipse cx="590" cy="834" rx="24" ry="10"/>
+        <ellipse cx="498" cy="842" rx="24" ry="10"/>
+      </g>
+      <!-- gems -->
+      <path d="M430 792 L452 772 L474 792 L452 818 Z" fill="#d84a6b" stroke="#8a1f3a" stroke-width="3"/>
+      <path d="M540 786 L560 770 L580 786 L560 808 Z" fill="#4ac8b8" stroke="#1f7a6b" stroke-width="3"/>
+      <circle cx="500" cy="780" r="14" fill="#8ab4ff" stroke="#3a5a9c" stroke-width="3"/>
+      <!-- pearl strand spilling -->
+      <g fill="#f2ecdf" stroke="#b8ab90" stroke-width="2">
+        <circle cx="620" cy="860" r="9"/><circle cx="640" cy="880" r="9"/><circle cx="654" cy="904" r="9"/>
+        <circle cx="660" cy="930" r="9"/><circle cx="658" cy="956" r="9"/>
+      </g>
+    </g>
+
+    <!-- chest body -->
+    <path d="M320 880 L680 880 L664 1096 Q500 1130 336 1096 Z" fill="url(#chestwood)"/>
+    <path d="M320 880 L680 880 L664 1096 Q500 1130 336 1096 Z" fill="none" stroke="#2c1a0c" stroke-width="7"/>
+    <!-- straps -->
+    <path d="M352 880 L364 1104" stroke="#c9a24b" stroke-width="24"/>
+    <path d="M648 880 L636 1104" stroke="#c9a24b" stroke-width="24"/>
+    <!-- lock plate -->
+    <rect x="466" y="880" width="68" height="76" rx="10" fill="#c9a24b" stroke="#8a6b1f" stroke-width="4"/>
+    <circle cx="500" cy="912" r="9" fill="#8a6b1f"/>
+    <path d="M500 912 L500 936" stroke="#8a6b1f" stroke-width="7" stroke-linecap="round"/>
+    <!-- wood planks -->
+    <g stroke="#3a2210" stroke-width="4" opacity="0.7">
+      <path d="M328 950 L672 950"/>
+      <path d="M334 1020 L666 1020"/>
+    </g>
+  </g>
+
+  <!-- sparkles -->
+  <g fill="#fff3c4">
+    <path d="M360 700 l6 18 18 6 -18 6 -6 18 -6 -18 -18 -6 18 -6 Z"/>
+    <path d="M660 660 l5 15 15 5 -15 5 -5 15 -5 -15 -15 -5 15 -5 Z" opacity="0.85"/>
+    <path d="M540 620 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4 Z" opacity="0.7"/>
+    <path d="M280 830 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4 Z" opacity="0.6"/>
+    <path d="M730 800 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4 Z" opacity="0.65"/>
+  </g>
+
+  <!-- shovel stuck in ground -->
+  <g transform="rotate(12 830 1100)">
+    <rect x="822" y="900" width="14" height="240" rx="7" fill="#6b4a26"/>
+    <path d="M806 1130 Q829 1114 852 1130 L852 1200 Q829 1236 806 1200 Z" fill="#8a8f9c" stroke="#5a5f6b" stroke-width="4"/>
+    <rect x="800" y="892" width="58" height="14" rx="7" fill="#6b4a26"/>
+  </g>
+
+  <rect width="1000" height="1400" opacity="0.05" filter="url(#grain8)"/>
+</svg>

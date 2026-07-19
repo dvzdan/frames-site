@@ -1,0 +1,84 @@
+<style>html,body{margin:0;padding:0;overflow:hidden}</style>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400">
+  <defs>
+    <linearGradient id="depth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4f7d95"/>
+      <stop offset="0.25" stop-color="#2c5878"/>
+      <stop offset="0.6" stop-color="#173a58"/>
+      <stop offset="1" stop-color="#081826"/>
+    </linearGradient>
+    <linearGradient id="berg-under" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d8ecf2"/>
+      <stop offset="0.35" stop-color="#9fd0dd"/>
+      <stop offset="0.75" stop-color="#5da3bd"/>
+      <stop offset="1" stop-color="#3a7d9c"/>
+    </linearGradient>
+    <linearGradient id="sky-sliver" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9f2f4"/>
+      <stop offset="1" stop-color="#f2dcc4"/>
+    </linearGradient>
+    <filter id="grain4">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.6 0.6 0.6 0 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+
+  <!-- thin sliver of sky at very top -->
+  <rect width="1000" height="150" fill="url(#sky-sliver)"/>
+
+  <!-- underwater world -->
+  <rect y="150" width="1000" height="1250" fill="url(#depth)"/>
+  <!-- waterline -->
+  <rect y="142" width="1000" height="14" fill="#ffffff" opacity="0.65"/>
+
+  <!-- light rays from surface -->
+  <g fill="#bfe4ee" opacity="0.14">
+    <path d="M280 156 L180 800 L330 800 L370 156 Z"/>
+    <path d="M560 156 L520 900 L660 900 L640 156 Z"/>
+    <path d="M840 156 L820 700 L940 700 L910 156 Z"/>
+  </g>
+
+  <!-- the tip above water (same silhouette as cover, small) -->
+  <g>
+    <path d="M380 148 L440 40 L500 84 L560 0 L640 148 Z" fill="#f2f8fa"/>
+    <path d="M500 84 L560 0 L640 148 L520 148 Z" fill="#c4d9e2"/>
+  </g>
+
+  <!-- THE ICEBERG: vast mass below -->
+  <g>
+    <path d="M380 156
+             L300 320 L340 420 L240 560 L300 700 L220 860 L330 1010 L290 1140 L420 1260
+             L560 1300 L700 1220 L660 1080 L780 960 L700 820 L790 660 L700 520 L760 380 L640 156 Z"
+          fill="url(#berg-under)"/>
+    <!-- interior facets -->
+    <path d="M380 156 L340 420 L470 560 L440 300 Z" fill="#c2e2ea" opacity="0.55"/>
+    <path d="M640 156 L700 520 L560 640 L540 360 Z" fill="#7fbcd0" opacity="0.5"/>
+    <path d="M240 560 L300 700 L470 760 L470 560 Z" fill="#8ec8d8" opacity="0.45"/>
+    <path d="M700 820 L660 1080 L500 1100 L520 880 Z" fill="#4e93b0" opacity="0.5"/>
+    <path d="M330 1010 L420 1260 L560 1300 L500 1100 Z" fill="#3a7d9c" opacity="0.6"/>
+  </g>
+
+  <!-- bubbles -->
+  <g fill="none" stroke="#cfeaf2" stroke-width="4" opacity="0.6">
+    <circle cx="180" cy="420" r="10"/>
+    <circle cx="160" cy="360" r="6"/>
+    <circle cx="850" cy="540" r="11"/>
+    <circle cx="872" cy="470" r="7"/>
+    <circle cx="130" cy="900" r="8"/>
+    <circle cx="890" cy="1000" r="9"/>
+    <circle cx="866" cy="930" r="5"/>
+  </g>
+
+  <!-- small fish for scale -->
+  <g fill="#0d2536">
+    <path d="M120 1150 q26 -14 52 0 q-26 14 -52 0 Z"/>
+    <path d="M172 1150 l20 -11 l0 22 Z" transform="translate(-16 0)"/>
+    <path d="M200 1210 q22 -12 44 0 q-22 12 -44 0 Z"/>
+    <path d="M244 1210 l17 -9 l0 18 Z" transform="translate(-14 0)"/>
+    <path d="M840 1240 q-24 -13 -48 0 q24 13 48 0 Z"/>
+    <path d="M792 1240 l-18 -10 l0 20 Z" transform="translate(14 0)"/>
+  </g>
+
+  <rect width="1000" height="1400" opacity="0.05" filter="url(#grain4)"/>
+</svg>

@@ -1,0 +1,147 @@
+<style>html,body{margin:0;padding:0;overflow:hidden}</style>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400">
+  <defs>
+    <radialGradient id="spotlight2" cx="0.5" cy="0.38" r="0.8">
+      <stop offset="0" stop-color="#7a5f9e"/>
+      <stop offset="0.45" stop-color="#4a3a6e"/>
+      <stop offset="1" stop-color="#1d1530"/>
+    </radialGradient>
+    <linearGradient id="stage2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6b4a2f"/>
+      <stop offset="1" stop-color="#3c2818"/>
+    </linearGradient>
+    <linearGradient id="curtain2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7d1f35"/>
+      <stop offset="1" stop-color="#4a1020"/>
+    </linearGradient>
+    <linearGradient id="hat2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#12101a"/>
+      <stop offset="0.5" stop-color="#332e45"/>
+      <stop offset="1" stop-color="#12101a"/>
+    </linearGradient>
+    <radialGradient id="burst" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff6d0" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#fff6d0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain6">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.6 0.6 0.6 0 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="1400" fill="url(#spotlight2)"/>
+
+  <!-- curtains (same theatre) -->
+  <g fill="url(#curtain2)">
+    <path d="M0 0 L210 0 Q150 200 190 460 Q210 620 140 760 L0 800 Z"/>
+    <path d="M1000 0 L790 0 Q850 200 810 460 Q790 620 860 760 L1000 800 Z"/>
+  </g>
+  <g stroke="#3a0c1a" stroke-width="8" fill="none" opacity="0.65">
+    <path d="M80 0 Q60 300 90 640"/>
+    <path d="M150 0 Q120 260 160 560"/>
+    <path d="M920 0 Q940 300 910 640"/>
+    <path d="M850 0 Q880 260 840 560"/>
+  </g>
+  <path d="M0 800 L140 760 Q160 800 120 830 L0 860 Z" fill="#c9a24b"/>
+  <path d="M1000 800 L860 760 Q840 800 880 830 L1000 860 Z" fill="#c9a24b"/>
+
+  <!-- burst of light behind rabbit -->
+  <circle cx="500" cy="620" r="360" fill="url(#burst)"/>
+  <g stroke="#ffe9a8" stroke-width="7" stroke-linecap="round" opacity="0.75">
+    <line x1="500" y1="330" x2="500" y2="240"/>
+    <line x1="330" y1="400" x2="270" y2="340"/>
+    <line x1="670" y1="400" x2="730" y2="340"/>
+    <line x1="290" y1="600" x2="200" y2="590"/>
+    <line x1="710" y1="600" x2="800" y2="590"/>
+  </g>
+
+  <!-- stage floor -->
+  <rect y="1060" width="1000" height="340" fill="url(#stage2)"/>
+  <g stroke="#2c1c0e" stroke-width="5" opacity="0.75">
+    <line x1="0" y1="1130" x2="1000" y2="1130"/>
+    <line x1="0" y1="1210" x2="1000" y2="1210"/>
+    <line x1="0" y1="1300" x2="1000" y2="1300"/>
+  </g>
+
+  <!-- table -->
+  <g>
+    <ellipse cx="500" cy="1010" rx="190" ry="34" fill="#5a1c2e"/>
+    <rect x="330" y="1010" width="340" height="24" fill="#481625"/>
+    <path d="M470 1034 L450 1180 L550 1180 L530 1034 Z" fill="#3a2818"/>
+    <ellipse cx="500" cy="1182" rx="86" ry="15" fill="#2c1c0e"/>
+    <path d="M330 1022 Q500 1070 670 1022 L670 1034 Q500 1082 330 1034 Z" fill="#6b2138"/>
+  </g>
+
+  <!-- confetti -->
+  <g>
+    <rect x="270" y="360" width="16" height="10" fill="#ff6b8a" transform="rotate(24 278 365)"/>
+    <rect x="700" y="300" width="16" height="10" fill="#5ec8d8" transform="rotate(-32 708 305)"/>
+    <rect x="620" y="450" width="14" height="9" fill="#ffd25e" transform="rotate(48 627 454)"/>
+    <rect x="350" y="480" width="14" height="9" fill="#9ee37d" transform="rotate(-15 357 484)"/>
+    <rect x="210" y="520" width="15" height="9" fill="#ffd25e" transform="rotate(66 217 524)"/>
+    <rect x="780" y="500" width="15" height="9" fill="#ff6b8a" transform="rotate(-58 787 504)"/>
+    <rect x="450" y="280" width="14" height="9" fill="#5ec8d8" transform="rotate(12 457 284)"/>
+    <rect x="560" y="240" width="13" height="8" fill="#9ee37d" transform="rotate(-40 566 244)"/>
+    <circle cx="320" cy="300" r="7" fill="#ffd25e"/>
+    <circle cx="690" cy="220" r="6" fill="#ff6b8a"/>
+    <circle cx="240" cy="430" r="6" fill="#5ec8d8"/>
+    <circle cx="760" cy="410" r="7" fill="#9ee37d"/>
+  </g>
+
+  <!-- ribbons -->
+  <g fill="none" stroke-width="8" stroke-linecap="round">
+    <path d="M300 560 Q280 500 310 450 Q340 400 315 350" stroke="#ff6b8a"/>
+    <path d="M700 560 Q724 495 692 445 Q662 400 686 348" stroke="#5ec8d8"/>
+  </g>
+
+  <!-- the hat, same spot, now occupied -->
+  <g>
+    <path d="M350 806 L368 966 Q500 1010 632 966 L650 806 Q500 850 350 806 Z" fill="url(#hat2)"/>
+    <ellipse cx="500" cy="972" rx="132" ry="26" fill="#0c0a12"/>
+    <path d="M354 842 Q500 886 646 842 L643 874 Q500 916 357 874 Z" fill="#7d2a3f"/>
+  </g>
+
+  <!-- RABBIT bursting out -->
+  <g>
+    <!-- ears -->
+    <path d="M420 560 Q400 380 452 330 Q492 400 468 560 Z" fill="#f5f2ec"/>
+    <path d="M432 540 Q422 420 456 372 Q478 430 462 540 Z" fill="#f3c6cf"/>
+    <path d="M580 560 Q600 380 548 330 Q508 400 532 560 Z" fill="#e8e4dc"/>
+    <path d="M568 540 Q578 420 544 372 Q522 430 538 540 Z" fill="#eab6c2"/>
+    <!-- head -->
+    <ellipse cx="500" cy="640" rx="150" ry="132" fill="#f5f2ec"/>
+    <!-- cheeks shading -->
+    <ellipse cx="436" cy="690" rx="42" ry="30" fill="#e8e4dc"/>
+    <ellipse cx="564" cy="690" rx="42" ry="30" fill="#e8e4dc"/>
+    <!-- eyes: delighted arcs -->
+    <path d="M420 620 Q444 596 468 620" stroke="#241d2b" stroke-width="11" fill="none" stroke-linecap="round"/>
+    <path d="M532 620 Q556 596 580 620" stroke="#241d2b" stroke-width="11" fill="none" stroke-linecap="round"/>
+    <!-- nose + mouth -->
+    <path d="M488 668 L512 668 L500 684 Z" fill="#d98a9c"/>
+    <path d="M500 684 Q500 706 478 710" stroke="#241d2b" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M500 684 Q500 706 522 710" stroke="#241d2b" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <!-- whiskers -->
+    <g stroke="#c9c2b6" stroke-width="5" stroke-linecap="round">
+      <line x1="386" y1="668" x2="316" y2="656"/>
+      <line x1="388" y1="690" x2="320" y2="696"/>
+      <line x1="614" y1="668" x2="684" y2="656"/>
+      <line x1="612" y1="690" x2="680" y2="696"/>
+    </g>
+    <!-- paws over hat brim -->
+    <ellipse cx="418" cy="812" rx="44" ry="30" fill="#f5f2ec"/>
+    <ellipse cx="582" cy="812" rx="44" ry="30" fill="#f5f2ec"/>
+    <!-- brim front, over the paws' base -->
+    <path d="M350 806 Q500 852 650 806 L650 818 Q500 864 350 818 Z" fill="#0c0a12"/>
+  </g>
+
+  <!-- wand mid-air, just flicked -->
+  <g transform="rotate(-30 790 430)">
+    <rect x="700" y="424" width="180" height="11" rx="5" fill="#1a1522"/>
+    <rect x="858" y="424" width="22" height="11" rx="5" fill="#f0ead8"/>
+    <rect x="700" y="424" width="22" height="11" rx="5" fill="#f0ead8"/>
+  </g>
+  <path d="M868 386 l5 15 15 5 -15 5 -5 15 -5 -15 -15 -5 15 -5 Z" fill="#ffe9a8"/>
+
+  <rect width="1000" height="1400" opacity="0.05" filter="url(#grain6)"/>
+</svg>

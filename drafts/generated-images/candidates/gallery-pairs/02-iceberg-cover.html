@@ -1,0 +1,71 @@
+<style>html,body{margin:0;padding:0;overflow:hidden}</style>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400">
+  <defs>
+    <linearGradient id="polar-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfe3ee"/>
+      <stop offset="0.55" stop-color="#e9f2f4"/>
+      <stop offset="0.8" stop-color="#f7ece0"/>
+      <stop offset="1" stop-color="#f2dcc4"/>
+    </linearGradient>
+    <linearGradient id="calm-sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7fa8b8"/>
+      <stop offset="0.4" stop-color="#4f7d95"/>
+      <stop offset="1" stop-color="#2c5064"/>
+    </linearGradient>
+    <linearGradient id="ice-sun" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfe0e8"/>
+    </linearGradient>
+    <filter id="grain3">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.6 0.6 0.6 0 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+
+  <!-- sky: pale polar morning -->
+  <rect width="1000" height="920" fill="url(#polar-sky)"/>
+
+  <!-- low pale sun -->
+  <circle cx="720" cy="330" r="64" fill="#fff3da" opacity="0.95"/>
+  <circle cx="720" cy="330" r="98" fill="#fff3da" opacity="0.3"/>
+
+  <!-- distant flat icebergs on horizon -->
+  <g fill="#dcebef">
+    <path d="M60 906 L110 878 L200 900 L240 908 Z"/>
+    <path d="M840 908 L890 888 L960 902 L980 910 Z"/>
+  </g>
+
+  <!-- a single seabird -->
+  <g stroke="#5b7484" stroke-width="5" fill="none" stroke-linecap="round">
+    <path d="M300 260 Q318 244 336 258"/>
+    <path d="M336 258 Q354 244 372 260"/>
+  </g>
+
+  <!-- sea -->
+  <rect y="908" width="1000" height="492" fill="url(#calm-sea)"/>
+
+  <!-- the tip: modest, unassuming -->
+  <g>
+    <path d="M380 908 L440 760 L500 820 L560 700 L640 908 Z" fill="url(#ice-sun)"/>
+    <path d="M500 820 L560 700 L640 908 L520 908 Z" fill="#b9d2dc"/>
+    <path d="M380 908 L440 760 L470 800 L430 908 Z" fill="#eef6f8"/>
+  </g>
+
+  <!-- reflection of the tip -->
+  <g opacity="0.28">
+    <path d="M380 908 L440 1046 L500 990 L560 1096 L640 908 Z" fill="#e8f2f5"/>
+  </g>
+
+  <!-- calm ripples -->
+  <g stroke="#a8c8d4" stroke-width="4" fill="none" opacity="0.5" stroke-linecap="round">
+    <path d="M120 1000 Q170 992 220 1000"/>
+    <path d="M700 1060 Q760 1050 820 1060"/>
+    <path d="M240 1160 Q300 1150 360 1160"/>
+    <path d="M600 1240 Q670 1230 740 1240"/>
+    <path d="M150 1320 Q210 1310 270 1320"/>
+    <path d="M820 1180 Q870 1172 920 1180"/>
+  </g>
+
+  <rect width="1000" height="1400" opacity="0.045" filter="url(#grain3)"/>
+</svg>

@@ -1,0 +1,124 @@
+<style>html,body{margin:0;padding:0;overflow:hidden}</style>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400">
+  <defs>
+    <linearGradient id="wallshade2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8a892"/>
+      <stop offset="1" stop-color="#8f7d66"/>
+    </linearGradient>
+    <linearGradient id="vista-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffdf8e"/>
+      <stop offset="0.5" stop-color="#ffb56b"/>
+      <stop offset="1" stop-color="#ff8f66"/>
+    </linearGradient>
+    <linearGradient id="doorwood2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#446270"/>
+      <stop offset="1" stop-color="#2c4450"/>
+    </linearGradient>
+    <filter id="grain10">
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.2  0 0 0 0 0.16  0 0 0 0 0.1  0 0 0 0.1 0"/>
+    </filter>
+  </defs>
+
+  <!-- stone wall (same wall) -->
+  <rect width="1000" height="1400" fill="url(#wallshade2)"/>
+  <g stroke="#7a6a54" stroke-width="6" fill="none" opacity="0.8">
+    <line x1="0" y1="160" x2="1000" y2="160"/>
+    <line x1="0" y1="330" x2="1000" y2="330"/>
+    <line x1="0" y1="500" x2="1000" y2="500"/>
+    <line x1="0" y1="670" x2="1000" y2="670"/>
+    <line x1="0" y1="840" x2="1000" y2="840"/>
+    <line x1="0" y1="1010" x2="1000" y2="1010"/>
+    <line x1="0" y1="1180" x2="1000" y2="1180"/>
+    <line x1="200" y1="0" x2="200" y2="160"/><line x1="560" y1="0" x2="560" y2="160"/><line x1="840" y1="0" x2="840" y2="160"/>
+    <line x1="380" y1="160" x2="380" y2="330"/><line x1="720" y1="160" x2="720" y2="330"/><line x1="90" y1="160" x2="90" y2="330"/>
+    <line x1="200" y1="330" x2="200" y2="500"/><line x1="800" y1="330" x2="800" y2="500"/>
+    <line x1="120" y1="500" x2="120" y2="670"/><line x1="860" y1="500" x2="860" y2="670"/>
+    <line x1="220" y1="670" x2="220" y2="840"/><line x1="790" y1="670" x2="790" y2="840"/>
+    <line x1="140" y1="840" x2="140" y2="1010"/><line x1="850" y1="840" x2="850" y2="1010"/>
+    <line x1="240" y1="1010" x2="240" y2="1180"/><line x1="780" y1="1010" x2="780" y2="1180"/>
+    <line x1="420" y1="1180" x2="420" y2="1400"/><line x1="700" y1="1180" x2="700" y2="1400"/><line x1="130" y1="1180" x2="130" y2="1400"/>
+  </g>
+  <g fill="#a3927a" opacity="0.5">
+    <ellipse cx="180" cy="240" rx="60" ry="26"/>
+    <ellipse cx="760" cy="580" rx="70" ry="30"/>
+    <ellipse cx="150" cy="920" rx="55" ry="24"/>
+    <ellipse cx="830" cy="1240" rx="66" ry="28"/>
+  </g>
+
+  <!-- THE VIEW through the open arch -->
+  <g>
+    <clipPath id="arch">
+      <path d="M310 1180 L310 560 Q500 380 690 560 L690 1180 Z"/>
+    </clipPath>
+    <g clip-path="url(#arch)">
+      <!-- sunset sky -->
+      <rect x="310" y="380" width="380" height="800" fill="url(#vista-sky)"/>
+      <!-- sun -->
+      <circle cx="500" cy="700" r="74" fill="#fff3c4"/>
+      <circle cx="500" cy="700" r="98" fill="#fff3c4" opacity="0.35"/>
+      <!-- far mountains -->
+      <path d="M300 820 L420 640 L520 800 L620 660 L710 820 Z" fill="#b06a7a" opacity="0.85"/>
+      <!-- near mountains -->
+      <path d="M290 900 L400 740 L500 880 L600 750 L710 900 Z" fill="#7a4a6b"/>
+      <!-- valley haze -->
+      <rect x="310" y="880" width="380" height="40" fill="#ffd9a0" opacity="0.5"/>
+      <!-- rolling field -->
+      <path d="M310 920 Q460 880 690 930 L690 1030 L310 1030 Z" fill="#5c8a52"/>
+      <path d="M310 1010 Q520 970 690 1020 L690 1180 L310 1180 Z" fill="#4a7442"/>
+      <!-- winding path continues beyond the door -->
+      <path d="M470 1180 Q520 1100 480 1040 Q450 990 520 950" fill="none" stroke="#d9c291" stroke-width="30" stroke-linecap="round" opacity="0.9"/>
+      <!-- birds -->
+      <g stroke="#5c3a50" stroke-width="5" fill="none" stroke-linecap="round">
+        <path d="M420 560 Q432 548 444 558 M444 558 Q456 548 468 560"/>
+        <path d="M560 520 Q570 510 580 518 M580 518 Q590 510 600 520"/>
+      </g>
+    </g>
+    <!-- warm light spilling out onto the ground -->
+    <path d="M310 1180 L240 1330 L760 1330 L690 1180 Z" fill="#ffce7a" opacity="0.4"/>
+  </g>
+
+  <!-- door swung open to the left, seen edge-on -->
+  <g>
+    <path d="M330 1180 L330 570 Q305 520 240 530 L240 1210 Z" fill="url(#doorwood2)"/>
+    <path d="M330 1180 L330 570 Q305 520 240 530 L240 1210 Z" fill="none" stroke="#1d3038" stroke-width="5"/>
+    <!-- iron bands on the open door edge -->
+    <rect x="240" y="660" width="90" height="20" fill="#2c2c34" transform="skewY(3)"/>
+    <rect x="240" y="950" width="90" height="20" fill="#2c2c34" transform="skewY(3)"/>
+  </g>
+
+  <!-- arch stone rim, in front of view -->
+  <path d="M310 1180 L310 560 Q500 380 690 560 L690 1180" fill="none" stroke="#6b5c48" stroke-width="16"/>
+
+  <!-- same potted plant -->
+  <g>
+    <path d="M230 1120 L214 1180 L282 1180 L266 1120 Z" fill="#8a4a32"/>
+    <g stroke="#4a7a4a" stroke-width="8" fill="none" stroke-linecap="round">
+      <path d="M248 1120 Q244 1060 222 1032"/>
+      <path d="M248 1120 Q252 1056 278 1030"/>
+      <path d="M248 1120 Q248 1050 248 1016"/>
+    </g>
+    <circle cx="222" cy="1026" r="10" fill="#5c9c5c"/>
+    <circle cx="278" cy="1024" r="10" fill="#5c9c5c"/>
+    <circle cx="248" cy="1010" r="10" fill="#5c9c5c"/>
+  </g>
+
+  <!-- ground -->
+  <rect y="1180" width="1000" height="220" fill="#7a6a54"/>
+  <g stroke="#665741" stroke-width="5" opacity="0.7">
+    <line x1="0" y1="1260" x2="1000" y2="1260"/>
+    <line x1="0" y1="1338" x2="1000" y2="1338"/>
+  </g>
+  <!-- light pooling on path stones -->
+  <g fill="#8f7d66">
+    <ellipse cx="500" cy="1240" rx="90" ry="20"/>
+    <ellipse cx="480" cy="1310" rx="70" ry="17"/>
+    <ellipse cx="530" cy="1375" rx="80" ry="18"/>
+  </g>
+  <g fill="#ffce7a" opacity="0.45">
+    <ellipse cx="500" cy="1240" rx="90" ry="20"/>
+    <ellipse cx="480" cy="1310" rx="70" ry="17"/>
+  </g>
+
+  <rect width="1000" height="1400" filter="url(#grain10)" opacity="0.6"/>
+</svg>
