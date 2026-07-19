@@ -71,9 +71,9 @@ function HeroSection() {
 
   const actions = el("div", "actions");
   const primary = el("a", "button", site.primaryAction);
-  primary.href = "#order";
+  primary.href = "#plans";
   const secondary = el("a", "button secondary", site.secondaryAction);
-  secondary.href = "#checkout-placeholder";
+  secondary.href = "#materials-kit";
   actions.appendChild(primary);
   actions.appendChild(secondary);
   text.appendChild(actions);
@@ -273,9 +273,9 @@ function MechanismSection() {
 
 function TierComparisonSection() {
   const order = SITE_CONTENT.sections.order;
-  const section = sectionShell("kits", "tier-comparison-section");
+  const section = sectionShell("materials-kit", "tier-comparison-section");
   const anchor = el("span", "anchor-target");
-  anchor.id = "order";
+  anchor.id = "kits";
   anchor.setAttribute("aria-hidden", "true");
   section.appendChild(anchor);
   section.appendChild(el("h2", "", order.heading));
@@ -284,7 +284,7 @@ function TierComparisonSection() {
     const status = el("aside", "production-status");
     if (order.statusHeading) status.appendChild(el("strong", "", order.statusHeading));
     appendParagraph(status, order.statusText);
-    const link = el("a", "", order.requestButton || "Request a quote");
+    const link = el("a", "", order.requestButton || "Ask about a kit");
     link.href = "#checkout-placeholder";
     status.appendChild(link);
     section.appendChild(status);
@@ -474,7 +474,7 @@ function AssemblyManualSection() {
   if (preamble) section.appendChild(preamble);
 
   const back = el("p", "manual-back-link");
-  const link = el("a", "button secondary", "Back to comparison");
+  const link = el("a", "button secondary", "Materials kit");
   link.href = "#kits";
   back.appendChild(link);
   const included = el("a", "button secondary", "What's included");
@@ -644,11 +644,11 @@ function SetupKitInventorySection() {
   ];
 
   const section = sectionShell("setup-inventory", "setup-kit-inventory-section");
-  section.appendChild(el("h2", "", "What's Included"));
-  appendParagraph(section, "The physical pieces used by the parts-kit and finished-frame paths.", "section-copy");
+  section.appendChild(el("h2", "", "Materials Kit Contents"));
+  appendParagraph(section, "The physical pieces gathered for the optional materials kit.", "section-copy");
 
   const links = el("p", "manual-back-link");
-  const back = el("a", "button secondary", "Back to comparison");
+  const back = el("a", "button secondary", "Materials kit");
   back.href = "#kits";
   const manual = el("a", "button secondary", "Setup manual");
   manual.href = "#setup-manual";
@@ -717,13 +717,13 @@ function renderHomepage() {
   [
     HeroSection,
     ProductIntroSection,
-    TierComparisonSection,
     PlansSection,
     PartsSection,
+    TierComparisonSection,
+    SetupKitInventorySection,
     ProcessStripSection,
     MechanismSection,
     RevealDemoSection,
-    SetupKitInventorySection,
     AssemblyManualSection,
     FAQSection,
     CTASection,

@@ -18,7 +18,7 @@ Last updated: 2026-07-19
 - Versioned live deployment:
   `AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg`
 - Current verified live version:
-  `@193 - revise site copy hierarchy`
+  `@194 - reframe site around documented build`
 - Deployment workflow:
   1. `clasp.cmd push`
   2. `clasp.cmd version "short description"`
@@ -31,27 +31,24 @@ Last updated: 2026-07-19
 
 ## Current Git State
 
-As of this handoff, `git status --short --branch` is clean against `origin/main` except for unrelated untracked generated-image draft folders:
+After committing and pushing this handoff, `git status --short --branch` should be clean against `origin/main`.
 
 ```text
 ## main...origin/main
-?? drafts/generated-images/candidates/gallery-pairs-v2/
-?? drafts/generated-images/candidates/gallery-pairs/
 ```
-
-Do not delete those draft folders unless the user asks; they predate the latest handoff update and are not part of the deployed site state.
 
 Recent commits on `main`:
 
+- `32047fe Revise site copy hierarchy`
+- `ebf3153 Version 1.0 checkpoint before refactor`
+- `93eb38e Update handoff notes`
 - `527aacd Add order image crop caveat`
-- `bb51152 Remove kit prices from site`
-- `2b83a60 Update live site messaging and docs`
 
 ## Recent Live Changes
 
 - Restored damaged assembly PNGs and pinned image references to stable GitHub/CDN commits after cache/degradation issues.
 - Fixed "How it works" mechanism image sizing so the center mechanism image matches the two surrounding image cards.
-- Removed Setup Kit from the public kit paths, but kept setup/assembly instructions and inventory because they still apply to Maker, Builder, Finished Gift reset/setup, and future restoration.
+- Removed Setup Kit from the public kit paths, but kept setup/assembly instructions and inventory because they still apply to builders, custom finished-build resets/setup, and future restoration.
 - Added a colored full-mechanism reference image beside the assembly preamble mechanism list.
 - Colored assembly mechanism terms:
   - `clock mechanism`: black
@@ -69,21 +66,24 @@ Recent commits on `main`:
   - kit path selector renders immediately instead of waiting for tier illustration fetch
   - tier illustration fetch failure no longer leaves static fallback cards
 - Replaced FAQ with content sourced from `docs/FAQ.docx` and wired FAQ into the `Site CMS` flow as collapsible accordion items.
-- Added early small-batch release messaging and a direct request/quote form.
+- Added a contact form for materials-kit requests, build questions, feedback, and occasional custom-build inquiries.
 - Inquiry form writes to the `Inquiries` sheet and sends email notifications to `friedman.zack@gmail.com` via `MailApp`.
 - Added the upload caveat in "Submit your own":
   `By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.`
-- Generalized the kit status note to:
-  `Kit paths, pricing, and availability are preliminary while the project moves toward a more streamlined ordering process.`
+- Reframed the site around the documented build as the main offering:
+  - Hero CTA points to build resources.
+  - Design files, image tool, instructions, and parts list come before the commercial kit.
+  - Materials kit is the primary commercial offering: tested components, pre-cut sheets, specialty media, tape, string, and one-frame quantities.
+  - Finished frames are only mentioned as case-by-case custom builds near the contact form.
 - Removed public kit prices from the live kit cards. The renderer still supports `priceLabel` if prices are restored later, but current visible kit paths do not show dollar amounts.
 - Added an order/request form caveat:
   `Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.`
   This caveat is only in the ordering/request area, not the gallery submission module.
 - Revised site copy/information hierarchy after the open-design/parts-kit refactor draft:
-  - Hero sells the timed physical reveal, not free files or licensing.
-  - Primary paths are `Build from scratch`, `Parts Kit`, and `Finished Gift`.
-  - Design files and licensing are available after the product/options sections.
-  - Parts-kit value is framed as tested compatible parts, pre-cut materials, and one-frame quantities.
+  - Hero sells the timed physical reveal and starts visitors toward the build.
+  - The site treats the documented build as the default model, not one consumer tier among several.
+  - The optional materials kit supports the build by gathering inconvenient non-printable parts.
+  - Licensing and transparency remain available but do not dominate the sales pitch.
   - Removed defensive margin/raw-bulk-cost language from visible site copy.
 - Replaced the gallery reveal image for the `Trojan` / `Troy` item with `trojan party.png` from:
   `C:\Users\zack and lil\OneDrive\Documents\OpenSCAD\photo stuff`
@@ -113,34 +113,35 @@ Recent commits on `main`:
 - Product name: `Double Take Frames`
 - Tagline: `One frame. Two takes.`
 - The product is a physical photo reveal, not a screen.
-- Current public status: early small-batch release.
-- The mechanism works, but kit paths, pricing, and availability are preliminary.
+- Current public status: freely documented build with an optional materials kit.
+- The mechanism works; the kit contents, fulfillment details, and pricing structure may continue to evolve.
 - Public kit prices are currently hidden; quotes are handled directly through the request form.
 - No payment is collected on the site.
-- Visitors should use the request form for quotes, questions, feedback, testing, or collaboration.
-- Requests are handled directly; each request is reviewed before quote/timing is provided.
+- Visitors should use the contact form for materials kits, build questions, feedback, testing, collaboration, or unusual custom requests.
+- Finished frames are an occasional custom accommodation, not the core product model.
 - Order/request form image guidance: roughly 5x7 proportions are ideal, and important content should stay away from the margins when submitted images have different proportions.
 
-## Current Kit Paths
+## Current Public Model
 
-Build from scratch:
+Documented build:
 
-- Customer uses the design files, sources hardware, prints image pair, and assembles the mechanism.
-- Includes SCAD/STL/3MF design files, site assembly instructions, Make-5x7 tool, and parts list.
+- The main offering is the freely documented project: design files, printable files, image tools, assembly instructions, complete parts list, and project knowledge.
+- Builder sources or prints the necessary pieces, formats and prints an image pair, and assembles the mechanism.
 
-Parts Kit:
+Optional materials kit:
 
-- Customer 3D prints frame and stand, assembles mechanism, prints/loads image pair.
-- Includes tested compatible one-frame quantities: clock mechanism, specialty media, pre-cut acrylic/backing, UHMW tape, string/threading wire, zipper/latch/eyelets/C-clip/fasteners.
+- The commercial offering is the non-printable material bundle for one build.
+- Includes tested compatible one-frame quantities: clock mechanism, specialty media, pre-cut acrylic/backing, UHMW tape, string/threading wire, zipper/latch/eyelets/C-clip/fasteners, and similar small hardware/materials.
+- Builder still uses the free build files and instructions, 3D prints the frame/stand, assembles the mechanism, and prints/loads an image pair.
 
-Finished Gift:
+Custom finished build:
 
-- Completed frame, images loaded/tested, ready to display or gift.
-- Customer may remove battery pull tab to begin countdown, or receive with countdown already underway.
+- Possible case by case for someone who cannot or does not want to print and assemble.
+- Keep this quiet and subordinate in public copy.
 
 ## Design Files And Parts List
 
-Keep this subordinate in public copy: demonstrate the openness, do not lead with it.
+These are the core public resources, but avoid repeating "free" too aggressively in visible copy. Demonstrate access directly.
 
 - SCAD/STL/3MF design files are available from the site downloads section.
 - License: CC BY-NC-SA 4.0 for personal, noncommercial use.
@@ -151,7 +152,7 @@ Keep this subordinate in public copy: demonstrate the openness, do not lead with
   each hardware part with `link: ""` placeholders - fill in buy-yourself links there.
 - Make-5x7 tool is served at `<exec url>?page=make5x7` from `Make5x7.html`
   (copied from `Documents/codex-scad-experiment/photo stuff/make 5x7.html`).
-- Tiers are now: Build from scratch / Parts Kit (defaultActive) / Finished Gift.
+- Public materials-kit section currently has one visible offering: `Parts Kit`.
 - GitHub for design files deliberately deferred; Drive-first. Revisit if a remix
   community forms.
 

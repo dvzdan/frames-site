@@ -8,17 +8,17 @@ const SITE_CONTENT = {
     name: "Double Take Frames",
     eyebrow: "One frame. Two takes.",
     tagline: "Physical photos that change in the blink of an eye, according to a timer you set.",
-    intro: "Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.",
-    primaryAction: "See your options",
-    secondaryAction: "Request a quote",
-    navContactLabel: "Request quote",
-    contactNote: "For orders, feedback, or custom reveal ideas, send a note through the request form."
+    intro: "Build a frame that sits quietly as one picture, waits for a timer, then reveals another. The files, image tools, instructions, and parts information are here so you can make one yourself.",
+    primaryAction: "Start building",
+    secondaryAction: "Materials kit",
+    navContactLabel: "Contact",
+    contactNote: "For materials kits, feedback, build questions, or unusual custom requests, send a note through the form."
   },
 
   homepage: {
     launchStatus: {
-      label: "Early small-batch release",
-      text: "The mechanism works, the frames are real, and requests are handled directly while the ordering flow catches up."
+      label: "Freely documented build",
+      text: "The project is meant to be built: download the files, format your images, follow the instructions, and source the parts yourself or use the materials kit."
     },
 
     productIntro: {
@@ -41,7 +41,7 @@ const SITE_CONTENT = {
         },
         {
           heading: "Can I use my own images?",
-          body: "Yes. That is the point. Send us any two images and we will size and print them for the frame."
+          body: "Yes. That is the point. The image tool helps format a cover image and reveal image for the frame."
         },
         {
           heading: "Can I choose one of the image pairs in the gallery?",
@@ -49,7 +49,7 @@ const SITE_CONTENT = {
         },
         {
           heading: "Can I just use my own photos?",
-          body: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty media we provide."
+          body: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nThe sliding cover image is fussier because it has a job to do, so use the recommended specialty media from the parts list or materials kit."
         },
         {
           heading: "Won't it seem weird to give someone a photo in this frame?",
@@ -88,8 +88,8 @@ const SITE_CONTENT = {
     },
 
     cta: {
-      heading: "Request a quote or send a note",
-      text: "Tell me what you are interested in, what image idea you have, and when you might need it. I will reply with feasibility, timing, and a quote if it makes sense to move forward."
+      heading: "Need help or something custom?",
+      text: "Use this for materials-kit requests, build questions, feedback, or unusual timing. If you cannot print and assemble a frame yourself, you can ask about a finished custom build, but that is case-by-case rather than the main offering."
     }
   },
 
@@ -110,39 +110,16 @@ const SITE_CONTENT = {
     },
 
     order: {
-      heading: "Three ways to get one.",
-      subhead: "Build from scratch, start with the tricky parts already gathered, or hand the whole thing off.",
-      statusHeading: "Current status: early production",
-      statusText: "Kit contents, pricing, and availability are preliminary while the project moves toward a more streamlined ordering process.",
-      requestButton: "Request a quote",
+      heading: "Materials kit",
+      subhead: "For builders who want the project, not a scavenger hunt.",
+      statusHeading: "Optional support for the build",
+      statusText: "The kit gathers the non-printable materials that are annoying to buy one frame at a time: tested components, pre-cut sheets, specialty media, tape, string, and small hardware.",
+      requestButton: "Ask about a kit",
       tiers: [
-        {
-          name: "Build from scratch",
-          shortDescription: "Use the design files, source the parts, and make the whole thing yourself.",
-          included: [
-            "SCAD, STL, and 3MF design files",
-            "Full assembly instructions on this site",
-            "Make-5x7 image formatting tool",
-            "A complete parts list with sourcing notes"
-          ],
-          youDo: [
-            "3D print the frame and stand",
-            "Source the hardware parts",
-            "Print your image pair",
-            "Assemble the mechanism"
-          ],
-          note: "For people who enjoy the full hunt-and-build version of the project.",
-          accentColor: "#6f7f53",
-          illustration: {
-            type: "maker",
-            assetKey: "maker",
-            alt: "Framed symbolic parts layout for the build-from-scratch path"
-          }
-        },
         {
           name: "Parts Kit",
           defaultActive: true,
-          shortDescription: "Tested compatible components in the quantities needed for one frame.",
+          shortDescription: "The non-printable materials for one build, gathered and prepared.",
           included: [
             "Clock mechanism, tested and ready",
             "Specialty cover media and photo stock",
@@ -151,35 +128,17 @@ const SITE_CONTENT = {
             "Zipper, latch hardware, eyelets, C-clip, and fasteners"
           ],
           youDo: [
+            "Use the freely available build files and instructions",
             "3D print the frame and stand",
             "Assemble the mechanism",
             "Print and load your image pair"
           ],
-          note: "Useful if you want to build it, but not buy full rolls, sheets, bags, and multi-packs for one frame.",
+          note: "Everything is still sourceable yourself. The kit just makes a one-off build less wasteful and less fussy.",
           accentColor: "#6b7f92",
           illustration: {
             type: "setup",
             assetKey: "setup",
             alt: "Framed symbolic parts layout for the Parts Kit"
-          }
-        },
-        {
-          name: "Finished Gift",
-          shortDescription: "Fully assembled, loaded, and ready to give.",
-          included: [
-            "Completed frame",
-            "Images loaded and tested",
-            "Two custom prints on specialty media",
-            "Ready to display or gift"
-          ],
-          youDo: [
-            "Optional: remove the battery pull tab to begin the countdown, or receive the frame with the countdown already underway"
-          ],
-          accentColor: "#7f5d68",
-          illustration: {
-            type: "gift",
-            assetKey: "gift",
-            alt: "Framed symbolic finished gift layout"
           }
         }
       ]
@@ -188,8 +147,8 @@ const SITE_CONTENT = {
     // Design file downloads section. File list itself is auto-generated from the
     // Drive folder "<gallery folder>/downloads" - drop files there to publish them.
     plans: {
-      heading: "Design files and image tool",
-      intro: "If you want the full DIY route, the printable files and source files are here. Print the frame and stand, use the assembly guide, and source the rest yourself or start with a parts kit.",
+      heading: "Build resources",
+      intro: "This is the core of the project: printable files, source files, image-prep tools, assembly instructions, and a complete parts list. Start here if you want to make a Double Take Frame.",
       downloadsHeading: "Design files",
       license: {
         name: "CC BY-NC-SA 4.0",
@@ -206,8 +165,8 @@ const SITE_CONTENT = {
     // Source-it-yourself parts table. Fill in the buy links as you find good ones;
     // rows with an empty link show the missingLinkText instead.
     parts: {
-      heading: "Source it yourself",
-      intro: "The parts list is here for builders who want total control. The parts kit is simply the same kind of compatible, tested, pre-cut, single-build set I would want if I were making one frame instead of stocking a drawer.",
+      heading: "Parts list",
+      intro: "Every non-printable piece is listed so you can source the build yourself. The materials kit exists for the items that are easier to use when they are tested, pre-cut, or supplied in one-frame quantities.",
       note: "Sourcing everything yourself is absolutely an option; expect some items to come as larger packs, rolls, sheets, or bags than one build needs.",
       linkLabel: "Where to buy",
       missingLinkText: "Link coming soon",
@@ -289,7 +248,7 @@ const SITE_CONTENT = {
       heading: "Request details",
       notes: [
         "No payment is collected on this site yet.",
-        "Each request is reviewed directly before a quote is provided.",
+        "Each request is reviewed directly before next steps are suggested.",
         "Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.",
         "Custom image products may have limited returns once images are printed or loaded."
       ]
@@ -298,13 +257,14 @@ const SITE_CONTENT = {
     inquiry: {
       typeLabel: "What is this about?",
       typeOptions: [
-        "Parts kit order",
-        "Finished frame or quote",
+        "Materials kit",
+        "Build question",
+        "Custom finished build",
         "Question",
         "Feedback",
         "Collaboration or testing"
       ],
-      kitLabel: "Kit path",
+      kitLabel: "Build path",
       kitPlaceholder: "Not sure yet",
       nameLabel: "Name",
       emailLabel: "Email",
