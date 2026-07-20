@@ -151,10 +151,10 @@ function renderHowWorksLongCopy(groups) {
   groups.forEach(group => {
     if (!group || !group.body) return;
 
-    const item = el("section", "how-works-copy-item");
-    if (group.heading) item.appendChild(el("h3", "", group.heading));
+    const item = el("details", "how-works-copy-item faq-item");
+    if (group.heading) item.appendChild(el("summary", "", group.heading));
 
-    const body = el("div", "how-works-copy-body");
+    const body = el("div", "how-works-copy-body faq-answer");
     appendMultilineText(body, group.body);
     item.appendChild(body);
     list.appendChild(item);
