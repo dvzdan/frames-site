@@ -8,17 +8,17 @@ const SITE_CONTENT = {
     name: "Double Take Frames",
     eyebrow: "One frame. Two takes.",
     tagline: "Physical photos that change in the blink of an eye, according to a timer you set.",
-    intro: "Build a frame that sits quietly as one picture, waits for a timer, then reveals another. The files, image tools, instructions, and parts information are here so you can make one yourself.",
+    intro: "Build a 3D-printed frame that sits quietly as one picture, waits for a timer, then reveals another. All the files, tools, and instructions - free.",
     primaryAction: "Start building",
-    secondaryAction: "Materials kit",
+    secondaryAction: "Get the parts",
     navContactLabel: "Contact",
-    contactNote: "For materials kits, feedback, build questions, or unusual custom requests, send a note through the form."
+    contactNote: "For kit and order interest, build questions, feedback, commercial licensing, or custom finished-frame inquiries, send a note through the form."
   },
 
   homepage: {
     launchStatus: {
-      label: "Freely documented build",
-      text: "The project is meant to be built: download the files, format your images, follow the instructions, and source the parts yourself or use the materials kit."
+      label: "",
+      text: ""
     },
 
     productIntro: {
@@ -40,16 +40,12 @@ const SITE_CONTENT = {
           body: "Not especially. Once it is set up, the mechanism can handle normal jostling, packing, shipping, and being tilted around. It does not need to stay perfectly upright the whole time. Just return it upright before the timer finishes so gravity can do its job."
         },
         {
-          heading: "Can I use my own images?",
-          body: "Yes. That is the point. The image tool helps format a cover image and reveal image for the frame."
-        },
-        {
           heading: "Can I choose one of the image pairs in the gallery?",
           body: "Yes, but we would rather see what you come up with."
         },
         {
-          heading: "Can I just use my own photos?",
-          body: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nThe sliding cover image is fussier because it has a job to do, so use the recommended specialty media from the parts list or materials kit."
+          heading: "Can I use any type of photo or paper stock?",
+          body: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty paper."
         },
         {
           heading: "Won't it seem weird to give someone a photo in this frame?",
@@ -88,8 +84,8 @@ const SITE_CONTENT = {
     },
 
     cta: {
-      heading: "Need help or something custom?",
-      text: "Use this for materials-kit requests, build questions, feedback, or unusual timing. If you cannot print and assemble a frame yourself, you can ask about a finished custom build, but that is case-by-case rather than the main offering."
+      heading: "Questions or requests",
+      text: "Use this form for kit and order interest, build questions, feedback, commercial licensing, or a custom finished-frame inquiry."
     }
   },
 
@@ -110,35 +106,72 @@ const SITE_CONTENT = {
     },
 
     order: {
-      heading: "Materials kit",
-      subhead: "For builders who want the project, not a scavenger hunt.",
-      statusHeading: "Optional support for the build",
-      statusText: "The kit gathers the non-printable materials that are annoying to buy one frame at a time: tested components, pre-cut sheets, specialty media, tape, string, and small hardware.",
+      heading: "Want the parts gathered for you?",
+      subhead: "Skip the bulk packs, cutting, and compatibility guesswork. Choose how much of the fabrication and preparation you want handled.",
+      statusHeading: "",
+      statusText: "",
       requestButton: "Ask about a kit",
       tiers: [
         {
-          name: "Parts Kit",
-          defaultActive: true,
-          shortDescription: "The non-printable materials for one build, gathered and prepared.",
+          name: "Maker Kit",
+          shortDescription: "3D print your own frame. Precision parts and images included.",
           included: [
-            "Clock mechanism, tested and ready",
-            "Specialty cover media and photo stock",
-            "Acrylic sheet and backing board, pre-cut to size",
-            "UHMW tape, string, and threading wire",
-            "Zipper, latch hardware, eyelets, C-clip, and fasteners"
+            "Hardware kit",
+            "Assembly supplies",
+            "Two custom prints on specialty media",
+            "Digital files for the frame and stand"
           ],
           youDo: [
-            "Use the freely available build files and instructions",
             "3D print the frame and stand",
             "Assemble the mechanism",
-            "Print and load your image pair"
+            "Load your image pair"
           ],
-          note: "Everything is still sourceable yourself. The kit just makes a one-off build less wasteful and less fussy.",
+          note: "Some basic hand tools required.",
+          accentColor: "#6f7f53",
+          illustration: {
+            type: "maker",
+            assetKey: "maker",
+            alt: "Framed symbolic parts layout for the Maker Kit"
+          }
+        },
+        {
+          name: "Builder Kit",
+          shortDescription: "Full self-assembly. Frame, hardware, and images included.",
+          included: [
+            "3D printed frame and stand",
+            "Hardware kit",
+            "Two custom prints on specialty media",
+            "Assembly supplies"
+          ],
+          youDo: [
+            "Assemble the mechanism",
+            "Load your image pair"
+          ],
+          note: "Some basic hand tools required.",
           accentColor: "#6b7f92",
           illustration: {
-            type: "setup",
-            assetKey: "setup",
-            alt: "Framed symbolic parts layout for the Parts Kit"
+            type: "builder",
+            assetKey: "builder",
+            alt: "Framed symbolic assembly layout for the Builder Kit"
+          }
+        },
+        {
+          name: "Finished Gift",
+          shortDescription: "Fully assembled, loaded, and ready to give.",
+          included: [
+            "Completed frame",
+            "Images loaded and tested",
+            "Two custom prints on specialty media",
+            "Ready to display or gift"
+          ],
+          youDo: [
+            "Optional: remove the battery pull tab to begin the countdown, or receive the frame with the countdown already underway"
+          ],
+          accentColor: "#7f5d68",
+          illustration: {
+            type: "gift",
+            assetKey: "gift",
+            alt: "Framed symbolic finished gift layout"
           }
         }
       ]
@@ -147,98 +180,150 @@ const SITE_CONTENT = {
     // Design file downloads section. File list itself is auto-generated from the
     // Drive folder "<gallery folder>/downloads" - drop files there to publish them.
     plans: {
-      heading: "Build resources",
-      intro: "This is the core of the project: printable files, source files, image-prep tools, assembly instructions, and a complete parts list. Start here if you want to make a Double Take Frame.",
-      downloadsHeading: "Design files",
+      heading: "Build your own",
+      intro: "",
+      assemblyLinkLabel: "Assembly instructions",
+      printHeading: "Print the frame",
+      printText: "Print the complete frame from one ready-to-go 3MF, or customize the OpenSCAD source and individual STL files.",
+      downloadsHeading: "Print files",
+      downloadGroups: [
+        { label: "Complete print", value: "3MF" },
+        { label: "Individual parts", value: "STL" },
+        { label: "Editable source", value: "OpenSCAD" }
+      ],
       license: {
         name: "CC BY-NC-SA 4.0",
         url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
         text: "For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form."
       },
       tool: {
-        heading: "Make-5x7 image tool",
-        text: "The same placement tool used for kit prints: drop in any image, position it for a 5x7 frame, and print it at home on standard 8.5x11 paper.",
-        linkLabel: "Open the Make-5x7 tool"
+        heading: "Prepare your images",
+        text: "Use Make 5x7 to position any PNG for a 5x7 frame and print it correctly on standard 8.5x11 paper.",
+        linkLabel: "Open Make 5x7",
+        note: "Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame."
+      },
+      hardware: {
+        heading: "Obtain the hardware",
+        text: "Source the remaining parts yourself or get all the non-3D-printed parts and materials in one bundle.",
+        linkLabel: "Go to hardware"
       }
     },
 
     // Source-it-yourself parts table. Fill in the buy links as you find good ones;
     // rows with an empty link show the missingLinkText instead.
     parts: {
-      heading: "Parts list",
-      intro: "Every non-printable piece is listed so you can source the build yourself. The materials kit exists for the items that are easier to use when they are tested, pre-cut, or supplied in one-frame quantities.",
-      note: "Sourcing everything yourself is absolutely an option; expect some items to come as larger packs, rolls, sheets, or bags than one build needs.",
-      linkLabel: "Where to buy",
+      heading: "Get the hardware",
+      intro: "Purchase all the non-3D-printed parts and materials needed for one frame in a single convenient bundle.",
+      bundleButtonLabel: "Ask about the hardware bundle",
+      sourceHeading: "Prefer to source it yourself?",
+      sourceIntro: "Here are the components I'm currently using, along with the quantities, specifications, and places to buy them.",
+      note: "",
+      quantityLabel: "Quantity",
+      specsLabel: "Specifications",
+      whyLabel: "Why it matters",
+      soldAsLabel: "Typical purchase quantity",
+      warningLabel: "Compatibility warning",
+      linkLabel: "Current recommended link",
       missingLinkText: "Link coming soon",
       items: [
         {
           name: "Clock mechanism",
-          role: "Drives the countdown and winds the string.",
+          role: "Countdown drive",
           kitAmount: "1, tested",
+          specs: "Quartz clock movement compatible with the capstan and frame geometry.",
+          why: "Drives the countdown and winds the string.",
           bulkReality: "Sold individually, but quality varies wildly between batches.",
+          warning: "Movement shaft dimensions and torque matter; not every clock movement will work.",
           link: ""
         },
         {
           name: "Specialty cover media",
-          role: "The sliding cover image. This stock has a job to do - weight and stiffness matter.",
+          role: "Sliding cover image",
           kitAmount: "2 sheets",
+          specs: "Printable sheet stock with the right weight and stiffness for the sliding cover.",
+          why: "The sliding cover image has a mechanical job to do; weight and stiffness matter.",
           bulkReality: "Sold in 50-sheet packs.",
+          warning: "Ordinary photo paper may be too floppy or too heavy for the cover image.",
           link: ""
         },
         {
           name: "Photo paper (reveal image)",
-          role: "The hidden image. Most 5x7 photo stock works.",
+          role: "Hidden reveal image",
           kitAmount: "2 sheets",
+          specs: "Roughly 5x7 photo paper or paper stock.",
+          why: "Carries the image that appears after the reveal.",
           bulkReality: "Sold in 25-100 sheet packs.",
+          warning: "",
           link: ""
         },
         {
           name: "Acrylic sheet",
-          role: "The glazing. Needs to be cut cleanly to size.",
+          role: "Glazing",
           kitAmount: "1, pre-cut",
+          specs: "Clear acrylic cut to the frame opening.",
+          why: "Protects the images while preserving the physical-frame look.",
           bulkReality: "Sold in large sheets; cutting acrylic cleanly at home is its own project.",
+          warning: "Poor cuts or wrong thickness can interfere with fit.",
           link: ""
         },
         {
           name: "Backing board",
-          role: "Stiffens the frame and carries the mechanism.",
+          role: "Rear structure",
           kitAmount: "1, pre-cut",
+          specs: "Rigid backing board cut to size.",
+          why: "Stiffens the frame and carries the mechanism.",
           bulkReality: "Sold in large sheets.",
+          warning: "",
           link: ""
         },
         {
           name: "UHMW tape",
-          role: "Low-friction surface so the cover image slides freely.",
+          role: "Low-friction slide path",
           kitAmount: "Exact strips",
+          specs: "Thin UHMW tape strips sized for the image path.",
+          why: "Creates a low-friction surface so the cover image slides freely.",
           bulkReality: "Sold in 15-foot rolls.",
+          warning: "Thicker or grippier tape can make the reveal unreliable.",
           link: ""
         },
         {
           name: "Braided string",
-          role: "Connects the capstan to the zipper anchor.",
+          role: "Pull line",
           kitAmount: "Exact length",
+          specs: "Thin braided line that ties cleanly and resists stretching.",
+          why: "Connects the capstan to the zipper anchor.",
           bulkReality: "Sold in 100-yard spools.",
+          warning: "Stretchy or bulky line can change the timing and pull path.",
           link: ""
         },
         {
           name: "Threading wire",
-          role: "Tiny wire used as a threading needle for the string.",
+          role: "String threading aid",
           kitAmount: "1",
+          specs: "Small wire stiff enough to guide the string through tight holes.",
+          why: "Acts as a tiny threading needle for the string.",
           bulkReality: "Sold in coils.",
+          warning: "",
           link: ""
         },
         {
           name: "Zipper",
-          role: "The release element - the head supports the latch until the string pulls it free.",
+          role: "Release element",
           kitAmount: "1",
+          specs: "Zipper type compatible with the latch and pull geometry.",
+          why: "The zipper head supports the latch until the string pulls it free.",
           bulkReality: "Sold in multi-packs; the specific type matters.",
+          warning: "The wrong zipper profile may not hold or release the latch correctly.",
           link: ""
         },
         {
           name: "Eyelets, C-clip, and fasteners",
-          role: "String guides, trap-door latch retention, and assembly hardware.",
+          role: "Guides and retainers",
           kitAmount: "Exact set",
+          specs: "Small hardware matched to the printed parts and release mechanism.",
+          why: "Provides string guides, trap-door latch retention, and assembly hardware.",
           bulkReality: "Each sold in 50-200 count bags.",
+          warning: "Small dimension changes can create fit or friction problems.",
           link: ""
         }
       ]
@@ -249,7 +334,6 @@ const SITE_CONTENT = {
       notes: [
         "No payment is collected on this site yet.",
         "Each request is reviewed directly before next steps are suggested.",
-        "Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.",
         "Custom image products may have limited returns once images are printed or loaded."
       ]
     },
@@ -257,14 +341,13 @@ const SITE_CONTENT = {
     inquiry: {
       typeLabel: "What is this about?",
       typeOptions: [
-        "Materials kit",
+        "Kit or order interest",
         "Build question",
-        "Custom finished build",
-        "Question",
         "Feedback",
-        "Collaboration or testing"
+        "Commercial licensing",
+        "Custom finished-frame inquiry"
       ],
-      kitLabel: "Build path",
+      kitLabel: "Kit path",
       kitPlaceholder: "Not sure yet",
       nameLabel: "Name",
       emailLabel: "Email",
@@ -299,19 +382,15 @@ const SITE_CONTENT = {
         },
         {
           question: "Can I build one entirely myself?",
-          answer: "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the parts kit gathers the tested compatible pieces in one-frame quantities."
+          answer: "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the kits gather the tested compatible pieces in one-frame quantities."
         },
-        {
-          question: "Can I sell frames made from these files?",
-          answer: "The files are licensed CC BY-NC-SA 4.0: free for personal, noncommercial use, and remixing is encouraged as long as remixes carry the same license. If you want to use the design commercially, get in touch through the request form."
-        }
       ]
     },
 
     community: {
       uploadHeading: "Submit your own",
-      uploadIntro: "Try a cover image and reveal image that would make sense as a physical surprise.",
-      uploadNote: "Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.",
+      uploadIntro: "",
+      uploadNote: "",
       uploadConsent: "By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.",
       galleryHeading: "Gallery",
       galleryIntro: "Click any image to switch between its cover and reveal state.",

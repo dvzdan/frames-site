@@ -73,7 +73,7 @@ function HeroSection() {
   const primary = el("a", "button", site.primaryAction);
   primary.href = "#plans";
   const secondary = el("a", "button secondary", site.secondaryAction);
-  secondary.href = "#materials-kit";
+  secondary.href = "#kits";
   actions.appendChild(primary);
   actions.appendChild(secondary);
   text.appendChild(actions);
@@ -301,16 +301,46 @@ function TierComparisonSection() {
 function PlansSection() {
   const plans = SITE_CONTENT.sections.plans;
   const section = sectionShell("plans", "plans-section");
+  renderPlansContent(section, plans, '<div class="downloads-empty fine-print">Print files are loading.</div>');
+  return section;
+}
+
+function renderPlansContent(section, plans, downloadsContent) {
+  section.innerHTML = "";
   section.appendChild(el("h2", "plans-heading", plans.heading));
   appendParagraph(section, plans.intro, "section-copy plans-intro");
 
-  const columns = el("div", "plans-columns");
-  const downloads = el("div", "plans-downloads");
-  downloads.appendChild(el("h3", "plans-downloads-heading", plans.downloadsHeading));
+  const steps = el("div", "build-steps");
+  steps.appendChild(createPrintStep(plans, downloadsContent));
+  steps.appendChild(createImageStep(plans));
+  steps.appendChild(createHardwareStep(plans));
+  section.appendChild(steps);
+}
+
+function createBuildStep(number, heading, text, className) {
+  const card = el("article", "build-step" + (className ? " " + className : ""));
+  card.appendChild(el("div", "build-step-number", number));
+  card.appendChild(el("h3", "build-step-heading", heading));
+  appendParagraph(card, text, "build-step-text");
+  return card;
+}
+
+function createPrintStep(plans, downloadsContent) {
+  const card = createBuildStep(1, plans.printHeading || "Print the frame", plans.printText, "build-step-print");
+  if (plans.downloadGroups && plans.downloadGroups.length) {
+    const groups = el("dl", "download-type-list");
+    plans.downloadGroups.forEach(group => {
+      groups.appendChild(el("dt", "", group.label));
+      groups.appendChild(el("dd", "", group.value));
+    });
+    card.appendChild(groups);
+  }
+
+  card.appendChild(el("h4", "plans-downloads-heading", plans.downloadsHeading));
   const list = el("div", "downloads-list");
   list.id = "downloadsList";
-  list.innerHTML = '<div class="downloads-empty fine-print">Design files are loading.</div>';
-  downloads.appendChild(list);
+  list.innerHTML = downloadsContent || '<div class="downloads-empty fine-print">Print files are loading.</div>';
+  card.appendChild(list);
 
   if (plans.license) {
     const license = el("p", "fine-print plans-license");
@@ -321,39 +351,39 @@ function PlansSection() {
     license.appendChild(link);
     license.appendChild(document.createTextNode(" "));
     license.appendChild(el("span", "plans-license-text", plans.license.text));
-    downloads.appendChild(license);
+    card.appendChild(license);
   }
 
-  const tool = el("aside", "plans-tool-card");
-  if (plans.tool) {
-    tool.appendChild(el("h3", "plans-tool-heading", plans.tool.heading));
-    appendParagraph(tool, plans.tool.text, "plans-tool-text");
-    const toolLink = el("a", "button secondary plans-tool-link", plans.tool.linkLabel);
-    toolLink.href = "?page=make5x7";
-    toolLink.target = "_blank";
-    toolLink.rel = "noopener";
-    tool.appendChild(toolLink);
-  }
+  const assembly = el("a", "button secondary plans-assembly-link", plans.assemblyLinkLabel || "Assembly instructions");
+  assembly.href = "#setup-manual";
+  card.appendChild(assembly);
+  return card;
+}
 
-  columns.appendChild(downloads);
-  columns.appendChild(tool);
-  section.appendChild(columns);
-  return section;
+function createImageStep(plans) {
+  const tool = plans.tool || {};
+  const card = createBuildStep(2, tool.heading || "Prepare your images", tool.text, "build-step-images");
+  appendParagraph(card, tool.note, "fine-print plans-tool-note");
+  const toolLink = el("a", "button secondary plans-tool-link", tool.linkLabel || "Open Make 5x7");
+  toolLink.href = "?page=make5x7";
+  toolLink.target = "_blank";
+  toolLink.rel = "noopener";
+  card.appendChild(toolLink);
+  return card;
+}
+
+function createHardwareStep(plans) {
+  const hardware = plans.hardware || {};
+  const card = createBuildStep(3, hardware.heading || "Obtain the hardware", hardware.text, "build-step-hardware");
+  const link = el("a", "button secondary plans-hardware-link", hardware.linkLabel || "Go to hardware");
+  link.href = "#parts";
+  card.appendChild(link);
+  return card;
 }
 
 function PartsSection() {
   const parts = SITE_CONTENT.sections.parts;
   const section = sectionShell("parts", "parts-section");
-  section.appendChild(el("h2", "parts-heading", parts.heading));
-  appendParagraph(section, parts.intro, "section-copy parts-intro");
-  const wrap = el("div", "parts-table-wrap");
-  const table = el("div", "parts-table");
-  table.id = "partsTable";
-  wrap.appendChild(table);
-  section.appendChild(wrap);
-  const note = el("p", "fine-print parts-note", parts.note);
-  note.id = "partsNote";
-  section.appendChild(note);
   hydratePartsSectionFromConfig(section, parts);
   return section;
 }
@@ -474,10 +504,10 @@ function AssemblyManualSection() {
   if (preamble) section.appendChild(preamble);
 
   const back = el("p", "manual-back-link");
-  const link = el("a", "button secondary", "Materials kit");
+  const link = el("a", "button secondary", "Kits");
   link.href = "#kits";
   back.appendChild(link);
-  const included = el("a", "button secondary", "What's included");
+  const included = el("a", "button secondary", "Build inventory");
   included.href = "#setup-inventory";
   back.appendChild(included);
   section.appendChild(back);
@@ -614,41 +644,46 @@ function normalizeListItem(item) {
 function SetupKitInventorySection() {
   const groups = [
     { heading: "Frame / Display", items: [
-      [1, "Frame", "frame.png"],
-      [2, "Stand", "stand.png"],
-      [3, "Acrylic", "acrylic.png"],
-      [4, "Backing Board", "backing-board.png"],
-      [5, "QR Sticker", "qr-sticker.png"]
+      [1, "Frame", "frame.png", "print"],
+      [2, "Stand", "stand.png", "print"],
+      [3, "Acrylic", "acrylic.png", "hardware"],
+      [4, "Backing Board", "backing-board.png", "hardware"],
+      [5, "QR Sticker", "qr-sticker.png", "hardware"]
     ] },
     { heading: "Images", items: [
-      [6, "Cover Image", "cover-image.png"],
-      [7, "Reveal Image", "reveal-image.png"]
+      [6, "Cover Image", "cover-image.png", "image"],
+      [7, "Reveal Image", "reveal-image.png", "image"]
     ] },
     { heading: "Roller / Low-Friction Path", items: [
-      [8, "Roller", "roller.png"],
-      [9, "UHMW Tape", "uhmw-tape.png"],
-      [10, "Zipper Track", "zipper-track.png"]
+      [8, "Roller", "roller.png", "print"],
+      [9, "UHMW Tape", "uhmw-tape.png", "hardware"],
+      [10, "Zipper Track", "zipper-track.png", "print"]
     ] },
     { heading: "Clock / String System", items: [
-      [11, "Clock Movement", "clock-movement.png"],
-      [12, "Capstan", "capstan.png"],
-      [13, "String Clock Locator", "string-clock-locator.png"],
-      [14, "Fishing Line", "fishing-line.png"]
+      [11, "Clock Movement", "clock-movement.png", "hardware"],
+      [12, "Capstan", "capstan.png", "print"],
+      [13, "String Clock Locator", "string-clock-locator.png", "print"],
+      [14, "Fishing Line", "fishing-line.png", "hardware"]
     ] },
     { heading: "Trap Door / Release System", items: [
-      [15, "Dry Trap Door Rig", "dry-trap-door-rig.png"],
-      [16, "Weight Rig", "weight-rig.png"],
-      [17, "Weight Latch", "weight-latch.png"],
-      [18, "Latch Clip", "latch-clip.png"]
+      [15, "Dry Trap Door Rig", "dry-trap-door-rig.png", "print"],
+      [16, "Weight Rig", "weight-rig.png", "print"],
+      [17, "Weight Latch", "weight-latch.png", "print"],
+      [18, "Latch Clip", "latch-clip.png", "hardware"]
     ] }
   ];
 
   const section = sectionShell("setup-inventory", "setup-kit-inventory-section");
-  section.appendChild(el("h2", "", "Materials Kit Contents"));
-  appendParagraph(section, "The physical pieces gathered for the optional materials kit.", "section-copy");
+  section.appendChild(el("h2", "", "Complete Build Inventory"));
+  const copy = el("p", "section-copy");
+  copy.id = "inventoryCopy";
+  copy.appendChild(document.createTextNode("Every "));
+  copy.appendChild(el("span", "inventory-term-printed", "printed"));
+  copy.appendChild(document.createTextNode(" and non-printed part needed for assembly."));
+  section.appendChild(copy);
 
   const links = el("p", "manual-back-link");
-  const back = el("a", "button secondary", "Materials kit");
+  const back = el("a", "button secondary", "Kits");
   back.href = "#kits";
   const manual = el("a", "button secondary", "Setup manual");
   manual.href = "#setup-manual";
@@ -683,6 +718,11 @@ function SetupKitInventoryCard(number, name, filename) {
 
   card.appendChild(el("div", "inventory-name", name));
   return card;
+}
+
+/* Assembly inventory is source-neutral; package selection should not alter it. */
+function updateInventoryKitLabels(tier) {
+  return tier;
 }
 
 function FAQSection() {
@@ -801,26 +841,9 @@ function hydratePlansSection() {
   const section = document.querySelector("#plans");
   if (!section || !plans) return;
 
-  const setText = function(selector, value) {
-    const node = section.querySelector(selector);
-    if (node && value) node.textContent = value;
-  };
-
-  setText(".plans-heading", plans.heading);
-  setText(".plans-intro", plans.intro);
-  setText(".plans-downloads-heading", plans.downloadsHeading);
-  if (plans.license) {
-    const link = section.querySelector(".plans-license-link");
-    if (link && plans.license.name) link.textContent = plans.license.name;
-    if (link && plans.license.url) link.href = plans.license.url;
-    setText(".plans-license-text", plans.license.text);
-  }
-  if (plans.tool) {
-    setText(".plans-tool-heading", plans.tool.heading);
-    setText(".plans-tool-text", plans.tool.text);
-    const toolLink = section.querySelector(".plans-tool-link");
-    if (toolLink && plans.tool.linkLabel) toolLink.textContent = plans.tool.linkLabel;
-  }
+  const existingDownloads = section.querySelector("#downloadsList");
+  const downloadsContent = existingDownloads ? existingDownloads.innerHTML : '<div class="downloads-empty fine-print">Print files are loading.</div>';
+  renderPlansContent(section, plans, downloadsContent);
 }
 
 /* Source-it-yourself parts table, rendered from Config sections.parts. */
@@ -832,44 +855,54 @@ function hydratePartsSection() {
 }
 
 function hydratePartsSectionFromConfig(section, parts) {
-  const heading = section.querySelector(".parts-heading");
-  if (heading && parts.heading) heading.textContent = parts.heading;
-  const intro = section.querySelector(".parts-intro");
-  if (intro && parts.intro) intro.textContent = parts.intro;
-  const note = section.querySelector("#partsNote");
-  if (note && parts.note) note.textContent = parts.note;
+  section.innerHTML = "";
+  section.appendChild(el("h2", "parts-heading", parts.heading));
 
-  const table = section.querySelector("#partsTable");
-  if (!table) return;
-  table.innerHTML = "";
+  const bundle = el("div", "hardware-bundle-card");
+  appendParagraph(bundle, parts.intro, "section-copy parts-intro");
+  const bundleLink = el("a", "button parts-bundle-link", parts.bundleButtonLabel || "Ask about the hardware bundle");
+  bundleLink.href = "#checkout-placeholder";
+  bundle.appendChild(bundleLink);
+  section.appendChild(bundle);
+
+  const source = el("div", "parts-source-section");
+  source.appendChild(el("h3", "parts-source-heading", parts.sourceHeading || "Prefer to source it yourself?"));
+  appendParagraph(source, parts.sourceIntro, "section-copy parts-source-intro");
+  const table = el("div", "parts-table");
+  table.id = "partsTable";
+  source.appendChild(table);
+  section.appendChild(source);
 
   (parts.items || []).forEach(function(item) {
     if (!item || !item.name) return;
-    const row = el("div", "parts-row");
+    const row = el("details", "parts-row");
+    const summary = el("summary", "parts-row-summary");
 
     const info = el("div", "parts-info");
     info.appendChild(el("div", "parts-name", item.name));
     if (item.role) info.appendChild(el("p", "parts-role", item.role));
-    row.appendChild(info);
+    summary.appendChild(info);
+
+    if (item.kitAmount) {
+      const quantity = el("div", "parts-summary-quantity");
+      quantity.appendChild(el("span", "parts-fact-label", parts.quantityLabel || "Quantity"));
+      quantity.appendChild(el("span", "parts-fact-value", item.kitAmount));
+      summary.appendChild(quantity);
+    }
+    row.appendChild(summary);
 
     const facts = el("div", "parts-facts");
-    if (item.kitAmount) {
-      const kit = el("div", "parts-fact");
-      kit.appendChild(el("span", "parts-fact-label", "In the kit"));
-      kit.appendChild(el("span", "parts-fact-value", item.kitAmount));
-      facts.appendChild(kit);
-    }
-    if (item.bulkReality) {
-      const bulk = el("div", "parts-fact");
-      bulk.appendChild(el("span", "parts-fact-label", "On your own"));
-      bulk.appendChild(el("span", "parts-fact-value", item.bulkReality));
-      facts.appendChild(bulk);
-    }
+    appendPartsFact(facts, parts.quantityLabel || "Quantity", item.kitAmount);
+    appendPartsFact(facts, parts.specsLabel || "Specifications", item.specs);
+    appendPartsFact(facts, parts.whyLabel || "Why it matters", item.why || item.role);
+    appendPartsFact(facts, parts.soldAsLabel || "Typical purchase quantity", item.bulkReality);
+    appendPartsFact(facts, parts.warningLabel || "Compatibility warning", item.warning);
     row.appendChild(facts);
 
     const action = el("div", "parts-action");
+    action.appendChild(el("span", "parts-fact-label", parts.linkLabel || "Current recommended link"));
     if (item.link) {
-      const link = el("a", "parts-link", parts.linkLabel || "Where to buy");
+      const link = el("a", "parts-link", "Open link");
       link.href = item.link;
       link.target = "_blank";
       link.rel = "noopener";
@@ -881,6 +914,18 @@ function hydratePartsSectionFromConfig(section, parts) {
 
     table.appendChild(row);
   });
+
+  const note = el("p", "fine-print parts-note", parts.note);
+  note.id = "partsNote";
+  section.appendChild(note);
+}
+
+function appendPartsFact(parent, label, value) {
+  if (!value) return;
+  const fact = el("div", "parts-fact");
+  fact.appendChild(el("span", "parts-fact-label", label));
+  fact.appendChild(el("span", "parts-fact-value", value));
+  parent.appendChild(fact);
 }
 
 function hydrateSubmissionModule() {
@@ -958,6 +1003,7 @@ function renderPricingTiers(container) {
 
     state.activeIndex = index;
     updateTierSelectorState(selector, index);
+    updateInventoryKitLabels(tiers[index]);
     const activeRow = selector.querySelector('.kit-selector-row[data-tier-index="' + index + '"]');
     if (activeRow && activeRow.id) {
       panel.setAttribute("aria-labelledby", activeRow.id);

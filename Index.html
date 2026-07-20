@@ -12,13 +12,13 @@
   <a class="site-nav-brand" href="#top">Double Take Frames</a>
   <nav class="site-nav-links">
     <a href="#how-it-works">How it works</a>
-    <a href="#plans">Build resources</a>
-    <a href="#parts">Parts list</a>
-    <a href="#materials-kit">Materials kit</a>
-    <a href="#gallery-section">Reveals</a>
+    <a href="#gallery-section">Gallery</a>
+    <a href="#plans">Build</a>
+    <a href="#parts">Parts</a>
+    <a href="#kits">Kits</a>
     <a href="#setup-manual">Assembly</a>
     <a href="#faq">FAQ</a>
-    <a class="site-nav-buy" href="#checkout-placeholder">Contact</a>
+    <a href="#checkout-placeholder">Contact</a>
   </nav>
 </header>
 
@@ -29,12 +29,11 @@
       <h1>Double Take Frames</h1>
       <div class="hero-copy">
         <p class="lede">Physical photos that change in the blink of an eye, according to a timer you set.</p>
-        <p>Build a frame that sits quietly as one picture, waits for a timer, then reveals another. The files, image tools, instructions, and parts information are here so you can make one yourself.</p>
+        <p>Build a 3D-printed frame that sits quietly as one picture, waits for a timer, then reveals another. All the files, tools, and instructions - free.</p>
       </div>
-      <div class="launch-status"><strong>Freely documented build</strong><p>The project is meant to be built: download the files, format your images, follow the instructions, and source the parts yourself or use the materials kit.</p></div>
       <div class="actions">
         <a class="button" href="#plans">Start building</a>
-        <a class="button secondary" href="#materials-kit">Materials kit</a>
+        <a class="button secondary" href="#kits">Get the parts</a>
       </div>
     </div>
     <div class="hero-gallery" id="heroGallery" hidden>
@@ -70,64 +69,10 @@
       <section class="how-works-copy-item"><h3>Wait, why?</h3><div class="how-works-copy-body"><p>Halloween. April Fools. Baby reveals. Pet nonsense.</p><p>Family holiday cards. Promposals.</p><p>Sincere messages of hope and inspiration, if you must insist.</p><p>Imagine giving someone a framed photo, letting it sit quietly on a shelf, and then - days or weeks later - it suddenly becomes a different picture.</p></div></section>
       <section class="how-works-copy-item"><h3>How exactly does it work?</h3><div class="how-works-copy-body"><p>Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another.</p></div></section>
       <section class="how-works-copy-item"><h3>Is it fragile?</h3><div class="how-works-copy-body"><p>Not especially. Once it is set up, the mechanism can handle normal jostling, packing, shipping, and being tilted around. It does not need to stay perfectly upright the whole time. Just return it upright before the timer finishes so gravity can do its job.</p></div></section>
-      <section class="how-works-copy-item"><h3>Can I use my own images?</h3><div class="how-works-copy-body"><p>Yes. That is the point. The image tool helps format a cover image and reveal image for the frame.</p></div></section>
       <section class="how-works-copy-item"><h3>Can I choose one of the image pairs in the gallery?</h3><div class="how-works-copy-body"><p>Yes, but we would rather see what you come up with.</p></div></section>
-      <section class="how-works-copy-item"><h3>Can I just use my own photos?</h3><div class="how-works-copy-body"><p>For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.</p><p>The sliding cover image is fussier because it has a job to do, so use the recommended specialty media from the parts list or materials kit.</p></div></section>
+      <section class="how-works-copy-item"><h3>Can I use any type of photo or paper stock?</h3><div class="how-works-copy-body"><p>For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.</p><p>But the sliding cover image is fussier. That one has a job to do, so it needs the specialty paper.</p></div></section>
       <section class="how-works-copy-item"><h3>Won't it seem weird to give someone a photo in this frame?</h3><div class="how-works-copy-body"><p>Probably. A cover story helps. Try: "My friend started 3D-printing frames and gave me one."</p></div></section>
       <section class="how-works-copy-item"><h3>Does it make noise?</h3><div class="how-works-copy-body"><p>A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.</p><p>The reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.</p></div></section>
-    </div>
-  </section>
-
-  <section class="section plans-section" id="plans">
-    <h2 class="plans-heading">Build resources</h2>
-    <p class="section-copy plans-intro">This is the core of the project: printable files, source files, image-prep tools, assembly instructions, and a complete parts list. Start here if you want to make a Double Take Frame.</p>
-    <div class="plans-columns">
-      <div class="plans-downloads">
-        <h3 class="plans-downloads-heading">Design files</h3>
-        <div class="downloads-list" id="downloadsList"><?!= renderInitialDownloadsHtml() ?></div>
-        <p class="fine-print plans-license"><a class="plans-license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> <span class="plans-license-text">For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form.</span></p>
-      </div>
-      <aside class="plans-tool-card">
-        <h3 class="plans-tool-heading">Make-5x7 image tool</h3>
-        <p class="plans-tool-text">The same placement tool used for kit prints: drop in any image, position it for a 5x7 frame, and print it at home on standard 8.5x11 paper.</p>
-        <a class="button secondary plans-tool-link" href="<?!= ScriptApp.getService().getUrl() ?>?page=make5x7" target="_blank" rel="noopener">Open the Make-5x7 tool</a>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section parts-section" id="parts">
-    <h2 class="parts-heading">Parts list</h2>
-    <p class="section-copy parts-intro">Every non-printable piece is listed so you can source the build yourself. The materials kit exists for the items that are easier to use when they are tested, pre-cut, or supplied in one-frame quantities.</p>
-    <div class="parts-table-wrap">
-      <div class="parts-table" id="partsTable"></div>
-    </div>
-    <p class="fine-print parts-note" id="partsNote"></p>
-  </section>
-
-  <section class="section tier-comparison-section" id="materials-kit">
-    <span id="kits" class="anchor-target" aria-hidden="true"></span>
-    <h2>Materials kit</h2>
-    <p class="section-copy">For builders who want the project, not a scavenger hunt.</p>
-    <aside class="production-status"><strong>Optional support for the build</strong><p>The kit gathers the non-printable materials that are annoying to buy one frame at a time: tested components, pre-cut sheets, specialty media, tape, string, and small hardware.</p><a href="#checkout-placeholder">Ask about a kit</a></aside>
-    <div class="kits" id="pricingTiers">
-      <article class="tier-card" data-tier-key="setup" style="--tier-accent:#6b7f92">
-        <div class="tier-intro"><h3 class="kit-name">Parts Kit</h3><p class="tier-description">The non-printable materials for one build, gathered and prepared.</p></div>
-        <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('setup') ?>" alt="Framed symbolic parts layout for the Parts Kit"></div></div>
-        <div class="tier-body">
-          <div class="tier-detail-sections">
-            <section class="tier-detail-section">
-              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('packageCheck') ?></span><span>INCLUDED</span></div>
-              <ul class="tier-detail-list"><li>Clock mechanism, tested and ready</li><li>Specialty cover media and photo stock</li><li>Acrylic sheet and backing board, pre-cut to size</li><li>UHMW tape, string, and threading wire</li><li>Zipper, latch hardware, eyelets, C-clip, and fasteners</li></ul>
-            </section>
-            <section class="tier-detail-section">
-              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
-              <ul class="tier-detail-list"><li>Use the freely available build files and instructions</li><li>3D print the frame and stand</li><li>Assemble the mechanism</li><li>Print and load your image pair</li></ul>
-              <p class="tier-detail-note">Everything is still sourceable yourself. The kit just makes a one-off build less wasteful and less fussy.</p>
-            </section>
-          </div>
-        </div>
-        <div class="tier-footer"><div class="tier-footer-name">Parts Kit</div></div>
-      </article>
     </div>
   </section>
 
@@ -137,7 +82,6 @@
     <details class="submission-module">
       <summary>Submit your own</summary>
       <div class="card">
-        <p>Try a cover image and reveal image that would make sense as a physical surprise.</p>
         <input id="title" placeholder="Cover title">
         <input id="revealTitle" placeholder="Reveal title">
         <textarea id="desc" placeholder="Description (optional)"></textarea>
@@ -147,17 +91,121 @@
         <input id="reveal" type="file" accept="image/png,image/jpeg">
         <button type="button" data-submit-concept>Submit</button>
         <div id="status"></div>
-        <p class="fine-print">Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.</p>
         <p class="fine-print submission-consent">By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.</p>
       </div>
     </details>
     <div class="gallery" id="gallery"><?!= renderInitialGalleryHtml() ?></div>
   </section>
 
+  <section class="section plans-section" id="plans">
+    <h2 class="plans-heading">Build your own</h2>
+    <div class="build-steps">
+      <article class="build-step build-step-print">
+        <div class="build-step-number">1</div>
+        <h3 class="build-step-heading">Print the frame</h3>
+        <p class="build-step-text">Print the complete frame from one ready-to-go 3MF, or customize the OpenSCAD source and individual STL files.</p>
+        <dl class="download-type-list"><dt>Complete print</dt><dd>3MF</dd><dt>Individual parts</dt><dd>STL</dd><dt>Editable source</dt><dd>OpenSCAD</dd></dl>
+        <h4 class="plans-downloads-heading">Print files</h4>
+        <div class="downloads-list" id="downloadsList"><?!= renderInitialDownloadsHtml() ?></div>
+        <p class="fine-print plans-license"><a class="plans-license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> <span class="plans-license-text">For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form.</span></p>
+        <a class="button secondary plans-assembly-link" href="#setup-manual">Assembly instructions</a>
+      </article>
+      <article class="build-step build-step-images">
+        <div class="build-step-number">2</div>
+        <h3 class="build-step-heading">Prepare your images</h3>
+        <p class="build-step-text">Use Make 5x7 to position any PNG for a 5x7 frame and print it correctly on standard 8.5x11 paper.</p>
+        <p class="fine-print plans-tool-note">Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.</p>
+        <a class="button secondary plans-tool-link" href="<?!= ScriptApp.getService().getUrl() ?>?page=make5x7" target="_blank" rel="noopener">Open Make 5x7</a>
+      </article>
+      <article class="build-step build-step-hardware">
+        <div class="build-step-number">3</div>
+        <h3 class="build-step-heading">Obtain the hardware</h3>
+        <p class="build-step-text">Source the remaining parts yourself or get all the non-3D-printed parts and materials in one bundle.</p>
+        <a class="button secondary plans-hardware-link" href="#parts">Go to hardware</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section parts-section" id="parts">
+    <h2 class="parts-heading">Get the hardware</h2>
+    <div class="hardware-bundle-card">
+      <p class="section-copy parts-intro">Purchase all the non-3D-printed parts and materials needed for one frame in a single convenient bundle.</p>
+      <a class="button parts-bundle-link" href="#checkout-placeholder">Ask about the hardware bundle</a>
+    </div>
+    <div class="parts-source-section">
+      <h3 class="parts-source-heading">Prefer to source it yourself?</h3>
+      <p class="section-copy parts-source-intro">Here are the components I'm currently using, along with the quantities, specifications, and places to buy them.</p>
+      <div class="parts-table" id="partsTable"></div>
+    </div>
+    <p class="fine-print parts-note" id="partsNote"></p>
+  </section>
+
+  <section class="section tier-comparison-section" id="kits">
+    <span id="materials-kit" class="anchor-target" aria-hidden="true"></span>
+    <span id="order" class="anchor-target" aria-hidden="true"></span>
+    <h2>Want the parts gathered for you?</h2>
+    <p class="section-copy">Skip the bulk packs, cutting, and compatibility guesswork. Choose how much of the fabrication and preparation you want handled.</p>
+    <div class="kits" id="pricingTiers">
+      <article class="tier-card" data-tier-key="maker" style="--tier-accent:#6f7f53">
+        <div class="tier-intro"><h3 class="kit-name">Maker Kit</h3><p class="tier-description">3D print your own frame. Precision parts and images included.</p></div>
+        <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('maker') ?>" alt="Framed symbolic parts layout for the Maker Kit"></div></div>
+        <div class="tier-body">
+          <div class="tier-detail-sections">
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('packageCheck') ?></span><span>INCLUDED</span></div>
+              <ul class="tier-detail-list"><li>Hardware kit</li><li>Assembly supplies</li><li>Two custom prints on specialty media</li><li>Digital files for the frame and stand</li></ul>
+            </section>
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
+              <ul class="tier-detail-list"><li>3D print the frame and stand</li><li>Assemble the mechanism</li><li>Load your image pair</li></ul>
+              <p class="tier-detail-note">Some basic hand tools required.</p>
+            </section>
+          </div>
+        </div>
+        <div class="tier-footer"><div class="tier-footer-name">Maker Kit</div></div>
+      </article>
+      <article class="tier-card" data-tier-key="builder" style="--tier-accent:#6b7f92">
+        <div class="tier-intro"><h3 class="kit-name">Builder Kit</h3><p class="tier-description">Full self-assembly. Frame, hardware, and images included.</p></div>
+        <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('builder') ?>" alt="Framed symbolic assembly layout for the Builder Kit"></div></div>
+        <div class="tier-body">
+          <div class="tier-detail-sections">
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('packageCheck') ?></span><span>INCLUDED</span></div>
+              <ul class="tier-detail-list"><li>3D printed frame and stand</li><li>Hardware kit</li><li>Two custom prints on specialty media</li><li>Assembly supplies</li></ul>
+            </section>
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
+              <ul class="tier-detail-list"><li>Assemble the mechanism</li><li>Load your image pair</li></ul>
+              <p class="tier-detail-note">Some basic hand tools required.</p>
+            </section>
+          </div>
+        </div>
+        <div class="tier-footer"><div class="tier-footer-name">Builder Kit</div></div>
+      </article>
+      <article class="tier-card" data-tier-key="gift" style="--tier-accent:#7f5d68">
+        <div class="tier-intro"><h3 class="kit-name">Finished Gift</h3><p class="tier-description">Fully assembled, loaded, and ready to give.</p></div>
+        <div class="tier-frame living-frame"><div class="tier-image living-frame-art"><img class="tier-asset" src="<?!= getTierIllustrationAsset('gift') ?>" alt="Framed symbolic finished gift layout"></div></div>
+        <div class="tier-body">
+          <div class="tier-detail-sections">
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('packageCheck') ?></span><span>INCLUDED</span></div>
+              <ul class="tier-detail-list"><li>Completed frame</li><li>Images loaded and tested</li><li>Two custom prints on specialty media</li><li>Ready to display or gift</li></ul>
+            </section>
+            <section class="tier-detail-section">
+              <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
+              <ul class="tier-detail-list"><li>Optional: remove the battery pull tab to begin the countdown, or receive the frame with the countdown already underway</li></ul>
+            </section>
+          </div>
+        </div>
+        <div class="tier-footer"><div class="tier-footer-name">Finished Gift</div></div>
+      </article>
+    </div>
+  </section>
+
   <section class="section setup-kit-inventory-section" id="setup-inventory">
-    <h2>Materials Kit Contents</h2>
-    <p class="section-copy">The physical pieces gathered for the optional materials kit.</p>
-    <p class="manual-back-link"><a class="button secondary" href="#kits">Materials kit</a><a class="button secondary" href="#setup-manual">Setup manual</a></p>
+    <h2>Complete Build Inventory</h2>
+    <p class="section-copy" id="inventoryCopy">Every <span class="inventory-term-printed">printed</span> and non-printed part needed for assembly.</p>
+    <p class="manual-back-link"><a class="button secondary" href="#kits">Kits</a><a class="button secondary" href="#setup-manual">Setup manual</a></p>
     <div class="inventory-groups">
       <section class="inventory-group">
         <h3>Frame / Display</h3>
@@ -237,7 +285,7 @@
         </div>
       </div>
     </div>
-    <p class="manual-back-link"><a class="button secondary" href="#kits">Materials kit</a><a class="button secondary" href="#setup-inventory">What's included</a></p>
+    <p class="manual-back-link"><a class="button secondary" href="#kits">Kits</a><a class="button secondary" href="#setup-inventory">Build inventory</a></p>
     <div class="assembly-guide" id="assemblyGuide">
       <div class="card fine-print">Assembly guide is loading.</div>
     </div>
@@ -254,13 +302,13 @@
   </section>
 
   <section class="section cta-section" id="checkout-placeholder">
-    <h2>Need help or something custom?</h2>
-    <p class="section-copy">Use this for materials-kit requests, build questions, feedback, or unusual timing. If you cannot print and assemble a frame yourself, you can ask about a finished custom build, but that is case-by-case rather than the main offering.</p>
+    <h2>Questions or requests</h2>
+    <p class="section-copy">Use this form for kit and order interest, build questions, feedback, commercial licensing, or a custom finished-frame inquiry.</p>
     <div class="inquiry-card">
       <form class="inquiry-form" id="inquiryForm">
         <div class="inquiry-grid">
-          <label class="inquiry-field" for="inquiryType"><span class="field-label">What is this about?</span><select id="inquiryType" name="inquiryType"><option>Materials kit</option><option>Build question</option><option>Custom finished build</option><option>Question</option><option>Feedback</option><option>Collaboration or testing</option></select></label>
-          <label class="inquiry-field" for="inquiryKit"><span class="field-label">Build path</span><select id="inquiryKit" name="inquiryKit"><option>Not sure yet</option><option>Parts Kit</option></select></label>
+          <label class="inquiry-field" for="inquiryType"><span class="field-label">What is this about?</span><select id="inquiryType" name="inquiryType"><option>Kit or order interest</option><option>Build question</option><option>Feedback</option><option>Commercial licensing</option><option>Custom finished-frame inquiry</option></select></label>
+          <label class="inquiry-field" for="inquiryKit"><span class="field-label">Kit path</span><select id="inquiryKit" name="inquiryKit"><option>Not sure yet</option><option>Maker Kit</option><option>Builder Kit</option><option>Finished Gift</option></select></label>
           <label class="inquiry-field" for="inquiryName"><span class="field-label">Name</span><input id="inquiryName" name="inquiryName" type="text"></label>
           <label class="inquiry-field" for="inquiryEmail"><span class="field-label">Email</span><input id="inquiryEmail" name="inquiryEmail" type="email" required></label>
           <label class="inquiry-field" for="inquiryTimeline"><span class="field-label">Timeline</span><input id="inquiryTimeline" name="inquiryTimeline" type="text" placeholder="No deadline, gift date, event date, etc."></label>
@@ -268,7 +316,7 @@
         <label class="inquiry-field" for="inquiryMessage"><span class="field-label">What do you have in mind?</span><textarea id="inquiryMessage" name="inquiryMessage" required rows="7" placeholder="Tell me about the image idea, occasion, quantity, constraints, or anything you want feedback on."></textarea></label>
         <div class="inquiry-actions"><button id="inquirySubmit" type="submit">Send request</button><p class="fine-print inquiry-status" id="inquiryStatus"></p></div>
       </form>
-      <ul class="fine-print inquiry-notes"><li>No payment is collected on this site yet.</li><li>Each request is reviewed directly before next steps are suggested.</li><li>Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.</li><li>Custom image products may have limited returns once images are printed or loaded.</li></ul>
+      <ul class="fine-print inquiry-notes"><li>No payment is collected on this site yet.</li><li>Each request is reviewed directly before next steps are suggested.</li><li>Custom image products may have limited returns once images are printed or loaded.</li></ul>
     </div>
   </section>
 
@@ -292,12 +340,11 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
       '<h1>Double Take Frames</h1>' +
       '<div class="hero-copy">' +
         '<p class="lede">Physical photos that change in the blink of an eye, according to a timer you set.</p>' +
-        '<p>Build a frame that sits quietly as one picture, waits for a timer, then reveals another. The files, image tools, instructions, and parts information are here so you can make one yourself.</p>' +
+        '<p>Build a 3D-printed frame that sits quietly as one picture, waits for a timer, then reveals another. All the files, tools, and instructions - free.</p>' +
       '</div>' +
-      '<div class="launch-status"><strong>Freely documented build</strong><p>The project is meant to be built: download the files, format your images, follow the instructions, and source the parts yourself or use the materials kit.</p></div>' +
       '<div class="actions">' +
         '<a class="button" href="#plans">Start building</a>' +
-        '<a class="button secondary" href="#materials-kit">Materials kit</a>' +
+        '<a class="button secondary" href="#kits">Get the parts</a>' +
       '</div>' +
       '</div>' +
       '<div class="hero-gallery" id="heroGallery" hidden>' +
@@ -332,23 +379,18 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
           '<section class="how-works-copy-item"><h3>Wait, why?</h3><div class="how-works-copy-body"><p>Halloween. April Fools. Baby reveals. Pet nonsense.</p><p>Family holiday cards. Promposals.</p><p>Sincere messages of hope and inspiration, if you must insist.</p><p>Imagine giving someone a framed photo, letting it sit quietly on a shelf, and then - days or weeks later - it suddenly becomes a different picture.</p></div></section>' +
           '<section class="how-works-copy-item"><h3>How exactly does it work?</h3><div class="how-works-copy-body"><p>Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another.</p></div></section>' +
           '<section class="how-works-copy-item"><h3>Is it fragile?</h3><div class="how-works-copy-body"><p>Not especially. Once it is set up, the mechanism can handle normal jostling, packing, shipping, and being tilted around. It does not need to stay perfectly upright the whole time. Just return it upright before the timer finishes so gravity can do its job.</p></div></section>' +
-          '<section class="how-works-copy-item"><h3>Can I use my own images?</h3><div class="how-works-copy-body"><p>Yes. That is the point. The image tool helps format a cover image and reveal image for the frame.</p></div></section>' +
           '<section class="how-works-copy-item"><h3>Can I choose one of the image pairs in the gallery?</h3><div class="how-works-copy-body"><p>Yes, but we would rather see what you come up with.</p></div></section>' +
-          '<section class="how-works-copy-item"><h3>Can I just use my own photos?</h3><div class="how-works-copy-body"><p>For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.</p><p>The sliding cover image is fussier because it has a job to do, so use the recommended specialty media from the parts list or materials kit.</p></div></section>' +
+          '<section class="how-works-copy-item"><h3>Can I use any type of photo or paper stock?</h3><div class="how-works-copy-body"><p>For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.</p><p>But the sliding cover image is fussier. That one has a job to do, so it needs the specialty paper.</p></div></section>' +
           '<section class="how-works-copy-item"><h3>Won&#39;t it seem weird to give someone a photo in this frame?</h3><div class="how-works-copy-body"><p>Probably. A cover story helps. Try: "My friend started 3D-printing frames and gave me one."</p></div></section>' +
           '<section class="how-works-copy-item"><h3>Does it make noise?</h3><div class="how-works-copy-body"><p>A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.</p><p>The reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.</p></div></section>' +
         '</div>' +
       '</section>' +
-    bootstrapPlansSection() +
-    bootstrapPartsSection() +
-    bootstrapMaterialsKitSection() +
     '<section class="section reveal-demo-section" id="gallery-section">' +
       '<h2>Gallery</h2>' +
       '<p class="section-copy">Click any image to switch between its cover and reveal state.</p>' +
       '<details class="submission-module">' +
         '<summary>Submit your own</summary>' +
         '<div class="card">' +
-          '<p>Try a cover image and reveal image that would make sense as a physical surprise.</p>' +
           '<input id="title" placeholder="Cover title">' +
           '<input id="revealTitle" placeholder="Reveal title">' +
           '<textarea id="desc" placeholder="Description (optional)"></textarea>' +
@@ -358,12 +400,14 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
           '<input id="reveal" type="file" accept="image/png,image/jpeg">' +
           '<button type="button" data-submit-concept>Submit</button>' +
           '<div id="status"></div>' +
-          '<p class="fine-print">Submissions appear in the public examples gallery. Future browsing and remix tools are planned, but not built yet.</p>' +
           '<p class="fine-print submission-consent">By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.</p>' +
         '</div>' +
       '</details>' +
       '<div class="gallery" id="gallery"><div class="card fine-print">Reveals are loading separately.</div></div>' +
     '</section>' +
+    bootstrapPlansSection() +
+    bootstrapPartsSection() +
+    bootstrapKitsSection() +
     bootstrapInventorySection() +
     bootstrapAssemblySection() +
     bootstrapFaqSection() +
@@ -381,14 +425,14 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
   function bootstrapTierDetails(key) {
     var details = {
       maker: {
-        included: ["SCAD, STL, and 3MF design files", "Full assembly instructions on this site", "Make-5x7 image formatting tool", "A complete parts list with sourcing notes"],
-        youDo: ["3D print the frame and stand", "Source the hardware parts", "Print your image pair", "Assemble the mechanism"],
-        note: "For people who enjoy the full hunt-and-build version of the project."
+        included: ["Hardware kit", "Assembly supplies", "Two custom prints on specialty media", "Digital files for the frame and stand"],
+        youDo: ["3D print the frame and stand", "Assemble the mechanism", "Load your image pair"],
+        note: "Some basic hand tools required."
       },
-      setup: {
-        included: ["Clock mechanism, tested and ready", "Specialty cover media and photo stock", "Acrylic sheet and backing board, pre-cut to size", "UHMW tape, string, and threading wire", "Zipper, latch hardware, eyelets, C-clip, and fasteners"],
-        youDo: ["Use the freely available build files and instructions", "3D print the frame and stand", "Assemble the mechanism", "Print and load your image pair"],
-        note: "Everything is still sourceable yourself. The kit just makes a one-off build less wasteful and less fussy."
+      builder: {
+        included: ["3D printed frame and stand", "Hardware kit", "Two custom prints on specialty media", "Assembly supplies"],
+        youDo: ["Assemble the mechanism", "Load your image pair"],
+        note: "Some basic hand tools required."
       },
       gift: {
         included: ["Completed frame", "Images loaded and tested", "Two custom prints on specialty media", "Ready to display or gift"],
@@ -405,40 +449,34 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
 
   function bootstrapPlansSection() {
     return '<section class="section plans-section" id="plans">' +
-      '<h2 class="plans-heading">Build resources</h2>' +
-      '<p class="section-copy plans-intro">This is the core of the project: printable files, source files, image-prep tools, assembly instructions, and a complete parts list. Start here if you want to make a Double Take Frame.</p>' +
-      '<div class="plans-columns">' +
-        '<div class="plans-downloads">' +
-          '<h3 class="plans-downloads-heading">Design files</h3>' +
-          '<div class="downloads-list" id="downloadsList"><div class="downloads-empty fine-print">Design files are loading.</div></div>' +
-          '<p class="fine-print plans-license"><a class="plans-license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> <span class="plans-license-text">For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form.</span></p>' +
-        '</div>' +
-        '<aside class="plans-tool-card">' +
-          '<h3 class="plans-tool-heading">Make-5x7 image tool</h3>' +
-          '<p class="plans-tool-text">The same placement tool used for kit prints: drop in any image, position it for a 5x7 frame, and print it at home on standard 8.5x11 paper.</p>' +
-          '<a class="button secondary plans-tool-link" href="?page=make5x7" target="_blank" rel="noopener">Open the Make-5x7 tool</a>' +
-        '</aside>' +
+      '<h2 class="plans-heading">Build your own</h2>' +
+      '<div class="build-steps">' +
+        '<article class="build-step build-step-print"><div class="build-step-number">1</div><h3 class="build-step-heading">Print the frame</h3><p class="build-step-text">Print the complete frame from one ready-to-go 3MF, or customize the OpenSCAD source and individual STL files.</p><dl class="download-type-list"><dt>Complete print</dt><dd>3MF</dd><dt>Individual parts</dt><dd>STL</dd><dt>Editable source</dt><dd>OpenSCAD</dd></dl><h4 class="plans-downloads-heading">Print files</h4><div class="downloads-list" id="downloadsList"><div class="downloads-empty fine-print">Print files are loading.</div></div><p class="fine-print plans-license"><a class="plans-license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> <span class="plans-license-text">For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form.</span></p><a class="button secondary plans-assembly-link" href="#setup-manual">Assembly instructions</a></article>' +
+        '<article class="build-step build-step-images"><div class="build-step-number">2</div><h3 class="build-step-heading">Prepare your images</h3><p class="build-step-text">Use Make 5x7 to position any PNG for a 5x7 frame and print it correctly on standard 8.5x11 paper.</p><p class="fine-print plans-tool-note">Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.</p><a class="button secondary plans-tool-link" href="?page=make5x7" target="_blank" rel="noopener">Open Make 5x7</a></article>' +
+        '<article class="build-step build-step-hardware"><div class="build-step-number">3</div><h3 class="build-step-heading">Obtain the hardware</h3><p class="build-step-text">Source the remaining parts yourself or get all the non-3D-printed parts and materials in one bundle.</p><a class="button secondary plans-hardware-link" href="#parts">Go to hardware</a></article>' +
       '</div>' +
     '</section>';
   }
 
   function bootstrapPartsSection() {
     return '<section class="section parts-section" id="parts">' +
-      '<h2 class="parts-heading">Parts list</h2>' +
-      '<p class="section-copy parts-intro">Every non-printable piece is listed so you can source the build yourself. The materials kit exists for the items that are easier to use when they are tested, pre-cut, or supplied in one-frame quantities.</p>' +
-      '<div class="parts-table-wrap"><div class="parts-table" id="partsTable"></div></div>' +
-      '<p class="fine-print parts-note" id="partsNote">Sourcing everything yourself is absolutely an option; expect some items to come as larger packs, rolls, sheets, or bags than one build needs.</p>' +
+      '<h2 class="parts-heading">Get the hardware</h2>' +
+      '<div class="hardware-bundle-card"><p class="section-copy parts-intro">Purchase all the non-3D-printed parts and materials needed for one frame in a single convenient bundle.</p><a class="button parts-bundle-link" href="#checkout-placeholder">Ask about the hardware bundle</a></div>' +
+      '<div class="parts-source-section"><h3 class="parts-source-heading">Prefer to source it yourself?</h3><p class="section-copy parts-source-intro">Here are the components I&#39;m currently using, along with the quantities, specifications, and places to buy them.</p><div class="parts-table" id="partsTable"></div></div>' +
+      '<p class="fine-print parts-note" id="partsNote"></p>' +
     '</section>';
   }
 
-  function bootstrapMaterialsKitSection() {
-    return '<section class="section tier-comparison-section" id="materials-kit">' +
-      '<span id="kits" class="anchor-target" aria-hidden="true"></span>' +
-      '<h2>Materials kit</h2>' +
-      '<p class="section-copy">For builders who want the project, not a scavenger hunt.</p>' +
-      '<aside class="production-status"><strong>Optional support for the build</strong><p>The kit gathers the non-printable materials that are annoying to buy one frame at a time: tested components, pre-cut sheets, specialty media, tape, string, and small hardware.</p><a href="#checkout-placeholder">Ask about a kit</a></aside>' +
+  function bootstrapKitsSection() {
+    return '<section class="section tier-comparison-section" id="kits">' +
+      '<span id="materials-kit" class="anchor-target" aria-hidden="true"></span>' +
+      '<span id="order" class="anchor-target" aria-hidden="true"></span>' +
+      '<h2>Want the parts gathered for you?</h2>' +
+      '<p class="section-copy">Skip the bulk packs, cutting, and compatibility guesswork. Choose how much of the fabrication and preparation you want handled.</p>' +
       '<div class="kits" id="pricingTiers">' +
-        bootstrapTier("setup", "Parts Kit", "", "The non-printable materials for one build, gathered and prepared.", "#6b7f92") +
+        bootstrapTier("maker", "Maker Kit", "", "3D print your own frame. Precision parts and images included.", "#6f7f53") +
+        bootstrapTier("builder", "Builder Kit", "", "Full self-assembly. Frame, hardware, and images included.", "#6b7f92") +
+        bootstrapTier("gift", "Finished Gift", "", "Fully assembled, loaded, and ready to give.", "#7f5d68") +
       '</div>' +
     '</section>';
   }
@@ -490,7 +528,7 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
           '</div>' +
         '</div>' +
       '</div>' +
-      '<p class="manual-back-link"><a class="button secondary" href="#kits">Materials kit</a><a class="button secondary" href="#setup-inventory">What&#39;s included</a></p>' +
+      '<p class="manual-back-link"><a class="button secondary" href="#kits">Kits</a><a class="button secondary" href="#setup-inventory">Build inventory</a></p>' +
       '<div class="assembly-guide" id="assemblyGuide">' +
         '<div class="card fine-print">Assembly guide is loading.</div>' +
       '</div>' +
@@ -523,13 +561,13 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
 
   function bootstrapBuySection() {
     return '<section class="section cta-section" id="checkout-placeholder">' +
-      '<h2>Need help or something custom?</h2>' +
-      '<p class="section-copy">Use this for materials-kit requests, build questions, feedback, or unusual timing. If you cannot print and assemble a frame yourself, you can ask about a finished custom build, but that is case-by-case rather than the main offering.</p>' +
+      '<h2>Questions or requests</h2>' +
+      '<p class="section-copy">Use this form for kit and order interest, build questions, feedback, commercial licensing, or a custom finished-frame inquiry.</p>' +
       '<div class="inquiry-card">' +
         '<form class="inquiry-form" id="inquiryForm">' +
           '<div class="inquiry-grid">' +
-            '<label class="inquiry-field" for="inquiryType"><span class="field-label">What is this about?</span><select id="inquiryType" name="inquiryType"><option>Materials kit</option><option>Build question</option><option>Custom finished build</option><option>Question</option><option>Feedback</option><option>Collaboration or testing</option></select></label>' +
-            '<label class="inquiry-field" for="inquiryKit"><span class="field-label">Build path</span><select id="inquiryKit" name="inquiryKit"><option>Not sure yet</option><option>Parts Kit</option></select></label>' +
+            '<label class="inquiry-field" for="inquiryType"><span class="field-label">What is this about?</span><select id="inquiryType" name="inquiryType"><option>Kit or order interest</option><option>Build question</option><option>Feedback</option><option>Commercial licensing</option><option>Custom finished-frame inquiry</option></select></label>' +
+            '<label class="inquiry-field" for="inquiryKit"><span class="field-label">Kit path</span><select id="inquiryKit" name="inquiryKit"><option>Not sure yet</option><option>Maker Kit</option><option>Builder Kit</option><option>Finished Gift</option></select></label>' +
             '<label class="inquiry-field" for="inquiryName"><span class="field-label">Name</span><input id="inquiryName" name="inquiryName" type="text"></label>' +
             '<label class="inquiry-field" for="inquiryEmail"><span class="field-label">Email</span><input id="inquiryEmail" name="inquiryEmail" type="email" required></label>' +
             '<label class="inquiry-field" for="inquiryTimeline"><span class="field-label">Timeline</span><input id="inquiryTimeline" name="inquiryTimeline" type="text" placeholder="No deadline, gift date, event date, etc."></label>' +
@@ -537,7 +575,7 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
           '<label class="inquiry-field" for="inquiryMessage"><span class="field-label">What do you have in mind?</span><textarea id="inquiryMessage" name="inquiryMessage" required rows="7" placeholder="Tell me about the image idea, occasion, quantity, constraints, or anything you want feedback on."></textarea></label>' +
           '<div class="inquiry-actions"><button id="inquirySubmit" type="submit">Send request</button><p class="fine-print inquiry-status" id="inquiryStatus"></p></div>' +
         '</form>' +
-        '<ul class="fine-print inquiry-notes"><li>No payment is collected on this site yet.</li><li>Each request is reviewed directly before next steps are suggested.</li><li>Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.</li><li>Custom image products may have limited returns once images are printed or loaded.</li></ul>' +
+        '<ul class="fine-print inquiry-notes"><li>No payment is collected on this site yet.</li><li>Each request is reviewed directly before next steps are suggested.</li><li>Custom image products may have limited returns once images are printed or loaded.</li></ul>' +
       '</div>' +
     '</section>';
   }
@@ -545,50 +583,50 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
   function bootstrapInventorySection() {
     var groups = [
       { heading: "Frame / Display", items: [
-        [1, "Frame", "frame.png"],
-        [2, "Stand", "stand.png"],
-        [3, "Acrylic", "acrylic.png"],
-        [4, "Backing Board", "backing-board.png"],
-        [5, "QR Sticker", "qr-sticker.png"]
+        [1, "Frame", "frame.png", "print"],
+        [2, "Stand", "stand.png", "print"],
+        [3, "Acrylic", "acrylic.png", "hardware"],
+        [4, "Backing Board", "backing-board.png", "hardware"],
+        [5, "QR Sticker", "qr-sticker.png", "hardware"]
       ] },
       { heading: "Images", items: [
-        [6, "Cover Image", "cover-image.png"],
-        [7, "Reveal Image", "reveal-image.png"]
+        [6, "Cover Image", "cover-image.png", "image"],
+        [7, "Reveal Image", "reveal-image.png", "image"]
       ] },
       { heading: "Roller / Low-Friction Path", items: [
-        [8, "Roller", "roller.png"],
-        [9, "UHMW Tape", "uhmw-tape.png"],
-        [10, "Zipper Track", "zipper-track.png"]
+        [8, "Roller", "roller.png", "print"],
+        [9, "UHMW Tape", "uhmw-tape.png", "hardware"],
+        [10, "Zipper Track", "zipper-track.png", "print"]
       ] },
       { heading: "Clock / String System", items: [
-        [11, "Clock Movement", "clock-movement.png"],
-        [12, "Capstan", "capstan.png"],
-        [13, "String Clock Locator", "string-clock-locator.png"],
-        [14, "Fishing Line", "fishing-line.png"]
+        [11, "Clock Movement", "clock-movement.png", "hardware"],
+        [12, "Capstan", "capstan.png", "print"],
+        [13, "String Clock Locator", "string-clock-locator.png", "print"],
+        [14, "Fishing Line", "fishing-line.png", "hardware"]
       ] },
       { heading: "Trap Door / Release System", items: [
-        [15, "Dry Trap Door Rig", "dry-trap-door-rig.png"],
-        [16, "Weight Rig", "weight-rig.png"],
-        [17, "Weight Latch", "weight-latch.png"],
-        [18, "Latch Clip", "latch-clip.png"]
+        [15, "Dry Trap Door Rig", "dry-trap-door-rig.png", "print"],
+        [16, "Weight Rig", "weight-rig.png", "print"],
+        [17, "Weight Latch", "weight-latch.png", "print"],
+        [18, "Latch Clip", "latch-clip.png", "hardware"]
       ] }
     ];
 
     return '<section class="section setup-kit-inventory-section" id="setup-inventory">' +
-      '<h2>Materials Kit Contents</h2>' +
-      '<p class="section-copy">The physical pieces gathered for the optional materials kit.</p>' +
-      '<p class="manual-back-link"><a class="button secondary" href="#kits">Materials kit</a><a class="button secondary" href="#setup-manual">Setup manual</a></p>' +
+      '<h2>Complete Build Inventory</h2>' +
+      '<p class="section-copy" id="inventoryCopy">Every <span class="inventory-term-printed">printed</span> and non-printed part needed for assembly.</p>' +
+      '<p class="manual-back-link"><a class="button secondary" href="#kits">Kits</a><a class="button secondary" href="#setup-manual">Setup manual</a></p>' +
       '<div class="inventory-groups">' +
         groups.map(function(group) {
           return '<section class="inventory-group"><h3>' + group.heading + '</h3><div class="inventory-grid">' +
-            group.items.map(function(item) { return bootstrapInventoryCard(item[0], item[1], item[2]); }).join("") +
+            group.items.map(function(item) { return bootstrapInventoryCard(item[0], item[1], item[2], item[3]); }).join("") +
             '</div></section>';
         }).join("") +
       '</div>' +
     '</section>';
   }
 
-  function bootstrapInventoryCard(number, name, filename) {
+  function bootstrapInventoryCard(number, name, filename, category) {
     var url = "https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/" + filename;
     return '<article class="inventory-card">' +
       '<span class="inventory-number">' + number + '</span>' +

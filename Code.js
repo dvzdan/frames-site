@@ -34,17 +34,15 @@ const CMS_DEFAULT_ROWS = [
   ["how-it-works", "detail", 20, "Wait, why?", "Halloween. April Fools. Baby reveals. Pet nonsense.\n\nFamily holiday cards. Promposals.\n\nSincere messages of hope and inspiration, if you must insist.\n\nImagine giving someone a framed photo, letting it sit quietly on a shelf, and then - days or weeks later - it suddenly becomes a different picture.", true, "Appears below the main How it works paragraph."],
   ["how-it-works", "detail", 30, "How exactly does it work?", "Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another.", true, ""],
   ["how-it-works", "detail", 40, "Is it fragile?", "Not especially. Once it is set up, the mechanism can handle normal jostling, packing, shipping, and being tilted around. It does not need to stay perfectly upright the whole time. Just return it upright before the timer finishes so gravity can do its job.", true, ""],
-  ["how-it-works", "detail", 50, "Can I use my own images?", "Yes. That is the point. The image tool helps format a cover image and reveal image for the frame.", true, ""],
   ["how-it-works", "detail", 60, "Can I choose one of the image pairs in the gallery?", "Yes, but we would rather see what you come up with.", true, ""],
-  ["how-it-works", "detail", 70, "Can I just use my own photos?", "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nThe sliding cover image is fussier because it has a job to do, so use the recommended specialty media from the parts list or materials kit.", true, ""],
+  ["how-it-works", "detail", 70, "Can I use any type of photo or paper stock?", "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty paper.", true, ""],
   ["how-it-works", "detail", 80, "Won't it seem weird to give someone a photo in this frame?", "Probably. A cover story helps. Try: \"My friend started 3D-printing frames and gave me one.\"", true, ""],
   ["how-it-works", "detail", 90, "Does it make noise?", "A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.\n\nThe reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.", true, ""],
   ["faq", "item", 10, "Will I enjoy putting this together?", "That depends almost entirely on what kind of project you enjoy.\n\nIf you like examining unfamiliar parts, understanding how they interact, making small adjustments, and eventually watching a mechanism come to life, this is probably your kind of fun. It is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. The instructions will guide you, but the real satisfaction comes from understanding what the mechanism is doing and getting it dialed in.\n\nIf you are looking for a quick, linear project where you follow each step once, never need to inspect or adjust anything, and can assume that every part will behave perfectly on the first try, this may be more aggravating than enjoyable. There is nothing unusually difficult about it, but it rewards curiosity, patience, and a willingness to tinker.", true, "FAQ item from docs/FAQ.docx."],
   ["faq", "item", 20, "How do I reset the mechanism?", "Return to the assembly instructions and repeat the steps that set the mechanism in motion. You will need to redo some of the assembly process, but not all of it.", true, "FAQ item from docs/FAQ.docx."],
   ["faq", "item", 30, "Threading the string is a nuisance.", "It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.", true, "FAQ item from docs/FAQ.docx."],
   ["faq", "item", 40, "I'm worried I assembled it incorrectly and it won't work.", "The design and assembly instructions include multiple layers of redundancy. Most individual steps are not essential on their own; instead, they work together to reduce the overall likelihood of failure to below 1%. If you get one detail slightly wrong, the mechanism will usually still work - you have most likely increased the risk of failure only marginally.", true, "FAQ item from docs/FAQ.docx."],
-  ["faq", "item", 50, "Can I build one entirely myself?", "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the parts kit gathers the tested compatible pieces in one-frame quantities.", true, "Open-model FAQ item."],
-  ["faq", "item", 60, "Can I sell frames made from these files?", "The files are licensed CC BY-NC-SA 4.0: free for personal, noncommercial use, and remixing is encouraged as long as remixes carry the same license. If you want to use the design commercially, get in touch through the request form.", true, "Open-model FAQ item."],
+  ["faq", "item", 50, "Can I build one entirely myself?", "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the kits gather the tested compatible pieces in one-frame quantities.", true, "Open-model FAQ item."],
   ["assembly", "intro", 10, "", "Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.", true, "Appears above the assembly step viewer."],
   ["assembly", "sequence", 20, "How the mechanism works:", "Clock mechanism sits inside the frame.\nCapstan presses onto the clock mechanism.\nString ties to the capstan.\n  Then runs through the clock/string guide hole.\n  And through the top-left eyelet.\n  Then ties to the zipper anchor.\nZipper head supports the latch.\nLatch supports the weight.\nWeight is tethered to the sliding cover image.\nCover image sits over the reveal image.\nWhen the timer runs, the clock winds the string, pulls the zipper, releases the latch, drops the weight, slides the cover image up, and reveals the image underneath.", true, "Each line appears as a bulleted sequence item. Indent lines with spaces for nested bullets."],
   ["assembly", "checklist", 30, "Easy-to-miss checks:", "Tuck the stem of the weight inside the roller lip so it cannot fall out.\nFasten the trap-door latch with the C-clip.\nThread the string through both the boss guide and the top-left eyelet.\nPull any remaining slack above the string/clock guide.", true, "Each line appears as a checkbox."]
@@ -52,11 +50,27 @@ const CMS_DEFAULT_ROWS = [
 const CMS_DEFAULT_BODY_REPLACEMENTS = {
   "how-it-works|detail|50": {
     from: "Yes. That is the point. Send us any two images and we will size and print them for the frame.",
-    to: "Yes. That is the point. The image tool helps format a cover image and reveal image for the frame."
+    to: ""
   },
   "how-it-works|detail|70": {
-    from: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty media we provide.",
-    to: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nThe sliding cover image is fussier because it has a job to do, so use the recommended specialty media from the parts list or materials kit."
+    from: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nThe sliding cover image is fussier because it has a job to do, so use the recommended specialty media from the parts list or a kit.",
+    to: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty paper."
+  }
+};
+const CMS_DEFAULT_ROW_REMOVALS = {
+  "how-it-works|detail|50": {
+    heading: "Can I use my own images?",
+    body: "Yes. That is the point. The image tool helps format a cover image and reveal image for the frame."
+  },
+  "faq|item|60": {
+    heading: "Can I sell frames made from these files?",
+    body: "The files are licensed CC BY-NC-SA 4.0: free for personal, noncommercial use, and remixing is encouraged as long as remixes carry the same license. If you want to use the design commercially, get in touch through the request form."
+  }
+};
+const CMS_DEFAULT_ROW_HEADING_REPLACEMENTS = {
+  "how-it-works|detail|70": {
+    from: "Can I just use my own photos?",
+    to: "Can I use any type of photo or paper stock?"
   }
 };
 
@@ -529,20 +543,38 @@ function syncKnownCmsDefaultBodyReplacements_(sheet) {
   const sectionIndex = headers.indexOf("section");
   const typeIndex = headers.indexOf("type");
   const sortIndex = headers.indexOf("sort");
+  const headingIndex = headers.indexOf("heading");
   const bodyIndex = headers.indexOf("body");
-  if (sectionIndex < 0 || typeIndex < 0 || sortIndex < 0 || bodyIndex < 0) return;
+  if (sectionIndex < 0 || typeIndex < 0 || sortIndex < 0 || headingIndex < 0 || bodyIndex < 0) return;
 
-  rows.slice(1).forEach(function(row, i) {
+  for (let i = rows.length - 1; i >= 1; i -= 1) {
+    const row = rows[i];
     const key = [
       textOrEmpty(row[sectionIndex]).trim(),
       textOrEmpty(row[typeIndex]).trim(),
       Number(row[sortIndex]) || 0
     ].join("|");
+
+    const removal = CMS_DEFAULT_ROW_REMOVALS[key];
+    if (
+      removal &&
+      textOrEmpty(row[headingIndex]).trim() === removal.heading &&
+      textOrEmpty(row[bodyIndex]).trim() === removal.body
+    ) {
+      sheet.deleteRow(i + 1);
+      continue;
+    }
+
+    const headingReplacement = CMS_DEFAULT_ROW_HEADING_REPLACEMENTS[key];
+    if (headingReplacement && textOrEmpty(row[headingIndex]).trim() === headingReplacement.from) {
+      sheet.getRange(i + 1, headingIndex + 1).setValue(headingReplacement.to);
+    }
+
     const replacement = CMS_DEFAULT_BODY_REPLACEMENTS[key];
-    if (!replacement) return;
-    if (textOrEmpty(row[bodyIndex]).trim() !== replacement.from) return;
-    sheet.getRange(i + 2, bodyIndex + 1).setValue(replacement.to);
-  });
+    if (replacement && textOrEmpty(row[bodyIndex]).trim() === replacement.from) {
+      sheet.getRange(i + 1, bodyIndex + 1).setValue(replacement.to);
+    }
+  }
 }
 
 function isCmsRowEnabled_(value) {
@@ -605,7 +637,7 @@ function renderInitialDownloadsHtml() {
   try {
     const files = listDownloadFiles_();
     if (!files.length) {
-      return '<div class="downloads-empty fine-print">Design files are being staged - check back shortly, or send a request below and I will email them to you directly.</div>';
+      return '<div class="downloads-empty fine-print">Print files are being staged - check back shortly, or send a request below and I will email them to you directly.</div>';
     }
 
     return files.map(function(file) {
