@@ -838,6 +838,7 @@ p {
 .plans-license {
   line-height: 1.5;
   margin-top: 12px;
+  overflow-wrap: anywhere;
 }
 
 .plans-license-link {
@@ -866,10 +867,13 @@ p {
 }
 
 .build-steps {
+  align-items: start;
+  box-sizing: border-box;
   counter-reset: build-step;
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
+  min-width: 0;
 }
 
 @media (max-width: 860px) {
@@ -878,14 +882,28 @@ p {
   }
 }
 
+.build-step-print {
+  grid-row: span 2;
+}
+
 .build-step {
+  align-content: start;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 8px;
+  box-sizing: border-box;
   box-shadow: 0 14px 34px rgba(61, 50, 38, 0.06);
   display: grid;
   gap: 10px;
+  min-width: 0;
   padding: 16px 18px;
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .build-step-print {
+    grid-row: auto;
+  }
 }
 
 .build-step-number {
@@ -897,6 +915,7 @@ p {
   font-size: 13px;
   font-weight: 800;
   height: 28px;
+  justify-self: start;
   justify-content: center;
   width: 28px;
 }
@@ -914,6 +933,7 @@ p {
   font-size: 14px;
   line-height: 1.55;
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .download-type-list {
@@ -921,7 +941,9 @@ p {
   border-radius: 8px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  justify-self: start;
   margin: 2px 0;
+  max-width: 100%;
   overflow: hidden;
 }
 
