@@ -874,43 +874,42 @@ function hydratePartsSectionFromConfig(section, parts) {
   section.appendChild(source);
 
   (parts.items || []).forEach(function(item) {
-    if (!item || !item.name) return;
+    const itemName = item && (item.item || item.name);
+    if (!itemName) return;
     const row = el("details", "parts-row");
     const summary = el("summary", "parts-row-summary");
 
-    const info = el("div", "parts-info");
-    info.appendChild(el("div", "parts-name", item.name));
-    if (item.role) info.appendChild(el("p", "parts-role", item.role));
-    summary.appendChild(info);
-
-    if (item.kitAmount) {
-      const quantity = el("div", "parts-summary-quantity");
-      quantity.appendChild(el("span", "parts-fact-label", parts.quantityLabel || "Quantity"));
-      quantity.appendChild(el("span", "parts-fact-value", item.kitAmount));
-      summary.appendChild(quantity);
-    }
+    summary.appendChild(el("div", "parts-name", itemName));
     row.appendChild(summary);
 
     const facts = el("div", "parts-facts");
-    appendPartsFact(facts, parts.quantityLabel || "Quantity", item.kitAmount);
-    appendPartsFact(facts, parts.specsLabel || "Specifications", item.specs);
-    appendPartsFact(facts, parts.whyLabel || "Why it matters", item.why || item.role);
-    appendPartsFact(facts, parts.soldAsLabel || "Typical purchase quantity", item.bulkReality);
-    appendPartsFact(facts, parts.warningLabel || "Compatibility warning", item.warning);
-    row.appendChild(facts);
-
-    const action = el("div", "parts-action");
-    action.appendChild(el("span", "parts-fact-label", parts.linkLabel || "Current recommended link"));
-    if (item.link) {
-      const link = el("a", "parts-link", "Open link");
-      link.href = item.link;
+    if (item.product) {
+      const product = el("div", "parts-fact");
+      product.appendChild(el("span", "parts-fact-label", parts.productLabel || "Product"));
+      if (item.url) {
+        const link = el("a", "parts-link", item.product);
+        link.href = item.url;
+        link.target = "_blank";
+        link.rel = "noopener";
+        product.appendChild(link);
+      } else {
+        product.appendChild(el("span", "parts-fact-value", item.product));
+      }
+      facts.appendChild(product);
+    }
+    appendPartsFact(facts, parts.quantityLabel || "Quantity", item.quantity);
+    appendPartsFact(facts, "Note", item.note);
+    if (facts.childNodes.length) {
+      row.appendChild(facts);
+    } else if (item.url) {
+      const action = el("div", "parts-facts");
+      const link = el("a", "parts-link", item.url);
+      link.href = item.url;
       link.target = "_blank";
       link.rel = "noopener";
       action.appendChild(link);
-    } else {
-      action.appendChild(el("span", "parts-link-missing", parts.missingLinkText || "Link coming soon"));
+      row.appendChild(action);
     }
-    row.appendChild(action);
 
     table.appendChild(row);
   });

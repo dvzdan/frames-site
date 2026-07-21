@@ -49,7 +49,7 @@ const SITE_CONTENT = {
         },
         {
           heading: "Can I use any type of photo or paper stock?",
-          body: "For the reveal image, yes - just about any roughly 5x7 photo or paper stock should work.\n\nBut the sliding cover image is fussier. That one has a job to do, so it needs the specialty paper."
+          body: "The reveal sheet requires the specified specialty paper.\n\nThe other image can use just about any roughly 5x7 photo or paper stock."
         },
         {
           heading: "Won't it seem weird to give someone a photo in this frame?",
@@ -122,7 +122,7 @@ const SITE_CONTENT = {
           included: [
             "Hardware kit",
             "Assembly supplies",
-            "Two custom prints on specialty media",
+            "Two custom prints",
             "Digital files for the frame and stand"
           ],
           youDo: [
@@ -144,7 +144,7 @@ const SITE_CONTENT = {
           included: [
             "3D printed frame and stand",
             "Hardware kit",
-            "Two custom prints on specialty media",
+            "Two custom prints",
             "Assembly supplies"
           ],
           youDo: [
@@ -165,7 +165,7 @@ const SITE_CONTENT = {
           included: [
             "Completed frame",
             "Images loaded and tested",
-            "Two custom prints on specialty media",
+            "Two custom prints",
             "Ready to display or gift"
           ],
           youDo: [
@@ -220,117 +220,11 @@ const SITE_CONTENT = {
       intro: "Purchase all the non-3D-printed parts and materials needed for one frame in a single convenient bundle.",
       bundleButtonLabel: "Ask about the hardware bundle",
       sourceHeading: "Prefer to source it yourself?",
-      sourceIntro: "Here are the components I'm currently using, along with the quantities, specifications, and places to buy them.",
+      sourceIntro: "Here are the current components and recommended sourcing notes.",
       note: "",
       quantityLabel: "Quantity",
-      specsLabel: "Specifications",
-      whyLabel: "Why it matters",
-      soldAsLabel: "Typical purchase quantity",
-      warningLabel: "Compatibility warning",
-      linkLabel: "Current recommended link",
-      missingLinkText: "Link coming soon",
-      items: [
-        {
-          name: "Clock mechanism",
-          role: "Countdown drive",
-          kitAmount: "1, tested",
-          specs: "Quartz clock movement compatible with the capstan and frame geometry.",
-          why: "Drives the countdown and winds the string.",
-          bulkReality: "Sold individually, but quality varies wildly between batches.",
-          warning: "Movement shaft dimensions and torque matter; not every clock movement will work.",
-          link: ""
-        },
-        {
-          name: "Specialty cover media",
-          role: "Sliding cover image",
-          kitAmount: "2 sheets",
-          specs: "Printable sheet stock with the right weight and stiffness for the sliding cover.",
-          why: "The sliding cover image has a mechanical job to do; weight and stiffness matter.",
-          bulkReality: "Sold in 50-sheet packs.",
-          warning: "Ordinary photo paper may be too floppy or too heavy for the cover image.",
-          link: ""
-        },
-        {
-          name: "Photo paper (reveal image)",
-          role: "Hidden reveal image",
-          kitAmount: "2 sheets",
-          specs: "Roughly 5x7 photo paper or paper stock.",
-          why: "Carries the image that appears after the reveal.",
-          bulkReality: "Sold in 25-100 sheet packs.",
-          warning: "",
-          link: ""
-        },
-        {
-          name: "Acrylic sheet",
-          role: "Glazing",
-          kitAmount: "1, pre-cut",
-          specs: "Clear acrylic cut to the frame opening.",
-          why: "Protects the images while preserving the physical-frame look.",
-          bulkReality: "Sold in large sheets; cutting acrylic cleanly at home is its own project.",
-          warning: "Poor cuts or wrong thickness can interfere with fit.",
-          link: ""
-        },
-        {
-          name: "Backing board",
-          role: "Rear structure",
-          kitAmount: "1, pre-cut",
-          specs: "Rigid backing board cut to size.",
-          why: "Stiffens the frame and carries the mechanism.",
-          bulkReality: "Sold in large sheets.",
-          warning: "",
-          link: ""
-        },
-        {
-          name: "UHMW tape",
-          role: "Low-friction slide path",
-          kitAmount: "Exact strips",
-          specs: "Thin UHMW tape strips sized for the image path.",
-          why: "Creates a low-friction surface so the cover image slides freely.",
-          bulkReality: "Sold in 15-foot rolls.",
-          warning: "Thicker or grippier tape can make the reveal unreliable.",
-          link: ""
-        },
-        {
-          name: "Braided string",
-          role: "Pull line",
-          kitAmount: "Exact length",
-          specs: "Thin braided line that ties cleanly and resists stretching.",
-          why: "Connects the capstan to the zipper anchor.",
-          bulkReality: "Sold in 100-yard spools.",
-          warning: "Stretchy or bulky line can change the timing and pull path.",
-          link: ""
-        },
-        {
-          name: "Threading wire",
-          role: "String threading aid",
-          kitAmount: "1",
-          specs: "Small wire stiff enough to guide the string through tight holes.",
-          why: "Acts as a tiny threading needle for the string.",
-          bulkReality: "Sold in coils.",
-          warning: "",
-          link: ""
-        },
-        {
-          name: "Zipper",
-          role: "Release element",
-          kitAmount: "1",
-          specs: "Zipper type compatible with the latch and pull geometry.",
-          why: "The zipper head supports the latch until the string pulls it free.",
-          bulkReality: "Sold in multi-packs; the specific type matters.",
-          warning: "The wrong zipper profile may not hold or release the latch correctly.",
-          link: ""
-        },
-        {
-          name: "Eyelets, C-clip, and fasteners",
-          role: "Guides and retainers",
-          kitAmount: "Exact set",
-          specs: "Small hardware matched to the printed parts and release mechanism.",
-          why: "Provides string guides, trap-door latch retention, and assembly hardware.",
-          bulkReality: "Each sold in 50-200 count bags.",
-          warning: "Small dimension changes can create fit or friction problems.",
-          link: ""
-        }
-      ]
+      productLabel: "Product",
+      items: []
     },
 
     shipping: {
