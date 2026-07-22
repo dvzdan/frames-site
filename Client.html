@@ -964,8 +964,10 @@ function renderPricingTiers(container) {
   const tiers = SITE_CONTENT.sections.order.tiers || [];
   if (!tiers.length) return;
 
+  const imageOptions = SITE_CONTENT.sections.order.imageOptions || [];
   const state = {
-    activeIndex: getInitialActiveTierIndex(tiers)
+    activeIndex: getInitialActiveTierIndex(tiers),
+    imageOptionId: getDefaultImageOptionId(imageOptions)
   };
 
   const root = el("div", "kit-comparison-picker");
@@ -1015,7 +1017,8 @@ function renderPricingTiers(container) {
     }
 
     const swap = function() {
-      panelContent.replaceChildren(createActiveTierPanel(tiers[index]));
+      panelContent.replaceChildren(createActiveTierPanel(tiers[index], state, imageOptions, updateActivePanelPrice));
+      updateActivePanelPrice();
     };
 
     if (animate && typeof runBlinkTransition === "function") {
@@ -1024,6 +1027,31 @@ function renderPricingTiers(container) {
     }
 
     swap();
+  }
+
+  function updateActivePanelPrice() {
+    const activeTier = tiers[state.activeIndex];
+    const card = panelContent.querySelector(".tier-active-card");
+    if (!activeTier || !card) return;
+
+    const price = card.querySelector("[data-tier-total-price]");
+    const breakdown = card.querySelector("[data-tier-price-breakdown]");
+    const basePrice = Number(activeTier.priceValue) || 0;
+    const option = activeTier.imagePreparationApplies
+      ? imageOptions.find(function(item) { return item && item.id === state.imageOptionId; })
+      : null;
+    const adjustment = option ? Number(option.priceAdjustment) || 0 : 0;
+    const total = basePrice + adjustment;
+
+    if (price) {
+      price.textContent = formatTierPrice(total);
+      price.setAttribute("aria-label", (SITE_CONTENT.sections.order.pricePrefix || "Total") + " " + formatTierPrice(total));
+    }
+    if (breakdown) {
+      breakdown.textContent = adjustment
+        ? formatTierPrice(basePrice) + " kit + " + formatTierPrice(adjustment) + " image preparation = " + formatTierPrice(total)
+        : "";
+    }
   }
 }
 
@@ -1104,7 +1132,18 @@ function updateTierSelectorState(selector, activeIndex) {
   });
 }
 
-function createActiveTierPanel(tier) {
+function getDefaultImageOptionId(options) {
+  const fallback = options.find(function(option) {
+    return option && option.defaultSelected === true;
+  }) || options[0];
+  return fallback ? fallback.id : "";
+}
+
+function formatTierPrice(value) {
+  return "$" + String(Number(value) || 0);
+}
+
+function createActiveTierPanel(tier, state, imageOptions, onImageOptionChange) {
   const card = document.createElement("article");
   card.className = "tier-card tier-active-card";
   if (tier.illustration && tier.illustration.assetKey) {
@@ -1123,14 +1162,20 @@ function createActiveTierPanel(tier) {
   const intro = el("div", "tier-intro tier-active-intro");
   intro.appendChild(el("h3", "kit-name", tier.name));
   intro.appendChild(el("p", "tier-description", tier.shortDescription));
-  if (tier.priceLabel) {
-    intro.appendChild(el("div", "kit-price tier-active-price", tier.priceLabel));
+  if (tier.description) {
+    intro.appendChild(el("p", "tier-long-description", tier.description));
   }
   top.appendChild(intro);
 
   const body = document.createElement("div");
   body.className = "tier-body";
   body.appendChild(createTierDetailSections(tier));
+  if (tier.imagePreparationApplies && imageOptions.length) {
+    body.appendChild(createImagePreparationChooser(tier, state, imageOptions, onImageOptionChange));
+  }
+  if (tier.priceValue != null || tier.priceLabel) {
+    body.appendChild(createTierPriceSummary());
+  }
   if (tier.action && tier.action.href && tier.action.label) {
     body.appendChild(createTierAction(tier.action));
   }
@@ -1138,6 +1183,67 @@ function createActiveTierPanel(tier) {
   card.appendChild(top);
   card.appendChild(body);
   return card;
+}
+
+function createTierPriceSummary() {
+  const wrapper = el("div", "tier-price-summary");
+  const priceRow = el("div", "tier-active-price-row");
+  priceRow.appendChild(el("span", "tier-price-label", SITE_CONTENT.sections.order.pricePrefix || "Total"));
+  const price = el("div", "kit-price tier-active-price");
+  price.setAttribute("data-tier-total-price", "true");
+  priceRow.appendChild(price);
+  wrapper.appendChild(priceRow);
+  const breakdown = el("p", "fine-print tier-price-breakdown");
+  breakdown.setAttribute("data-tier-price-breakdown", "true");
+  wrapper.appendChild(breakdown);
+  return wrapper;
+}
+
+function createImagePreparationChooser(tier, state, options, onChange) {
+  const fieldset = document.createElement("fieldset");
+  fieldset.className = "image-prep-options";
+
+  const legend = document.createElement("legend");
+  legend.className = "image-prep-heading";
+  legend.textContent = SITE_CONTENT.sections.order.imagePreparationHeading || "How would you like to handle the images?";
+  fieldset.appendChild(legend);
+
+  const list = el("div", "image-prep-option-list");
+  const groupName = "image-preparation-" + textOrEmpty(tier.id || tier.name).replace(/\W+/g, "-").toLowerCase();
+
+  options.forEach(function(option) {
+    if (!option || !option.id) return;
+    const label = el("label", "image-prep-option");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = groupName;
+    input.value = option.id;
+    input.checked = option.id === state.imageOptionId;
+    input.addEventListener("change", function() {
+      if (!input.checked) return;
+      state.imageOptionId = option.id;
+      if (typeof onChange === "function") onChange();
+    });
+
+    const text = el("span", "image-prep-option-text");
+    text.appendChild(el("span", "image-prep-option-title", option.title));
+    text.appendChild(el("span", "image-prep-option-description", option.description));
+
+    const price = el("span", "image-prep-option-price", formatImageOptionPrice(option.priceAdjustment));
+
+    label.appendChild(input);
+    label.appendChild(text);
+    label.appendChild(price);
+    list.appendChild(label);
+  });
+
+  fieldset.appendChild(list);
+  return fieldset;
+}
+
+function formatImageOptionPrice(value) {
+  const amount = Number(value) || 0;
+  return amount ? "+" + formatTierPrice(amount) : "$0";
 }
 
 function createTierCard(tier) {

@@ -1200,7 +1200,21 @@ p {
 }
 
 .tier-active-price {
-  margin-top: 12px;
+  margin-top: 0;
+}
+
+.tier-active-price-row {
+  align-items: baseline;
+  display: flex;
+  gap: 8px;
+}
+
+.tier-price-label {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .tier-intro {
@@ -1270,13 +1284,6 @@ p {
     radial-gradient(circle at 23% 21%, color-mix(in srgb, var(--tier-accent) 70%, transparent) 0 11%, transparent 29%),
     radial-gradient(circle at 71% 75%, color-mix(in srgb, var(--tier-accent) 56%, transparent) 0 12%, transparent 31%),
     linear-gradient(180deg, transparent 0 58%, color-mix(in srgb, var(--tier-accent) 34%, transparent) 100%);
-}
-
-.tier-card[data-tier-key="setup"] {
-  --tier-illustration-accent:
-    radial-gradient(circle at 76% 21%, color-mix(in srgb, var(--tier-accent) 58%, transparent) 0 10%, transparent 28%),
-    radial-gradient(circle at 22% 79%, color-mix(in srgb, var(--tier-accent) 64%, transparent) 0 14%, transparent 34%),
-    linear-gradient(135deg, transparent 0 52%, color-mix(in srgb, var(--tier-accent) 36%, transparent) 85%, transparent 100%);
 }
 
 .tier-card[data-tier-key="gift"] {
@@ -1381,6 +1388,24 @@ p {
   margin-bottom: 10px;
 }
 
+.tier-long-description {
+  color: var(--text-body);
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.tier-price-breakdown {
+  line-height: 1.4;
+  margin: 4px 0 0;
+}
+
+.tier-price-summary {
+  border-top: 1px solid rgba(105, 95, 82, 0.16);
+  margin-top: 12px;
+  padding-top: 11px;
+}
+
 .tier-detail-sections {
   display: grid;
   gap: 11px;
@@ -1453,6 +1478,79 @@ p {
 
 .tier-card-action {
   margin-top: 12px;
+}
+
+.image-prep-options {
+  border: 1px solid rgba(105, 95, 82, 0.18);
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 11px;
+}
+
+.image-prep-heading {
+  color: var(--text-strong);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+  padding: 0 4px;
+}
+
+.image-prep-option-list {
+  display: grid;
+  gap: 7px;
+}
+
+.image-prep-option {
+  align-items: start;
+  background: color-mix(in srgb, var(--surface) 88%, var(--paper));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  padding: 9px 10px;
+}
+
+.image-prep-option:has(input:checked) {
+  background: var(--surface);
+  border-color: var(--text-strong);
+}
+
+.image-prep-option input {
+  margin-top: 2px;
+}
+
+.image-prep-option input:focus-visible {
+  outline: 2px solid #6d4d25;
+  outline-offset: 2px;
+}
+
+.image-prep-option-text {
+  display: grid;
+  gap: 2px;
+}
+
+.image-prep-option-title {
+  color: var(--text-strong);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.image-prep-option-description {
+  color: var(--text-body);
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+.image-prep-option-price {
+  color: var(--text-strong);
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .tier-manual-link {

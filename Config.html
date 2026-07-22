@@ -110,27 +110,48 @@ const SITE_CONTENT = {
     },
 
     order: {
-      heading: "Want the parts gathered for you?",
-      subhead: "Skip the bulk packs, cutting, and compatibility guesswork. Choose how much of the fabrication and preparation you want handled.",
+      heading: "How much do you want to build?",
+      subhead: "Choose from printing it yourself, assembling prepared parts, or receiving a finished gift.",
       statusHeading: "",
       statusText: "",
       requestButton: "Ask about a kit",
+      pricePrefix: "Total",
+      imagePreparationHeading: "How would you like to handle the images?",
+      imagePreparationNote: "Image preparation adds $10.",
+      imageOptions: [
+        {
+          id: "self-print",
+          title: "I'll print my own",
+          description: "Templates and blank specialty image material are included. You print and trim the images yourself.",
+          priceAdjustment: 0,
+          defaultSelected: true
+        },
+        {
+          id: "print-cut",
+          title: "Print and cut them for me",
+          description: "Send us your Display Image and Reveal Image. We'll format, print, and precisely cut both.",
+          priceAdjustment: 10,
+          defaultSelected: false
+        }
+      ],
       tiers: [
         {
+          id: "maker",
           name: "Maker Kit",
-          shortDescription: "3D print your own frame. Precision parts and images included.",
+          priceValue: 45,
+          priceLabel: "$45",
+          shortDescription: "You print and build it.",
+          description: "3D-print the frame, cassette, stand, and other printable parts, then assemble the mechanism yourself. We supply the specialty materials, precision hardware, digital files, and instructions.",
+          imagePreparationApplies: true,
+          defaultActive: true,
           included: [
-            "Hardware kit",
-            "Assembly supplies",
-            "Two custom prints",
-            "Digital files for the frame and stand"
+            "3D-printable files included",
+            "Precision hardware and specialty materials included",
+            "Battery not included"
           ],
           youDo: [
-            "3D print the frame and stand",
-            "Assemble the mechanism",
-            "Load your image pair"
+            "You print, assemble, load, and set it up"
           ],
-          note: "Some basic hand tools required.",
           accentColor: "#6f7f53",
           illustration: {
             type: "maker",
@@ -139,19 +160,31 @@ const SITE_CONTENT = {
           }
         },
         {
+          id: "builder",
           name: "Builder Kit",
-          shortDescription: "Full self-assembly. Frame, hardware, and images included.",
+          priceValue: 70,
+          priceLabel: "$70",
+          shortDescription: "You build it.",
+          description: "Every physical component arrives fabricated and prepared. You assemble the mechanism, load the images, and complete the final setup.",
+          imagePreparationApplies: true,
           included: [
-            "3D printed frame and stand",
-            "Hardware kit",
-            "Two custom prints",
-            "Assembly supplies"
+            "All 3D-printed parts included",
+            "Parts cleaned and prepared for assembly",
+            "Battery not included"
           ],
           youDo: [
-            "Assemble the mechanism",
-            "Load your image pair"
+            "You assemble, load, and set it up"
           ],
-          note: "Some basic hand tools required.",
+          specification: [
+            "All required 3D-printed components",
+            "Supports removed",
+            "Contact surfaces and functional openings cleaned as necessary",
+            "The ballast permanently installed in the weight component",
+            "Tubing, acrylic, paper, and similar stock prepared to the required supplied dimensions",
+            "Purchased hardware and mechanism components included",
+            "Small components organized and identified",
+            "No additional fabrication required by the customer"
+          ],
           accentColor: "#6b7f92",
           illustration: {
             type: "builder",
@@ -160,12 +193,18 @@ const SITE_CONTENT = {
           }
         },
         {
+          id: "gift",
           name: "Finished Gift",
-          shortDescription: "Fully assembled, loaded, and ready to give.",
+          priceValue: 160,
+          priceLabel: "$160",
+          shortDescription: "We finish everything.",
+          description: "We print and cut both images, assemble the frame, load and test the mechanism, and deliver it ready to display or give.",
+          imagePreparationApplies: false,
           included: [
-            "Completed frame",
-            "Images loaded and tested",
-            "Two custom prints",
+            "Fully assembled",
+            "Display and Reveal Images printed, cut, and loaded",
+            "Mechanism tested",
+            "Battery included",
             "Ready to display or gift"
           ],
           youDo: [
