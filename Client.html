@@ -365,11 +365,17 @@ function createImageStep(plans) {
   const card = createBuildStep(2, tool.heading || "Prepare your images", tool.text, "build-step-images");
   appendParagraph(card, tool.note, "fine-print plans-tool-note");
   const toolLink = el("a", "button secondary plans-tool-link", tool.linkLabel || "Open Make 5x7");
-  toolLink.href = "?page=make5x7";
+  toolLink.href = make5x7Url();
   toolLink.target = "_blank";
   toolLink.rel = "noopener";
   card.appendChild(toolLink);
   return card;
+}
+
+function make5x7Url() {
+  const serviceUrl = (window.SERVICE_URL || "").trim();
+  if (serviceUrl) return serviceUrl + "?page=make5x7";
+  return window.location.origin + window.location.pathname + "?page=make5x7";
 }
 
 function createHardwareStep(plans) {

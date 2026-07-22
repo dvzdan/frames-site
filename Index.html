@@ -325,6 +325,7 @@
 <script>
 window.INITIAL_GALLERY_ITEMS = <?!= getInitialGalleryJson() ?>;
 window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
+window.SERVICE_URL = "<?!= ScriptApp.getService().getUrl() ?>";
 </script>
 
 <script>
@@ -453,7 +454,7 @@ window.SITE_CMS_CONTENT = <?!= getSiteCmsContentJson() ?>;
       '<h2 class="plans-heading">Build your own</h2>' +
       '<div class="build-steps">' +
         '<article class="build-step build-step-print"><div class="build-step-number">1</div><h3 class="build-step-heading">Print the frame</h3><p class="build-step-text">Print the frame, stand, and all parts at once from a ready-to-go 3MF; print individual pieces from the STL files; or tinker with and customize the OpenSCAD source.</p><dl class="download-type-list"><dt>Complete print</dt><dd>3MF</dd><dt>Individual parts</dt><dd>STL</dd><dt>Editable source</dt><dd>OpenSCAD</dd></dl><h4 class="plans-downloads-heading">Print files</h4><div class="downloads-list" id="downloadsList"><div class="downloads-empty fine-print">Print files are loading.</div></div><p class="fine-print plans-license"><a class="plans-license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> <span class="plans-license-text">For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form.</span></p><a class="button secondary plans-assembly-link" href="#setup-manual">Assembly instructions</a></article>' +
-        '<article class="build-step build-step-images"><div class="build-step-number">2</div><h3 class="build-step-heading">Prepare your images</h3><p class="build-step-text">Use Make 5x7 to position any PNG for a 5x7 frame and print it correctly on standard 8.5x11 paper.</p><p class="fine-print plans-tool-note">Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.</p><a class="button secondary plans-tool-link" href="?page=make5x7" target="_blank" rel="noopener">Open Make 5x7</a></article>' +
+        '<article class="build-step build-step-images"><div class="build-step-number">2</div><h3 class="build-step-heading">Prepare your images</h3><p class="build-step-text">Use Make 5x7 to position any PNG for a 5x7 frame and print it correctly on standard 8.5x11 paper.</p><p class="fine-print plans-tool-note">Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.</p><a class="button secondary plans-tool-link" href="<?!= ScriptApp.getService().getUrl() ?>?page=make5x7" target="_blank" rel="noopener">Open Make 5x7</a></article>' +
         '<article class="build-step build-step-hardware"><div class="build-step-number">3</div><h3 class="build-step-heading">Obtain the hardware</h3><p class="build-step-text">Get all the non-3D-printed parts and materials in one bundle, or opt to source them yourself.</p><a class="button secondary plans-hardware-link" href="#parts">Go to hardware</a></article>' +
       '</div>' +
     '</section>';
