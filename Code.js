@@ -37,8 +37,8 @@ const CMS_DEFAULT_ROWS = [
   ["how-it-works", "detail", 21, "So it's both absurd and pointless. How do I get one?", "You build it! Download the ready-to-print files, print the parts, and put everything together. No modeling or design work required.\n\nIf you don't own a 3D printer, ask around - a friend, local library, or makerspace may have one. You can source the remaining hardware and materials yourself or get everything together in our Hardware Bundle.", true, "Offering bridge after Wait, why?"],
   ["how-it-works", "detail", 22, "This whole 3D-printing craze doesn't interest me.", "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Assembly Kit.", true, "Offering bridge after Wait, why?"],
   ["how-it-works", "detail", 23, "Take the hint. I want a fun prank gift, not a project.", "You're missing out! But if you insist, we'll sell you the Finished Gift - built, loaded, tested, and ready to give. It'll cost ya.", true, "Offering bridge after Wait, why?"],
-  ["how-it-works", "detail", 25, "Will I enjoy putting this together?", "That depends almost entirely on what kind of project you enjoy.\n\nIf you like examining unfamiliar parts, understanding how they interact, making small adjustments, and eventually watching a mechanism come to life, this is probably your kind of fun. It is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. The instructions will guide you, but much of the satisfaction comes from understanding what the mechanism is doing and getting it dialed in.\n\nIf you are looking for a quick, linear project where you follow each step once and never have to stop and work out the little details for yourself, this may be more aggravating than enjoyable. There is nothing unusually difficult about it, but it rewards curiosity, patience, and a willingness to tinker.", true, "Moved from FAQ into How it works."],
-  ["how-it-works", "detail", 30, "How exactly does it work?", "Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another.", true, ""],
+  ["how-it-works", "detail", 24, "How exactly does it work?", "Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another.", true, ""],
+  ["how-it-works", "detail", 25, "Will I enjoy putting this together?", "That depends almost entirely on what kind of project you enjoy.\n\nThis is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. If you enjoy examining unfamiliar parts, understanding how they interact, and making small adjustments until a mechanism comes to life, it is probably your kind of fun.\n\nNo individual step is especially difficult. But if you want a quick, strictly linear project that never asks you to stop and think, it may be more aggravating than enjoyable. The build rewards curiosity, patience, and a willingness to tinker.", true, "Moved from FAQ into How it works."],
   ["how-it-works", "detail", 40, "Is it fragile?", "Not especially. Once it is set up, the mechanism can handle normal jostling, packing, shipping, and being tilted around. It does not need to stay perfectly upright the whole time. Just return it upright before the timer finishes so gravity can do its job.", true, ""],
   ["how-it-works", "detail", 60, "Can I choose one of the image pairs in the gallery?", "Yes, but we would rather see what you come up with.", true, ""],
   ["how-it-works", "detail", 70, "Can I use any type of photo or paper stock?", "The reveal sheet requires the specified specialty paper.\n\nThe other image can use just about any roughly 5x7 photo or paper stock.", true, ""],
@@ -53,6 +53,10 @@ const CMS_DEFAULT_ROWS = [
   ["assembly", "checklist", 30, "Easy-to-miss checks:", "Tuck the stem of the weight inside the roller lip so it cannot fall out.\nFasten the trap-door latch with the C-clip.\nThread the string through both the boss guide and the top-left eyelet.\nPull any remaining slack above the string/clock guide.", true, "Each line appears as a checkbox."]
 ];
 const CMS_DEFAULT_BODY_REPLACEMENTS = {
+  "how-it-works|detail|25": {
+    from: "That depends almost entirely on what kind of project you enjoy.\n\nIf you like examining unfamiliar parts, understanding how they interact, making small adjustments, and eventually watching a mechanism come to life, this is probably your kind of fun. It is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. The instructions will guide you, but much of the satisfaction comes from understanding what the mechanism is doing and getting it dialed in.\n\nIf you are looking for a quick, linear project where you follow each step once and never have to stop and work out the little details for yourself, this may be more aggravating than enjoyable. There is nothing unusually difficult about it, but it rewards curiosity, patience, and a willingness to tinker.",
+    to: "That depends almost entirely on what kind of project you enjoy.\n\nThis is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. If you enjoy examining unfamiliar parts, understanding how they interact, and making small adjustments until a mechanism comes to life, it is probably your kind of fun.\n\nNo individual step is especially difficult. But if you want a quick, strictly linear project that never asks you to stop and think, it may be more aggravating than enjoyable. The build rewards curiosity, patience, and a willingness to tinker."
+  },
   "how-it-works|detail|50": {
     from: "Yes. That is the point. Send us any two images and we will size and print them for the frame.",
     to: ""
@@ -83,6 +87,12 @@ const CMS_DEFAULT_ROW_HEADING_REPLACEMENTS = {
   "how-it-works|detail|70": {
     from: "Can I just use my own photos?",
     to: "Can I use any type of photo or paper stock?"
+  }
+};
+const CMS_DEFAULT_SORT_REPLACEMENTS = {
+  "how-it-works|detail|How exactly does it work?": {
+    from: 30,
+    to: 24
   }
 };
 
@@ -519,6 +529,7 @@ function getOrCreateSiteCmsSheet_() {
     if (!hasHeaders) seedSiteCmsSheet_(sheet);
   }
 
+  syncKnownCmsDefaultSortReplacements_(sheet);
   appendMissingCmsDefaultRows_(sheet);
   syncKnownCmsDefaultBodyReplacements_(sheet);
   return sheet;
@@ -547,6 +558,33 @@ function appendMissingCmsDefaultRows_(sheet) {
 
   sheet.getRange(sheet.getLastRow() + 1, 1, missing.length, CMS_HEADERS.length).setValues(missing);
   sheet.autoResizeColumns(1, CMS_HEADERS.length);
+}
+
+function syncKnownCmsDefaultSortReplacements_(sheet) {
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) return;
+
+  const headers = rows[0].map(function(header) {
+    return String(header || "").trim().toLowerCase();
+  });
+  const sectionIndex = headers.indexOf("section");
+  const typeIndex = headers.indexOf("type");
+  const sortIndex = headers.indexOf("sort");
+  const headingIndex = headers.indexOf("heading");
+  if (sectionIndex < 0 || typeIndex < 0 || sortIndex < 0 || headingIndex < 0) return;
+
+  for (let i = 1; i < rows.length; i += 1) {
+    const row = rows[i];
+    const key = [
+      textOrEmpty(row[sectionIndex]).trim(),
+      textOrEmpty(row[typeIndex]).trim(),
+      textOrEmpty(row[headingIndex]).trim()
+    ].join("|");
+    const replacement = CMS_DEFAULT_SORT_REPLACEMENTS[key];
+    if (replacement && Number(row[sortIndex]) === replacement.from) {
+      sheet.getRange(i + 1, sortIndex + 1).setValue(replacement.to);
+    }
+  }
 }
 
 function syncKnownCmsDefaultBodyReplacements_(sheet) {
