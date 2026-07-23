@@ -154,7 +154,8 @@ const SITE_CONTENT = {
             "3D-print the frame and printable components",
             "Assemble the mechanism",
             "Prepare and load the images",
-            "Complete the final setup"
+            "Complete the final setup",
+            { text: "Have the required assembly tools ready", href: "#assembly-tools" }
           ],
           accentColor: "#6f7f53",
           illustration: {
@@ -181,7 +182,8 @@ const SITE_CONTENT = {
           youDo: [
             "Assemble the mechanism",
             "Prepare and load the images",
-            "Complete the final setup"
+            "Complete the final setup",
+            { text: "Have the required assembly tools ready", href: "#assembly-tools" }
           ],
           specification: [
             "All required 3D-printed components",
@@ -353,6 +355,27 @@ const SITE_CONTENT = {
 
     assembly: {
       intro: "Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.",
+      tools: {
+        id: "assembly-tools",
+        heading: "Tools to have ready",
+        intro: "If you're assembling the frame yourself - whether you print the parts or start with the Assembly Kit - have these tools ready.",
+        groups: [
+          {
+            heading: "Required",
+            items: [
+              { name: "Small flush cutters", note: "a short, angled pair is strongly preferred." },
+              { name: "Gel super glue", note: "for attaching the lid to the weight carriage." }
+            ]
+          },
+          {
+            heading: "Helpful",
+            items: [
+              { name: "Tweezers", note: "handy for grabbing and positioning the string and image paper in tight spots." },
+              { name: "Single-hole punch", note: "handy for making the paper slot in the Cover Image, if you're preparing your own images." }
+            ]
+          }
+        ]
+      },
       sequenceHeading: "How the mechanism works:",
       sequenceItems: [
         { text: "Clock mechanism sits inside the frame.", level: 0 },

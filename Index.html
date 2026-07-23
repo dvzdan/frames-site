@@ -161,7 +161,7 @@
             </section>
             <section class="tier-detail-section">
               <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
-              <ul class="tier-detail-list"><li>Download the free print files</li><li>3D-print the frame and printable components</li><li>Assemble the mechanism</li><li>Prepare and load the images</li><li>Complete the final setup</li></ul>
+              <ul class="tier-detail-list"><li>Download the free print files</li><li>3D-print the frame and printable components</li><li>Assemble the mechanism</li><li>Prepare and load the images</li><li>Complete the final setup</li><li><a class="tier-detail-link" href="#assembly-tools">Have the required assembly tools ready</a></li></ul>
             </section>
           </div>
         </div>
@@ -178,7 +178,7 @@
             </section>
             <section class="tier-detail-section">
               <div class="tier-detail-heading"><span class="tier-section-icon" aria-hidden="true"><?!= tierSectionIcon('wrench') ?></span><span>YOU DO</span></div>
-              <ul class="tier-detail-list"><li>Assemble the mechanism</li><li>Prepare and load the images</li><li>Complete the final setup</li></ul>
+              <ul class="tier-detail-list"><li>Assemble the mechanism</li><li>Prepare and load the images</li><li>Complete the final setup</li><li><a class="tier-detail-link" href="#assembly-tools">Have the required assembly tools ready</a></li></ul>
             </section>
           </div>
         </div>
@@ -259,6 +259,14 @@
     <h2>Assembly Instructions</h2>
     <div class="assembly-preamble">
       <p class="section-copy assembly-preamble-intro">Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.</p>
+      <aside class="assembly-tools-callout" id="assembly-tools">
+        <h3>Tools to have ready</h3>
+        <p class="assembly-tools-intro">If you're assembling the frame yourself - whether you print the parts or start with the Assembly Kit - have these tools ready.</p>
+        <div class="assembly-tools-grid">
+          <section class="assembly-tools-group"><h4>Required</h4><ul class="assembly-tools-list"><li><strong>Small flush cutters</strong> - a short, angled pair is strongly preferred.</li><li><strong>Gel super glue</strong> - for attaching the lid to the weight carriage.</li></ul></section>
+          <section class="assembly-tools-group"><h4>Helpful</h4><ul class="assembly-tools-list"><li><strong>Tweezers</strong> - handy for grabbing and positioning the string and image paper in tight spots.</li><li><strong>Single-hole punch</strong> - handy for making the paper slot in the Cover Image, if you're preparing your own images.</li></ul></section>
+        </div>
+      </aside>
       <div class="assembly-preamble-block">
         <h3>How the mechanism works:</h3>
         <div class="assembly-mechanism-explainer">
@@ -432,11 +440,11 @@ window.SERVICE_URL = "<?!= ScriptApp.getService().getUrl() ?>";
     var details = {
       maker: {
         included: ["Complete hardware and materials bundle", "Specialty image materials", "Battery not included"],
-        youDo: ["Download the free print files", "3D-print the frame and printable components", "Assemble the mechanism", "Prepare and load the images", "Complete the final setup"]
+        youDo: ["Download the free print files", "3D-print the frame and printable components", "Assemble the mechanism", "Prepare and load the images", "Complete the final setup", '<a class="tier-detail-link" href="#assembly-tools">Have the required assembly tools ready</a>']
       },
       builder: {
         included: ["Complete Hardware Bundle", "All 3D-printed parts", "Printed parts cleaned and prepared for assembly", "Weighted component prepared", "Battery not included"],
-        youDo: ["Assemble the mechanism", "Prepare and load the images", "Complete the final setup"]
+        youDo: ["Assemble the mechanism", "Prepare and load the images", "Complete the final setup", '<a class="tier-detail-link" href="#assembly-tools">Have the required assembly tools ready</a>']
       },
       gift: {
         included: ["Fully assembled", "Display and Reveal Images printed, cut, and loaded", "Mechanism tested", "Battery included", "Ready to display or gift"],
@@ -504,9 +512,10 @@ window.SERVICE_URL = "<?!= ScriptApp.getService().getUrl() ?>";
   function bootstrapAssemblySection() {
     return '<section class="section assembly-guide-section-shell" id="setup-manual">' +
       '<h2>Assembly Instructions</h2>' +
-      '<div class="assembly-preamble">' +
-        '<p class="section-copy assembly-preamble-intro">Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.</p>' +
-        '<div class="assembly-preamble-block">' +
+        '<div class="assembly-preamble">' +
+          '<p class="section-copy assembly-preamble-intro">Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.</p>' +
+          '<aside class="assembly-tools-callout" id="assembly-tools"><h3>Tools to have ready</h3><p class="assembly-tools-intro">If you&#39;re assembling the frame yourself - whether you print the parts or start with the Assembly Kit - have these tools ready.</p><div class="assembly-tools-grid"><section class="assembly-tools-group"><h4>Required</h4><ul class="assembly-tools-list"><li><strong>Small flush cutters</strong> - a short, angled pair is strongly preferred.</li><li><strong>Gel super glue</strong> - for attaching the lid to the weight carriage.</li></ul></section><section class="assembly-tools-group"><h4>Helpful</h4><ul class="assembly-tools-list"><li><strong>Tweezers</strong> - handy for grabbing and positioning the string and image paper in tight spots.</li><li><strong>Single-hole punch</strong> - handy for making the paper slot in the Cover Image, if you&#39;re preparing your own images.</li></ul></section></div></aside>' +
+          '<div class="assembly-preamble-block">' +
           '<h3>How the mechanism works:</h3>' +
           '<div class="assembly-mechanism-explainer">' +
             '<ul class="assembly-mechanism-list">' +

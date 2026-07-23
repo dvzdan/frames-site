@@ -571,6 +571,8 @@ function renderAssemblyPreamble(content) {
 
   const root = el("div", "assembly-preamble");
   appendParagraph(root, content.intro, "section-copy assembly-preamble-intro");
+  const tools = renderAssemblyToolsCallout(content.tools);
+  if (tools) root.appendChild(tools);
 
   if (content.sequenceItems && content.sequenceItems.length) {
     const sequence = el("div", "assembly-preamble-block");
@@ -605,6 +607,38 @@ function renderAssemblyPreamble(content) {
   }
 
   return root.children.length ? root : null;
+}
+
+function renderAssemblyToolsCallout(tools) {
+  if (!tools || !Array.isArray(tools.groups) || !tools.groups.length) return null;
+
+  const callout = el("aside", "assembly-tools-callout");
+  callout.id = tools.id || "assembly-tools";
+  callout.appendChild(el("h3", "", tools.heading || "Tools to have ready"));
+  appendParagraph(callout, tools.intro, "assembly-tools-intro");
+
+  const grid = el("div", "assembly-tools-grid");
+  tools.groups.forEach(function(group) {
+    if (!group || !Array.isArray(group.items) || !group.items.length) return;
+    const column = el("section", "assembly-tools-group");
+    column.appendChild(el("h4", "", group.heading));
+    const list = el("ul", "assembly-tools-list");
+    group.items.forEach(function(item) {
+      const listItem = el("li");
+      if (typeof item === "string") {
+        listItem.textContent = item;
+      } else {
+        listItem.appendChild(el("strong", "", item.name));
+        if (item.note) listItem.appendChild(document.createTextNode(" - " + item.note));
+      }
+      list.appendChild(listItem);
+    });
+    column.appendChild(list);
+    grid.appendChild(column);
+  });
+
+  if (grid.children.length) callout.appendChild(grid);
+  return callout.children.length > 1 ? callout : null;
 }
 
 function renderNestedBulletList(items, className) {
@@ -1517,7 +1551,19 @@ function createTierTextList(items) {
   list.className = "tier-detail-list";
 
   items.forEach(item => {
-    list.appendChild(el("li", "", item));
+    const listItem = el("li");
+    if (item && typeof item === "object") {
+      if (item.href) {
+        const link = el("a", "tier-detail-link", item.text || item.label);
+        link.href = item.href;
+        listItem.appendChild(link);
+      } else {
+        listItem.textContent = textOrEmpty(item.text || item.label);
+      }
+    } else {
+      listItem.textContent = textOrEmpty(item);
+    }
+    list.appendChild(listItem);
   });
 
   return list;
