@@ -895,7 +895,7 @@ function hydratePlansSection() {
 
 /* Source-it-yourself parts table, rendered from Config sections.parts. */
 function hydratePartsSection() {
-  const parts = SITE_CONTENT.sections.parts;
+  const parts = SITE_CONTENT.sections && SITE_CONTENT.sections.parts;
   const section = document.querySelector("#parts");
   if (!section || !parts) return;
   hydratePartsSectionFromConfig(section, parts);
@@ -1000,12 +1000,15 @@ function scheduleGalleryDataLoad() {
 /* Pricing rendering. Edit tier names/prices/details/images in Config.html. */
 function renderPricingTiers(container) {
   const target = container || document.getElementById("pricingTiers");
-  target.innerHTML = "";
+  if (!target) return;
 
-  const tiers = SITE_CONTENT.sections.order.tiers || [];
+  const order = SITE_CONTENT.sections && SITE_CONTENT.sections.order;
+  const tiers = order && order.tiers || [];
   if (!tiers.length) return;
 
-  const imageOptions = SITE_CONTENT.sections.order.imageOptions || [];
+  target.innerHTML = "";
+
+  const imageOptions = order.imageOptions || [];
   const state = {
     activeIndex: getInitialActiveTierIndex(tiers),
     imageOptionId: getDefaultImageOptionId(imageOptions)
@@ -1095,7 +1098,7 @@ function renderPricingTiers(container) {
 
     if (price) {
       price.textContent = formatTierPrice(total);
-      price.setAttribute("aria-label", (SITE_CONTENT.sections.order.pricePrefix || "Total") + " " + formatTierPrice(total));
+      price.setAttribute("aria-label", (order.pricePrefix || "Total") + " " + formatTierPrice(total));
     }
     if (breakdown) {
       breakdown.textContent = adjustment
@@ -1238,7 +1241,8 @@ function createActiveTierPanel(tier, state, imageOptions, onImageOptionChange) {
 function createTierPriceSummary() {
   const wrapper = el("div", "tier-price-summary");
   const priceRow = el("div", "tier-active-price-row");
-  priceRow.appendChild(el("span", "tier-price-label", SITE_CONTENT.sections.order.pricePrefix || "Total"));
+  const order = SITE_CONTENT.sections && SITE_CONTENT.sections.order || {};
+  priceRow.appendChild(el("span", "tier-price-label", order.pricePrefix || "Total"));
   const price = el("div", "kit-price tier-active-price");
   price.setAttribute("data-tier-total-price", "true");
   priceRow.appendChild(price);
@@ -1255,7 +1259,8 @@ function createImagePreparationChooser(tier, state, options, onChange) {
 
   const legend = document.createElement("legend");
   legend.className = "image-prep-heading";
-  legend.textContent = SITE_CONTENT.sections.order.imagePreparationHeading || "How would you like to handle the images?";
+  const order = SITE_CONTENT.sections && SITE_CONTENT.sections.order || {};
+  legend.textContent = order.imagePreparationHeading || "How would you like to handle the images?";
   fieldset.appendChild(legend);
 
   const list = el("div", "image-prep-option-list");

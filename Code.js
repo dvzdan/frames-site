@@ -648,7 +648,17 @@ function getSourcingItems_() {
   const rows = sheet.getDataRange().getValues();
   if (rows.length <= 1) return [];
 
-  const headers = rows.shift().map(function(header) {
+  const headerRowIndex = rows.findIndex(function(row) {
+    const normalized = row.map(function(value) {
+      return String(value || "").trim().toLowerCase();
+    });
+    return SOURCING_HEADERS.every(function(header) {
+      return normalized.indexOf(header.toLowerCase()) >= 0;
+    });
+  });
+  if (headerRowIndex < 0) return [];
+
+  const headers = rows[headerRowIndex].map(function(header) {
     return String(header || "").trim().toLowerCase();
   });
   const index = {};
@@ -656,7 +666,7 @@ function getSourcingItems_() {
     index[header] = i;
   });
 
-  return rows
+  return rows.slice(headerRowIndex + 1)
     .map(function(row) {
       return {
         active: row[index.active],
