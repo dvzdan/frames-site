@@ -825,17 +825,33 @@ function renderHomepage() {
 }
 
 function hydrateStaticHomepage() {
-  hydrateHowWorksCmsContent();
-  hydrateAssemblyCmsContent();
-  hydrateFaqCmsContent();
-  hydratePlansSection();
-  hydratePartsSection();
-  if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
-  renderInitialHeroGallery();
-  hydrateTierIllustrations();
-  loadTierIllustrationAssets();
-  hydrateSubmissionModule();
-  hydrateInquiryForm();
+  const steps = [
+    ["how-it-works", hydrateHowWorksCmsContent],
+    ["assembly-cms", hydrateAssemblyCmsContent],
+    ["faq-cms", hydrateFaqCmsContent],
+    ["plans", hydratePlansSection],
+    ["parts", hydratePartsSection],
+    ["assembly-guide", function() {
+      if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
+    }],
+    ["hero-gallery", renderInitialHeroGallery],
+    ["tier-illustrations", hydrateTierIllustrations],
+    ["tier-assets", loadTierIllustrationAssets],
+    ["submission", hydrateSubmissionModule],
+    ["inquiry", hydrateInquiryForm]
+  ];
+
+  steps.forEach(function(step) {
+    runHydrationStep(step[0], step[1]);
+  });
+}
+
+function runHydrationStep(name, fn) {
+  try {
+    if (typeof fn === "function") fn();
+  } catch (err) {
+    console.warn("Hydration step failed: " + name, err);
+  }
 }
 
 function hydrateHowWorksCmsContent() {
