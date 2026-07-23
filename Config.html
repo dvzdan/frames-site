@@ -110,8 +110,8 @@ const SITE_CONTENT = {
     },
 
     order: {
-      heading: "How much do you want to build?",
-      subhead: "Choose from printing it yourself, assembling prepared parts, or receiving a finished gift.",
+      heading: "Choose your starting point",
+      subhead: "Buy only the hardware, get every part ready to assemble, or order a finished frame.",
       statusHeading: "",
       statusText: "",
       requestButton: "Ask about a kit",
@@ -137,59 +137,66 @@ const SITE_CONTENT = {
       tiers: [
         {
           id: "maker",
-          name: "Maker Kit",
+          name: "Hardware Bundle",
           priceValue: 45,
           priceLabel: "$45",
-          shortDescription: "You print and build it.",
-          description: "3D-print the frame, cassette, stand, and other printable parts, then assemble the mechanism yourself. We supply the specialty materials, precision hardware, digital files, and instructions.",
+          shortDescription: "Hardware only. You print and assemble.",
+          description: "All the non-3D-printed hardware and specialty materials in one bundle. Use our free print files to make the frame and printed components, then assemble it yourself.",
           imagePreparationApplies: true,
           defaultActive: true,
           included: [
-            "3D-printable files included",
-            "Precision hardware and specialty materials included",
+            "Complete hardware and materials bundle",
+            "Specialty image materials",
             "Battery not included"
           ],
           youDo: [
-            "You print, assemble, load, and set it up"
+            "Download the free print files",
+            "3D-print the frame and printable components",
+            "Assemble the mechanism",
+            "Prepare and load the images",
+            "Complete the final setup"
           ],
           accentColor: "#6f7f53",
           illustration: {
             type: "maker",
             assetKey: "maker",
-            alt: "Framed symbolic parts layout for the Maker Kit"
+            alt: "Framed symbolic parts layout for the Hardware Bundle"
           }
         },
         {
           id: "builder",
-          name: "Builder Kit",
+          name: "Assembly Kit",
           priceValue: 70,
           priceLabel: "$70",
-          shortDescription: "You build it.",
-          description: "Every physical component arrives fabricated and prepared. You assemble the mechanism, load the images, and complete the final setup.",
+          shortDescription: "All parts included. You assemble.",
+          description: "Everything in the Hardware Bundle, plus all the 3D-printed parts, cleaned and ready to assemble.",
           imagePreparationApplies: true,
           included: [
-            "All 3D-printed parts included",
-            "Parts cleaned and prepared for assembly",
+            "Complete Hardware Bundle",
+            "All 3D-printed parts",
+            "Printed parts cleaned and prepared for assembly",
+            "Weighted component prepared",
             "Battery not included"
           ],
           youDo: [
-            "You assemble, load, and set it up"
+            "Assemble the mechanism",
+            "Prepare and load the images",
+            "Complete the final setup"
           ],
           specification: [
             "All required 3D-printed components",
-            "Supports removed",
+            "Print supports removed",
             "Contact surfaces and functional openings cleaned as necessary",
             "The ballast permanently installed in the weight component",
-            "Tubing, acrylic, paper, and similar stock prepared to the required supplied dimensions",
-            "Purchased hardware and mechanism components included",
+            "Tubing, acrylic, paper, and similar supplied stock prepared to the appropriate supplied dimensions",
             "Small components organized and identified",
-            "No additional fabrication required by the customer"
+            "No additional 3D printing or component fabrication required"
           ],
           accentColor: "#6b7f92",
           illustration: {
             type: "builder",
             assetKey: "builder",
-            alt: "Framed symbolic assembly layout for the Builder Kit"
+            alt: "Framed symbolic assembly layout for the Assembly Kit"
           }
         },
         {
@@ -197,8 +204,8 @@ const SITE_CONTENT = {
           name: "Finished Gift",
           priceValue: 160,
           priceLabel: "$160",
-          shortDescription: "We finish everything.",
-          description: "We print and cut both images, assemble the frame, load and test the mechanism, and deliver it ready to display or give.",
+          shortDescription: "Fully completed. Ready to give.",
+          description: "Everything in the Assembly Kit, fully assembled, loaded, tested, and ready to give.",
           imagePreparationApplies: false,
           included: [
             "Fully assembled",
@@ -208,7 +215,7 @@ const SITE_CONTENT = {
             "Ready to display or gift"
           ],
           youDo: [
-            "Optional: remove the battery pull tab to begin the countdown, or receive the frame with the countdown already underway"
+            "Give it"
           ],
           accentColor: "#7f5d68",
           illustration: {
