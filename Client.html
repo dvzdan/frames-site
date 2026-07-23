@@ -22,6 +22,12 @@ function appendParagraph(parent, text, className) {
   parent.appendChild(el("p", className || "", text));
 }
 
+const OFFERING_INLINE_LINKS = {
+  "Hardware Bundle": "maker",
+  "Assembly Kit": "builder",
+  "Finished Gift": "gift"
+};
+
 const GALLERY_DATA = {
   items: [],
   loaded: false,
@@ -155,12 +161,47 @@ function renderHowWorksLongCopy(groups) {
     if (group.heading) item.appendChild(el("summary", "", group.heading));
 
     const body = el("div", "how-works-copy-body faq-answer");
-    appendMultilineText(body, group.body);
+    appendHowWorksMultilineText(body, group.body);
     item.appendChild(body);
     list.appendChild(item);
   });
 
   return list.children.length ? list : null;
+}
+
+function appendHowWorksMultilineText(parent, text) {
+  textOrEmpty(text)
+    .split(/\n\s*\n/)
+    .map(part => part.trim())
+    .filter(Boolean)
+    .forEach(function(part) {
+      const paragraph = el("p");
+      appendOfferingLinkedText(paragraph, part);
+      parent.appendChild(paragraph);
+    });
+}
+
+function appendOfferingLinkedText(parent, text) {
+  const pattern = /\b(Hardware Bundle|Assembly Kit|Finished Gift)\b/g;
+  let position = 0;
+  let match;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > position) {
+      parent.appendChild(document.createTextNode(text.slice(position, match.index)));
+    }
+
+    const label = match[0];
+    const link = el("a", "offering-inline-link", label);
+    link.href = "#kits";
+    link.dataset.offeringId = OFFERING_INLINE_LINKS[label];
+    parent.appendChild(link);
+    position = match.index + label.length;
+  }
+
+  if (position < text.length) {
+    parent.appendChild(document.createTextNode(text.slice(position)));
+  }
 }
 
 function appendMultilineText(parent, text, className) {
@@ -1001,6 +1042,15 @@ function renderPricingTiers(container) {
   root.appendChild(selector);
   root.appendChild(panel);
   target.appendChild(root);
+
+  window.selectPackageOffering = function(tierId) {
+    const index = tiers.findIndex(function(tier) {
+      return tier && tier.id === tierId;
+    });
+    if (index < 0) return false;
+    setActiveTier(index, true);
+    return true;
+  };
 
   setActiveTier(state.activeIndex, false);
 
@@ -2121,9 +2171,37 @@ function escapeHtml(str) {
   });
 }
 
+function bindOfferingInlineLinks() {
+  if (window.__offeringInlineLinksBound) return;
+  window.__offeringInlineLinksBound = true;
+
+  document.addEventListener("click", function(event) {
+    const link = event.target && event.target.closest
+      ? event.target.closest("a[data-offering-id]")
+      : null;
+    if (!link) return;
+
+    const offeringId = link.getAttribute("data-offering-id");
+    const selected = offeringId &&
+      typeof window.selectPackageOffering === "function" &&
+      window.selectPackageOffering(offeringId);
+    const kits = document.getElementById("kits");
+    if (!selected || !kits) return;
+
+    event.preventDefault();
+    if (window.history && window.history.pushState) {
+      window.history.pushState(null, "", "#kits");
+    } else {
+      window.location.hash = "kits";
+    }
+    kits.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
 /* Startup */
 function startApp() {
   try {
+    bindOfferingInlineLinks();
     hydrateStaticHomepage();
   } catch (err) {
     showStartupError(err);
