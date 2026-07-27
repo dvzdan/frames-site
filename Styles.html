@@ -845,6 +845,41 @@ p {
   font-weight: 800;
 }
 
+.support-guide-print-callout {
+  background: color-mix(in srgb, #6f7f53 7%, var(--surface));
+  border: 1px solid color-mix(in srgb, #6f7f53 22%, var(--line));
+  border-radius: 8px;
+  color: var(--text-body);
+  font-size: 13px;
+  line-height: 1.45;
+  padding: 10px 12px;
+}
+
+.support-guide-print-callout strong {
+  color: var(--text-strong);
+}
+
+.text-link-button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: #6d4d25;
+  cursor: pointer;
+  display: inline;
+  font: inherit;
+  font-weight: 800;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.text-link-button:hover,
+.text-link-button:focus-visible {
+  color: var(--text-strong);
+  outline: none;
+}
+
 .plans-tool-card {
   background: color-mix(in srgb, #6b7f92 8%, var(--surface));
   border: 1px solid color-mix(in srgb, #6b7f92 28%, var(--line));
@@ -1684,6 +1719,10 @@ p {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.assembly-tools-group:first-child {
+  grid-column: 1 / -1;
+}
+
 .assembly-tools-group h4 {
   color: var(--text-strong);
   font-size: 12px;
@@ -1703,6 +1742,10 @@ p {
 .assembly-tools-list li {
   font-size: 14px;
   line-height: 1.45;
+}
+
+.assembly-tools-clarification {
+  margin: 8px 0 0;
 }
 
 .tier-detail-link {
@@ -1756,6 +1799,124 @@ p {
 @media (max-width: 640px) {
   .assembly-tools-grid {
     grid-template-columns: 1fr;
+  }
+
+  .assembly-tools-group:first-child {
+    grid-column: auto;
+  }
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+.support-guide-modal[hidden] {
+  display: none;
+}
+
+.support-guide-modal {
+  align-items: center;
+  display: grid;
+  inset: 0;
+  justify-items: center;
+  padding: clamp(14px, 3vw, 28px);
+  position: fixed;
+  z-index: 100;
+}
+
+.support-guide-backdrop {
+  background: rgba(27, 26, 24, 0.48);
+  inset: 0;
+  position: absolute;
+}
+
+.support-guide-dialog {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 22px 70px rgba(27, 26, 24, 0.28);
+  box-sizing: border-box;
+  color: var(--text-body);
+  display: grid;
+  gap: 14px;
+  max-height: min(92vh, 920px);
+  max-width: min(900px, 96vw);
+  overflow: auto;
+  padding: clamp(16px, 3vw, 24px);
+  position: relative;
+  width: 100%;
+}
+
+.support-guide-dialog:focus {
+  outline: none;
+}
+
+.support-guide-header {
+  display: grid;
+  gap: 6px;
+}
+
+.support-guide-eyebrow {
+  color: #6d4d25;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.support-guide-header h2 {
+  margin-bottom: 0;
+}
+
+.support-guide-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+.support-guide-image {
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--line) 68%, transparent);
+  display: block;
+  height: auto;
+  justify-self: center;
+  max-width: 100%;
+  width: min(100%, 760px);
+}
+
+.support-guide-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.support-guide-fullsize {
+  color: #6d4d25;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.support-guide-close {
+  justify-self: end;
+}
+
+@media (max-width: 640px) {
+  .support-guide-modal {
+    padding: 8px;
+  }
+
+  .support-guide-dialog {
+    max-height: calc(100vh - 16px);
+    max-width: calc(100vw - 16px);
+    padding: 14px;
+  }
+
+  .support-guide-image {
+    max-width: none;
+    width: 100%;
   }
 }
 

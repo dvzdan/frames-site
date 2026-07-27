@@ -182,8 +182,7 @@ const SITE_CONTENT = {
           youDo: [
             "Assemble the mechanism",
             "Prepare and load the images",
-            "Complete the final setup",
-            { text: "Have the required assembly tools ready", href: "#assembly-tools" }
+            "Complete the final setup"
           ],
           specification: [
             "All required 3D-printed components",
@@ -237,6 +236,18 @@ const SITE_CONTENT = {
       assemblyLinkLabel: "Assembly instructions",
       printHeading: "Print the frame",
       printText: "Print the frame, stand, and all parts at once from a ready-to-go 3MF; print individual pieces from the STL files; or tinker with and customize the OpenSCAD source.",
+      supportGuide: {
+        calloutPrefix: "After printing:",
+        calloutText: "Remove the built-in supports before assembly.",
+        triggerLabel: "View the support-removal guide",
+        modalEyebrow: "SELF-PRINTED PARTS ONLY",
+        modalHeading: "Support-removal guide",
+        modalText: "Assembly Kit parts arrive cleaned, and the weight-carriage lid arrives glued.",
+        imageUrl: "https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/support-removal/support-removal-guide-v3.png",
+        imageAlt: "Rear view of the printed frame showing upper supports removed with pliers, lower supports removed with flush cutters, and the five window-edge connections that must be cut cleanly.",
+        fullSizeLabel: "Open full-size image",
+        closeLabel: "Close"
+      },
       downloadsHeading: "Print files",
       downloadGroups: [
         { label: "Complete print", value: "3MF" },
@@ -358,21 +369,31 @@ const SITE_CONTENT = {
       tools: {
         id: "assembly-tools",
         heading: "Tools to have ready",
-        intro: "If you're assembling the frame yourself - whether you print the parts or start with the Assembly Kit - have these tools ready.",
+        intro: "What you need depends on which parts you're preparing yourself.",
         groups: [
           {
-            heading: "Required",
+            heading: "For everyone assembling",
+            layout: "full",
             items: [
-              { name: "Small flush cutters", note: "a short, angled pair is strongly preferred." },
-              { name: "Gel super glue", note: "for attaching the lid to the weight carriage." }
+              { name: "Tweezers", note: "helpful for grabbing and positioning the string and image paper in tight spots." }
             ]
           },
           {
-            heading: "Helpful",
+            heading: "If you printed the parts yourself",
             items: [
-              { name: "Tweezers", note: "handy for grabbing and positioning the string and image paper in tight spots." },
-              { name: "Single-hole punch", note: "handy for making the paper slot in the Cover Image, if you're preparing your own images." }
-            ]
+              { name: "Pliers", note: "for removing the upper built-in supports." },
+              { name: "Small flush cutters", note: "a short, angled pair is strongly preferred for removing the lower supports." },
+              { name: "Gel super glue", note: "for attaching the lid to the weight carriage." }
+            ],
+            guideLinkLabel: "View the support-removal guide",
+            clarification: "Assembly Kit parts arrive cleaned, and the weight-carriage lid is already glued."
+          },
+          {
+            heading: "If you're preparing your own images",
+            items: [
+              { name: "Single-hole punch", note: "handy for making the paper slot in the Cover Image." }
+            ],
+            clarification: "If you choose printed-and-cut images, you do not need a hole punch."
           }
         ]
       },
