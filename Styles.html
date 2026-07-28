@@ -525,6 +525,75 @@ p {
   margin-bottom: 0;
 }
 
+.how-works-thread .how-works-copy-body {
+  gap: 8px;
+}
+
+.how-works-nested-disclosure {
+  border-left: 2px solid color-mix(in srgb, #9a7b4f 28%, var(--line));
+  display: grid;
+  gap: 8px;
+  margin-top: 6px;
+  padding-left: clamp(12px, 2.2vw, 18px);
+}
+
+.how-works-nested-disclosure .how-works-nested-disclosure {
+  margin-top: 10px;
+}
+
+.how-works-nested-trigger {
+  appearance: none;
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--text-strong);
+  cursor: pointer;
+  display: grid;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 780;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) 18px;
+  line-height: 1.35;
+  margin: 0;
+  padding: 6px 0;
+  text-align: left;
+  width: 100%;
+}
+
+.how-works-nested-trigger::after {
+  color: #6d4d25;
+  content: "+";
+  font-size: 17px;
+  font-weight: 850;
+  line-height: 1;
+  text-align: center;
+}
+
+.how-works-nested-trigger[aria-expanded="true"]::after {
+  content: "-";
+}
+
+.how-works-nested-trigger:hover,
+.how-works-nested-trigger:focus-visible {
+  color: #6d4d25;
+}
+
+.how-works-nested-trigger:focus-visible {
+  outline: 2px solid #9a7b4f;
+  outline-offset: 3px;
+}
+
+.how-works-nested-panel {
+  display: grid;
+  gap: 8px;
+  padding: 0 0 2px;
+}
+
+.how-works-nested-panel[hidden] {
+  display: none;
+}
+
 .offering-inline-link {
   color: #6d4d25;
   font-weight: 800;

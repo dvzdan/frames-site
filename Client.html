@@ -28,6 +28,13 @@ const OFFERING_INLINE_LINKS = {
   "Finished Gift": "gift"
 };
 
+const HOW_WORKS_THREAD_HEADINGS = [
+  "Wait, why?",
+  "So it's both absurd and pointless. How do I get one?",
+  "This whole 3D-printing craze doesn't interest me.",
+  "Take the hint. I want a fun prank gift, not a project."
+];
+
 const GALLERY_DATA = {
   items: [],
   loaded: false,
@@ -154,8 +161,26 @@ function renderHowWorksLongCopy(groups) {
   if (!Array.isArray(groups) || !groups.length) return null;
 
   const list = el("div", "how-works-long-copy");
+  const threadGroups = HOW_WORKS_THREAD_HEADINGS
+    .map(function(heading) {
+      return groups.find(function(group) {
+        return group && group.heading === heading && group.body;
+      });
+    })
+    .filter(Boolean);
+  const hasCompleteThread = threadGroups.length === HOW_WORKS_THREAD_HEADINGS.length;
+  const nestedHeadings = {};
+  HOW_WORKS_THREAD_HEADINGS.slice(1).forEach(function(heading) {
+    nestedHeadings[heading] = true;
+  });
+
   groups.forEach(group => {
     if (!group || !group.body) return;
+    if (hasCompleteThread && nestedHeadings[group.heading]) return;
+    if (hasCompleteThread && group.heading === HOW_WORKS_THREAD_HEADINGS[0]) {
+      list.appendChild(createHowWorksConversationThread(threadGroups));
+      return;
+    }
 
     const item = el("details", "how-works-copy-item faq-item");
     if (group.heading) item.appendChild(el("summary", "", group.heading));
@@ -167,6 +192,43 @@ function renderHowWorksLongCopy(groups) {
   });
 
   return list.children.length ? list : null;
+}
+
+function createHowWorksConversationThread(groups) {
+  const item = el("details", "how-works-copy-item faq-item how-works-thread");
+  item.appendChild(el("summary", "", groups[0].heading));
+
+  const body = el("div", "how-works-copy-body faq-answer");
+  appendHowWorksMultilineText(body, groups[0].body);
+  const nested = createHowWorksNestedDisclosure(groups, 1);
+  if (nested) body.appendChild(nested);
+  item.appendChild(body);
+
+  return item;
+}
+
+function createHowWorksNestedDisclosure(groups, index) {
+  const group = groups[index];
+  if (!group) return null;
+
+  const disclosure = el("div", "how-works-nested-disclosure");
+  const panelId = "how-works-followup-" + String(index);
+  const button = el("button", "how-works-nested-trigger", group.heading);
+  button.type = "button";
+  button.setAttribute("aria-expanded", "false");
+  button.setAttribute("aria-controls", panelId);
+  button.setAttribute("data-how-works-nested-trigger", "true");
+  disclosure.appendChild(button);
+
+  const panel = el("div", "how-works-nested-panel");
+  panel.id = panelId;
+  panel.hidden = true;
+  appendHowWorksMultilineText(panel, group.body);
+  const next = createHowWorksNestedDisclosure(groups, index + 1);
+  if (next) panel.appendChild(next);
+  disclosure.appendChild(panel);
+
+  return disclosure;
 }
 
 function appendHowWorksMultilineText(parent, text) {
@@ -2291,6 +2353,32 @@ function bindOfferingInlineLinks() {
   });
 }
 
+function bindHowWorksNestedDisclosures() {
+  if (window.__howWorksNestedDisclosuresBound) return;
+  window.__howWorksNestedDisclosuresBound = true;
+
+  document.addEventListener("click", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-how-works-nested-trigger]")
+      : null;
+    if (!trigger) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    toggleHowWorksNestedDisclosure(trigger);
+  });
+}
+
+function toggleHowWorksNestedDisclosure(trigger) {
+  const controls = trigger.getAttribute("aria-controls");
+  const panel = controls ? document.getElementById(controls) : null;
+  if (!panel) return;
+
+  const expanded = trigger.getAttribute("aria-expanded") === "true";
+  trigger.setAttribute("aria-expanded", expanded ? "false" : "true");
+  panel.hidden = expanded;
+}
+
 function bindSupportGuideModal() {
   if (window.__supportGuideModalBound) return;
   window.__supportGuideModalBound = true;
@@ -2447,6 +2535,7 @@ function getSupportGuideFocusable(modal) {
 function startApp() {
   try {
     bindOfferingInlineLinks();
+    bindHowWorksNestedDisclosures();
     bindSupportGuideModal();
     hydrateStaticHomepage();
   } catch (err) {
