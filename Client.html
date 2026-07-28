@@ -980,8 +980,11 @@ function hydratePartsSectionFromConfig(section, parts) {
 
   const bundle = el("div", "hardware-bundle-card");
   appendParagraph(bundle, parts.intro, "section-copy parts-intro");
-  const bundleLink = el("a", "button parts-bundle-link", parts.bundleButtonLabel || "Ask about the hardware bundle");
-  bundleLink.href = "#checkout-placeholder";
+  const bundleLink = el("a", "button parts-bundle-link", parts.bundleButtonLabel || "Go to Hardware Bundle");
+  bundleLink.href = "#kits";
+  if (parts.bundleOfferingId) {
+    bundleLink.setAttribute("data-offering-id", parts.bundleOfferingId);
+  }
   bundle.appendChild(bundleLink);
   section.appendChild(bundle);
 
