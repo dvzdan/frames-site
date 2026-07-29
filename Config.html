@@ -233,9 +233,9 @@ const SITE_CONTENT = {
     plans: {
       heading: "Build your own",
       intro: "",
-      assemblyLinkLabel: "Assembly instructions",
+      assemblyLinkLabel: "Start assembly",
       printHeading: "Print the frame",
-      printText: "Print the frame, stand, and all parts at once from a ready-to-go 3MF; print individual pieces from the STL files; or tinker with and customize the OpenSCAD source.",
+      printText: "Download the ready-to-print file for the frame, stand, and printable mechanism parts.",
       supportGuide: {
         calloutPrefix: "After printing:",
         calloutText: "Remove the built-in supports before assembly.",
@@ -257,7 +257,8 @@ const SITE_CONTENT = {
       license: {
         name: "CC BY-NC-SA 4.0",
         url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-        text: "For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form."
+        summary: "Free for personal, noncommercial use",
+        text: "Remixing is encouraged with attribution under the same CC BY-NC-SA 4.0 license. For commercial use, get in touch through the request form."
       },
       tool: {
         heading: "Prepare your images",
@@ -266,9 +267,15 @@ const SITE_CONTENT = {
         note: "Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame."
       },
       hardware: {
-        heading: "Obtain the hardware",
-        text: "Get all the non-3D-printed parts and materials in one bundle, or opt to source them yourself.",
-        linkLabel: "Go to hardware"
+        heading: "Get the hardware",
+        text: "Get the non-3D-printed parts in one tested bundle, or source each component yourself.",
+        linkLabel: "Get the Hardware Bundle",
+        sourceLabel: "Prefer to source the parts yourself?"
+      },
+      assembly: {
+        heading: "Assemble it",
+        text: "Follow the illustrated manual to load the images, connect the mechanism, and set the timer.",
+        linkLabel: "Start assembly"
       }
     },
 
@@ -313,6 +320,13 @@ const SITE_CONTENT = {
       timelinePlaceholder: "No deadline, gift date, event date, etc.",
       messageLabel: "What do you have in mind?",
       messagePlaceholder: "Tell me about the image idea, occasion, quantity, constraints, or anything you want feedback on.",
+      messagePlaceholders: {
+        "Kit or order interest": "Tell me which starting point interests you, the quantity, image plan, and any timing needs.",
+        "Build question": "Describe the step, part, or behavior that is giving you trouble.",
+        "Feedback": "Tell me what worked, what was confusing, or what you would change.",
+        "Commercial licensing": "Describe the proposed commercial use, quantity, and expected timeline.",
+        "Custom finished-frame inquiry": "Tell me about the occasion, image idea, recipient, and timing."
+      },
       submitLabel: "Send request",
       sendingLabel: "Sending...",
       successMessage: "Request sent. I will follow up directly.",
@@ -367,6 +381,8 @@ const SITE_CONTENT = {
 
     assembly: {
       intro: "Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.",
+      toolsSummary: "Tweezers for everyone; preparation tools only when you print parts or prepare images yourself.",
+      mechanismSummary: "See how the clock, string, zipper, latch, weight, and cover image create the reveal.",
       tools: {
         id: "assembly-tools",
         heading: "Tools to have ready",

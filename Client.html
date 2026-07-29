@@ -57,6 +57,15 @@ const HeroGalleryCarousel = {
 const FRAME_COLOR_CLASS_COUNT = 6;
 let frameColorCursor = Math.floor(Math.random() * FRAME_COLOR_CLASS_COUNT);
 
+const TERM_HELP = {
+  "3mf": "A print-project file that can preserve plate layout, orientation, and slicer settings.",
+  "stl": "A common 3D-model file for printing individual parts; it does not store slicer settings.",
+  "openscad": "The editable source format used to modify or regenerate the printable design.",
+  "pet": "Polyester film: a thin, durable plastic sheet used where the mechanism needs a smooth flexible surface.",
+  "uhmw": "Ultra-high-molecular-weight polyethylene tape: a very slick, low-friction tape used along the image path.",
+  "capstan": "The small printed spool on the clock shaft that winds the string."
+};
+
 /* Homepage modules. Edit content in Config.html: SITE_CONTENT.homepage. */
 function HeroSection() {
   const site = SITE_CONTENT.site;
@@ -413,15 +422,31 @@ function renderPlansContent(section, plans, downloadsContent) {
   section.appendChild(el("h2", "plans-heading", plans.heading));
   appendParagraph(section, plans.intro, "section-copy plans-intro");
 
+  const localNav = el("nav", "build-local-nav");
+  localNav.setAttribute("aria-label", "Build steps");
+  [
+    ["Print", "#build-print"],
+    ["Images", "#build-images"],
+    ["Hardware", "#build-hardware"],
+    ["Assemble", "#setup-manual"]
+  ].forEach(function(item) {
+    const link = el("a", "", item[0]);
+    link.href = item[1];
+    localNav.appendChild(link);
+  });
+  section.appendChild(localNav);
+
   const steps = el("div", "build-steps");
   steps.appendChild(createPrintStep(plans, downloadsContent));
   steps.appendChild(createImageStep(plans));
   steps.appendChild(createHardwareStep(plans));
+  steps.appendChild(createAssemblyStep(plans));
   section.appendChild(steps);
 }
 
-function createBuildStep(number, heading, text, className) {
+function createBuildStep(number, heading, text, className, id) {
   const card = el("article", "build-step" + (className ? " " + className : ""));
+  if (id) card.id = id;
   card.appendChild(el("div", "build-step-number", number));
   card.appendChild(el("h3", "build-step-heading", heading));
   appendParagraph(card, text, "build-step-text");
@@ -429,41 +454,129 @@ function createBuildStep(number, heading, text, className) {
 }
 
 function createPrintStep(plans, downloadsContent) {
-  const card = createBuildStep(1, plans.printHeading || "Print the frame", plans.printText, "build-step-print");
-  if (plans.downloadGroups && plans.downloadGroups.length) {
-    const groups = el("dl", "download-type-list");
-    plans.downloadGroups.forEach(group => {
-      groups.appendChild(el("dt", "", group.label));
-      groups.appendChild(el("dd", "", group.value));
-    });
-    card.appendChild(groups);
-  }
-
-  card.appendChild(el("h4", "plans-downloads-heading", plans.downloadsHeading));
-  const list = el("div", "downloads-list");
-  list.id = "downloadsList";
-  list.innerHTML = downloadsContent || '<div class="downloads-empty fine-print">Print files are loading.</div>';
-  card.appendChild(list);
+  const card = createBuildStep(
+    1,
+    plans.printHeading || "Print the frame",
+    plans.printText,
+    "build-step-print",
+    "build-print"
+  );
+  appendPrintDownloads(card, downloadsContent, plans.downloadGroups);
 
   if (plans.license) {
-    const license = el("p", "fine-print plans-license");
-    const link = el("a", "plans-license-link", plans.license.name);
+    const summary = el("p", "fine-print plans-license-summary");
+    summary.appendChild(document.createTextNode((plans.license.summary || "Free for personal, noncommercial use") + " · "));
+    const link = el("a", "plans-license-link", plans.license.name || "CC BY-NC-SA 4.0");
     link.href = plans.license.url;
     link.target = "_blank";
     link.rel = "noopener";
-    license.appendChild(link);
-    license.appendChild(document.createTextNode(" "));
-    license.appendChild(el("span", "plans-license-text", plans.license.text));
-    card.appendChild(license);
+    summary.appendChild(link);
+    card.appendChild(summary);
+
+    const details = createBuildDisclosure("License details");
+    appendParagraph(details.querySelector(".build-disclosure-body"), plans.license.text, "fine-print plans-license");
+    card.appendChild(details);
   }
 
   const supportGuide = createSupportGuidePrintCallout(plans.supportGuide);
   if (supportGuide) card.appendChild(supportGuide);
 
-  const assembly = el("a", "button secondary plans-assembly-link", plans.assemblyLinkLabel || "Assembly instructions");
+  const assembly = el("a", "build-reference-link plans-assembly-link", "Assembly instructions");
   assembly.href = "#setup-manual";
   card.appendChild(assembly);
   return card;
+}
+
+function appendPrintDownloads(card, downloadsContent, downloadGroups) {
+  const source = document.createElement("div");
+  source.innerHTML = downloadsContent || '<div class="downloads-empty fine-print">Print files are loading.</div>';
+  const rows = Array.prototype.slice.call(source.querySelectorAll(".download-row"));
+  const primary = rows.find(function(row) {
+    const name = row.querySelector(".download-name");
+    return name && /\.3mf\b/i.test(name.textContent || "");
+  });
+
+  if (primary) {
+    const fileName = primary.querySelector(".download-name");
+    primary.className = "button build-primary-action build-primary-download";
+    primary.setAttribute("aria-label", "Download " + (fileName ? fileName.textContent.trim() : "3MF print file"));
+    primary.textContent = "Download 3MF";
+    card.appendChild(primary);
+  } else {
+    const loading = source.querySelector(".downloads-empty") || el("div", "downloads-empty fine-print", "Print files are loading.");
+    card.appendChild(loading);
+  }
+
+  const remainingRows = rows.filter(function(row) { return row !== primary; });
+  if (remainingRows.length || (downloadGroups && downloadGroups.length)) {
+    const details = createBuildDisclosure("Other file formats");
+    const body = details.querySelector(".build-disclosure-body");
+
+    if (downloadGroups && downloadGroups.length) {
+      const groups = el("dl", "download-type-list");
+      downloadGroups.forEach(function(group) {
+        groups.appendChild(el("dt", "", group.label));
+        const value = el("dd");
+        value.appendChild(createTermTooltip(group.value));
+        groups.appendChild(value);
+      });
+      body.appendChild(groups);
+    }
+
+    if (remainingRows.length) {
+      const list = el("div", "downloads-list");
+      list.id = "downloadsList";
+      remainingRows.forEach(function(row) { list.appendChild(row); });
+      body.appendChild(list);
+    } else {
+      const placeholder = el("div", "downloads-list");
+      placeholder.id = "downloadsList";
+      placeholder.appendChild(el("div", "downloads-empty fine-print", "Additional files are loading."));
+      body.appendChild(placeholder);
+    }
+    card.appendChild(details);
+  }
+}
+
+function createBuildDisclosure(label) {
+  const details = el("details", "build-disclosure");
+  details.appendChild(el("summary", "", label));
+  details.appendChild(el("div", "build-disclosure-body"));
+  return details;
+}
+
+function getTermHelpKey(value) {
+  const normalized = textOrEmpty(value).trim().toLowerCase();
+  if (normalized === "3mf") return "3mf";
+  if (normalized === "stl") return "stl";
+  if (normalized === "openscad") return "openscad";
+  if (normalized === "pet" || /\bpet\b/.test(normalized)) return "pet";
+  if (normalized === "uhmw" || /\buhmw\b/.test(normalized)) return "uhmw";
+  if (normalized === "capstan" || /\bcapstan\b/.test(normalized)) return "capstan";
+  return "";
+}
+
+function createTermTooltip(value) {
+  const label = textOrEmpty(value);
+  const key = getTermHelpKey(label);
+  if (!key) return el("span", "", label);
+
+  const wrapper = el("span", "term-help");
+  const trigger = el("button", "term-help-trigger", label);
+  const panelId = "term-help-" + key + "-" + Math.random().toString(36).slice(2, 8);
+  trigger.type = "button";
+  trigger.setAttribute("aria-expanded", "false");
+  trigger.setAttribute("aria-controls", panelId);
+  trigger.setAttribute("data-term-help-trigger", "true");
+
+  const panel = el("span", "term-help-popover", TERM_HELP[key]);
+  panel.id = panelId;
+  panel.hidden = true;
+  panel.setAttribute("role", "tooltip");
+
+  wrapper.appendChild(trigger);
+  wrapper.appendChild(panel);
+  return wrapper;
 }
 
 function createSupportGuidePrintCallout(guide) {
@@ -484,13 +597,23 @@ function createSupportGuideTrigger(label) {
 
 function createImageStep(plans) {
   const tool = plans.tool || {};
-  const card = createBuildStep(2, tool.heading || "Prepare your images", tool.text, "build-step-images");
-  appendParagraph(card, tool.note, "fine-print plans-tool-note");
-  const toolLink = el("a", "button secondary plans-tool-link", tool.linkLabel || "Open Make 5x7");
+  const card = createBuildStep(
+    2,
+    tool.heading || "Prepare your images",
+    tool.text,
+    "build-step-images",
+    "build-images"
+  );
+  const toolLink = el("a", "button build-primary-action plans-tool-link", tool.linkLabel || "Open Make 5x7");
   toolLink.href = make5x7Url();
   toolLink.target = "_blank";
   toolLink.rel = "noopener";
   card.appendChild(toolLink);
+  if (tool.note) {
+    const details = createBuildDisclosure("Image-preparation tips");
+    appendParagraph(details.querySelector(".build-disclosure-body"), tool.note, "fine-print plans-tool-note");
+    card.appendChild(details);
+  }
   return card;
 }
 
@@ -502,18 +625,41 @@ function make5x7Url() {
 
 function createHardwareStep(plans) {
   const hardware = plans.hardware || {};
-  const card = createBuildStep(3, hardware.heading || "Obtain the hardware", hardware.text, "build-step-hardware");
-  const link = el("a", "button secondary plans-hardware-link", hardware.linkLabel || "Go to hardware");
-  link.href = "#parts";
+  const card = createBuildStep(
+    3,
+    hardware.heading || "Get the hardware",
+    hardware.text,
+    "build-step-hardware",
+    "build-hardware"
+  );
+  const link = el("a", "button build-primary-action plans-hardware-link", hardware.linkLabel || "Get the Hardware Bundle");
+  link.href = "#kits";
+  link.setAttribute("data-offering-id", "maker");
   card.appendChild(link);
+
+  const source = createBuildDisclosure(hardware.sourceLabel || "Prefer to source the parts yourself?");
+  source.id = "parts";
+  populatePartsSourceDisclosure(source, SITE_CONTENT.sections.parts || {});
+  card.appendChild(source);
   return card;
 }
 
-function PartsSection() {
-  const parts = SITE_CONTENT.sections.parts;
-  const section = sectionShell("parts", "parts-section");
-  hydratePartsSectionFromConfig(section, parts);
-  return section;
+function createAssemblyStep(plans) {
+  const assembly = plans.assembly || {};
+  const card = createBuildStep(
+    4,
+    assembly.heading || "Assemble it",
+    assembly.text,
+    "build-step-assemble",
+    "build-assemble"
+  );
+  const link = el("a", "button build-primary-action", assembly.linkLabel || "Start assembly");
+  link.href = "#setup-manual";
+  card.appendChild(link);
+  const inventory = el("a", "build-reference-link", "View complete inventory");
+  inventory.href = "#setup-inventory";
+  card.appendChild(inventory);
+  return card;
 }
 
 function CTASection() {
@@ -552,6 +698,9 @@ function createInquiryForm(inquiry) {
   const email = createInputField("inquiryEmail", inquiry.emailLabel, "email", true);
   const timeline = createInputField("inquiryTimeline", inquiry.timelineLabel, "text", false, inquiry.timelinePlaceholder);
   const message = createTextareaField("inquiryMessage", inquiry.messageLabel, inquiry.messagePlaceholder);
+
+  kit.setAttribute("data-inquiry-conditional", "kit");
+  timeline.setAttribute("data-inquiry-conditional", "timeline");
 
   const grid = el("div", "inquiry-grid");
   [type, kit, name, email, timeline].forEach(node => grid.appendChild(node));
@@ -631,15 +780,6 @@ function AssemblyManualSection() {
   const preamble = renderAssemblyPreamble(SITE_CONTENT.sections.assembly);
   if (preamble) section.appendChild(preamble);
 
-  const back = el("p", "manual-back-link");
-  const link = el("a", "button secondary", "Kits");
-  link.href = "#kits";
-  back.appendChild(link);
-  const included = el("a", "button secondary", "Build inventory");
-  included.href = "#setup-inventory";
-  back.appendChild(included);
-  section.appendChild(back);
-
   const guide = el("div", "assembly-guide");
   guide.id = "assemblyGuide";
   guide.appendChild(el("div", "card fine-print", "Assembly guide is loading."));
@@ -652,11 +792,29 @@ function renderAssemblyPreamble(content) {
 
   const root = el("div", "assembly-preamble");
   appendParagraph(root, content.intro, "section-copy assembly-preamble-intro");
+
+  const primers = el("div", "assembly-primer-list");
   const tools = renderAssemblyToolsCallout(content.tools);
-  if (tools) root.appendChild(tools);
+  if (tools) {
+    const toolsDisclosure = el("details", "assembly-primer");
+    toolsDisclosure.appendChild(el("summary", "assembly-primer-summary"));
+    const toolsSummary = toolsDisclosure.querySelector("summary");
+    toolsSummary.appendChild(el("span", "assembly-primer-title", "Tools and preparation"));
+    toolsSummary.appendChild(el("span", "assembly-primer-note", content.toolsSummary || "Check what you need for the parts and images you are preparing."));
+    const body = el("div", "assembly-primer-body");
+    body.appendChild(tools);
+    toolsDisclosure.appendChild(body);
+    primers.appendChild(toolsDisclosure);
+  }
 
   if (content.sequenceItems && content.sequenceItems.length) {
-    const sequence = el("div", "assembly-preamble-block");
+    const sequenceDisclosure = el("details", "assembly-primer");
+    sequenceDisclosure.appendChild(el("summary", "assembly-primer-summary"));
+    const sequenceSummary = sequenceDisclosure.querySelector("summary");
+    sequenceSummary.appendChild(el("span", "assembly-primer-title", "Understand the mechanism"));
+    sequenceSummary.appendChild(el("span", "assembly-primer-note", content.mechanismSummary || "See the short chain reaction that creates the reveal."));
+
+    const sequence = el("div", "assembly-primer-body assembly-preamble-block");
     if (content.sequenceHeading) sequence.appendChild(el("h3", "", content.sequenceHeading));
     const explainer = el("div", "assembly-mechanism-explainer");
     explainer.appendChild(renderNestedBulletList(content.sequenceItems, "assembly-mechanism-list"));
@@ -667,8 +825,10 @@ function renderAssemblyPreamble(content) {
     figure.appendChild(image);
     explainer.appendChild(figure);
     sequence.appendChild(explainer);
-    root.appendChild(sequence);
+    sequenceDisclosure.appendChild(sequence);
+    primers.appendChild(sequenceDisclosure);
   }
+  if (primers.children.length) root.appendChild(primers);
 
   if (content.checklistItems && content.checklistItems.length) {
     const checklist = el("div", "assembly-preamble-block assembly-checklist-block");
@@ -783,8 +943,14 @@ function appendMechanismListText(target, value, listClassName) {
     const original = match[0];
     const normalized = original.toLowerCase();
     const found = terms.find(([term]) => term === normalized);
-    const span = el("span", "mechanism-term mechanism-term-" + (found ? found[1] : "generic"), original);
-    target.appendChild(span);
+    if (found && found[1] === "capstan") {
+      const tooltip = createTermTooltip(original);
+      tooltip.classList.add("mechanism-term", "mechanism-term-capstan");
+      target.appendChild(tooltip);
+    } else {
+      const span = el("span", "mechanism-term mechanism-term-" + (found ? found[1] : "generic"), original);
+      target.appendChild(span);
+    }
     cursor = match.index + original.length;
   }
 
@@ -840,13 +1006,16 @@ function SetupKitInventorySection() {
   ];
 
   const section = sectionShell("setup-inventory", "setup-kit-inventory-section");
-  section.appendChild(el("h2", "", "Complete Build Inventory"));
+  section.appendChild(el("h2", "visually-hidden", "Complete Build Inventory"));
+  const disclosure = el("details", "inventory-disclosure");
+  disclosure.appendChild(el("summary", "inventory-disclosure-summary", "View complete build inventory — 18 parts"));
+  const body = el("div", "inventory-disclosure-body");
   const copy = el("p", "section-copy");
   copy.id = "inventoryCopy";
   copy.appendChild(document.createTextNode("Every "));
   copy.appendChild(el("span", "inventory-term-printed", "printed"));
   copy.appendChild(document.createTextNode(" and non-printed part needed for assembly."));
-  section.appendChild(copy);
+  body.appendChild(copy);
 
   const links = el("p", "manual-back-link");
   const back = el("a", "button secondary", "Kits");
@@ -855,7 +1024,7 @@ function SetupKitInventorySection() {
   manual.href = "#setup-manual";
   links.appendChild(back);
   links.appendChild(manual);
-  section.appendChild(links);
+  body.appendChild(links);
 
   const list = el("div", "inventory-groups");
   groups.forEach(group => {
@@ -866,7 +1035,9 @@ function SetupKitInventorySection() {
     groupSection.appendChild(grid);
     list.appendChild(groupSection);
   });
-  section.appendChild(list);
+  body.appendChild(list);
+  disclosure.appendChild(body);
+  section.appendChild(disclosure);
   return section;
 }
 
@@ -882,7 +1053,9 @@ function SetupKitInventoryCard(number, name, filename) {
   imageShell.appendChild(image);
   card.appendChild(imageShell);
 
-  card.appendChild(el("div", "inventory-name", name));
+  const nameNode = el("div", "inventory-name");
+  nameNode.appendChild(createTermTooltip(name));
+  card.appendChild(nameNode);
   return card;
 }
 
@@ -924,7 +1097,6 @@ function renderHomepage() {
     HeroSection,
     ProductIntroSection,
     PlansSection,
-    PartsSection,
     TierComparisonSection,
     SetupKitInventorySection,
     ProcessStripSection,
@@ -950,6 +1122,7 @@ function hydrateStaticHomepage() {
     ["faq-cms", hydrateFaqCmsContent],
     ["plans", hydratePlansSection],
     ["parts", hydratePartsSection],
+    ["inventory", hydrateInventorySection],
     ["assembly-guide", function() {
       if (typeof renderAssemblyGuide === "function") renderAssemblyGuide();
     }],
@@ -998,16 +1171,14 @@ function hydrateAssemblyCmsContent() {
 
   section.querySelectorAll(":scope > .section-copy").forEach(node => node.remove());
   section.querySelectorAll(":scope > .assembly-preamble").forEach(node => node.remove());
+  section.querySelectorAll(":scope > .manual-back-link").forEach(node => node.remove());
 
   const preamble = renderAssemblyPreamble(SITE_CONTENT.sections.assembly);
   if (!preamble) return;
 
-  const links = section.querySelector(".manual-back-link");
-  if (links) {
-    section.insertBefore(preamble, links);
-  } else {
-    section.appendChild(preamble);
-  }
+  const guide = section.querySelector("#assemblyGuide");
+  if (guide) section.insertBefore(preamble, guide);
+  else section.appendChild(preamble);
 }
 
 function hydrateFaqCmsContent() {
@@ -1026,6 +1197,7 @@ function hydratePlansSection() {
   const existingDownloads = section.querySelector("#downloadsList");
   const downloadsContent = existingDownloads ? existingDownloads.innerHTML : '<div class="downloads-empty fine-print">Print files are loading.</div>';
   renderPlansContent(section, plans, downloadsContent);
+  document.querySelectorAll("section.parts-section").forEach(function(node) { node.remove(); });
 }
 
 /* Source-it-yourself parts table, rendered from Config sections.parts. */
@@ -1033,30 +1205,24 @@ function hydratePartsSection() {
   const parts = SITE_CONTENT.sections && SITE_CONTENT.sections.parts;
   const section = document.querySelector("#parts");
   if (!section || !parts) return;
-  hydratePartsSectionFromConfig(section, parts);
+  populatePartsSourceDisclosure(section, parts);
 }
 
-function hydratePartsSectionFromConfig(section, parts) {
-  section.innerHTML = "";
-  section.appendChild(el("h2", "parts-heading", parts.heading));
-
-  const bundle = el("div", "hardware-bundle-card");
-  appendParagraph(bundle, parts.intro, "section-copy parts-intro");
-  const bundleLink = el("a", "button parts-bundle-link", parts.bundleButtonLabel || "Go to Hardware Bundle");
-  bundleLink.href = "#kits";
-  if (parts.bundleOfferingId) {
-    bundleLink.setAttribute("data-offering-id", parts.bundleOfferingId);
+function populatePartsSourceDisclosure(disclosure, parts) {
+  if (!disclosure || !parts) return;
+  let body = disclosure.querySelector(":scope > .build-disclosure-body");
+  if (!body) {
+    body = el("div", "build-disclosure-body");
+    disclosure.appendChild(body);
   }
-  bundle.appendChild(bundleLink);
-  section.appendChild(bundle);
+  body.innerHTML = "";
 
   const source = el("div", "parts-source-section");
-  source.appendChild(el("h3", "parts-source-heading", parts.sourceHeading || "Prefer to source it yourself?"));
   appendParagraph(source, parts.sourceIntro, "section-copy parts-source-intro");
   const table = el("div", "parts-table");
   table.id = "partsTable";
   source.appendChild(table);
-  section.appendChild(source);
+  body.appendChild(source);
 
   (parts.items || []).forEach(function(item) {
     const itemName = item && (item.item || item.name);
@@ -1101,14 +1267,22 @@ function hydratePartsSectionFromConfig(section, parts) {
 
   const note = el("p", "fine-print parts-note", parts.note);
   note.id = "partsNote";
-  section.appendChild(note);
+  body.appendChild(note);
+}
+
+function hydrateInventorySection() {
+  const current = document.getElementById("setup-inventory");
+  if (!current || current.querySelector(".inventory-disclosure")) return;
+  current.replaceWith(SetupKitInventorySection());
 }
 
 function appendPartsFact(parent, label, value) {
   if (!value) return;
   const fact = el("div", "parts-fact");
   fact.appendChild(el("span", "parts-fact-label", label));
-  fact.appendChild(el("span", "parts-fact-value", value));
+  const valueNode = el("span", "parts-fact-value");
+  valueNode.appendChild(createTermTooltip(value));
+  fact.appendChild(valueNode);
   parent.appendChild(fact);
 }
 
@@ -1121,9 +1295,42 @@ function hydrateSubmissionModule() {
 
 function hydrateInquiryForm() {
   const form = document.getElementById("inquiryForm");
-  if (!form || form.dataset.bound === "true") return;
-  form.dataset.bound = "true";
-  form.addEventListener("submit", submitInquiryForm);
+  if (!form) return;
+  if (form.dataset.bound !== "true") {
+    form.dataset.bound = "true";
+    form.addEventListener("submit", submitInquiryForm);
+    const type = document.getElementById("inquiryType");
+    if (type) type.addEventListener("change", updateInquiryFormForType);
+  }
+  updateInquiryFormForType();
+}
+
+function updateInquiryFormForType() {
+  const inquiry = SITE_CONTENT.sections.inquiry || {};
+  const type = document.getElementById("inquiryType");
+  const kit = document.getElementById("inquiryKit");
+  const timeline = document.getElementById("inquiryTimeline");
+  const message = document.getElementById("inquiryMessage");
+  const selected = type ? type.value : "";
+  const showKit = selected === "Kit or order interest";
+  const showTimeline = selected === "Kit or order interest" ||
+    selected === "Commercial licensing" ||
+    selected === "Custom finished-frame inquiry";
+
+  setConditionalInquiryField(kit, showKit);
+  setConditionalInquiryField(timeline, showTimeline);
+  if (message) {
+    const placeholders = inquiry.messagePlaceholders || {};
+    message.placeholder = placeholders[selected] || inquiry.messagePlaceholder || "";
+  }
+}
+
+function setConditionalInquiryField(control, visible) {
+  if (!control) return;
+  const field = control.closest(".inquiry-field");
+  if (!field) return;
+  field.hidden = !visible;
+  control.disabled = !visible;
 }
 
 function renderInitialHeroGallery() {
@@ -1308,9 +1515,11 @@ function createTierSelectorRow(tier, index, panelId) {
 
   const name = el("span", "kit-selector-name", tier.name);
   const summary = el("span", "kit-selector-summary", tier.shortDescription);
+  const price = el("span", "kit-selector-price", tier.priceLabel || formatTierPrice(tier.priceValue));
 
   row.appendChild(name);
   row.appendChild(summary);
+  row.appendChild(price);
   return row;
 }
 
@@ -1351,10 +1560,11 @@ function createActiveTierPanel(tier, state, imageOptions, onImageOptionChange) {
   top.appendChild(createFramedIllustration(tier));
 
   const intro = el("div", "tier-intro tier-active-intro");
-  intro.appendChild(el("h3", "kit-name", tier.name));
-  intro.appendChild(el("p", "tier-description", tier.shortDescription));
   if (tier.description) {
     intro.appendChild(el("p", "tier-long-description", tier.description));
+  }
+  if (tier.priceValue != null || tier.priceLabel) {
+    intro.appendChild(createTierPriceSummary());
   }
   top.appendChild(intro);
 
@@ -1363,9 +1573,6 @@ function createActiveTierPanel(tier, state, imageOptions, onImageOptionChange) {
   body.appendChild(createTierDetailSections(tier));
   if (tier.imagePreparationApplies && imageOptions.length) {
     body.appendChild(createImagePreparationChooser(tier, state, imageOptions, onImageOptionChange));
-  }
-  if (tier.priceValue != null || tier.priceLabel) {
-    body.appendChild(createTierPriceSummary());
   }
   if (tier.action && tier.action.href && tier.action.label) {
     body.appendChild(createTierAction(tier.action));
@@ -2393,6 +2600,88 @@ function bindSupportGuideModal() {
   });
 }
 
+function bindTermHelp() {
+  if (window.__termHelpBound) return;
+  window.__termHelpBound = true;
+
+  document.addEventListener("click", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-term-help-trigger]")
+      : null;
+    closeTermHelpPopovers(trigger);
+    if (!trigger) return;
+
+    event.preventDefault();
+    const panel = document.getElementById(trigger.getAttribute("aria-controls"));
+    if (!panel) return;
+    const expanded = trigger.getAttribute("aria-expanded") === "true";
+    trigger.setAttribute("aria-expanded", expanded ? "false" : "true");
+    panel.hidden = expanded;
+  });
+
+  document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") closeTermHelpPopovers();
+  });
+}
+
+function closeTermHelpPopovers(exceptTrigger) {
+  document.querySelectorAll("[data-term-help-trigger][aria-expanded='true']").forEach(function(trigger) {
+    if (trigger === exceptTrigger) return;
+    trigger.setAttribute("aria-expanded", "false");
+    const panel = document.getElementById(trigger.getAttribute("aria-controls"));
+    if (panel) panel.hidden = true;
+  });
+}
+
+function bindDisclosureAnchors() {
+  if (window.__disclosureAnchorsBound) return;
+  window.__disclosureAnchorsBound = true;
+
+  document.addEventListener("click", function(event) {
+    const link = event.target && event.target.closest
+      ? event.target.closest('a[href^="#"]')
+      : null;
+    if (!link) return;
+    const hash = link.getAttribute("href");
+    if (!hash || hash === "#") return;
+    setTimeout(function() { openDisclosureForHash(hash); }, 0);
+  });
+  window.addEventListener("hashchange", function() {
+    openDisclosureForHash(window.location.hash);
+  });
+  setTimeout(function() { openDisclosureForHash(window.location.hash); }, 0);
+}
+
+function openDisclosureForHash(hash) {
+  if (!hash || hash === "#") return;
+  let target;
+  try {
+    target = document.querySelector(hash);
+  } catch (err) {
+    return;
+  }
+  if (!target) return;
+
+  if (target.matches("details")) target.open = true;
+  target.querySelectorAll(":scope > .inventory-disclosure").forEach(function(details) {
+    details.open = true;
+  });
+  let ancestor = target.parentElement;
+  while (ancestor) {
+    if (ancestor.matches && ancestor.matches("details")) ancestor.open = true;
+    ancestor = ancestor.parentElement;
+  }
+
+  if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+  if (typeof target.focus === "function") {
+    try {
+      target.focus({ preventScroll: true });
+    } catch (err) {
+      target.focus();
+    }
+  }
+}
+
 function openSupportGuideModal(trigger) {
   const guide = SITE_CONTENT.sections &&
     SITE_CONTENT.sections.plans &&
@@ -2447,6 +2736,7 @@ function ensureSupportGuideModal(guide) {
 
   const backdrop = el("div", "support-guide-backdrop");
   backdrop.setAttribute("data-support-guide-close", "backdrop");
+  backdrop.addEventListener("click", closeSupportGuideModal);
   modal.appendChild(backdrop);
 
   const dialog = el("div", "support-guide-dialog");
@@ -2537,6 +2827,8 @@ function startApp() {
     bindOfferingInlineLinks();
     bindHowWorksNestedDisclosures();
     bindSupportGuideModal();
+    bindTermHelp();
+    bindDisclosureAnchors();
     hydrateStaticHomepage();
   } catch (err) {
     showStartupError(err);
