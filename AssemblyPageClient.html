@@ -1,0 +1,174 @@
+function hydrateAssemblyPage() {
+  const section = document.getElementById("setup-manual");
+  const content = SITE_CONTENT.sections.assembly || {};
+  if (!section) return;
+
+  const current = section.querySelector(":scope > .assembly-preamble");
+  const replacement = renderAssemblyPreamble(content);
+  if (current && replacement) current.replaceWith(replacement);
+  else if (replacement) {
+    const guide = document.getElementById("assemblyGuide");
+    section.insertBefore(replacement, guide);
+  }
+}
+
+function renderAssemblyPreamble(content) {
+  const root = el("div", "assembly-preamble");
+  appendParagraph(root, content.intro, "section-copy assembly-preamble-intro");
+  const primers = el("div", "assembly-primer-list");
+
+  const tools = renderPreparationTools(content.tools, "assembly-tools");
+  if (tools) {
+    const disclosure = el("details", "assembly-primer");
+    const summary = el("summary", "assembly-primer-summary");
+    summary.appendChild(el("span", "assembly-primer-title", "Tools and preparation"));
+    summary.appendChild(el("span", "assembly-primer-note", content.toolsSummary));
+    disclosure.appendChild(summary);
+    const body = el("div", "assembly-primer-body");
+    body.appendChild(tools);
+    disclosure.appendChild(body);
+    primers.appendChild(disclosure);
+  }
+
+  if (Array.isArray(content.sequenceItems) && content.sequenceItems.length) {
+    const disclosure = el("details", "assembly-primer");
+    const summary = el("summary", "assembly-primer-summary");
+    summary.appendChild(el("span", "assembly-primer-title", "Understand the mechanism"));
+    summary.appendChild(el("span", "assembly-primer-note", content.mechanismSummary));
+    disclosure.appendChild(summary);
+
+    const body = el("div", "assembly-primer-body assembly-preamble-block");
+    body.appendChild(el("h3", "", content.sequenceHeading || "How the mechanism works:"));
+    const explainer = el("div", "assembly-mechanism-explainer");
+    explainer.appendChild(renderAssemblySequence(content.sequenceItems));
+    const figure = el("figure", "assembly-mechanism-reference");
+    const image = document.createElement("img");
+    image.src = "https://cdn.jsdelivr.net/gh/dvzdan/frames-site@dace05b/assets/instruction%20images/final%20setup.png";
+    image.alt = "Full colored mechanism overview";
+    figure.appendChild(image);
+    explainer.appendChild(figure);
+    body.appendChild(explainer);
+    disclosure.appendChild(body);
+    primers.appendChild(disclosure);
+  }
+
+  if (primers.children.length) root.appendChild(primers);
+  if (Array.isArray(content.checklistItems) && content.checklistItems.length) {
+    const checklist = el("div", "assembly-preamble-block assembly-checklist-block");
+    checklist.appendChild(el("h3", "", content.checklistHeading || "Easy-to-miss checks:"));
+    const list = el("div", "assembly-checklist");
+    content.checklistItems.forEach(function(item, index) {
+      const label = el("label", "assembly-check-item");
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.id = "assembly-check-" + index;
+      label.appendChild(input);
+      label.appendChild(el("span", "", item));
+      list.appendChild(label);
+    });
+    checklist.appendChild(list);
+    root.appendChild(checklist);
+  }
+  return root;
+}
+
+function renderAssemblySequence(items) {
+  const root = el("ul", "assembly-mechanism-list");
+  let lastTopLevel = null;
+  items.forEach(function(item) {
+    const normalized = item && typeof item === "object"
+      ? { text: textOrEmpty(item.text), level: Number(item.level) || 0 }
+      : { text: textOrEmpty(item), level: 0 };
+    if (!normalized.text) return;
+    const listItem = el("li");
+    appendAssemblyMechanismText(listItem, normalized.text);
+    if (normalized.level > 0 && lastTopLevel) {
+      let nested = lastTopLevel.querySelector(":scope > ul");
+      if (!nested) {
+        nested = el("ul", "assembly-mechanism-sublist");
+        lastTopLevel.appendChild(nested);
+      }
+      nested.appendChild(listItem);
+    } else {
+      root.appendChild(listItem);
+      lastTopLevel = listItem;
+    }
+  });
+  return root;
+}
+
+function appendAssemblyMechanismText(target, value) {
+  const terms = [
+    ["clock mechanism", "clock"],
+    ["clock/string guide", "guide"],
+    ["cover image", "cover"],
+    ["capstan", "capstan"],
+    ["string", "string"],
+    ["eyelet", "eyelet"],
+    ["zipper", "zipper"],
+    ["latch", "latch"],
+    ["weight", "weight"]
+  ];
+  const pattern = new RegExp("(" + terms.map(function(item) {
+    return item[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }).join("|") + ")", "gi");
+  let cursor = 0;
+  let match;
+  while ((match = pattern.exec(value)) !== null) {
+    if (match.index > cursor) {
+      target.appendChild(document.createTextNode(value.slice(cursor, match.index)));
+    }
+    const original = match[0];
+    const found = terms.find(function(item) { return item[0] === original.toLowerCase(); });
+    if (found && found[1] === "capstan") {
+      const tooltip = createTermTooltip(original);
+      tooltip.classList.add("mechanism-term", "mechanism-term-capstan");
+      target.appendChild(tooltip);
+    } else {
+      target.appendChild(el(
+        "span",
+        "mechanism-term mechanism-term-" + (found ? found[1] : "generic"),
+        original
+      ));
+    }
+    cursor = match.index + original.length;
+  }
+  if (cursor < value.length) target.appendChild(document.createTextNode(value.slice(cursor)));
+}
+
+function hydrateAssemblyFaq() {
+  const section = document.getElementById("faq");
+  const content = SITE_CONTENT.sections.faq || {};
+  if (!section) return;
+  section.innerHTML = "";
+  section.appendChild(el("h2", "", content.heading || "FAQ"));
+  const list = el("div", "faq-list");
+  (content.items || []).forEach(function(item) {
+    if (!item || !item.question || !item.answer) return;
+    const detail = el("details", "faq-item");
+    detail.appendChild(el("summary", "", item.question));
+    const body = el("div", "faq-answer");
+    splitParagraphs(item.answer).forEach(function(paragraph) {
+      appendParagraph(body, paragraph);
+    });
+    detail.appendChild(body);
+    list.appendChild(detail);
+  });
+  section.appendChild(list);
+}
+
+function startAssemblyPage() {
+  hydrateAssemblyPage();
+  hydrateAssemblyFaq();
+  bindTermHelp();
+  bindSupportGuideModal();
+  if (typeof window.renderAssemblyGuide === "function") {
+    window.renderAssemblyGuide();
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startAssemblyPage);
+} else {
+  startAssemblyPage();
+}

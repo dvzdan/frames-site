@@ -1,0 +1,484 @@
+const HOME_OFFERING_LINKS = {
+  "Hardware Bundle": "maker",
+  "Assembly Kit": "builder",
+  "Finished Gift": "gift"
+};
+
+const HOME_THREAD_HEADINGS = [
+  "Wait, why?",
+  "So it's both absurd and pointless. How do I get one?",
+  "This whole 3D-printing craze doesn't interest me.",
+  "Take the hint. I want a fun prank gift, not a project."
+];
+
+const HOME_GALLERY = {
+  items: [],
+  currentIndex: 0,
+  revealed: false,
+  timers: []
+};
+
+function hydrateHomeCms() {
+  const content = SITE_CONTENT.homepage.productIntro || {};
+  const section = document.getElementById("how-it-works");
+  if (!section) return;
+
+  const primary = section.querySelector(".how-works-primary-copy");
+  if (primary && content.text) primary.textContent = content.text;
+  if (!Array.isArray(content.detailGroups) || !content.detailGroups.length) return;
+
+  const current = section.querySelector(".how-works-long-copy");
+  const replacement = renderHomeLongCopy(content.detailGroups);
+  if (current && replacement) current.replaceWith(replacement);
+}
+
+function renderHomeLongCopy(groups) {
+  const list = el("div", "how-works-long-copy");
+  const thread = HOME_THREAD_HEADINGS.map(function(heading) {
+    return groups.find(function(group) {
+      return group && group.heading === heading && group.body;
+    });
+  }).filter(Boolean);
+  const used = {};
+
+  if (thread.length === HOME_THREAD_HEADINGS.length) {
+    const details = el("details", "how-works-copy-item faq-item how-works-thread");
+    details.appendChild(el("summary", "", thread[0].heading));
+    const body = el("div", "how-works-copy-body faq-answer");
+    appendHomeParagraphs(body, thread[0].body);
+    body.appendChild(createHomeNestedDisclosure(thread, 1));
+    details.appendChild(body);
+    list.appendChild(details);
+    thread.forEach(function(group) { used[group.heading] = true; });
+  }
+
+  groups.forEach(function(group) {
+    if (!group || !group.heading || !group.body || used[group.heading]) return;
+    const details = el("details", "how-works-copy-item faq-item");
+    details.appendChild(el("summary", "", group.heading));
+    const body = el("div", "how-works-copy-body faq-answer");
+    appendHomeParagraphs(body, group.body);
+    details.appendChild(body);
+    list.appendChild(details);
+  });
+  return list;
+}
+
+function createHomeNestedDisclosure(groups, index) {
+  const wrapper = el("div", "how-works-nested-disclosure");
+  const panelId = "how-works-followup-" + index;
+  const trigger = el("button", "how-works-nested-trigger", groups[index].heading);
+  trigger.type = "button";
+  trigger.setAttribute("aria-expanded", "false");
+  trigger.setAttribute("aria-controls", panelId);
+  trigger.setAttribute("data-how-works-nested-trigger", "true");
+
+  const panel = el("div", "how-works-nested-panel");
+  panel.id = panelId;
+  panel.hidden = true;
+  appendHomeParagraphs(panel, groups[index].body);
+  if (groups[index + 1]) panel.appendChild(createHomeNestedDisclosure(groups, index + 1));
+  wrapper.appendChild(trigger);
+  wrapper.appendChild(panel);
+  return wrapper;
+}
+
+function appendHomeParagraphs(parent, text) {
+  splitParagraphs(text).forEach(function(paragraphText) {
+    const paragraph = el("p");
+    appendHomeOfferingText(paragraph, paragraphText);
+    parent.appendChild(paragraph);
+  });
+}
+
+function appendHomeOfferingText(parent, text) {
+  const pattern = /\b(Hardware Bundle|Assembly Kit|Finished Gift)\b/g;
+  let cursor = 0;
+  let match;
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > cursor) {
+      parent.appendChild(document.createTextNode(text.slice(cursor, match.index)));
+    }
+    const link = el("a", "offering-inline-link", match[0]);
+    const offeringId = HOME_OFFERING_LINKS[match[0]];
+    link.href = sitePageHref("kits") + "&tier=" + encodeURIComponent(offeringId) + "#kits";
+    link.dataset.offeringId = offeringId;
+    parent.appendChild(link);
+    cursor = match.index + match[0].length;
+  }
+  if (cursor < text.length) parent.appendChild(document.createTextNode(text.slice(cursor)));
+}
+
+function bindHomeNestedDisclosures() {
+  document.addEventListener("click", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-how-works-nested-trigger]")
+      : null;
+    if (!trigger) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const panel = document.getElementById(trigger.getAttribute("aria-controls"));
+    if (!panel) return;
+    const expanded = trigger.getAttribute("aria-expanded") === "true";
+    trigger.setAttribute("aria-expanded", expanded ? "false" : "true");
+    panel.hidden = expanded;
+  });
+}
+
+function normalizeHomeGallery(items) {
+  return (Array.isArray(items) ? items : []).filter(function(item) {
+    return item && item.cover && item.reveal;
+  }).map(function(item) {
+    return {
+      title: textOrEmpty(item.title),
+      revealTitle: textOrEmpty(item.revealTitle),
+      description: textOrEmpty(item.description),
+      cover: item.cover,
+      reveal: item.reveal
+    };
+  });
+}
+
+function setHomeGalleryImage(image, src) {
+  image.onload = function() { image.classList.add("is-loaded"); };
+  image.onerror = function() {
+    if (image.dataset.fallbackRequested === "true") return;
+    image.dataset.fallbackRequested = "true";
+    if (!window.google || !google.script || !google.script.run) return;
+    google.script.run
+      .withSuccessHandler(function(dataUrl) {
+        image.onerror = null;
+        image.src = dataUrl;
+      })
+      .withFailureHandler(function() {
+        image.classList.add("is-missing");
+      })
+      .getGalleryImageDataUrl(src);
+  };
+  image.src = src;
+}
+
+function createHomeFramePair(item, options) {
+  options = options || {};
+  const frame = el("span", "gallery-shadowbox-frame frame-color-" + (options.colorIndex || 0) + (options.frameClass ? " " + options.frameClass : ""));
+  const artwork = el("span", "gallery-frame-art" + (options.artClass ? " " + options.artClass : ""));
+  const cover = document.createElement("img");
+  cover.className = "cover-img" + (options.coverClass ? " " + options.coverClass : "");
+  cover.alt = item.title || "Cover image";
+  setHomeGalleryImage(cover, item.cover);
+  const reveal = document.createElement("img");
+  reveal.className = "reveal-img" + (options.revealClass ? " " + options.revealClass : "");
+  reveal.alt = item.revealTitle || "Reveal image";
+  reveal.style.display = "none";
+  setHomeGalleryImage(reveal, item.reveal);
+  artwork.appendChild(cover);
+  artwork.appendChild(reveal);
+  frame.appendChild(artwork);
+  frame.appendChild(el("span", "gallery-acrylic-glare"));
+  return frame;
+}
+
+function toggleHomeReveal(container) {
+  const cover = container.querySelector(".cover-img");
+  const reveal = container.querySelector(".reveal-img");
+  if (!cover || !reveal) return;
+  const card = container.parentElement;
+  const top = card && card.querySelector(".top-title");
+  const bottom = card && card.querySelector(".bottom-title");
+  const description = card && card.querySelector(".reveal-description");
+  const showingCover = reveal.style.display === "none";
+
+  runBlinkTransition(container.querySelector(".gallery-frame-art"), function() {
+    cover.style.display = showingCover ? "none" : "block";
+    reveal.style.display = showingCover ? "block" : "none";
+    if (top) top.innerHTML = showingCover ? escapeHtml(top.textContent) : "<strong>" + escapeHtml(top.textContent) + "</strong>";
+    if (bottom) bottom.innerHTML = showingCover ? "<strong>" + escapeHtml(bottom.textContent) + "</strong>" : escapeHtml(bottom.textContent);
+    if (description) description.style.display = showingCover ? "block" : "none";
+  });
+}
+
+function bindStaticHomeGallery() {
+  document.querySelectorAll(".server-gallery-toggle").forEach(function(container) {
+    if (container.dataset.galleryBound === "true") return;
+    container.dataset.galleryBound = "true";
+    container.addEventListener("click", function() { toggleHomeReveal(container); });
+    container.addEventListener("keydown", function(event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleHomeReveal(container);
+      }
+    });
+  });
+}
+
+function renderHomeGallery(items) {
+  const gallery = document.getElementById("gallery");
+  if (!gallery) return;
+  gallery.innerHTML = "";
+  if (!items.length) {
+    gallery.appendChild(el("div", "card fine-print", SITE_CONTENT.sections.community.emptyGallery));
+    return;
+  }
+
+  items.forEach(function(item, index) {
+    const card = el("div", "card");
+    const top = el("div", "top-title");
+    top.innerHTML = "<strong>" + escapeHtml(item.title || "Untitled") + "</strong>";
+    const control = el("div", "gallery-frame-button");
+    control.setAttribute("role", "button");
+    control.tabIndex = 0;
+    control.appendChild(createHomeFramePair(item, { colorIndex: index % 6 }));
+    control.addEventListener("click", function() { toggleHomeReveal(control); });
+    control.addEventListener("keydown", function(event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleHomeReveal(control);
+      }
+    });
+    card.appendChild(top);
+    card.appendChild(control);
+    card.appendChild(el("div", "bottom-title", item.revealTitle));
+    if (item.description) card.appendChild(el("div", "reveal-description", item.description));
+    gallery.appendChild(card);
+  });
+}
+
+function clearHomeHeroTimers() {
+  HOME_GALLERY.timers.forEach(clearTimeout);
+  HOME_GALLERY.timers = [];
+}
+
+function renderHomeHero(items) {
+  const root = document.getElementById("heroGallery");
+  const previews = document.getElementById("heroGalleryPreviews");
+  if (!root || !previews) return;
+  HOME_GALLERY.items = items.slice();
+  HOME_GALLERY.currentIndex = 0;
+  clearHomeHeroTimers();
+  root.hidden = !items.length;
+  previews.innerHTML = "";
+  items.slice(0, 8).forEach(function(item, index) {
+    const button = el("button", "hero-gallery-preview");
+    button.type = "button";
+    button.setAttribute("aria-label", "Select reveal pair");
+    const image = document.createElement("img");
+    image.alt = "";
+    setHomeGalleryImage(image, item.cover);
+    button.appendChild(image);
+    button.appendChild(el("span", "gallery-acrylic-glare"));
+    button.addEventListener("click", function() { showHomeHero(index); });
+    previews.appendChild(button);
+  });
+  if (items.length) showHomeHero(0);
+}
+
+function showHomeHero(index) {
+  const item = HOME_GALLERY.items[index];
+  const feature = document.getElementById("heroGalleryFeature");
+  if (!item || !feature) return;
+  clearHomeHeroTimers();
+  HOME_GALLERY.currentIndex = index;
+  HOME_GALLERY.revealed = false;
+  const control = el("button", "hero-feature-button");
+  control.type = "button";
+  control.setAttribute("aria-label", "Reveal featured image");
+  control.appendChild(createHomeFramePair(item, {
+    colorIndex: index % 6,
+    frameClass: "hero-feature-frame",
+    artClass: "hero-feature-art",
+    coverClass: "hero-cover-img",
+    revealClass: "hero-reveal-img"
+  }));
+  control.addEventListener("click", revealHomeHero);
+  feature.replaceChildren(control);
+  document.querySelectorAll(".hero-gallery-preview").forEach(function(preview, previewIndex) {
+    preview.classList.toggle("is-active", previewIndex === index);
+  });
+  const delay = Number(SITE_CONTENT.homepage.heroGallery.coverDelayMs) || 3600;
+  HOME_GALLERY.timers.push(setTimeout(revealHomeHero, delay));
+}
+
+function revealHomeHero() {
+  if (HOME_GALLERY.revealed) return;
+  HOME_GALLERY.revealed = true;
+  clearHomeHeroTimers();
+  const feature = document.getElementById("heroGalleryFeature");
+  const artwork = feature && feature.querySelector(".gallery-frame-art");
+  runBlinkTransition(artwork, function() {
+    const cover = artwork && artwork.querySelector(".cover-img");
+    const reveal = artwork && artwork.querySelector(".reveal-img");
+    if (cover) cover.style.display = "none";
+    if (reveal) reveal.style.display = "block";
+  });
+  const hold = Number(SITE_CONTENT.homepage.heroGallery.revealHoldMs) || 2200;
+  HOME_GALLERY.timers.push(setTimeout(function() {
+    showHomeHero((HOME_GALLERY.currentIndex + 1) % HOME_GALLERY.items.length);
+  }, hold));
+}
+
+function loadFullHomeGallery() {
+  if (!window.google || !google.script || !google.script.run) return;
+  google.script.run
+    .withSuccessHandler(function(items) {
+      const normalized = normalizeHomeGallery(items);
+      if (!normalized.length) return;
+      renderHomeHero(normalized);
+      renderHomeGallery(normalized);
+    })
+    .withFailureHandler(function() {})
+    .getGallery();
+}
+
+function setHomeStatus(message) {
+  const status = document.getElementById("status");
+  if (status) status.textContent = message;
+}
+
+function fileToHomeDataUrl(file) {
+  return new Promise(function(resolve, reject) {
+    const reader = new FileReader();
+    reader.onload = function() { resolve(reader.result); };
+    reader.onerror = function() { reject(new Error("Could not read file")); };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function submitHomeConcept() {
+  const cover = document.getElementById("cover");
+  const reveal = document.getElementById("reveal");
+  const coverFile = cover && cover.files[0];
+  const revealFile = reveal && reveal.files[0];
+  if (!coverFile || !revealFile) {
+    setHomeStatus("Upload both images.");
+    return;
+  }
+  if (!["image/png", "image/jpeg"].includes(coverFile.type) || !["image/png", "image/jpeg"].includes(revealFile.type)) {
+    setHomeStatus("Upload PNG or JPEG images.");
+    return;
+  }
+
+  try {
+    const data = {
+      title: document.getElementById("title").value,
+      revealTitle: document.getElementById("revealTitle").value,
+      description: document.getElementById("desc").value,
+      cover: await fileToHomeDataUrl(coverFile),
+      reveal: await fileToHomeDataUrl(revealFile)
+    };
+    google.script.run
+      .withSuccessHandler(function(message) {
+        setHomeStatus(message);
+        loadFullHomeGallery();
+      })
+      .withFailureHandler(function(err) {
+        setHomeStatus("Error: " + (err && err.message ? err.message : "Could not submit."));
+      })
+      .submitConcept(data);
+  } catch (err) {
+    setHomeStatus("Browser error: " + err.message);
+  }
+}
+
+function updateHomeInquiryFields() {
+  const type = document.getElementById("inquiryType");
+  const kit = document.getElementById("inquiryKit");
+  const timeline = document.getElementById("inquiryTimeline");
+  const message = document.getElementById("inquiryMessage");
+  const selected = type ? type.value : "";
+  setHomeConditionalField(kit, selected === "Kit or order interest");
+  setHomeConditionalField(
+    timeline,
+    ["Kit or order interest", "Commercial licensing", "Custom finished-frame inquiry"].includes(selected)
+  );
+  if (message) {
+    const inquiry = SITE_CONTENT.sections.inquiry || {};
+    message.placeholder = (inquiry.messagePlaceholders || {})[selected] || inquiry.messagePlaceholder || "";
+  }
+}
+
+function setHomeConditionalField(control, visible) {
+  if (!control) return;
+  const field = control.closest(".inquiry-field");
+  if (field) field.hidden = !visible;
+  control.disabled = !visible;
+}
+
+function submitHomeInquiry(event) {
+  event.preventDefault();
+  const inquiry = SITE_CONTENT.sections.inquiry || {};
+  const form = event.currentTarget;
+  const button = document.getElementById("inquirySubmit");
+  const status = document.getElementById("inquiryStatus");
+  const value = function(id) {
+    const node = document.getElementById(id);
+    return node ? textOrEmpty(node.value).trim() : "";
+  };
+  const data = {
+    type: value("inquiryType"),
+    kit: value("inquiryKit"),
+    name: value("inquiryName"),
+    email: value("inquiryEmail"),
+    timeline: value("inquiryTimeline"),
+    message: value("inquiryMessage")
+  };
+  if (!data.email || !data.message) {
+    status.textContent = "Email and message are required.";
+    return;
+  }
+  if (!window.google || !google.script || !google.script.run) {
+    status.textContent = inquiry.errorMessage;
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = inquiry.sendingLabel;
+  status.textContent = "";
+  google.script.run
+    .withSuccessHandler(function() {
+      form.reset();
+      button.disabled = false;
+      button.textContent = inquiry.submitLabel;
+      status.textContent = inquiry.successMessage;
+      updateHomeInquiryFields();
+    })
+    .withFailureHandler(function(err) {
+      button.disabled = false;
+      button.textContent = inquiry.submitLabel;
+      status.textContent = err && err.message ? err.message : inquiry.errorMessage;
+    })
+    .submitInquiry(data);
+}
+
+function startHomePage() {
+  hydrateHomeCms();
+  bindHomeNestedDisclosures();
+  document.querySelectorAll("a[data-offering-id]").forEach(function(link) {
+    const offeringId = link.getAttribute("data-offering-id");
+    if (offeringId) {
+      link.href = sitePageHref("kits") + "&tier=" + encodeURIComponent(offeringId) + "#kits";
+    }
+  });
+  bindStaticHomeGallery();
+  const initialItems = normalizeHomeGallery(window.INITIAL_GALLERY_ITEMS);
+  renderHomeHero(initialItems);
+
+  const submit = document.querySelector("[data-submit-concept]");
+  if (submit) submit.addEventListener("click", submitHomeConcept);
+  const inquiry = document.getElementById("inquiryForm");
+  if (inquiry) inquiry.addEventListener("submit", submitHomeInquiry);
+  const type = document.getElementById("inquiryType");
+  if (type) type.addEventListener("change", updateHomeInquiryFields);
+  updateHomeInquiryFields();
+
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(loadFullHomeGallery, { timeout: 1600 });
+  } else {
+    setTimeout(loadFullHomeGallery, 400);
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startHomePage);
+} else {
+  startHomePage();
+}

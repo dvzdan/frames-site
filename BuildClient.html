@@ -1,0 +1,128 @@
+function hydrateBuildCopy() {
+  const plans = SITE_CONTENT.sections.plans || {};
+  const updates = [
+    ["#build-print .build-step-heading", plans.printHeading],
+    ["#build-print .build-step-text", plans.printText],
+    ["#build-images .build-step-heading", plans.tool && plans.tool.heading],
+    ["#build-images .build-step-text", plans.tool && plans.tool.text],
+    ["#build-hardware .build-step-heading", plans.hardware && plans.hardware.heading],
+    ["#build-hardware .build-step-text", plans.hardware && plans.hardware.text],
+    ["#build-assemble .build-step-heading", plans.assembly && plans.assembly.heading],
+    ["#build-assemble .build-step-text", plans.assembly && plans.assembly.text]
+  ];
+  updates.forEach(function(update) {
+    const node = document.querySelector(update[0]);
+    if (node && update[1]) node.textContent = update[1];
+  });
+
+  const imageLink = document.querySelector("#build-images .plans-tool-link");
+  if (imageLink && plans.tool && plans.tool.linkLabel) {
+    imageLink.textContent = plans.tool.linkLabel;
+  }
+  const hardwareLink = document.querySelector("#build-hardware .plans-hardware-link");
+  if (hardwareLink && plans.hardware && plans.hardware.linkLabel) {
+    hardwareLink.textContent = plans.hardware.linkLabel;
+  }
+}
+
+function enhanceBuildDownloads() {
+  document.querySelectorAll(".download-type-list dd").forEach(function(node) {
+    const value = node.textContent.trim();
+    node.replaceChildren(createTermTooltip(value));
+  });
+
+  const list = document.getElementById("downloadsList");
+  const printCard = document.getElementById("build-print");
+  if (!list || !printCard) return;
+  const rows = Array.prototype.slice.call(list.querySelectorAll(".download-row"));
+  const primary = rows.find(function(row) {
+    const name = row.querySelector(".download-name");
+    return name && /\.3mf\b/i.test(name.textContent || "");
+  });
+  if (!primary) return;
+
+  const name = primary.querySelector(".download-name");
+  primary.className = "button build-primary-action build-primary-download";
+  primary.setAttribute("aria-label", "Download " + (name ? name.textContent.trim() : "3MF print file"));
+  primary.textContent = "Download 3MF";
+  const heading = printCard.querySelector(".plans-downloads-heading");
+  if (heading) heading.insertAdjacentElement("afterend", primary);
+}
+
+function populateBuildParts() {
+  const parts = SITE_CONTENT.sections.parts || {};
+  const table = document.getElementById("partsTable");
+  const note = document.getElementById("partsNote");
+  if (!table) return;
+  table.innerHTML = "";
+
+  (parts.items || []).forEach(function(item) {
+    const itemName = item && (item.item || item.name);
+    if (!itemName) return;
+    const row = el("details", "parts-row");
+    const summary = el("summary", "parts-row-summary");
+    summary.appendChild(el("div", "parts-name", itemName));
+    row.appendChild(summary);
+
+    const facts = el("div", "parts-facts");
+    appendBuildPartFact(facts, parts.productLabel || "Product", item.product, item.url);
+    appendBuildPartFact(facts, parts.quantityLabel || "Quantity", item.quantity);
+    appendBuildPartFact(facts, "Note", item.note);
+    if (facts.children.length) row.appendChild(facts);
+    table.appendChild(row);
+  });
+  if (note) note.textContent = parts.note || "";
+}
+
+function appendBuildPartFact(parent, label, value, url) {
+  if (!value) return;
+  const fact = el("div", "parts-fact");
+  fact.appendChild(el("span", "parts-fact-label", label));
+  if (url) {
+    const link = el("a", "parts-link", value);
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener";
+    fact.appendChild(link);
+  } else {
+    const content = el("span", "parts-fact-value");
+    content.appendChild(createTermTooltip(value));
+    fact.appendChild(content);
+  }
+  parent.appendChild(fact);
+}
+
+function hydrateBuildTools() {
+  const section = document.getElementById("build-tools");
+  const assembly = SITE_CONTENT.sections.assembly || {};
+  if (!section || !assembly.tools) return;
+  section.innerHTML = "";
+  section.appendChild(el("h2", "", "Tools and preparation"));
+  appendParagraph(section, assembly.toolsSummary, "section-copy");
+  const tools = renderPreparationTools(assembly.tools, "build-tools-callout");
+  if (tools) section.appendChild(tools);
+}
+
+function enhanceBuildInventoryTerms() {
+  document.querySelectorAll(".inventory-name").forEach(function(node) {
+    const value = node.textContent.trim();
+    if (!getTermHelpKey(value)) return;
+    node.replaceChildren(createTermTooltip(value));
+  });
+}
+
+function startBuildPage() {
+  hydrateBuildCopy();
+  enhanceBuildDownloads();
+  populateBuildParts();
+  hydrateBuildTools();
+  enhanceBuildInventoryTerms();
+  bindTermHelp();
+  bindSupportGuideModal();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startBuildPage);
+} else {
+  startBuildPage();
+}

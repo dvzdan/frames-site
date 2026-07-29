@@ -1,0 +1,287 @@
+const KITS_ICONS = {
+  packageCheck: '<svg viewBox="0 0 24 24"><path d="m16 16 2 2 4-4"/><path d="M21 10V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l2-1.1"/><path d="m7.5 4.3 9 5.1"/><polyline points="3.3 7 12 12 20.7 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>',
+  wrench: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></svg>'
+};
+
+const KITS_ASSETS = {};
+
+function collectKitAssets() {
+  document.querySelectorAll(".tier-card[data-tier-key]").forEach(function(card) {
+    const image = card.querySelector(".tier-asset");
+    if (image && image.src) KITS_ASSETS[card.dataset.tierKey] = image.src;
+  });
+}
+
+function getInitialKitIndex(tiers) {
+  const requested = new URLSearchParams(window.location.search).get("tier");
+  const requestedIndex = tiers.findIndex(function(tier) { return tier.id === requested; });
+  if (requestedIndex >= 0) return requestedIndex;
+  const defaultIndex = tiers.findIndex(function(tier) { return tier.defaultActive === true; });
+  return defaultIndex >= 0 ? defaultIndex : 0;
+}
+
+function renderKitPicker() {
+  const target = document.getElementById("pricingTiers");
+  const order = SITE_CONTENT.sections.order || {};
+  const tiers = order.tiers || [];
+  const imageOptions = order.imageOptions || [];
+  if (!target || !tiers.length) return;
+
+  const state = {
+    activeIndex: getInitialKitIndex(tiers),
+    imageOptionId: getDefaultKitImageOption(imageOptions)
+  };
+  target.innerHTML = "";
+
+  const root = el("div", "kit-comparison-picker");
+  const selector = el("div", "kit-selector-list");
+  selector.setAttribute("role", "tablist");
+  selector.setAttribute("aria-label", "Kit options");
+  const panel = el("div", "tier-active-panel-viewport");
+  panel.id = "activeKitPanel";
+  panel.setAttribute("role", "tabpanel");
+  panel.setAttribute("aria-live", "polite");
+  const panelContent = el("div", "tier-active-panel-content");
+  panel.appendChild(panelContent);
+
+  tiers.forEach(function(tier, index) {
+    const row = createKitSelector(tier, index, panel.id);
+    row.addEventListener("click", function() { setActiveKit(index, true); });
+    row.addEventListener("keydown", function(event) {
+      const next = getKitKeyIndex(event, index, tiers.length);
+      if (next == null) return;
+      event.preventDefault();
+      const nextRow = selector.querySelector('[data-tier-index="' + next + '"]');
+      if (nextRow) nextRow.focus();
+      setActiveKit(next, true);
+    });
+    selector.appendChild(row);
+  });
+  root.appendChild(selector);
+  root.appendChild(panel);
+  target.appendChild(root);
+
+  window.selectPackageOffering = function(tierId) {
+    const index = tiers.findIndex(function(tier) { return tier.id === tierId; });
+    if (index < 0) return false;
+    setActiveKit(index, true);
+    return true;
+  };
+
+  function setActiveKit(index, animate) {
+    if (!tiers[index] || panelContent.dataset.blinking === "true") return;
+    state.activeIndex = index;
+    updateKitSelector(selector, index);
+    const activeRow = selector.querySelector('[data-tier-index="' + index + '"]');
+    if (activeRow) panel.setAttribute("aria-labelledby", activeRow.id);
+
+    const swap = function() {
+      panelContent.replaceChildren(
+        createActiveKitPanel(tiers[index], state, imageOptions, updateKitPrice)
+      );
+      updateKitPrice();
+    };
+
+    const blinkTarget = panelContent.querySelector(".tier-frame-blink-target");
+    if (animate && blinkTarget) {
+      panelContent.dataset.blinking = "true";
+      runBlinkTransition(blinkTarget, swap);
+      setTimeout(function() { panelContent.dataset.blinking = "false"; }, 520);
+    } else {
+      swap();
+    }
+  }
+
+  function updateKitPrice() {
+    const tier = tiers[state.activeIndex];
+    const card = panelContent.querySelector(".tier-active-card");
+    if (!tier || !card) return;
+    const option = tier.imagePreparationApplies
+      ? imageOptions.find(function(item) { return item.id === state.imageOptionId; })
+      : null;
+    const base = Number(tier.priceValue) || 0;
+    const adjustment = option ? Number(option.priceAdjustment) || 0 : 0;
+    const total = base + adjustment;
+    const price = card.querySelector("[data-tier-total-price]");
+    const breakdown = card.querySelector("[data-tier-price-breakdown]");
+    if (price) {
+      price.textContent = formatKitPrice(total);
+      price.setAttribute("aria-label", (order.pricePrefix || "Total") + " " + formatKitPrice(total));
+    }
+    if (breakdown) {
+      breakdown.textContent = adjustment
+        ? formatKitPrice(base) + " kit + " + formatKitPrice(adjustment) + " image preparation = " + formatKitPrice(total)
+        : "";
+    }
+  }
+
+  setActiveKit(state.activeIndex, false);
+}
+
+function createKitSelector(tier, index, panelId) {
+  const row = el("button", "kit-selector-row");
+  row.type = "button";
+  row.id = "kitSelectorOption" + index;
+  row.dataset.tierIndex = String(index);
+  row.setAttribute("role", "tab");
+  row.setAttribute("aria-controls", panelId);
+  row.appendChild(el("span", "kit-selector-name", tier.name));
+  row.appendChild(el("span", "kit-selector-summary", tier.shortDescription));
+  row.appendChild(el("span", "kit-selector-price", tier.priceLabel || formatKitPrice(tier.priceValue)));
+  return row;
+}
+
+function updateKitSelector(selector, activeIndex) {
+  selector.querySelectorAll(".kit-selector-row").forEach(function(row) {
+    const active = Number(row.dataset.tierIndex) === activeIndex;
+    row.classList.toggle("is-active", active);
+    row.setAttribute("aria-selected", active ? "true" : "false");
+    row.tabIndex = active ? 0 : -1;
+  });
+}
+
+function getKitKeyIndex(event, current, count) {
+  if (event.key === "ArrowDown" || event.key === "ArrowRight") return (current + 1) % count;
+  if (event.key === "ArrowUp" || event.key === "ArrowLeft") return (current - 1 + count) % count;
+  if (event.key === "Home") return 0;
+  if (event.key === "End") return count - 1;
+  return null;
+}
+
+function getDefaultKitImageOption(options) {
+  const selected = options.find(function(option) { return option.defaultSelected === true; }) || options[0];
+  return selected ? selected.id : "";
+}
+
+function formatKitPrice(value) {
+  return "$" + String(Number(value) || 0);
+}
+
+function createActiveKitPanel(tier, state, imageOptions, onImageChange) {
+  const card = el("article", "tier-card tier-active-card");
+  card.dataset.tierKey = tier.illustration && tier.illustration.assetKey || "";
+  if (tier.accentColor) card.style.setProperty("--tier-accent", tier.accentColor);
+
+  const top = el("div", "tier-active-top");
+  top.appendChild(createKitIllustration(tier));
+  const intro = el("div", "tier-intro tier-active-intro");
+  appendParagraph(intro, tier.description, "tier-long-description");
+  intro.appendChild(createKitPriceSummary());
+  top.appendChild(intro);
+
+  const body = el("div", "tier-body");
+  body.appendChild(createKitDetails(tier));
+  if (tier.imagePreparationApplies && imageOptions.length) {
+    body.appendChild(createKitImageOptions(tier, state, imageOptions, onImageChange));
+  }
+  card.appendChild(top);
+  card.appendChild(body);
+  return card;
+}
+
+function createKitIllustration(tier) {
+  const frame = el("div", "tier-frame living-frame");
+  frame.setAttribute("aria-label", textOrEmpty(tier.illustration && tier.illustration.alt));
+  const imageShell = el("div", "tier-image living-frame-art");
+  const image = document.createElement("img");
+  image.className = "tier-asset";
+  image.src = KITS_ASSETS[tier.illustration && tier.illustration.assetKey] || "";
+  image.alt = textOrEmpty(tier.illustration && tier.illustration.alt);
+  imageShell.appendChild(image);
+  imageShell.appendChild(el("span", "tier-frame-blink-target"));
+  frame.appendChild(imageShell);
+  return frame;
+}
+
+function createKitPriceSummary() {
+  const wrapper = el("div", "tier-price-summary");
+  const row = el("div", "tier-active-price-row");
+  const order = SITE_CONTENT.sections.order || {};
+  row.appendChild(el("span", "tier-price-label", order.pricePrefix || "Total"));
+  const price = el("div", "kit-price tier-active-price");
+  price.setAttribute("data-tier-total-price", "true");
+  row.appendChild(price);
+  wrapper.appendChild(row);
+  const breakdown = el("p", "fine-print tier-price-breakdown");
+  breakdown.setAttribute("data-tier-price-breakdown", "true");
+  wrapper.appendChild(breakdown);
+  return wrapper;
+}
+
+function createKitImageOptions(tier, state, options, onChange) {
+  const fieldset = el("fieldset", "image-prep-options");
+  const legend = el("legend", "image-prep-heading", SITE_CONTENT.sections.order.imagePreparationHeading);
+  fieldset.appendChild(legend);
+  const list = el("div", "image-prep-option-list");
+  const groupName = "image-preparation-" + tier.id;
+
+  options.forEach(function(option) {
+    const label = el("label", "image-prep-option");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = groupName;
+    input.value = option.id;
+    input.checked = option.id === state.imageOptionId;
+    input.addEventListener("change", function() {
+      if (!input.checked) return;
+      state.imageOptionId = option.id;
+      onChange();
+    });
+    const text = el("span", "image-prep-option-text");
+    text.appendChild(el("span", "image-prep-option-title", option.title));
+    text.appendChild(el("span", "image-prep-option-description", option.description));
+    const amount = Number(option.priceAdjustment) || 0;
+    label.appendChild(input);
+    label.appendChild(text);
+    label.appendChild(el("span", "image-prep-option-price", amount ? "+" + formatKitPrice(amount) : "$0"));
+    list.appendChild(label);
+  });
+  fieldset.appendChild(list);
+  return fieldset;
+}
+
+function createKitDetails(tier) {
+  const wrapper = el("div", "tier-detail-sections");
+  wrapper.appendChild(createKitDetailSection("INCLUDED", "packageCheck", tier.included || []));
+  wrapper.appendChild(createKitDetailSection("YOU DO", "wrench", tier.youDo || []));
+  return wrapper;
+}
+
+function createKitDetailSection(heading, iconName, items) {
+  const section = el("section", "tier-detail-section");
+  const title = el("div", "tier-detail-heading");
+  const icon = el("span", "tier-section-icon");
+  icon.setAttribute("aria-hidden", "true");
+  icon.innerHTML = KITS_ICONS[iconName] || "";
+  title.appendChild(icon);
+  title.appendChild(el("span", "", heading));
+  section.appendChild(title);
+
+  const list = el("ul", "tier-detail-list");
+  items.forEach(function(item) {
+    const listItem = el("li");
+    if (item && typeof item === "object" && item.href) {
+      const link = el("a", "tier-detail-link", item.text || item.label);
+      link.href = item.href === "#assembly-tools"
+        ? sitePageHref("assembly", "assembly-tools")
+        : item.href;
+      listItem.appendChild(link);
+    } else {
+      listItem.textContent = textOrEmpty(item && typeof item === "object" ? item.text : item);
+    }
+    list.appendChild(listItem);
+  });
+  section.appendChild(list);
+  return section;
+}
+
+function startKitsPage() {
+  collectKitAssets();
+  renderKitPicker();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startKitsPage);
+} else {
+  startKitsPage();
+}

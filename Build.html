@@ -1,0 +1,100 @@
+<section class="section page-intro page-intro-build">
+  <div class="eyebrow">Build</div>
+  <h1>Build your own</h1>
+  <p class="section-copy">Print the frame, prepare the images, obtain the hardware, and check every part before assembly.</p>
+</section>
+
+<section class="section plans-section" id="plans">
+  <h2 class="plans-heading">Build steps</h2>
+  <div class="build-steps">
+    <article class="build-step build-step-print" id="build-print">
+      <div class="build-step-number">1</div>
+      <h3 class="build-step-heading">Print the frame</h3>
+      <p class="build-step-text">Print the frame, stand, and all parts at once from a ready-to-go 3MF; print individual pieces from the STL files; or tinker with and customize the OpenSCAD source.</p>
+      <dl class="download-type-list"><dt>Complete print</dt><dd>3MF</dd><dt>Individual parts</dt><dd>STL</dd><dt>Editable source</dt><dd>OpenSCAD</dd></dl>
+      <h4 class="plans-downloads-heading">Print files</h4>
+      <div class="downloads-list" id="downloadsList"><?!= renderInitialDownloadsHtml() ?></div>
+      <p class="fine-print plans-license"><a class="plans-license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> <span class="plans-license-text">For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form.</span></p>
+      <div class="support-guide-print-callout"><strong>After printing:</strong> Remove the built-in supports before assembly. <button class="text-link-button support-guide-trigger" type="button" data-support-guide-trigger="true">View the support-removal guide</button></div>
+      <a class="button secondary plans-assembly-link" href="<?= sitePageUrl('assembly') ?>">Assembly instructions</a>
+    </article>
+    <article class="build-step build-step-images" id="build-images">
+      <div class="build-step-number">2</div>
+      <h3 class="build-step-heading">Prepare your images</h3>
+      <p class="build-step-text">Use Make 5x7 to position any PNG for a 5x7 frame and print it correctly on standard 8.5x11 paper.</p>
+      <p class="fine-print plans-tool-note">Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame.</p>
+      <a class="button secondary plans-tool-link" href="<?!= ScriptApp.getService().getUrl() ?>?page=make5x7" target="_blank" rel="noopener">Open Make 5x7</a>
+    </article>
+    <article class="build-step build-step-hardware" id="build-hardware">
+      <div class="build-step-number">3</div>
+      <h3 class="build-step-heading">Obtain the hardware</h3>
+      <p class="build-step-text">Get all the non-3D-printed parts and materials in one bundle, or opt to source them yourself.</p>
+      <a class="button secondary plans-hardware-link" href="<?= sitePageUrl('kits', 'kits') ?>" data-offering-id="maker">Go to Hardware Bundle</a>
+    </article>
+    <article class="build-step build-step-assemble" id="build-assemble">
+      <div class="build-step-number">4</div>
+      <h3 class="build-step-heading">Assemble it</h3>
+      <p class="build-step-text">Follow the illustrated manual to load the images, connect the mechanism, and set the timer.</p>
+      <a class="button secondary" href="<?= sitePageUrl('assembly') ?>">Start assembly</a>
+    </article>
+  </div>
+</section>
+
+<section class="section parts-section" id="parts">
+  <h2 class="parts-heading">Get the hardware</h2>
+  <div class="hardware-bundle-card">
+    <p class="section-copy parts-intro">Purchase all the non-3D-printed parts and materials needed for one frame in a single convenient bundle.</p>
+    <a class="button parts-bundle-link" href="<?= sitePageUrl('kits', 'kits') ?>" data-offering-id="maker">Go to Hardware Bundle</a>
+  </div>
+  <div class="parts-source-section">
+    <h3 class="parts-source-heading">Prefer to source it yourself?</h3>
+    <p class="section-copy parts-source-intro">Here are the current components and recommended sourcing notes.</p>
+    <div class="parts-table" id="partsTable"></div>
+  </div>
+  <p class="fine-print parts-note" id="partsNote"></p>
+</section>
+
+<section class="section build-tools-section" id="build-tools">
+  <h2>Tools and preparation</h2>
+  <p class="section-copy">What you need depends on which parts you're preparing yourself.</p>
+  <div class="assembly-tools-grid">
+    <section class="assembly-tools-group"><h3>For everyone assembling</h3><ul class="assembly-tools-list"><li><strong>Tweezers</strong> - helpful for grabbing and positioning the string and image paper in tight spots.</li></ul></section>
+    <section class="assembly-tools-group"><h3>If you printed the parts yourself</h3><ul class="assembly-tools-list"><li><strong>Pliers</strong> - for removing the upper built-in supports.</li><li><strong>Small flush cutters</strong> - a short, angled pair is strongly preferred for removing the lower supports.</li><li><strong>Gel super glue</strong> - for attaching the lid to the weight carriage.</li></ul><button class="text-link-button support-guide-trigger" type="button" data-support-guide-trigger="true">View the support-removal guide</button><p class="fine-print assembly-tools-clarification">Assembly Kit parts arrive cleaned, and the weight-carriage lid is already glued.</p></section>
+    <section class="assembly-tools-group"><h3>If you're preparing your own images</h3><ul class="assembly-tools-list"><li><strong>Single-hole punch</strong> - handy for making the paper slot in the Cover Image.</li></ul><p class="fine-print assembly-tools-clarification">If you choose printed-and-cut images, you do not need a hole punch.</p></section>
+  </div>
+</section>
+
+<section class="section setup-kit-inventory-section" id="setup-inventory">
+  <h2>Complete Build Inventory</h2>
+  <p class="section-copy" id="inventoryCopy">Every <span class="inventory-term-printed">printed</span> and non-printed part needed for assembly.</p>
+  <div class="inventory-groups">
+    <section class="inventory-group"><h3>Frame / Display</h3><div class="inventory-grid">
+      <article class="inventory-card"><span class="inventory-number">1</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/frame.png" alt="Frame"></div><div class="inventory-name">Frame</div></article>
+      <article class="inventory-card"><span class="inventory-number">2</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/stand.png" alt="Stand"></div><div class="inventory-name">Stand</div></article>
+      <article class="inventory-card"><span class="inventory-number">3</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/acrylic.png" alt="Acrylic"></div><div class="inventory-name">Acrylic</div></article>
+      <article class="inventory-card"><span class="inventory-number">4</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/backing-board.png" alt="Backing Board"></div><div class="inventory-name">Backing Board</div></article>
+      <article class="inventory-card"><span class="inventory-number">5</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/qr-sticker.png" alt="QR Sticker"></div><div class="inventory-name">QR Sticker</div></article>
+    </div></section>
+    <section class="inventory-group"><h3>Images</h3><div class="inventory-grid">
+      <article class="inventory-card"><span class="inventory-number">6</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/cover-image.png" alt="Cover Image"></div><div class="inventory-name">Cover Image</div></article>
+      <article class="inventory-card"><span class="inventory-number">7</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/reveal-image.png" alt="Reveal Image"></div><div class="inventory-name">Reveal Image</div></article>
+    </div></section>
+    <section class="inventory-group"><h3>Roller / Low-Friction Path</h3><div class="inventory-grid">
+      <article class="inventory-card"><span class="inventory-number">8</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/roller.png" alt="Roller"></div><div class="inventory-name">Roller</div></article>
+      <article class="inventory-card"><span class="inventory-number">9</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/uhmw-tape.png" alt="UHMW Tape"></div><div class="inventory-name">UHMW Tape</div></article>
+      <article class="inventory-card"><span class="inventory-number">10</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/zipper-track.png" alt="Zipper Track"></div><div class="inventory-name">Zipper Track</div></article>
+    </div></section>
+    <section class="inventory-group"><h3>Clock / String System</h3><div class="inventory-grid">
+      <article class="inventory-card"><span class="inventory-number">11</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/clock-movement.png" alt="Clock Movement"></div><div class="inventory-name">Clock Movement</div></article>
+      <article class="inventory-card"><span class="inventory-number">12</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/capstan.png" alt="Capstan"></div><div class="inventory-name">Capstan</div></article>
+      <article class="inventory-card"><span class="inventory-number">13</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/string-clock-locator.png" alt="String Clock Locator"></div><div class="inventory-name">String Clock Locator</div></article>
+      <article class="inventory-card"><span class="inventory-number">14</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/fishing-line.png" alt="Fishing Line"></div><div class="inventory-name">Fishing Line</div></article>
+    </div></section>
+    <section class="inventory-group"><h3>Trap Door / Release System</h3><div class="inventory-grid">
+      <article class="inventory-card"><span class="inventory-number">15</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/dry-trap-door-rig.png" alt="Dry Trap Door Rig"></div><div class="inventory-name">Dry Trap Door Rig</div></article>
+      <article class="inventory-card"><span class="inventory-number">16</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/weight-rig.png" alt="Weight Rig"></div><div class="inventory-name">Weight Rig</div></article>
+      <article class="inventory-card"><span class="inventory-number">17</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/weight-latch.png" alt="Weight Latch"></div><div class="inventory-name">Weight Latch</div></article>
+      <article class="inventory-card"><span class="inventory-number">18</span><div class="inventory-image"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/setup-kit/latch-clip.png" alt="Latch Clip"></div><div class="inventory-name">Latch Clip</div></article>
+    </div></section>
+  </div>
+</section>

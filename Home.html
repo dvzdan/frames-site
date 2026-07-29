@@ -1,0 +1,105 @@
+<section class="section hero" id="top">
+  <div class="hero-text">
+    <div class="eyebrow">One frame. Two takes.</div>
+    <h1>Double Take Frames</h1>
+    <div class="hero-copy">
+      <p class="lede">Physical photos that change in the blink of an eye, according to a timer you set.</p>
+      <p>Build a 3D-printed frame that sits quietly as one picture, waits for a timer, then reveals another. All the files, tools, and instructions - free.</p>
+    </div>
+    <div class="actions">
+      <a class="button" href="<?= sitePageUrl('build') ?>">Start building</a>
+      <a class="button secondary" href="<?= sitePageUrl('kits') ?>">Get the parts</a>
+    </div>
+  </div>
+  <div class="hero-gallery" id="heroGallery" hidden>
+    <div class="hero-gallery-feature" id="heroGalleryFeature"></div>
+    <div class="hero-gallery-selector">
+      <div class="hero-gallery-previews" id="heroGalleryPreviews"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section product-intro-section" id="how-it-works">
+  <div class="how-works-top">
+    <div class="product-visual" role="img" aria-label="Layered physical reveal frame">
+      <div class="how-works-flow">
+        <div class="how-works-frame">
+          <div class="how-works-art"><img src="https://drive.google.com/thumbnail?id=16L423SgUeeURPMvn7TjQGv_ZLMVfKlwg&amp;sz=w1000" alt=""></div>
+        </div>
+        <div class="how-works-mechanism">
+          <img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@e136512/assets/instruction%20images/final%20setup.png" alt="">
+        </div>
+        <div class="how-works-connector" aria-hidden="true"></div>
+        <div class="how-works-frame">
+          <div class="how-works-art"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/how-it-works-reveal-trojan-party.png" alt=""></div>
+        </div>
+      </div>
+    </div>
+    <div class="product-intro-copy">
+      <h2>How it works</h2>
+      <p class="section-copy how-works-primary-copy">Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.</p>
+    </div>
+  </div>
+  <div class="how-works-long-copy">
+    <details class="how-works-copy-item faq-item how-works-thread"><summary>Wait, why?</summary><div class="how-works-copy-body faq-answer"><p>Halloween. April Fools. Baby reveals. Pet nonsense.</p><p>Family holiday cards. Promposals.</p><p>Sincere messages of hope and inspiration, if you must insist.</p><p>Imagine giving someone a framed photo, letting it sit quietly on a shelf, and then - days or weeks later - it suddenly becomes a different picture.</p><div class="how-works-nested-disclosure"><button class="how-works-nested-trigger" type="button" aria-expanded="false" aria-controls="how-works-followup-1" data-how-works-nested-trigger="true">So it's both absurd and pointless. How do I get one?</button><div class="how-works-nested-panel" id="how-works-followup-1" hidden><p>You build it! Download the ready-to-print files, print the parts, and put everything together. No modeling or design work required.</p><p>If you don't own a 3D printer, ask around - a friend, local library, or makerspace may have one. You can source the remaining hardware and materials yourself or get everything together in our <a class="offering-inline-link" href="<?= sitePageUrl('kits', 'kits') ?>" data-offering-id="maker">Hardware Bundle</a>.</p><div class="how-works-nested-disclosure"><button class="how-works-nested-trigger" type="button" aria-expanded="false" aria-controls="how-works-followup-2" data-how-works-nested-trigger="true">This whole 3D-printing craze doesn't interest me.</button><div class="how-works-nested-panel" id="how-works-followup-2" hidden><p>Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the <a class="offering-inline-link" href="<?= sitePageUrl('kits', 'kits') ?>" data-offering-id="builder">Assembly Kit</a>.</p><div class="how-works-nested-disclosure"><button class="how-works-nested-trigger" type="button" aria-expanded="false" aria-controls="how-works-followup-3" data-how-works-nested-trigger="true">Take the hint. I want a fun prank gift, not a project.</button><div class="how-works-nested-panel" id="how-works-followup-3" hidden><p>You're missing out! But if you insist, we'll sell you the <a class="offering-inline-link" href="<?= sitePageUrl('kits', 'kits') ?>" data-offering-id="gift">Finished Gift</a> - built, loaded, tested, and ready to give. It'll cost ya.</p></div></div></div></div></div></div></div></details>
+    <details class="how-works-copy-item faq-item"><summary>How exactly does it work?</summary><div class="how-works-copy-body faq-answer"><p>Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another.</p></div></details>
+    <details class="how-works-copy-item faq-item"><summary>Will I enjoy putting this together?</summary><div class="how-works-copy-body faq-answer"><p>That depends almost entirely on what kind of project you enjoy.</p><p>This is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. If you enjoy examining unfamiliar parts, understanding how they interact, and making small adjustments until a mechanism comes to life, it is probably your kind of fun.</p><p>No individual step is especially difficult. But if you want a quick, strictly linear project that never asks you to stop and think, it may be more aggravating than enjoyable. The build rewards curiosity, patience, and a willingness to tinker.</p></div></details>
+    <details class="how-works-copy-item faq-item"><summary>Is it fragile?</summary><div class="how-works-copy-body faq-answer"><p>Not especially. Once it is set up, the mechanism can handle normal jostling, packing, shipping, and being tilted around. It does not need to stay perfectly upright the whole time. Just return it upright before the timer finishes so gravity can do its job.</p></div></details>
+    <details class="how-works-copy-item faq-item"><summary>Can I choose one of the image pairs in the gallery?</summary><div class="how-works-copy-body faq-answer"><p>Yes, but we would rather see what you come up with.</p></div></details>
+    <details class="how-works-copy-item faq-item"><summary>Can I use any type of photo or paper stock?</summary><div class="how-works-copy-body faq-answer"><p>The reveal sheet requires the specified specialty paper.</p><p>The other image can use just about any roughly 5x7 photo or paper stock.</p></div></details>
+    <details class="how-works-copy-item faq-item"><summary>Won't it seem weird to give someone a photo in this frame?</summary><div class="how-works-copy-body faq-answer"><p>Probably. A cover story helps. Try: "My friend started 3D-printing frames and gave me one."</p></div></details>
+    <details class="how-works-copy-item faq-item"><summary>Does it make noise?</summary><div class="how-works-copy-body faq-answer"><p>A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.</p><p>The reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.</p></div></details>
+  </div>
+</section>
+
+<section class="section reveal-demo-section" id="gallery-section">
+  <h2>Gallery</h2>
+  <p class="section-copy">Click any image to switch between its cover and reveal state.</p>
+  <details class="submission-module">
+    <summary>Submit your own</summary>
+    <div class="card">
+      <input id="title" placeholder="Cover title">
+      <input id="revealTitle" placeholder="Reveal title">
+      <textarea id="desc" placeholder="Description (optional)"></textarea>
+      <label class="field-label" for="cover">Cover</label>
+      <input id="cover" type="file" accept="image/png,image/jpeg">
+      <label class="field-label" for="reveal">Reveal</label>
+      <input id="reveal" type="file" accept="image/png,image/jpeg">
+      <button type="button" data-submit-concept>Submit</button>
+      <div id="status" role="status"></div>
+      <p class="fine-print submission-consent">By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.</p>
+    </div>
+  </details>
+  <div class="gallery" id="gallery"><?!= renderInitialGalleryHtml() ?></div>
+</section>
+
+<section class="section home-paths-section" id="choose-path">
+  <div class="home-paths-heading">
+    <div class="eyebrow">Choose a path</div>
+    <h2>Start where you need to</h2>
+  </div>
+  <div class="home-paths-grid">
+    <a class="home-path" href="<?= sitePageUrl('build') ?>"><strong>Build</strong><span>Print the parts, prepare your images, get the hardware, and review the complete inventory.</span></a>
+    <a class="home-path" href="<?= sitePageUrl('kits') ?>"><strong>Kits</strong><span>Buy only the hardware, get every part ready to assemble, or order a finished frame.</span></a>
+    <a class="home-path" href="<?= sitePageUrl('assembly') ?>"><strong>Assembly</strong><span>Follow the illustrated manual to load the images, connect the mechanism, and set the timer.</span></a>
+  </div>
+</section>
+
+<section class="section cta-section" id="checkout-placeholder">
+  <h2>Questions or requests</h2>
+  <p class="section-copy">Use this form for kit and order interest, build questions, feedback, commercial licensing, or a custom finished-frame inquiry.</p>
+  <div class="inquiry-card">
+    <form class="inquiry-form" id="inquiryForm">
+      <div class="inquiry-grid">
+        <label class="inquiry-field" for="inquiryType"><span class="field-label">What is this about?</span><select id="inquiryType" name="inquiryType"><option>Kit or order interest</option><option>Build question</option><option>Feedback</option><option>Commercial licensing</option><option>Custom finished-frame inquiry</option></select></label>
+        <label class="inquiry-field" for="inquiryKit"><span class="field-label">Kit path</span><select id="inquiryKit" name="inquiryKit"><option>Not sure yet</option><option>Hardware Bundle</option><option>Assembly Kit</option><option>Finished Gift</option></select></label>
+        <label class="inquiry-field" for="inquiryName"><span class="field-label">Name</span><input id="inquiryName" name="inquiryName" type="text"></label>
+        <label class="inquiry-field" for="inquiryEmail"><span class="field-label">Email</span><input id="inquiryEmail" name="inquiryEmail" type="email" required></label>
+        <label class="inquiry-field" for="inquiryTimeline"><span class="field-label">Timeline</span><input id="inquiryTimeline" name="inquiryTimeline" type="text" placeholder="No deadline, gift date, event date, etc."></label>
+      </div>
+      <label class="inquiry-field" for="inquiryMessage"><span class="field-label">What do you have in mind?</span><textarea id="inquiryMessage" name="inquiryMessage" required rows="7" placeholder="Tell me about the image idea, occasion, quantity, constraints, or anything you want feedback on."></textarea></label>
+      <div class="inquiry-actions"><button id="inquirySubmit" type="submit">Send request</button><p class="fine-print inquiry-status" id="inquiryStatus" role="status"></p></div>
+    </form>
+    <ul class="fine-print inquiry-notes"><li>No payment is collected on this site yet.</li><li>Each request is reviewed directly before next steps are suggested.</li><li>Custom image products may have limited returns once images are printed or loaded.</li></ul>
+  </div>
+</section>

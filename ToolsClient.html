@@ -1,0 +1,37 @@
+function renderPreparationTools(tools, id) {
+  if (!tools || !Array.isArray(tools.groups)) return null;
+  const callout = el("aside", "assembly-tools-callout");
+  if (id || tools.id) callout.id = id || tools.id;
+  callout.appendChild(el("h3", "", tools.heading || "Tools to have ready"));
+  appendParagraph(callout, tools.intro, "assembly-tools-intro");
+  const grid = el("div", "assembly-tools-grid");
+
+  tools.groups.forEach(function(group) {
+    if (!group || !Array.isArray(group.items) || !group.items.length) return;
+    const section = el("section", "assembly-tools-group");
+    section.appendChild(el("h4", "", group.heading));
+    const list = el("ul", "assembly-tools-list");
+    group.items.forEach(function(item) {
+      const listItem = el("li");
+      if (typeof item === "string") {
+        listItem.textContent = item;
+      } else {
+        listItem.appendChild(el("strong", "", item.name));
+        if (item.note) listItem.appendChild(document.createTextNode(" - " + item.note));
+      }
+      list.appendChild(listItem);
+    });
+    section.appendChild(list);
+    if (group.guideLinkLabel) {
+      const button = el("button", "text-link-button support-guide-trigger", group.guideLinkLabel);
+      button.type = "button";
+      button.setAttribute("data-support-guide-trigger", "true");
+      section.appendChild(button);
+    }
+    appendParagraph(section, group.clarification, "fine-print assembly-tools-clarification");
+    grid.appendChild(section);
+  });
+
+  callout.appendChild(grid);
+  return callout;
+}

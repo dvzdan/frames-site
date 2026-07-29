@@ -1,16 +1,101 @@
+const SITE_PAGE_ROUTES = {
+  home: {
+    template: "Home",
+    title: "Double Take Frames"
+  },
+  build: {
+    template: "Build",
+    title: "Build - Double Take Frames"
+  },
+  kits: {
+    template: "Kits",
+    title: "Kits - Double Take Frames"
+  },
+  assembly: {
+    template: "Assembly",
+    title: "Assembly - Double Take Frames"
+  }
+};
+
 function doGet(e) {
-  if (e && e.parameter && e.parameter.page === "make5x7") {
+  const requestedPage = textOrEmpty(e && e.parameter && e.parameter.page)
+    .trim()
+    .toLowerCase();
+
+  if (requestedPage === "make5x7") {
     return HtmlService.createHtmlOutputFromFile('Make5x7')
       .setTitle('Make 5x7 - Double Take Frames');
   }
 
-  return HtmlService.createTemplateFromFile('Index')
+  const pageKey = SITE_PAGE_ROUTES[requestedPage] ? requestedPage : "home";
+  const route = SITE_PAGE_ROUTES[pageKey];
+  const template = HtmlService.createTemplateFromFile('Index');
+  template.pageKey = pageKey;
+  template.pageTemplate = route.template;
+  template.serviceUrl = ScriptApp.getService().getUrl() || "";
+  template.initialGalleryJson = pageKey === "home" ? getInitialGalleryJson() : "[]";
+  template.siteCmsContentJson = getSiteCmsContentJsonForPage_(pageKey);
+
+  return template
     .evaluate()
-    .setTitle('Double Take Frames');
+    .setTitle(route.title);
 }
 
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}
+
+function renderTemplate_(filename, values) {
+  const template = HtmlService.createTemplateFromFile(filename);
+  Object.keys(values || {}).forEach(function(key) {
+    template[key] = values[key];
+  });
+  return template.evaluate().getContent();
+}
+
+function renderPageTemplate_(filename) {
+  return renderTemplate_(filename);
+}
+
+function renderSharedHeader_(pageKey) {
+  return renderTemplate_("SharedHeader", { pageKey: pageKey });
+}
+
+function sitePageUrl(pageKey, hash) {
+  const normalized = SITE_PAGE_ROUTES[pageKey] ? pageKey : "home";
+  const serviceUrl = ScriptApp.getService().getUrl() || "";
+  return serviceUrl + "?page=" + normalized + (hash ? "#" + hash : "");
+}
+
+function getSiteCmsContentJsonForPage_(pageKey) {
+  if (pageKey === "kits") return "{}";
+
+  try {
+    const content = getSiteCmsContent_();
+    let filtered = {};
+
+    if (pageKey === "home" && content.homepage) {
+      filtered = { homepage: content.homepage };
+    } else if (
+      pageKey === "build" &&
+      content.sections &&
+      content.sections.parts
+    ) {
+      filtered = { sections: { parts: content.sections.parts } };
+    } else if (pageKey === "assembly" && content.sections) {
+      filtered = {
+        sections: {
+          assembly: content.sections.assembly,
+          faq: content.sections.faq
+        }
+      };
+    }
+
+    return JSON.stringify(filtered).replace(/<\//g, "<\\/");
+  } catch (err) {
+    console.warn("Page CMS error: " + (err && err.message ? err.message : err));
+    return "{}";
+  }
 }
 
 function tierSectionIcon(name) {
@@ -819,22 +904,6 @@ function getGalleryImageDataUrl(url) {
   return driveImageToDataUrl(url, GALLERY_INLINE_IMAGE_WIDTH);
 }
 
-function getTierIllustrationAssets() {
-  const content = HtmlService.createHtmlOutputFromFile("Assets").getContent();
-  const assets = {};
-  const pattern = /(maker|builder|setup|gift)\s*:\s*"([^"]+)"/g;
-  let match;
-
-  while ((match = pattern.exec(content)) !== null) {
-    assets[match[1]] = match[2];
-  }
-
-  return assets;
-}
-
-function getTierIllustrationAsset(key) {
-  return getTierIllustrationAssets()[key] || "";
-}
 function driveImageToDataUrl(url, maxWidth) {
   const id = extractDriveId(url);
   const file = DriveApp.getFileById(id);

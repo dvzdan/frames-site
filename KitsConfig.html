@@ -1,0 +1,99 @@
+SITE_CONTENT.sections.order = {
+  heading: "Choose your starting point",
+  subhead: "Buy only the hardware, get every part ready to assemble, or order a finished frame.",
+  pricePrefix: "Total",
+  imagePreparationHeading: "How would you like to handle the images?",
+  imageOptions: [
+    {
+      id: "self-print",
+      title: "I'll print my own",
+      description: "Templates and blank specialty image material are included. You print and trim the images yourself.",
+      priceAdjustment: 0,
+      defaultSelected: true
+    },
+    {
+      id: "print-cut",
+      title: "Print and cut them for me",
+      description: "Send us your Display Image and Reveal Image. We'll format, print, and precisely cut both.",
+      priceAdjustment: 10
+    }
+  ],
+  tiers: [
+    {
+      id: "maker",
+      name: "Hardware Bundle",
+      priceValue: 45,
+      priceLabel: "$45",
+      shortDescription: "Hardware only. You print and assemble.",
+      description: "All the non-3D-printed hardware and specialty materials in one bundle. Use our free print files to make the frame and printed components, then assemble it yourself.",
+      imagePreparationApplies: true,
+      defaultActive: true,
+      included: [
+        "Complete hardware and materials bundle",
+        "Specialty image materials",
+        "Battery not included"
+      ],
+      youDo: [
+        "Download the free print files",
+        "3D-print the frame and printable components",
+        "Assemble the mechanism",
+        "Prepare and load the images",
+        "Complete the final setup",
+        { text: "Have the required assembly tools ready", href: "#assembly-tools" }
+      ],
+      accentColor: "#6f7f53",
+      illustration: {
+        assetKey: "maker",
+        alt: "Framed symbolic parts layout for the Hardware Bundle"
+      }
+    },
+    {
+      id: "builder",
+      name: "Assembly Kit",
+      priceValue: 70,
+      priceLabel: "$70",
+      shortDescription: "All parts included. You assemble.",
+      description: "Everything in the Hardware Bundle, plus all the 3D-printed parts, cleaned and ready to assemble.",
+      imagePreparationApplies: true,
+      included: [
+        "Complete Hardware Bundle",
+        "All 3D-printed parts",
+        "Printed parts cleaned and prepared for assembly",
+        "Weighted component prepared",
+        "Battery not included"
+      ],
+      youDo: [
+        "Assemble the mechanism",
+        "Prepare and load the images",
+        "Complete the final setup"
+      ],
+      accentColor: "#6b7f92",
+      illustration: {
+        assetKey: "builder",
+        alt: "Framed symbolic assembly layout for the Assembly Kit"
+      }
+    },
+    {
+      id: "gift",
+      name: "Finished Gift",
+      priceValue: 160,
+      priceLabel: "$160",
+      shortDescription: "Fully completed. Ready to give.",
+      description: "Everything in the Assembly Kit, fully assembled, loaded, tested, and ready to give.",
+      imagePreparationApplies: false,
+      included: [
+        "Fully assembled",
+        "Display and Reveal Images printed, cut, and loaded",
+        "Mechanism tested",
+        "Battery included",
+        "Ready to display or gift"
+      ],
+      youDo: ["Give it"],
+      accentColor: "#7f5d68",
+      illustration: {
+        assetKey: "gift",
+        alt: "Framed symbolic finished gift layout"
+      }
+    }
+  ]
+};

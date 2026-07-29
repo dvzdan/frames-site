@@ -1,0 +1,71 @@
+const TERM_HELP = {
+  "3mf": "A print-project file that can preserve plate layout, orientation, and slicer settings.",
+  "stl": "A common 3D-model file for printing individual parts; it does not store slicer settings.",
+  "openscad": "The editable source format used to modify or regenerate the printable design.",
+  "pet": "Polyester film: a thin, durable plastic sheet used where the mechanism needs a smooth flexible surface.",
+  "uhmw": "Ultra-high-molecular-weight polyethylene tape: a very slick, low-friction tape used along the image path.",
+  "capstan": "The small printed spool on the clock shaft that winds the string."
+};
+
+function getTermHelpKey(value) {
+  const normalized = textOrEmpty(value).trim().toLowerCase();
+  if (normalized === "3mf") return "3mf";
+  if (normalized === "stl") return "stl";
+  if (normalized === "openscad") return "openscad";
+  if (normalized === "pet" || /\bpet\b/.test(normalized)) return "pet";
+  if (normalized === "uhmw" || /\buhmw\b/.test(normalized)) return "uhmw";
+  if (normalized === "capstan" || /\bcapstan\b/.test(normalized)) return "capstan";
+  return "";
+}
+
+function createTermTooltip(value) {
+  const label = textOrEmpty(value);
+  const key = getTermHelpKey(label);
+  if (!key) return el("span", "", label);
+
+  const wrapper = el("span", "term-help");
+  const trigger = el("button", "term-help-trigger", label);
+  const panelId = "term-help-" + key + "-" + Math.random().toString(36).slice(2, 8);
+  trigger.type = "button";
+  trigger.setAttribute("aria-expanded", "false");
+  trigger.setAttribute("aria-controls", panelId);
+  trigger.setAttribute("data-term-help-trigger", "true");
+
+  const panel = el("span", "term-help-popover", TERM_HELP[key]);
+  panel.id = panelId;
+  panel.hidden = true;
+  panel.setAttribute("role", "tooltip");
+
+  wrapper.appendChild(trigger);
+  wrapper.appendChild(panel);
+  return wrapper;
+}
+
+function bindTermHelp() {
+  document.addEventListener("click", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-term-help-trigger]")
+      : null;
+    closeTermHelpPopovers(trigger);
+    if (!trigger) return;
+
+    event.preventDefault();
+    const panel = document.getElementById(trigger.getAttribute("aria-controls"));
+    if (!panel) return;
+    const expanded = trigger.getAttribute("aria-expanded") === "true";
+    trigger.setAttribute("aria-expanded", expanded ? "false" : "true");
+    panel.hidden = expanded;
+  });
+  document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") closeTermHelpPopovers();
+  });
+}
+
+function closeTermHelpPopovers(exceptTrigger) {
+  document.querySelectorAll("[data-term-help-trigger][aria-expanded='true']").forEach(function(trigger) {
+    if (trigger === exceptTrigger) return;
+    trigger.setAttribute("aria-expanded", "false");
+    const panel = document.getElementById(trigger.getAttribute("aria-controls"));
+    if (panel) panel.hidden = true;
+  });
+}

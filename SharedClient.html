@@ -1,0 +1,85 @@
+function textOrEmpty(value) {
+  return value == null ? "" : String(value);
+}
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = textOrEmpty(text);
+  return node;
+}
+
+function appendParagraph(parent, text, className) {
+  if (text) parent.appendChild(el("p", className || "", text));
+}
+
+function splitParagraphs(value) {
+  return textOrEmpty(value)
+    .split(/\n{2,}/)
+    .map(function(paragraph) { return paragraph.trim(); })
+    .filter(Boolean);
+}
+
+function sitePageHref(pageKey, hash) {
+  const serviceUrl = textOrEmpty(window.SERVICE_URL).trim();
+  const base = serviceUrl || (window.location.origin + window.location.pathname);
+  return base + "?page=" + encodeURIComponent(pageKey || "home") + (hash ? "#" + hash : "");
+}
+
+function escapeHtml(value) {
+  return textOrEmpty(value).replace(/[&<>'"]/g, function(character) {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "'": "&#39;",
+      '"': "&quot;"
+    };
+    return entities[character] || character;
+  });
+}
+
+function bindDisclosureAnchors() {
+  document.addEventListener("click", function(event) {
+    const link = event.target && event.target.closest
+      ? event.target.closest('a[href^="#"]')
+      : null;
+    if (!link) return;
+    const hash = link.getAttribute("href");
+    if (hash && hash !== "#") {
+      setTimeout(function() { openDisclosureForHash(hash); }, 0);
+    }
+  });
+  window.addEventListener("hashchange", function() {
+    openDisclosureForHash(window.location.hash);
+  });
+  setTimeout(function() { openDisclosureForHash(window.location.hash); }, 0);
+}
+
+function openDisclosureForHash(hash) {
+  if (!hash || hash === "#") return;
+  let target;
+  try {
+    target = document.querySelector(hash);
+  } catch (err) {
+    return;
+  }
+  if (!target) return;
+
+  if (target.matches("details")) target.open = true;
+  let ancestor = target.parentElement;
+  while (ancestor) {
+    if (ancestor.matches && ancestor.matches("details")) ancestor.open = true;
+    ancestor = ancestor.parentElement;
+  }
+}
+
+function startSharedClient() {
+  bindDisclosureAnchors();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startSharedClient);
+} else {
+  startSharedClient();
+}

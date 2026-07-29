@@ -1,0 +1,142 @@
+function bindSupportGuideModal() {
+  document.addEventListener("click", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-support-guide-trigger]")
+      : null;
+    if (!trigger) return;
+    event.preventDefault();
+    openSupportGuideModal(trigger);
+  });
+}
+
+function openSupportGuideModal(trigger) {
+  const plans = SITE_CONTENT.sections && SITE_CONTENT.sections.plans;
+  const guide = plans && plans.supportGuide;
+  if (!guide || !guide.imageUrl) return;
+
+  const modal = ensureSupportGuideModal(guide);
+  const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  modal.dataset.returnScrollY = String(scrollY);
+  modal.__returnFocus = trigger;
+
+  document.body.style.position = "fixed";
+  document.body.style.top = "-" + scrollY + "px";
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
+  document.body.classList.add("modal-open");
+  modal.hidden = false;
+  modal.setAttribute("aria-hidden", "false");
+
+  const firstFocus = getSupportGuideFocusable(modal)[0] || modal.querySelector(".support-guide-dialog");
+  if (firstFocus) firstFocus.focus();
+}
+
+function closeSupportGuideModal() {
+  const modal = document.getElementById("supportGuideModal");
+  if (!modal || modal.hidden) return;
+
+  const scrollY = Number(modal.dataset.returnScrollY) || 0;
+  const returnFocus = modal.__returnFocus;
+  modal.hidden = true;
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+  window.scrollTo(0, scrollY);
+  if (returnFocus && typeof returnFocus.focus === "function") returnFocus.focus();
+  modal.__returnFocus = null;
+}
+
+function ensureSupportGuideModal(guide) {
+  let modal = document.getElementById("supportGuideModal");
+  if (modal) return modal;
+
+  modal = el("div", "support-guide-modal");
+  modal.id = "supportGuideModal";
+  modal.hidden = true;
+  modal.setAttribute("aria-hidden", "true");
+
+  const backdrop = el("div", "support-guide-backdrop");
+  backdrop.setAttribute("data-support-guide-close", "backdrop");
+  modal.appendChild(backdrop);
+
+  const dialog = el("div", "support-guide-dialog");
+  dialog.setAttribute("role", "dialog");
+  dialog.setAttribute("aria-modal", "true");
+  dialog.setAttribute("aria-labelledby", "supportGuideTitle");
+  dialog.tabIndex = -1;
+
+  const header = el("div", "support-guide-header");
+  header.appendChild(el("div", "support-guide-eyebrow", guide.modalEyebrow || "SELF-PRINTED PARTS ONLY"));
+  const title = el("h2", "", guide.modalHeading || "Support-removal guide");
+  title.id = "supportGuideTitle";
+  header.appendChild(title);
+  appendParagraph(header, guide.modalText, "support-guide-text");
+  dialog.appendChild(header);
+
+  const image = document.createElement("img");
+  image.className = "support-guide-image";
+  image.src = guide.imageUrl;
+  image.alt = guide.imageAlt || "";
+  dialog.appendChild(image);
+
+  const actions = el("div", "support-guide-actions");
+  const full = el("a", "support-guide-fullsize", guide.fullSizeLabel || "Open full-size image");
+  full.href = guide.imageUrl;
+  full.target = "_blank";
+  full.rel = "noopener";
+  actions.appendChild(full);
+  const close = el("button", "button secondary support-guide-close", guide.closeLabel || "Close");
+  close.type = "button";
+  close.setAttribute("data-support-guide-close", "button");
+  actions.appendChild(close);
+  dialog.appendChild(actions);
+  modal.appendChild(dialog);
+  document.body.appendChild(modal);
+
+  modal.addEventListener("click", function(event) {
+    if (event.target && event.target.getAttribute("data-support-guide-close")) {
+      closeSupportGuideModal();
+    }
+  });
+  modal.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeSupportGuideModal();
+    } else if (event.key === "Tab") {
+      trapSupportGuideFocus(event, modal);
+    }
+  });
+  return modal;
+}
+
+function trapSupportGuideFocus(event, modal) {
+  const focusable = getSupportGuideFocusable(modal);
+  if (!focusable.length) {
+    event.preventDefault();
+    modal.querySelector(".support-guide-dialog").focus();
+    return;
+  }
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
+function getSupportGuideFocusable(modal) {
+  return Array.prototype.slice.call(modal.querySelectorAll(
+    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )).filter(function(node) {
+    return node.offsetParent !== null || node === document.activeElement;
+  });
+}

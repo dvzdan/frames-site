@@ -1,0 +1,32 @@
+function runBlinkTransition(artwork, swap) {
+  if (!artwork || typeof swap !== "function") return;
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    swap();
+    return;
+  }
+  if (artwork.dataset.blinking === "true") return;
+
+  artwork.dataset.blinking = "true";
+  ensureBlinkMasks(artwork);
+  artwork.offsetHeight;
+  artwork.classList.add("is-blink-closed");
+
+  setTimeout(swap, 230);
+  setTimeout(function() {
+    artwork.classList.remove("is-blink-closed");
+  }, 280);
+  setTimeout(function() {
+    artwork.dataset.blinking = "false";
+  }, 470);
+}
+
+function ensureBlinkMasks(artwork) {
+  if (artwork.querySelector(".blink-mask-top")) return;
+  artwork.appendChild(el("span", "blink-mask blink-mask-top"));
+  artwork.appendChild(el("span", "blink-mask blink-mask-bottom"));
+}
+
+window.runBlinkTransition = runBlinkTransition;

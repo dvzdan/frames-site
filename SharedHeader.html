@@ -1,0 +1,11 @@
+<header class="site-nav" aria-label="Primary navigation">
+  <a class="site-nav-brand" href="<?= sitePageUrl('home') ?>">Double Take Frames</a>
+  <nav class="site-nav-links">
+    <a href="<?= sitePageUrl('home') ?>"<? if (pageKey === 'home') { ?> aria-current="page"<? } ?>>Home</a>
+    <a href="<?= sitePageUrl('build') ?>"<? if (pageKey === 'build') { ?> aria-current="page"<? } ?>>Build</a>
+    <a href="<?= sitePageUrl('kits') ?>"<? if (pageKey === 'kits') { ?> aria-current="page"<? } ?>>Kits</a>
+    <a href="<?= sitePageUrl('assembly') ?>"<? if (pageKey === 'assembly') { ?> aria-current="page"<? } ?>>Assembly</a>
+    <a href="<?= sitePageUrl('home', 'gallery-section') ?>">Gallery</a>
+    <a href="<?= sitePageUrl('home', 'checkout-placeholder') ?>">Contact</a>
+  </nav>
+</header>

@@ -2413,6 +2413,132 @@ p {
   }
 }
 
+/* Multipage structure */
+.site-nav-links a[aria-current="page"] {
+  color: var(--text-strong);
+  background: var(--paper);
+  box-shadow: inset 0 -2px 0 var(--accent-olive);
+}
+
+.page-intro {
+  padding-top: clamp(36px, 6vw, 72px);
+  padding-bottom: clamp(28px, 5vw, 56px);
+}
+
+.page-intro h1,
+.tier-comparison-section > h1,
+.assembly-guide-section-shell > h1 {
+  font-size: clamp(40px, 5vw, 58px);
+  line-height: 1;
+  margin: 6px 0 14px;
+  max-width: 18ch;
+}
+
+.page-build > .plans-section,
+.page-kits > .tier-comparison-section,
+.page-assembly > .assembly-guide-section-shell {
+  padding-top: clamp(32px, 5vw, 64px);
+}
+
+.home-paths-section {
+  display: grid;
+  gap: 24px;
+}
+
+.home-paths-heading h2 {
+  margin: 6px 0 0;
+}
+
+.home-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.home-path {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+  padding: 20px;
+  color: var(--text-strong);
+  text-decoration: none;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: var(--shadow-soft);
+}
+
+.home-path:hover,
+.home-path:focus-visible {
+  border-color: var(--accent-olive);
+  transform: translateY(-2px);
+}
+
+.home-path strong {
+  font-size: 1.08rem;
+}
+
+.home-path span {
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.build-tools-section > .assembly-tools-callout {
+  margin-top: 18px;
+}
+
+.page-kits .tier-comparison-section {
+  min-height: 70vh;
+}
+
+.page-assembly .faq-section {
+  padding-top: clamp(36px, 6vw, 72px);
+}
+
+@media (max-width: 760px) {
+  .home-paths-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-path {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 560px) {
+  .page-home .hero-copy p:not(.lede) {
+    order: 4;
+  }
+
+  .page-home .hero .actions {
+    margin: 6px 0 10px;
+    order: 5;
+  }
+
+  .page-home .hero-gallery {
+    margin: 8px 0 0;
+    order: 6;
+  }
+
+  .page-home .hero-feature-button {
+    max-width: 130px;
+  }
+
+  .page-home .hero-gallery-previews {
+    display: none;
+  }
+
+  .page-home > .hero {
+    min-height: auto;
+    padding-bottom: 8px;
+  }
+
+  .page-home > #how-it-works {
+    padding-top: 24px;
+  }
+}
+
 /* Upload form */
 input,
 textarea,
@@ -3532,6 +3658,25 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   }
 }
 
+/* Multipage overrides must follow the legacy responsive section rules. */
+.page > .page-intro {
+  min-height: auto;
+  padding-bottom: clamp(28px, 5vw, 56px);
+  padding-top: clamp(36px, 6vw, 72px);
+}
+
+.page-build > .plans-section,
+.page-kits > .tier-comparison-section,
+.page-assembly > .assembly-guide-section-shell {
+  padding-top: clamp(32px, 5vw, 64px);
+}
+
+@media (max-width: 760px) {
+  .home-paths-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 560px) {
   .page > .section {
     padding-bottom: 50px;
@@ -3573,5 +3718,18 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
 
   .assembly-viewer-top {
     top: 87px;
+  }
+
+  .page.page-home > section.hero {
+    min-height: auto;
+    padding-bottom: 8px;
+  }
+
+  .page.page-home > section#how-it-works {
+    padding-top: 24px;
+  }
+
+  .page.page-home .hero-feature-button {
+    max-width: 130px;
   }
 }
