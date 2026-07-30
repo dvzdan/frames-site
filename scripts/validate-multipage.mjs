@@ -76,6 +76,12 @@ if (!code.includes('requestedPage === "make5x7"')) {
 if (!index.includes("renderSharedHeader_(pageKey)") || !index.includes("SharedFooter")) {
   errors.push("shell: shared header or footer include is missing");
 }
+if (!code.includes("HtmlService.createTemplateFromFile(filename).getRawContent()")) {
+  errors.push("includes: raw partials must use HtmlTemplate.getRawContent()");
+}
+if (code.includes("HtmlService.createHtmlOutputFromFile(filename).getContent()")) {
+  errors.push("includes: raw partials still pass through encoding HtmlOutput");
+}
 
 if (errors.length) {
   console.error("\nMultipage validation failed:");

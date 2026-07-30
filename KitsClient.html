@@ -13,7 +13,8 @@ function collectKitAssets() {
 }
 
 function getInitialKitIndex(tiers) {
-  const requested = new URLSearchParams(window.location.search).get("tier");
+  const requested = textOrEmpty(window.INITIAL_TIER).trim() ||
+    new URLSearchParams(window.location.search).get("tier");
   const requestedIndex = tiers.findIndex(function(tier) { return tier.id === requested; });
   if (requestedIndex >= 0) return requestedIndex;
   const defaultIndex = tiers.findIndex(function(tier) { return tier.defaultActive === true; });

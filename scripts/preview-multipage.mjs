@@ -36,6 +36,16 @@ const galleryItem = {
   cover: "https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/tier-gift-activity-refined.jpg",
   reveal: "https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/how-it-works-reveal-trojan-party.png"
 };
+const galleryItems = [
+  galleryItem,
+  {
+    title: "Second cover",
+    revealTitle: "Second reveal",
+    description: "Preview cycle pair",
+    cover: galleryItem.reveal,
+    reveal: galleryItem.cover
+  }
+];
 
 function routeHref(page, hash = "") {
   return `/?page=${page}${hash ? `#${hash}` : ""}`;
@@ -70,8 +80,9 @@ function renderPartial(page) {
     .replace(/<\?!=?\s*[^?]*\?>/g, "");
 }
 
-function renderPage(page) {
+function renderPage(page, requestUrl) {
   const route = routeFiles[page];
+  const requestedTier = page === "kits" ? requestUrl.searchParams.get("tier") || "" : "";
   const scripts = [
     read("Config.html"),
     read(route.config),
@@ -79,14 +90,14 @@ function renderPage(page) {
     ...route.clients.map(read)
   ].join("\n");
 
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>${read("Styles.html")}</style></head><body data-page="${page}">${renderHeader(page)}<main class="page page-${page}" id="app">${renderPartial(page)}</main>${read("SharedFooter.html")}<script>window.PAGE_KEY=${JSON.stringify(page)};window.SERVICE_URL="";window.SITE_CMS_CONTENT={};window.INITIAL_GALLERY_ITEMS=${JSON.stringify(page === "home" ? [galleryItem] : [])};</script><script>${scripts}</script></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>${read("Styles.html")}</style></head><body data-page="${page}">${renderHeader(page)}<main class="page page-${page}" id="app">${renderPartial(page)}</main>${read("SharedFooter.html")}<script>window.PAGE_KEY=${JSON.stringify(page)};window.SERVICE_URL="";window.SITE_CMS_CONTENT={};window.INITIAL_GALLERY_ITEMS=${JSON.stringify(page === "home" ? galleryItems : [])};window.INITIAL_TIER=${JSON.stringify(requestedTier)};</script><script>${scripts}</script></body></html>`;
 }
 
 http.createServer((request, response) => {
   const url = new URL(request.url, `http://${request.headers.host}`);
   const page = routeFiles[url.searchParams.get("page")] ? url.searchParams.get("page") : "home";
   response.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-  response.end(renderPage(page));
+  response.end(renderPage(page, url));
 }).listen(port, "127.0.0.1", () => {
   console.log(`Multipage preview: http://127.0.0.1:${port}/?page=home`);
 });

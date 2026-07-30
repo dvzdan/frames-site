@@ -34,6 +34,12 @@ function doGet(e) {
   template.pageTemplate = route.template;
   template.serviceUrl = ScriptApp.getService().getUrl() || "";
   template.initialGalleryJson = pageKey === "home" ? getInitialGalleryJson() : "[]";
+  const requestedTier = textOrEmpty(e && e.parameter && e.parameter.tier)
+    .trim()
+    .toLowerCase();
+  template.initialTier = pageKey === "kits" && /^(maker|builder|gift)$/.test(requestedTier)
+    ? requestedTier
+    : "";
   template.siteCmsContentJson = getSiteCmsContentJsonForPage_(pageKey);
 
   return template
@@ -42,7 +48,7 @@ function doGet(e) {
 }
 
 function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+  return HtmlService.createTemplateFromFile(filename).getRawContent();
 }
 
 function renderTemplate_(filename, values) {
