@@ -24,7 +24,17 @@ const routes = {
     template: "Kits.html",
     config: "KitsConfig.html",
     clients: ["SharedClient.html", "BlinkClient.html", "KitsClient.html"],
-    required: ['id="kits"', 'id="pricingTiers"', "Hardware Bundle", "Assembly Kit", "Finished Gift"],
+    required: [
+      'id="kits"',
+      'id="pricingTiers"',
+      "Hardware Bundle",
+      "Assembly Kit",
+      "Finished Gift",
+      "$25",
+      "$45",
+      "$80",
+      "Launch pricing for the first production run; prices may change as materials and capacity settle."
+    ],
     forbidden: ["ASSEMBLY_MANIFEST", "INITIAL_GALLERY_ITEMS", "AssemblyConfig"]
   },
   assembly: {

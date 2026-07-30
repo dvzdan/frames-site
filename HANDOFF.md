@@ -160,8 +160,8 @@ These are the core public resources, but avoid repeating "free" too aggressively
 
 Replaced by Build from scratch + Parts Kit on 2026-07-19. Restore from git history
 (`git log -- Config.html`, commit before that date) if needed. Key facts: Maker Kit
-($45) = hardware kit + supplies + 2 custom prints + digital files, you print and
-assemble; Builder Kit ($70) = printed frame/stand + hardware + prints, you assemble.
+($25) = hardware kit + supplies + 2 custom prints + digital files, you print and
+assemble; Builder Kit ($45) = printed frame/stand + hardware + prints, you assemble.
 
 ## Archived Setup Kit Tier
 

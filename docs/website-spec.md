@@ -186,10 +186,10 @@ Purpose:
 
 Purchase tiers:
 
-- Maker Kit, $45: Customer prints cassette and stand. Includes precision mechanical/image components.
-- Builder Kit, $70: Printed cassette included. Full self-assembly.
+- Maker Kit, $25: Customer prints cassette and stand. Includes precision mechanical/image components.
+- Builder Kit, $45: Printed cassette included. Full self-assembly.
 - Setup Kit, $90: Major assembly completed. Customer handles final loading/setup.
-- Finished Gift, $160: Fully assembled, tested, images loaded, battery included, ready to display or gift.
+- Finished Gift, $80: Fully assembled, tested, images loaded, battery included, ready to display or gift.
 
 Editable content:
 

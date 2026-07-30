@@ -67,21 +67,21 @@ Maker Kit:
 - For people who want to 3D print their own frame and stand.
 - Includes hardware kit, assembly supplies, two custom prints on specialty media, and digital files for the frame and stand.
 - Customer 3D prints, assembles the mechanism, and loads the image pair.
-- Listed price: $45.
+- Listed price: $25.
 
 Builder Kit:
 
 - For people who want the printed frame and stand included but still want to assemble the mechanism.
 - Includes 3D printed frame and stand, hardware kit, two custom prints on specialty media, and assembly supplies.
 - Customer assembles the mechanism and loads the image pair.
-- Listed price: $70.
+- Listed price: $45.
 
 Finished Gift:
 
 - For people who want the frame completed, loaded, and ready to give.
 - Includes completed frame, images loaded and tested, two custom prints on specialty media, and display/gift readiness.
 - May be available case by case depending on timing, image needs, and assembly workload.
-- Listed price: $160.
+- Listed price: $80.
 
 Setup Kit:
 

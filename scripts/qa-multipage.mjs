@@ -350,16 +350,27 @@ await build.close();
 
 const kits = await assertPage(
   "kits",
-  ["h1", "#pricingTiers", ".kit-selector-row", ".tier-active-card", ".image-prep-options"],
-  ["#assemblyGuide", "#gallery-section"]
+  ["h1", ".launch-pricing-note", "#pricingTiers", ".kit-selector-row", ".tier-active-card", ".image-prep-options"],
+  ["#assemblyGuide", "#gallery-section", "#pricingTiers del", "#pricingTiers s"]
 );
-const kitsBasePrice = await kits.locator("[data-tier-total-price]").innerText();
+const kitsLaunchNote = await kits.locator(".launch-pricing-note").innerText();
+const kitsMakerBasePrice = await kits.locator("[data-tier-total-price]").innerText();
 await kits.locator('input[value="print-cut"]').check();
-const kitsPreparedPrice = await kits.locator("[data-tier-total-price]").innerText();
+const kitsMakerPreparedPrice = await kits.locator("[data-tier-total-price]").innerText();
 await kits.locator('.kit-selector-row[data-tier-index="1"]').click();
 await kits.waitForTimeout(600);
-const kitsAssemblyPrice = await kits.locator("[data-tier-total-price]").innerText();
-results.push({ interaction: "kits", kitsBasePrice, kitsPreparedPrice, kitsAssemblyPrice });
+const kitsBuilderPreparedPrice = await kits.locator("[data-tier-total-price]").innerText();
+await kits.locator('.kit-selector-row[data-tier-index="2"]').click();
+await kits.waitForTimeout(600);
+const kitsGiftPrice = await kits.locator("[data-tier-total-price]").innerText();
+results.push({
+  interaction: "kits",
+  kitsLaunchNote,
+  kitsMakerBasePrice,
+  kitsMakerPreparedPrice,
+  kitsBuilderPreparedPrice,
+  kitsGiftPrice
+});
 await kits.close();
 
 const { page: kitsDeepLink, errors: kitsDeepLinkErrors } = await openPage(
@@ -374,7 +385,7 @@ const kitsDeepLinkState = await kitsDeepLink.evaluate(() => ({
 }));
 const kitsDeepLinkWorks = (
   await deepLinkTab.getAttribute("aria-selected") === "true" &&
-  await kitsDeepLink.locator("[data-tier-total-price]").innerText() === "$70"
+  await kitsDeepLink.locator("[data-tier-total-price]").innerText() === "$45"
 );
 results.push({
   interaction: "kits-deep-link",
@@ -426,14 +437,41 @@ results.push({
 });
 await assembly.close();
 
+let kitsMobilePricing = null;
 for (const name of ["home", "build", "kits", "assembly"]) {
   const { page, errors, status } = await openPage(name, { width: 390, height: 844 });
   const horizontalOverflow = await page.evaluate(() => (
     document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
   ));
+  if (name === "kits") {
+    const noteVisible = await page.locator(".launch-pricing-note").isVisible();
+    const makerBase = await page.locator("[data-tier-total-price]").innerText();
+    await page.locator('input[value="print-cut"]').check();
+    const makerPrepared = await page.locator("[data-tier-total-price]").innerText();
+    await page.locator('.kit-selector-row[data-tier-index="1"]').click();
+    await page.waitForTimeout(600);
+    const builderPrepared = await page.locator("[data-tier-total-price]").innerText();
+    await page.locator('.kit-selector-row[data-tier-index="2"]').click();
+    await page.waitForTimeout(600);
+    const gift = await page.locator("[data-tier-total-price]").innerText();
+    kitsMobilePricing = {
+      noteVisible,
+      makerBase,
+      makerPrepared,
+      builderPrepared,
+      gift
+    };
+  }
   const screenshot = path.join(screenshotDir, `${name}-mobile.png`);
   await page.screenshot({ path: screenshot, fullPage: false });
-  results.push({ name: `${name}-mobile`, status, errors, horizontalOverflow, screenshot });
+  results.push({
+    name: `${name}-mobile`,
+    status,
+    errors,
+    horizontalOverflow,
+    pricing: name === "kits" ? kitsMobilePricing : undefined,
+    screenshot
+  });
   await page.close();
 }
 
@@ -470,10 +508,18 @@ if (
   !homeInquiryConditionals ||
   !buildTooltipVisible ||
   !buildModalVisible ||
-  kitsBasePrice !== "$45" ||
-  kitsPreparedPrice !== "$55" ||
-  kitsAssemblyPrice !== "$80" ||
+  kitsLaunchNote !== "Launch pricing for the first production run; prices may change as materials and capacity settle." ||
+  kitsMakerBasePrice !== "$25" ||
+  kitsMakerPreparedPrice !== "$35" ||
+  kitsBuilderPreparedPrice !== "$55" ||
+  kitsGiftPrice !== "$80" ||
   !kitsDeepLinkWorks ||
+  !kitsMobilePricing ||
+  !kitsMobilePricing.noteVisible ||
+  kitsMobilePricing.makerBase !== "$25" ||
+  kitsMobilePricing.makerPrepared !== "$35" ||
+  kitsMobilePricing.builderPrepared !== "$55" ||
+  kitsMobilePricing.gift !== "$80" ||
   assemblyProgressBefore === assemblyProgressAfter ||
   !assemblyToolsDisclosureWorks ||
   !assemblyMechanismDisclosureWorks ||

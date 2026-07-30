@@ -92,7 +92,7 @@ It makes a little noise. The clock mechanism ticks softly, but most recipients a
 
 ### Maker Kit
 
-Listed price: $45
+Listed price: $25
 
 Short description: 3D print your own frame. Precision parts and images included.
 
@@ -113,7 +113,7 @@ Note: Some basic hand tools required.
 
 ### Builder Kit
 
-Listed price: $70
+Listed price: $45
 
 Short description: Full self-assembly. Frame, hardware, and images included.
 
@@ -133,7 +133,7 @@ Note: Some basic hand tools required.
 
 ### Finished Gift
 
-Listed price: $160
+Listed price: $80
 
 Short description: Fully assembled, loaded, and ready to give.
 
