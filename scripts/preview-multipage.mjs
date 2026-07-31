@@ -48,7 +48,7 @@ const galleryItems = [
 ];
 
 function routeHref(page, hash = "") {
-  return `/?page=${page}${hash ? `#${hash}` : ""}`;
+  return `/?page=${page}${hash ? `&section=${encodeURIComponent(hash)}#${encodeURIComponent(hash)}` : ""}`;
 }
 
 function renderHeader(activePage) {
@@ -60,7 +60,10 @@ function renderHeader(activePage) {
   ].map(([page, label]) => (
     `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`
   )).join("");
-  return `<header class="site-nav" aria-label="Primary navigation"><a class="site-nav-brand" href="${routeHref("home")}">Double Take Frames</a><nav class="site-nav-links">${links}<a href="${routeHref("home", "gallery-section")}">Gallery</a><a href="${routeHref("home", "checkout-placeholder")}">Contact</a></nav></header>`;
+  const homeSectionLinks = activePage === "home"
+    ? '<a href="#gallery-section" target="_self">Gallery</a><a href="#checkout-placeholder" target="_self">Contact</a>'
+    : `<a href="${routeHref("home", "gallery-section")}">Gallery</a><a href="${routeHref("home", "checkout-placeholder")}">Contact</a>`;
+  return `<header class="site-nav" aria-label="Primary navigation"><a class="site-nav-brand" href="${routeHref("home")}">Double Take Frames</a><nav class="site-nav-links">${links}${homeSectionLinks}</nav></header>`;
 }
 
 function serverGalleryMarkup() {
@@ -83,6 +86,9 @@ function renderPartial(page) {
 function renderPage(page, requestUrl) {
   const route = routeFiles[page];
   const requestedTier = page === "kits" ? requestUrl.searchParams.get("tier") || "" : "";
+  const requestedSection = /^[A-Za-z][A-Za-z0-9_-]*$/.test(requestUrl.searchParams.get("section") || "")
+    ? requestUrl.searchParams.get("section")
+    : "";
   const scripts = [
     read("Config.html"),
     read(route.config),
@@ -90,7 +96,7 @@ function renderPage(page, requestUrl) {
     ...route.clients.map(read)
   ].join("\n");
 
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>${read("Styles.html")}</style></head><body data-page="${page}">${renderHeader(page)}<main class="page page-${page}" id="app">${renderPartial(page)}</main>${read("SharedFooter.html")}<script>window.PAGE_KEY=${JSON.stringify(page)};window.SERVICE_URL="";window.SITE_CMS_CONTENT={};window.INITIAL_GALLERY_ITEMS=${JSON.stringify(page === "home" ? galleryItems : [])};window.INITIAL_TIER=${JSON.stringify(requestedTier)};</script><script>${scripts}</script></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>${read("Styles.html")}</style></head><body data-page="${page}">${renderHeader(page)}<main class="page page-${page}" id="app">${renderPartial(page)}</main>${read("SharedFooter.html")}<script>window.PAGE_KEY=${JSON.stringify(page)};window.SERVICE_URL="";window.SITE_CMS_CONTENT={};window.INITIAL_SECTION=${JSON.stringify(requestedSection)};window.INITIAL_GALLERY_ITEMS=${JSON.stringify(page === "home" ? galleryItems : [])};window.INITIAL_TIER=${JSON.stringify(requestedTier)};</script><script>${scripts}</script></body></html>`;
 }
 
 http.createServer((request, response) => {

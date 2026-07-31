@@ -23,7 +23,11 @@ function splitParagraphs(value) {
 function sitePageHref(pageKey, hash) {
   const serviceUrl = textOrEmpty(window.SERVICE_URL).trim();
   const base = serviceUrl || (window.location.origin + window.location.pathname);
-  return base + "?page=" + encodeURIComponent(pageKey || "home") + (hash ? "#" + hash : "");
+  const sectionId = textOrEmpty(hash).replace(/^#/, "").trim();
+  const sectionRoute = sectionId
+    ? "&section=" + encodeURIComponent(sectionId) + "#" + encodeURIComponent(sectionId)
+    : "";
+  return base + "?page=" + encodeURIComponent(pageKey || "home") + sectionRoute;
 }
 
 function escapeHtml(value) {
@@ -74,8 +78,25 @@ function openDisclosureForHash(hash) {
   }
 }
 
+function scrollToInitialSection() {
+  const sectionId = textOrEmpty(window.INITIAL_SECTION).trim();
+  if (!sectionId) return;
+
+  const target = document.getElementById(sectionId);
+  if (!target) return;
+
+  const scrollToTarget = function() {
+    openDisclosureForHash("#" + sectionId);
+    target.scrollIntoView({ block: "start" });
+  };
+
+  setTimeout(scrollToTarget, 0);
+  window.addEventListener("load", scrollToTarget, { once: true });
+}
+
 function startSharedClient() {
   bindDisclosureAnchors();
+  scrollToInitialSection();
 }
 
 if (document.readyState === "loading") {

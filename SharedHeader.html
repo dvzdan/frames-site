@@ -5,7 +5,12 @@
     <a href="<?= sitePageUrl('build') ?>"<? if (pageKey === 'build') { ?> aria-current="page"<? } ?>>Build</a>
     <a href="<?= sitePageUrl('kits') ?>"<? if (pageKey === 'kits') { ?> aria-current="page"<? } ?>>Kits</a>
     <a href="<?= sitePageUrl('assembly') ?>"<? if (pageKey === 'assembly') { ?> aria-current="page"<? } ?>>Assembly</a>
+<? if (pageKey === 'home') { ?>
+    <a href="#gallery-section" target="_self">Gallery</a>
+    <a href="#checkout-placeholder" target="_self">Contact</a>
+<? } else { ?>
     <a href="<?= sitePageUrl('home', 'gallery-section') ?>">Gallery</a>
     <a href="<?= sitePageUrl('home', 'checkout-placeholder') ?>">Contact</a>
+<? } ?>
   </nav>
 </header>

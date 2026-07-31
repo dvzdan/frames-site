@@ -139,26 +139,49 @@ async function inspectClientBundle(page, name) {
 async function inspectSharedShell(page) {
   const shell = await page.evaluate(() => ({
     footerText: document.querySelector(".footer")?.textContent.trim() || "",
-    navHrefs: Array.from(document.querySelectorAll(".site-nav a[href]"), (link) => link.href)
+    pageKey: window.PAGE_KEY,
+    navLinks: Array.from(document.querySelectorAll(".site-nav a[href]"), (link) => ({
+      href: link.href,
+      label: link.textContent.trim(),
+      rawHref: link.getAttribute("href") || "",
+      target: link.getAttribute("target") || ""
+    }))
   }));
   const expectedPages = new Set(["home", "build", "kits", "assembly"]);
   const linkedPages = new Set();
   let linksStayOnDeployment = true;
 
-  shell.navHrefs.forEach((href) => {
+  shell.navLinks.forEach(({ href, rawHref }) => {
     const parsed = new URL(href);
     const pageKey = parsed.searchParams.get("page");
     if (pageKey) linkedPages.add(pageKey);
-    if (deploymentId && !href.includes(`/s/${deploymentId}/exec`)) {
+    if (deploymentId && !rawHref.startsWith("#") && !href.includes(`/s/${deploymentId}/exec`)) {
       linksStayOnDeployment = false;
     }
+  });
+
+  const sectionIds = {
+    Gallery: "gallery-section",
+    Contact: "checkout-placeholder"
+  };
+  const sectionLinksPortable = Object.entries(sectionIds).every(([label, sectionId]) => {
+    const link = shell.navLinks.find((candidate) => candidate.label === label);
+    if (!link) return false;
+    if (shell.pageKey === "home") {
+      return link.rawHref === `#${sectionId}` && link.target === "_self";
+    }
+    const parsed = new URL(link.href);
+    return parsed.searchParams.get("page") === "home" &&
+      parsed.searchParams.get("section") === sectionId &&
+      parsed.hash === `#${sectionId}`;
   });
 
   return {
     footerRendered: shell.footerText.includes("Double Take Frames") &&
       shell.footerText.includes("send a note through the form"),
     requiredRoutesLinked: Array.from(expectedPages).every((pageKey) => linkedPages.has(pageKey)),
-    linksStayOnDeployment
+    linksStayOnDeployment,
+    sectionLinksPortable
   };
 }
 
@@ -198,6 +221,30 @@ const home = await assertPage(
   ["h1", "#how-it-works", "#gallery-section", "#choose-path", "#inquiryForm"],
   ["#assemblyGuide", "#pricingTiers"]
 );
+const homeGalleryAnchor = home.locator('.site-nav-links a[href="#gallery-section"]');
+const homeContactAnchor = home.locator('.site-nav-links a[href="#checkout-placeholder"]');
+const homeSectionAnchorsPresent = (
+  await homeGalleryAnchor.count() === 1 &&
+  await homeContactAnchor.count() === 1 &&
+  await homeGalleryAnchor.getAttribute("target") === "_self" &&
+  await homeContactAnchor.getAttribute("target") === "_self"
+);
+await homeGalleryAnchor.click();
+const homeGalleryAnchorWorks = await home.waitForFunction(() => {
+  const target = document.getElementById("gallery-section");
+  return window.location.hash === "#gallery-section" &&
+    window.scrollY > 0 &&
+    target &&
+    target.getBoundingClientRect().top < 250;
+}, null, { timeout: 5000 }).then(() => true).catch(() => false);
+await homeContactAnchor.click();
+const homeContactAnchorWorks = await home.waitForFunction(() => {
+  const target = document.getElementById("checkout-placeholder");
+  return window.location.hash === "#checkout-placeholder" &&
+    window.scrollY > 0 &&
+    target &&
+    target.getBoundingClientRect().top < 250;
+}, null, { timeout: 5000 }).then(() => true).catch(() => false);
 const homeHeroReady = await home.waitForFunction(() => (
   !document.getElementById("heroGallery")?.hidden &&
   document.querySelectorAll(".hero-gallery-preview").length > 0
@@ -312,6 +359,9 @@ const homeInquiryConditionals = (
 );
 results.push({
   interaction: "home",
+  homeSectionAnchorsPresent,
+  homeGalleryAnchorWorks,
+  homeContactAnchorWorks,
   homeHeroReady,
   homeHeroDiagnostics,
   homeHeroVisible,
@@ -329,6 +379,34 @@ await home.screenshot({
   fullPage: false
 });
 await home.close();
+
+for (const sectionId of ["gallery-section", "checkout-placeholder"]) {
+  const { page, errors } = await openPage(
+    "home",
+    { width: 1440, height: 1000 },
+    `&section=${encodeURIComponent(sectionId)}#${encodeURIComponent(sectionId)}`
+  );
+  const state = await page.waitForFunction((targetId) => {
+    const target = document.getElementById(targetId);
+    return window.INITIAL_SECTION === targetId &&
+      window.scrollY > 0 &&
+      target &&
+      target.getBoundingClientRect().top < 250
+      ? {
+          initialSection: window.INITIAL_SECTION,
+          scrollY: window.scrollY,
+          targetTop: target.getBoundingClientRect().top
+        }
+      : false;
+  }, sectionId, { timeout: 5000 }).then((handle) => handle.jsonValue()).catch(() => null);
+  results.push({
+    interaction: `home-section-deep-link-${sectionId}`,
+    sectionDeepLinkWorks: Boolean(state),
+    state,
+    errors
+  });
+  await page.close();
+}
 
 const build = await assertPage(
   "build",
@@ -495,12 +573,25 @@ const pageFailures = results.filter((result) => (
   (result.shell && (
     !result.shell.footerRendered ||
     !result.shell.requiredRoutesLinked ||
-    !result.shell.linksStayOnDeployment
+    !result.shell.linksStayOnDeployment ||
+    !result.shell.sectionLinksPortable
   ))
+));
+
+const homeInteraction = results.find((result) => result.interaction === "home");
+const sectionDeepLinkFailures = results.filter((result) => (
+  result.interaction &&
+  result.interaction.startsWith("home-section-deep-link-") &&
+  (!result.sectionDeepLinkWorks || (result.errors && result.errors.length))
 ));
 
 if (
   pageFailures.length ||
+  !homeInteraction ||
+  !homeInteraction.homeSectionAnchorsPresent ||
+  !homeInteraction.homeGalleryAnchorWorks ||
+  !homeInteraction.homeContactAnchorWorks ||
+  sectionDeepLinkFailures.length ||
   !homeHeroVisible ||
   !homeHeroImagesLoaded ||
   !homeHeroCycles ||

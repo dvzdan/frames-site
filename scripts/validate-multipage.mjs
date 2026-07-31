@@ -83,6 +83,19 @@ if (!code.includes('SITE_PAGE_ROUTES[requestedPage] ? requestedPage : "home"')) 
 if (!code.includes('requestedPage === "make5x7"')) {
   errors.push("routing: Make 5x7 route is not preserved");
 }
+if (!code.includes("template.initialSection") || !code.includes('"&section="')) {
+  errors.push("routing: cross-page section handoff is missing");
+}
+if (!index.includes("window.INITIAL_SECTION")) {
+  errors.push("routing: initial section is not exposed to the client");
+}
+const sharedHeader = read("SharedHeader.html");
+if (
+  !sharedHeader.includes('href="#gallery-section" target="_self"') ||
+  !sharedHeader.includes('href="#checkout-placeholder" target="_self"')
+) {
+  errors.push("routing: Home Gallery and Contact must remain local anchors");
+}
 if (!index.includes("renderSharedHeader_(pageKey)") || !index.includes("SharedFooter")) {
   errors.push("shell: shared header or footer include is missing");
 }

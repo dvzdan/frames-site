@@ -33,6 +33,10 @@ function doGet(e) {
   template.pageKey = pageKey;
   template.pageTemplate = route.template;
   template.serviceUrl = ScriptApp.getService().getUrl() || "";
+  const requestedSection = textOrEmpty(e && e.parameter && e.parameter.section).trim();
+  template.initialSection = /^[A-Za-z][A-Za-z0-9_-]*$/.test(requestedSection)
+    ? requestedSection
+    : "";
   template.initialGalleryJson = pageKey === "home" ? getInitialGalleryJson() : "[]";
   const requestedTier = textOrEmpty(e && e.parameter && e.parameter.tier)
     .trim()
@@ -70,7 +74,11 @@ function renderSharedHeader_(pageKey) {
 function sitePageUrl(pageKey, hash) {
   const normalized = SITE_PAGE_ROUTES[pageKey] ? pageKey : "home";
   const serviceUrl = ScriptApp.getService().getUrl() || "";
-  return serviceUrl + "?page=" + normalized + (hash ? "#" + hash : "");
+  const sectionId = textOrEmpty(hash).replace(/^#/, "").trim();
+  const sectionRoute = sectionId
+    ? "&section=" + encodeURIComponent(sectionId) + "#" + encodeURIComponent(sectionId)
+    : "";
+  return serviceUrl + "?page=" + normalized + sectionRoute;
 }
 
 function getSiteCmsContentJsonForPage_(pageKey) {
