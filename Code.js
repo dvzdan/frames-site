@@ -18,6 +18,16 @@ const SITE_PAGE_ROUTES = {
 };
 
 function doGet(e) {
+  const requestedFormat = textOrEmpty(e && e.parameter && e.parameter.format)
+    .trim()
+    .toLowerCase();
+
+  if (requestedFormat === "content") {
+    return ContentService
+      .createTextOutput(getSiteCmsContentJson())
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
   const requestedPage = textOrEmpty(e && e.parameter && e.parameter.page)
     .trim()
     .toLowerCase();

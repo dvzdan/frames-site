@@ -5,6 +5,7 @@ const root = path.resolve(import.meta.dirname, "..");
 const output = path.join(root, "dist");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "0x4AAAAAAED54nDkAZ3duJOu";
+const contentFeedUrl = process.env.SITE_CONTENT_URL || "https://script.google.com/macros/s/AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg/exec?format=content";
 
 const routes = {
   home: {
@@ -103,6 +104,24 @@ const partsItems = [
   { item: "UHMW Tape", product: "", url: "", quantity: "About 4 inches", note: "The type of tape is important: UHMW is remarkably low-friction." }
 ];
 
+async function loadSiteContent() {
+  try {
+    const response = await fetch(contentFeedUrl, { redirect: "follow", signal: AbortSignal.timeout(15000) });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const content = await response.json();
+    if (!content || typeof content !== "object" || Array.isArray(content)) {
+      throw new Error("content feed did not return an object");
+    }
+    console.log("Loaded editable site copy from the Google Sheet.");
+    return content;
+  } catch (error) {
+    console.warn(`Using built-in site copy because the Google Sheet feed was unavailable: ${error.message}`);
+    return { sections: { parts: { items: partsItems } } };
+  }
+}
+
+const siteContent = await loadSiteContent();
+
 function routeHref(page, hash = "") {
   const base = page === "home" ? "/" : `/${page}/`;
   return `${base}${hash ? `#${hash}` : ""}`;
@@ -177,7 +196,7 @@ function transformClientBundle(page) {
     `window.PAGE_KEY=${JSON.stringify(page)};`,
     `window.INITIAL_GALLERY_ITEMS=${JSON.stringify(page === "home" ? galleryItems : [])};`,
     "window.INITIAL_TIER=\"\";",
-    `window.SITE_CMS_CONTENT=${JSON.stringify(page === "build" ? { sections: { parts: { items: partsItems } } } : {})};`,
+    `window.SITE_CMS_CONTENT=${JSON.stringify(siteContent)};`,
     "window.SERVICE_URL=\"\";",
     read("Config.html"),
     read(route.config),

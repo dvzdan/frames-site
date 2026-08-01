@@ -1,6 +1,6 @@
 # Cloudflare Pages migration
 
-This branch builds the approved multipage release at commit `0502460` as a conventional static website for Cloudflare Pages. It does not replace or deploy the Apps Script site.
+This branch builds the approved multipage release at commit `0502460` as a conventional website for Cloudflare Pages.
 
 ## Local commands
 
@@ -20,13 +20,13 @@ The preview server listens on `http://127.0.0.1:4173/`. The deployable output is
 - `/assembly/`
 - `/make-5x-7/` is not used; the tool is at `/make-5x7/`
 
-## Temporarily static or disabled
+## Editable content
 
-- The gallery uses a checked-in/static snapshot instead of Google Sheets hydration.
-- Design-file downloads and the sourcing list show migration notices instead of querying Google Drive or Sheets.
-- Inquiry and image-submission controls are disabled and do not send data.
+- Cloudflare loads public site copy and sourcing data from the Apps Script `?format=content` read-only feed at build time.
+- If Google is temporarily unavailable, the build succeeds with the approved built-in copy instead of breaking the public site.
+- Edits in the `Site CMS` and `Sourcing` spreadsheet tabs appear after the next Cloudflare deployment.
+- Inquiry and image-submission forms use Cloudflare storage and Turnstile protection.
 - Checkout and payment remain inactive.
-- Sheet-driven CMS overrides are not loaded; the approved fallback copy in the release is used.
 
 The Make 5×7 tool remains fully client-side.
 
@@ -39,7 +39,7 @@ The Make 5×7 tool remains fully client-side.
 - Production branch: `main` (this keeps `codex/cloudflare-port` in the preview environment)
 - Preview branch: `codex/cloudflare-port`
 
-Do not attach `doubletakeframes.com` or change DNS until the branch preview has passed review.
+The public domain should only be attached after the production deployment passes review.
 
 ## Remaining backend work
 
