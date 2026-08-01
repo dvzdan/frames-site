@@ -61,7 +61,6 @@ try {
     request: inquiryRequest,
     env: {
       SITE_DB: inquiryDb,
-      TURNSTILE_SECRET_KEY: "preview-test-secret",
       TURNSTILE_SECRET_KEY_LIVE: "live-secret"
     },
     waitUntil(promise) { void promise; }
@@ -89,13 +88,13 @@ try {
   });
   const galleryResponse = await submitGallery({
     request: galleryRequest,
-    env: { SITE_DB: galleryDb, SUBMISSIONS: submissions, TURNSTILE_SECRET_KEY: "test-secret" }
+    env: { SITE_DB: galleryDb, SUBMISSIONS: submissions, TURNSTILE_SECRET_KEY_LIVE: "live-secret" }
   });
   assert.equal(galleryResponse.status, 201);
   assert.equal(galleryDb.calls.length, 1);
   assert.equal(submissions.objects.size, 2);
   assert.match(galleryDb.calls[0].values[6], /^pending\/.+\/cover\.png$/);
-  assert.equal(siteverifyRequests[1].secret, "test-secret");
+  assert.equal(siteverifyRequests[1].secret, "live-secret");
 
   const imageKey = galleryDb.calls[0].values[6];
   const imageDb = {

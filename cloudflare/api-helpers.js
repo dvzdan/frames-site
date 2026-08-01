@@ -67,10 +67,7 @@ export async function readJson(request, maxCharacters = 32_000) {
 }
 
 export async function validateTurnstile(request, env, token) {
-  const secretName = env?.TURNSTILE_SECRET_KEY_LIVE
-    ? "TURNSTILE_SECRET_KEY_LIVE"
-    : "TURNSTILE_SECRET_KEY";
-  const secret = requireBinding(env, secretName);
+  const secret = requireBinding(env, "TURNSTILE_SECRET_KEY_LIVE");
   const responseToken = cleanText(token, 2048, "Verification", true);
   const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
     method: "POST",
