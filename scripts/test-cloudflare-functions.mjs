@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { onRequestPost as submitInquiry } from "../functions/api/inquiries.js";
 import { onRequestPost as submitGallery } from "../functions/api/gallery/submit.js";
+import { onRequestGet as getGalleryImage } from "../functions/api/gallery/image/[[path]].js";
 
 function createDb() {
   const calls = [];
@@ -85,6 +86,26 @@ try {
   assert.equal(galleryDb.calls.length, 1);
   assert.equal(submissions.objects.size, 2);
   assert.match(galleryDb.calls[0].values[6], /^pending\/.+\/cover\.png$/);
+
+  const imageKey = galleryDb.calls[0].values[6];
+  const imageDb = {
+    prepare() {
+      return {
+        bind() {
+          return {
+            async first() { return { object_key: imageKey }; }
+          };
+        }
+      };
+    }
+  };
+  const imageResponse = await getGalleryImage({
+    request: new Request("https://example.test/api/gallery/image/test/cover"),
+    params: { path: ["test", "cover"] },
+    env: { SITE_DB: imageDb, SUBMISSIONS: submissions }
+  });
+  assert.equal(imageResponse.status, 200);
+  assert.equal(imageResponse.headers.get("Content-Type"), "image/png");
 
   console.log("Cloudflare function tests passed.");
 } finally {

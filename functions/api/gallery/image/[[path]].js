@@ -2,7 +2,7 @@ import {
   errorResponse,
   HttpError,
   requireBinding
-} from "../../../../../cloudflare/api-helpers.js";
+} from "../../../../cloudflare/api-helpers.js";
 
 export async function onRequestGet(context) {
   try {
