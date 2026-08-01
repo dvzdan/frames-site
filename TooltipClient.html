@@ -55,10 +55,40 @@ function bindTermHelp() {
     const expanded = trigger.getAttribute("aria-expanded") === "true";
     trigger.setAttribute("aria-expanded", expanded ? "false" : "true");
     panel.hidden = expanded;
+    if (!expanded) positionTermHelpPopover(trigger, panel);
   });
   document.addEventListener("keydown", function(event) {
     if (event.key === "Escape") closeTermHelpPopovers();
   });
+  window.addEventListener("resize", function() {
+    closeTermHelpPopovers();
+  });
+  window.addEventListener("scroll", function() {
+    closeTermHelpPopovers();
+  }, true);
+}
+
+function positionTermHelpPopover(trigger, panel) {
+  const triggerRect = trigger.getBoundingClientRect();
+  const viewportPadding = 12;
+  const gap = 8;
+  panel.style.left = "0px";
+  panel.style.top = "0px";
+  panel.style.visibility = "hidden";
+
+  const panelWidth = panel.offsetWidth;
+  const panelHeight = panel.offsetHeight;
+  const centeredLeft = triggerRect.left + triggerRect.width / 2 - panelWidth / 2;
+  const maximumLeft = Math.max(viewportPadding, window.innerWidth - panelWidth - viewportPadding);
+  const left = Math.min(Math.max(centeredLeft, viewportPadding), maximumLeft);
+  const preferredTop = triggerRect.top - panelHeight - gap;
+  const top = preferredTop >= viewportPadding
+    ? preferredTop
+    : Math.min(triggerRect.bottom + gap, window.innerHeight - panelHeight - viewportPadding);
+
+  panel.style.left = Math.round(left) + "px";
+  panel.style.top = Math.round(Math.max(viewportPadding, top)) + "px";
+  panel.style.visibility = "visible";
 }
 
 function closeTermHelpPopovers(exceptTrigger) {

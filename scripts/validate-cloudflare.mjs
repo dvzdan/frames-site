@@ -36,7 +36,9 @@ for (const file of textFiles) {
 const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const homeScript = fs.readFileSync(path.join(root, "scripts", "home.js"), "utf8");
 const build = fs.readFileSync(path.join(root, "build", "index.html"), "utf8");
+const buildScript = fs.readFileSync(path.join(root, "scripts", "build.js"), "utf8");
 const assembly = fs.readFileSync(path.join(root, "assembly", "index.html"), "utf8");
+const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 if (!home.includes('id="gallery-section"') || !home.includes('id="inquiryForm"')) errors.push("Home structure is incomplete");
 if (home.includes("__TURNSTILE_SITE_KEY__") || !home.includes("challenges.cloudflare.com/turnstile")) errors.push("Turnstile is not configured in the home page");
 if (!homeScript.includes('fetch("/api/inquiries"') || !homeScript.includes('fetch("/api/gallery/submit"')) errors.push("Cloudflare form endpoints are not wired to the home page");
@@ -54,6 +56,7 @@ if (!galleryMatch) {
   }
 }
 if (!build.includes('id="downloadsList"') || !build.includes('/make-5x7/') || !build.includes("main.3mf")) errors.push("Build route, download, or Make 5x7 link is incomplete");
+if (!buildScript.includes("positionTermHelpPopover") || !styles.includes(".term-help-popover") || !styles.includes("position: fixed")) errors.push("Visible tooltip positioning is missing");
 if (!assembly.includes('id="assemblyGuide"')) errors.push("Assembly guide mount is missing");
 
 const requiredBackendFiles = [
