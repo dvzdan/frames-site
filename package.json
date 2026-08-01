@@ -6,6 +6,7 @@
     "build": "node scripts/build-cloudflare.mjs",
     "preview": "node scripts/serve-cloudflare.mjs",
     "validate": "node scripts/validate-cloudflare.mjs",
-    "test": "npm run build && npm run validate"
+    "test:functions": "node scripts/test-cloudflare-functions.mjs",
+    "test": "npm run build && npm run validate && npm run test:functions"
   }
 }

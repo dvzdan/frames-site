@@ -4,6 +4,7 @@ import path from "node:path";
 const root = path.resolve(import.meta.dirname, "..");
 const output = path.join(root, "dist");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
+const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
 
 const routes = {
   home: {
@@ -88,6 +89,20 @@ const galleryItems = [
   }
 ];
 
+// Static snapshot of the current sourcing sheet. These can move to D1 later if
+// frequent non-code editing becomes useful.
+const partsItems = [
+  { item: "Display Image Material", product: "KOALA Waterproof Matte White Tear-Resistant Printable Vinyl Paper, 8.5 x 11 in.", url: "", quantity: "1 sheet", note: "Required. Used to print the Display Image." },
+  { item: "Reveal Image Material", product: "PPD Double-Sided Photo Paper / Glossy Brochure Paper, 8.5 x 11 in., 140 gsm, 6.2 mil, instant-dry and water-resistant.", url: "", quantity: "1 sheet", note: "Recommended. Used to print the Reveal Image." },
+  { item: "Clear PET Sheet", product: "Clear, flexible PET sheet, 1 mm thick. Start with an 8 x 10 in. sheet and cut it to approximately 5.75 x 6.75 in.", url: "", quantity: "1 piece", note: "Required. Use clear, flexible PET rather than rigid acrylic." },
+  { item: "Backing Board", product: "Backing-board sheet, 8 x 10 in. and approximately 1/20 in. thick. Cut to approximately 6.875 x 10 in.", url: "", quantity: "1 piece", note: "Required. Use 6.875 in. for the cut dimension." },
+  { item: "Clock Movement", product: "Reference movement - Young Town 12888SA. Threadless / snap-in 12888-style quartz clock movement, approximately 8 mm total shaft, step/ticking movement.", url: "", quantity: "1", note: "Required. Capstans are fitted to the reference movement; if you use a different brand/model, you will have to adjust the bore sizes of the capstans." },
+  { item: "Zipper", product: "UpBrands Fidget Zipper Bracelet", url: "", quantity: "1", note: "Recommended. Must unzip with very little resistance; reject any zipper that feels stiff or catches." },
+  { item: "Pull Line", product: "X8 braided fishing line", url: "", quantity: "As required", note: "Required. Used as the clock-driven pull line." },
+  { item: "Weight Ballast", product: "Lead fishing weights / sinkers", url: "", quantity: "Enough to fill the printed weight carriage", note: "Recommended. Use small weights that can pack tightly into the carriage." },
+  { item: "UHMW Tape", product: "", url: "", quantity: "About 4 inches", note: "The type of tape is important: UHMW is remarkably low-friction." }
+];
+
 function routeHref(page, hash = "") {
   const base = page === "home" ? "/" : `/${page}/`;
   return `${base}${hash ? `#${hash}` : ""}`;
@@ -113,7 +128,7 @@ function header(activePage) {
 }
 
 function footer() {
-  return `<footer class="footer"><strong>Double Take Frames</strong><p>Contact and image-submission forms are temporarily unavailable while the website moves to its new platform.</p></footer>`;
+  return `<footer class="footer"><strong>Double Take Frames</strong><p>Questions and image submissions are reviewed directly.</p></footer>`;
 }
 
 function galleryMarkup() {
@@ -123,7 +138,7 @@ function galleryMarkup() {
 }
 
 function downloadsMarkup() {
-  return '<div class="downloads-empty fine-print" data-static-downloads="true">Design-file downloads are temporarily unavailable during the website migration.</div>';
+  return '<a class="download-row" target="_blank" rel="noopener" href="https://drive.google.com/uc?export=download&amp;id=1d337bPLj43E7ge_t69K9j9kmf9QktIM8"><span class="download-name">main.3mf</span><span class="download-meta">125 KB · Updated Jul 22, 2026</span><span class="download-action" aria-hidden="true">Download</span></a>';
 }
 
 function transformTemplate(page) {
@@ -134,7 +149,7 @@ function transformTemplate(page) {
     .replace(/<\?=\s*sitePageUrl\('([^']+)'(?:,\s*'([^']+)')?\)\s*\?>/g, (_, target, hash) => routeHref(target, hash))
     .replace(/<\?!=\s*tierSectionIcon\('([^']+)'\)\s*\?>/g, (_, name) => icons[name] || "");
 
-  markup = localizeAssets(markup);
+  markup = localizeAssets(markup).replace(/__TURNSTILE_SITE_KEY__/g, turnstileSiteKey);
   const unresolved = markup.match(/<\?[\s\S]*?\?>/g);
   if (unresolved) throw new Error(`${page}: unresolved template expression ${unresolved[0]}`);
   return markup;
@@ -147,35 +162,7 @@ function startCloudflareStaticMode() {
     var submission = document.querySelector(".submission-module");
     if (submission) {
       var summary = submission.querySelector("summary");
-      if (summary) summary.textContent = "Submit your own — temporarily unavailable";
-      var submissionCard = submission.querySelector(".card");
-      if (submissionCard) {
-        submissionCard.setAttribute("inert", "");
-        submissionCard.setAttribute("aria-disabled", "true");
-        submissionCard.querySelectorAll("input, textarea, button").forEach(function(control) { control.disabled = true; });
-        var note = document.createElement("p");
-        note.className = "fine-print migration-status";
-        note.textContent = "Image submissions will return after the new form service is connected.";
-        submissionCard.prepend(note);
-      }
-    }
-    var ctaCopy = document.querySelector("#checkout-placeholder > .section-copy");
-    if (ctaCopy) ctaCopy.textContent = "The contact form is temporarily unavailable while the website moves to its new platform.";
-    var inquiry = document.getElementById("inquiryForm");
-    if (inquiry) {
-      inquiry.setAttribute("inert", "");
-      inquiry.setAttribute("aria-disabled", "true");
-      inquiry.querySelectorAll("input, select, textarea, button").forEach(function(control) { control.disabled = true; });
-      var inquiryStatus = document.getElementById("inquiryStatus");
-      if (inquiryStatus) inquiryStatus.textContent = "Submissions are temporarily unavailable. No information entered here will be sent.";
-    }
-  }
-  if (window.PAGE_KEY === "build") {
-    var downloads = document.getElementById("downloadsList");
-    if (downloads && !downloads.children.length) downloads.innerHTML = ${JSON.stringify(downloadsMarkup())};
-    var parts = document.getElementById("partsTable");
-    if (parts && !parts.children.length) {
-      parts.innerHTML = '<div class="downloads-empty fine-print">The live sourcing list is temporarily unavailable during the website migration.</div>';
+      if (summary) summary.textContent = "Submit your own";
     }
   }
 }
@@ -190,7 +177,7 @@ function transformClientBundle(page) {
     `window.PAGE_KEY=${JSON.stringify(page)};`,
     `window.INITIAL_GALLERY_ITEMS=${JSON.stringify(page === "home" ? galleryItems : [])};`,
     "window.INITIAL_TIER=\"\";",
-    "window.SITE_CMS_CONTENT={};",
+    `window.SITE_CMS_CONTENT=${JSON.stringify(page === "build" ? { sections: { parts: { items: partsItems } } } : {})};`,
     "window.SERVICE_URL=\"\";",
     read("Config.html"),
     read(route.config),
@@ -219,6 +206,7 @@ function renderPage(page) {
 <meta name="description" content="Build a physical photo frame that reveals a second image on a timer.">
 <title>${route.title}</title>
 <link rel="stylesheet" href="/styles.css">
+${page === "home" ? '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' : ""}
 </head>
 <body data-page="${page}">
 ${header(page)}
@@ -249,6 +237,11 @@ fs.writeFileSync(path.join(output, "make-5x7", "index.html"), make5x7);
 
 fs.writeFileSync(path.join(output, "404.html"), `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found - Double Take Frames</title><link rel="stylesheet" href="/styles.css"></head><body><main class="page"><section class="section page-intro"><div class="eyebrow">404</div><h1>That page is not here.</h1><p class="section-copy">Return to Double Take Frames and choose another path.</p><a class="button" href="/">Go home</a></section></main></body></html>`);
 fs.writeFileSync(path.join(output, "_redirects"), "/home / 301\n/make5x7 /make-5x7/ 301\n");
+fs.writeFileSync(path.join(output, "_routes.json"), JSON.stringify({
+  version: 1,
+  include: ["/api/*"],
+  exclude: []
+}, null, 2));
 fs.writeFileSync(path.join(output, "_headers"), `/*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

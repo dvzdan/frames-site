@@ -18,7 +18,7 @@ for (const route of routes) {
   const file = path.join(root, route, "index.html");
   if (!fs.existsSync(file)) errors.push(`Missing route output: /${route}`);
 }
-for (const file of ["404.html", "_headers", "_redirects", "styles.css"]) {
+for (const file of ["404.html", "_headers", "_redirects", "_routes.json", "styles.css"]) {
   if (!fs.existsSync(path.join(root, file))) errors.push(`Missing output file: ${file}`);
 }
 
@@ -38,6 +38,8 @@ const homeScript = fs.readFileSync(path.join(root, "scripts", "home.js"), "utf8"
 const build = fs.readFileSync(path.join(root, "build", "index.html"), "utf8");
 const assembly = fs.readFileSync(path.join(root, "assembly", "index.html"), "utf8");
 if (!home.includes('id="gallery-section"') || !home.includes('id="inquiryForm"')) errors.push("Home structure is incomplete");
+if (home.includes("__TURNSTILE_SITE_KEY__") || !home.includes("challenges.cloudflare.com/turnstile")) errors.push("Turnstile is not configured in the home page");
+if (!homeScript.includes('fetch("/api/inquiries"') || !homeScript.includes('fetch("/api/gallery/submit"')) errors.push("Cloudflare form endpoints are not wired to the home page");
 const galleryMatch = homeScript.match(/window\.INITIAL_GALLERY_ITEMS=(\[[^\n]*\]);/);
 if (!galleryMatch) {
   errors.push("Static gallery snapshot is missing");
@@ -51,8 +53,20 @@ if (!galleryMatch) {
     errors.push("Static gallery snapshot is invalid JSON");
   }
 }
-if (!build.includes('id="downloadsList"') || !build.includes('/make-5x7/')) errors.push("Build route or Make 5x7 link is incomplete");
+if (!build.includes('id="downloadsList"') || !build.includes('/make-5x7/') || !build.includes("main.3mf")) errors.push("Build route, download, or Make 5x7 link is incomplete");
 if (!assembly.includes('id="assemblyGuide"')) errors.push("Assembly guide mount is missing");
+
+const requiredBackendFiles = [
+  "cloudflare/api-helpers.js",
+  "functions/api/inquiries.js",
+  "functions/api/gallery.js",
+  "functions/api/gallery/submit.js",
+  "functions/api/gallery/image/[[path]].js",
+  "migrations/0001_initial.sql"
+];
+for (const file of requiredBackendFiles) {
+  if (!fs.existsSync(path.join(root, "..", file))) errors.push(`Missing backend file: ${file}`);
+}
 
 const forbiddenOutput = ["Code.js", ".clasp.json", "appsscript.json", "HANDOFF.md"];
 for (const name of forbiddenOutput) {

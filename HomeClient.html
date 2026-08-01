@@ -305,8 +305,26 @@ function revealHomeHero() {
   }, hold));
 }
 
-function loadFullHomeGallery() {
-  // The Cloudflare preview uses the checked-in gallery snapshot.
+async function loadFullHomeGallery() {
+  try {
+    const response = await fetch("/api/gallery", { headers: { Accept: "application/json" } });
+    if (!response.ok) return;
+    const result = await response.json();
+    const dynamicItems = normalizeHomeGallery(result && result.items);
+    if (!dynamicItems.length) return;
+    const staticItems = normalizeHomeGallery(window.INITIAL_GALLERY_ITEMS);
+    const seen = new Set();
+    const items = dynamicItems.concat(staticItems).filter(function(item) {
+      const key = [item.cover, item.reveal, item.title, item.revealTitle].join("|");
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    renderHomeHero(items);
+    renderHomeGallery(items);
+  } catch (error) {
+    console.warn("Keeping the checked-in gallery snapshot:", error);
+  }
 }
 
 function setHomeStatus(message) {
@@ -323,8 +341,87 @@ function fileToHomeDataUrl(file) {
   });
 }
 
+function getHomeTurnstileToken(root) {
+  const token = root && root.querySelector('input[name="cf-turnstile-response"]');
+  return token ? token.value : "";
+}
+
+function resetHomeTurnstile(root) {
+  const widget = root && root.querySelector(".cf-turnstile");
+  if (widget && window.turnstile && typeof window.turnstile.reset === "function") {
+    window.turnstile.reset(widget);
+  }
+}
+
+async function readHomeApiResponse(response) {
+  const text = await response.text();
+  let result = {};
+  try {
+    result = text ? JSON.parse(text) : {};
+  } catch (error) {
+    result = {};
+  }
+  if (!response.ok) throw new Error(result.error || "The request could not be sent.");
+  return result;
+}
+
 async function submitHomeConcept() {
-  setHomeStatus("Image submissions are temporarily unavailable during the website migration.");
+  const module = document.querySelector(".submission-module");
+  const button = document.querySelector("[data-submit-concept]");
+  const coverInput = document.getElementById("cover");
+  const revealInput = document.getElementById("reveal");
+  const consent = document.getElementById("submissionConsent");
+  const cover = coverInput && coverInput.files && coverInput.files[0];
+  const reveal = revealInput && revealInput.files && revealInput.files[0];
+  if (!cover || !reveal) {
+    setHomeStatus("Choose both a cover image and a reveal image.");
+    return;
+  }
+  if (!consent || !consent.checked) {
+    setHomeStatus("Confirm that you may submit these images.");
+    return;
+  }
+  const turnstileToken = getHomeTurnstileToken(module);
+  if (!turnstileToken) {
+    setHomeStatus("Complete the verification before submitting.");
+    return;
+  }
+
+  const form = new FormData();
+  form.set("title", document.getElementById("title").value);
+  form.set("revealTitle", document.getElementById("revealTitle").value);
+  form.set("description", document.getElementById("desc").value);
+  form.set("email", document.getElementById("submissionEmail").value);
+  form.set("website", document.getElementById("submissionWebsite").value);
+  form.set("consent", "yes");
+  form.set("turnstileToken", turnstileToken);
+  form.set("cover", cover);
+  form.set("reveal", reveal);
+
+  const originalLabel = button ? button.textContent : "Submit";
+  if (button) {
+    button.disabled = true;
+    button.textContent = "Submitting...";
+  }
+  setHomeStatus("Uploading images...");
+  try {
+    const response = await fetch("/api/gallery/submit", { method: "POST", body: form });
+    const result = await readHomeApiResponse(response);
+    setHomeStatus(result.message || "Images submitted for review.");
+    ["title", "revealTitle", "desc", "submissionEmail", "submissionWebsite", "cover", "reveal"].forEach(function(id) {
+      const control = document.getElementById(id);
+      if (control) control.value = "";
+    });
+    consent.checked = false;
+    resetHomeTurnstile(module);
+  } catch (error) {
+    setHomeStatus(error.message || "Images could not be submitted. Please try again.");
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = originalLabel;
+    }
+  }
 }
 
 function updateHomeInquiryFields() {
@@ -351,10 +448,50 @@ function setHomeConditionalField(control, visible) {
   control.disabled = !visible;
 }
 
-function submitHomeInquiry(event) {
+async function submitHomeInquiry(event) {
   event.preventDefault();
+  const form = event.currentTarget;
   const status = document.getElementById("inquiryStatus");
-  if (status) status.textContent = "The contact form is temporarily unavailable during the website migration.";
+  const submit = document.getElementById("inquirySubmit");
+  const turnstileToken = getHomeTurnstileToken(form);
+  if (!turnstileToken) {
+    if (status) status.textContent = "Complete the verification before sending.";
+    return;
+  }
+  const originalLabel = submit ? submit.textContent : SITE_CONTENT.sections.inquiry.submitLabel;
+  if (submit) {
+    submit.disabled = true;
+    submit.textContent = SITE_CONTENT.sections.inquiry.sendingLabel;
+  }
+  if (status) status.textContent = "Sending...";
+  try {
+    const response = await fetch("/api/inquiries", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        type: document.getElementById("inquiryType").value,
+        kit: document.getElementById("inquiryKit").value,
+        name: document.getElementById("inquiryName").value,
+        email: document.getElementById("inquiryEmail").value,
+        timeline: document.getElementById("inquiryTimeline").value,
+        message: document.getElementById("inquiryMessage").value,
+        website: document.getElementById("inquiryWebsite").value,
+        turnstileToken: turnstileToken
+      })
+    });
+    const result = await readHomeApiResponse(response);
+    if (status) status.textContent = result.message || SITE_CONTENT.sections.inquiry.successMessage;
+    form.reset();
+    updateHomeInquiryFields();
+    resetHomeTurnstile(form);
+  } catch (error) {
+    if (status) status.textContent = error.message || SITE_CONTENT.sections.inquiry.errorMessage;
+  } finally {
+    if (submit) {
+      submit.disabled = false;
+      submit.textContent = originalLabel;
+    }
+  }
 }
 
 function startHomePage() {

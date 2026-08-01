@@ -61,13 +61,17 @@
       <input id="title" placeholder="Cover title">
       <input id="revealTitle" placeholder="Reveal title">
       <textarea id="desc" placeholder="Description (optional)"></textarea>
+      <input id="submissionEmail" type="email" placeholder="Email (optional, for follow-up)">
       <label class="field-label" for="cover">Cover</label>
       <input id="cover" type="file" accept="image/png,image/jpeg">
       <label class="field-label" for="reveal">Reveal</label>
       <input id="reveal" type="file" accept="image/png,image/jpeg">
+      <label class="submission-consent-check"><input id="submissionConsent" type="checkbox"> <span>I own these images or have permission to submit them, and I agree that identifying details may be anonymized before publication.</span></label>
+      <label class="form-honeypot" aria-hidden="true">Website<input id="submissionWebsite" type="text" tabindex="-1" autocomplete="off"></label>
+      <div class="cf-turnstile" data-sitekey="__TURNSTILE_SITE_KEY__" data-action="gallery-submission" data-theme="light"></div>
       <button type="button" data-submit-concept>Submit</button>
       <div id="status" role="status"></div>
-      <p class="fine-print submission-consent">By submitting images, you agree that I may use AI or manual editing to anonymize faces and identifying details before sharing examples publicly.</p>
+      <p class="fine-print submission-consent">Every submission is reviewed before it can appear in the gallery.</p>
     </div>
   </details>
   <div class="gallery" id="gallery"><?!= renderInitialGalleryHtml() ?></div>
@@ -98,6 +102,8 @@
         <label class="inquiry-field" for="inquiryTimeline"><span class="field-label">Timeline</span><input id="inquiryTimeline" name="inquiryTimeline" type="text" placeholder="No deadline, gift date, event date, etc."></label>
       </div>
       <label class="inquiry-field" for="inquiryMessage"><span class="field-label">What do you have in mind?</span><textarea id="inquiryMessage" name="inquiryMessage" required rows="7" placeholder="Tell me about the image idea, occasion, quantity, constraints, or anything you want feedback on."></textarea></label>
+      <label class="form-honeypot" aria-hidden="true">Website<input id="inquiryWebsite" name="website" type="text" tabindex="-1" autocomplete="off"></label>
+      <div class="cf-turnstile" data-sitekey="__TURNSTILE_SITE_KEY__" data-action="inquiry" data-theme="light"></div>
       <div class="inquiry-actions"><button id="inquirySubmit" type="submit">Send request</button><p class="fine-print inquiry-status" id="inquiryStatus" role="status"></p></div>
     </form>
     <ul class="fine-print inquiry-notes"><li>No payment is collected on this site yet.</li><li>Each request is reviewed directly before next steps are suggested.</li><li>Custom image products may have limited returns once images are printed or loaded.</li></ul>
