@@ -4,7 +4,7 @@ import path from "node:path";
 const root = path.resolve(import.meta.dirname, "..");
 const output = path.join(root, "dist");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
-const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
+const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "0x4AAAAAAED54nDkAZ3duJOu";
 
 const routes = {
   home: {

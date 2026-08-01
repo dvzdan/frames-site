@@ -36,7 +36,11 @@ function createSubmissionStore() {
 }
 
 const originalFetch = globalThis.fetch;
-globalThis.fetch = async () => Response.json({ success: true, hostname: "localhost" });
+const siteverifyRequests = [];
+globalThis.fetch = async (_url, options) => {
+  siteverifyRequests.push(JSON.parse(options.body));
+  return Response.json({ success: true, hostname: "localhost" });
+};
 
 try {
   const inquiryDb = createDb();
@@ -55,12 +59,17 @@ try {
   });
   const inquiryResponse = await submitInquiry({
     request: inquiryRequest,
-    env: { SITE_DB: inquiryDb, TURNSTILE_SECRET_KEY: "test-secret" },
+    env: {
+      SITE_DB: inquiryDb,
+      TURNSTILE_SECRET_KEY: "preview-test-secret",
+      TURNSTILE_SECRET_KEY_LIVE: "live-secret"
+    },
     waitUntil(promise) { void promise; }
   });
   assert.equal(inquiryResponse.status, 201);
   assert.equal(inquiryDb.calls.length, 1);
   assert.equal(inquiryDb.calls[0].values[5], "test@example.com");
+  assert.equal(siteverifyRequests[0].secret, "live-secret");
 
   const galleryDb = createDb();
   const submissions = createSubmissionStore();
@@ -86,6 +95,7 @@ try {
   assert.equal(galleryDb.calls.length, 1);
   assert.equal(submissions.objects.size, 2);
   assert.match(galleryDb.calls[0].values[6], /^pending\/.+\/cover\.png$/);
+  assert.equal(siteverifyRequests[1].secret, "test-secret");
 
   const imageKey = galleryDb.calls[0].values[6];
   const imageDb = {
