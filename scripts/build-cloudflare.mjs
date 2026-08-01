@@ -41,13 +41,52 @@ const icons = {
   wrench: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></svg>'
 };
 
-const galleryItems = [{
-  title: "Before",
-  revealTitle: "After",
-  description: "A Double Take Frames reveal pair.",
-  cover: "https://drive.google.com/thumbnail?id=16L423SgUeeURPMvn7TjQGv_ZLMVfKlwg&sz=w1000",
-  reveal: "/assets/how-it-works-reveal-trojan-party.png"
-}];
+// Static snapshot of the six published pairs from the approved Apps Script
+// gallery. Cloudflare renders these without querying Google Sheets at runtime.
+const galleryItems = [
+  {
+    title: "The Box Waits",
+    revealTitle: "The Harlequin Springs Out",
+    description: "An antique jack-in-the-box waits under stage curtains, then releases a worn theatrical puppet from its coil.",
+    cover: "https://drive.google.com/thumbnail?id=1S3sr-gC17mVLNO0ZNm3Edh5XMtAh0lcz&sz=w1000",
+    reveal: "https://drive.google.com/thumbnail?id=1rJGOeli04-7Z2nCaBwjyAzCLLOV9o_1z&sz=w1000"
+  },
+  {
+    title: "Sick bird",
+    revealTitle: "Nursed to health",
+    description: "For Water Frame variant",
+    cover: "https://drive.google.com/thumbnail?id=1-cmiGmK-QqsHtnNfZBT0UYDgs5ozt3GE&sz=w1000",
+    reveal: "https://drive.google.com/thumbnail?id=1H7X53mkgchYt7vaMwY8ZgzNUNgaEbIp3&sz=w1000"
+  },
+  {
+    title: "wolf",
+    revealTitle: "werewolf",
+    description: "",
+    cover: "https://drive.google.com/thumbnail?id=1_GTD0d9P26o8Hyi6T3LwIlKg5IQayo4_&sz=w1000",
+    reveal: "https://drive.google.com/thumbnail?id=1iY2uRP6EXWZXp4zeTjrazVja5xI0XOfj&sz=w1000"
+  },
+  {
+    title: "Not where you stay",
+    revealTitle: "Bloom anyway",
+    description: "",
+    cover: "https://drive.google.com/thumbnail?id=1NPvr5G_rS8jFn0Y_N8QvFFF_bFO_-D8r&sz=w1000",
+    reveal: "https://drive.google.com/thumbnail?id=1iGrQ-OKlrjMKr9xstDBuWeoj3tLRybRt&sz=w1000"
+  },
+  {
+    title: "Still Life",
+    revealTitle: "Not Still Alive",
+    description: "",
+    cover: "https://drive.google.com/thumbnail?id=1KV2kQ8RDqe56ufbRqmW3v6CQNIA2ftzy&sz=w1000",
+    reveal: "https://drive.google.com/thumbnail?id=1WkdR2SkD11yHg_6vqkJG7BmOOhC-ov9Q&sz=w1000"
+  },
+  {
+    title: "Trojan",
+    revealTitle: "Troy",
+    description: "",
+    cover: "https://drive.google.com/thumbnail?id=16L423SgUeeURPMvn7TjQGv_ZLMVfKlwg&sz=w1000",
+    reveal: "https://drive.google.com/thumbnail?id=1Y6yk4mI9--aYN1zrzyg8bXJozmI0oAgM&sz=w1000"
+  }
+];
 
 function routeHref(page, hash = "") {
   const base = page === "home" ? "/" : `/${page}/`;
@@ -78,8 +117,9 @@ function footer() {
 }
 
 function galleryMarkup() {
-  const item = galleryItems[0];
-  return `<div class="card"><div class="top-title"><strong>${item.title}</strong></div><div class="gallery-frame-button server-gallery-toggle" role="button" tabindex="0"><span class="gallery-shadowbox-frame frame-color-0"><span class="gallery-frame-art"><img class="cover-img" src="${item.cover}" alt="${item.title}"><img class="reveal-img" src="${item.reveal}" alt="${item.revealTitle}" style="display:none"></span><span class="gallery-acrylic-glare"></span></span></div><div class="bottom-title">${item.revealTitle}</div><div class="reveal-description">${item.description}</div></div>`;
+  return galleryItems.map((item, index) => (
+    `<div class="card"><div class="top-title"><strong>${item.title}</strong></div><div class="gallery-frame-button server-gallery-toggle" role="button" tabindex="0"><span class="gallery-shadowbox-frame frame-color-${index % 6}"><span class="gallery-frame-art"><img class="cover-img" src="${item.cover}" alt="${item.title}"><img class="reveal-img" src="${item.reveal}" alt="${item.revealTitle}" style="display:none"></span><span class="gallery-acrylic-glare"></span></span></div><div class="bottom-title">${item.revealTitle}</div>${item.description ? `<div class="reveal-description">${item.description}</div>` : ""}</div>`
+  )).join("");
 }
 
 function downloadsMarkup() {

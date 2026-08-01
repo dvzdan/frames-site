@@ -34,9 +34,23 @@ for (const file of textFiles) {
 }
 
 const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
+const homeScript = fs.readFileSync(path.join(root, "scripts", "home.js"), "utf8");
 const build = fs.readFileSync(path.join(root, "build", "index.html"), "utf8");
 const assembly = fs.readFileSync(path.join(root, "assembly", "index.html"), "utf8");
 if (!home.includes('id="gallery-section"') || !home.includes('id="inquiryForm"')) errors.push("Home structure is incomplete");
+const galleryMatch = homeScript.match(/window\.INITIAL_GALLERY_ITEMS=(\[[^\n]*\]);/);
+if (!galleryMatch) {
+  errors.push("Static gallery snapshot is missing");
+} else {
+  try {
+    const galleryItems = JSON.parse(galleryMatch[1]);
+    if (galleryItems.length !== 6 || galleryItems.some((item) => !item.cover || !item.reveal)) {
+      errors.push(`Static gallery snapshot is incomplete (${galleryItems.length} pairs)`);
+    }
+  } catch {
+    errors.push("Static gallery snapshot is invalid JSON");
+  }
+}
 if (!build.includes('id="downloadsList"') || !build.includes('/make-5x7/')) errors.push("Build route or Make 5x7 link is incomplete");
 if (!assembly.includes('id="assemblyGuide"')) errors.push("Assembly guide mount is missing");
 
