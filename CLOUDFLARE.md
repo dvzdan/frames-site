@@ -36,8 +36,8 @@ The Make 5×7 tool remains fully client-side.
 - Root directory: repository root
 - Build command: `npm run build`
 - Build output directory: `dist`
-- Production branch: `main` (this keeps `codex/cloudflare-port` in the preview environment)
-- Preview branch: `codex/cloudflare-port`
+- Production branch: `codex/cloudflare-port`
+- Other non-production branches remain preview environments.
 
 The public domain should only be attached after the production deployment passes review.
 
