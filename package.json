@@ -1,0 +1,11 @@
+{
+  "name": "double-take-frames-cloudflare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-cloudflare.mjs",
+    "preview": "node scripts/serve-cloudflare.mjs",
+    "validate": "node scripts/validate-cloudflare.mjs",
+    "test": "npm run build && npm run validate"
+  }
+}

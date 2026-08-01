@@ -142,18 +142,7 @@ function normalizeHomeGallery(items) {
 function setHomeGalleryImage(image, src) {
   image.onload = function() { image.classList.add("is-loaded"); };
   image.onerror = function() {
-    if (image.dataset.fallbackRequested === "true") return;
-    image.dataset.fallbackRequested = "true";
-    if (!window.google || !google.script || !google.script.run) return;
-    google.script.run
-      .withSuccessHandler(function(dataUrl) {
-        image.onerror = null;
-        image.src = dataUrl;
-      })
-      .withFailureHandler(function() {
-        image.classList.add("is-missing");
-      })
-      .getGalleryImageDataUrl(src);
+    image.classList.add("is-missing");
   };
   image.src = src;
 }
@@ -317,16 +306,7 @@ function revealHomeHero() {
 }
 
 function loadFullHomeGallery() {
-  if (!window.google || !google.script || !google.script.run) return;
-  google.script.run
-    .withSuccessHandler(function(items) {
-      const normalized = normalizeHomeGallery(items);
-      if (!normalized.length) return;
-      renderHomeHero(normalized);
-      renderHomeGallery(normalized);
-    })
-    .withFailureHandler(function() {})
-    .getGallery();
+  // The Cloudflare preview uses the checked-in gallery snapshot.
 }
 
 function setHomeStatus(message) {
@@ -344,39 +324,7 @@ function fileToHomeDataUrl(file) {
 }
 
 async function submitHomeConcept() {
-  const cover = document.getElementById("cover");
-  const reveal = document.getElementById("reveal");
-  const coverFile = cover && cover.files[0];
-  const revealFile = reveal && reveal.files[0];
-  if (!coverFile || !revealFile) {
-    setHomeStatus("Upload both images.");
-    return;
-  }
-  if (!["image/png", "image/jpeg"].includes(coverFile.type) || !["image/png", "image/jpeg"].includes(revealFile.type)) {
-    setHomeStatus("Upload PNG or JPEG images.");
-    return;
-  }
-
-  try {
-    const data = {
-      title: document.getElementById("title").value,
-      revealTitle: document.getElementById("revealTitle").value,
-      description: document.getElementById("desc").value,
-      cover: await fileToHomeDataUrl(coverFile),
-      reveal: await fileToHomeDataUrl(revealFile)
-    };
-    google.script.run
-      .withSuccessHandler(function(message) {
-        setHomeStatus(message);
-        loadFullHomeGallery();
-      })
-      .withFailureHandler(function(err) {
-        setHomeStatus("Error: " + (err && err.message ? err.message : "Could not submit."));
-      })
-      .submitConcept(data);
-  } catch (err) {
-    setHomeStatus("Browser error: " + err.message);
-  }
+  setHomeStatus("Image submissions are temporarily unavailable during the website migration.");
 }
 
 function updateHomeInquiryFields() {
@@ -405,48 +353,8 @@ function setHomeConditionalField(control, visible) {
 
 function submitHomeInquiry(event) {
   event.preventDefault();
-  const inquiry = SITE_CONTENT.sections.inquiry || {};
-  const form = event.currentTarget;
-  const button = document.getElementById("inquirySubmit");
   const status = document.getElementById("inquiryStatus");
-  const value = function(id) {
-    const node = document.getElementById(id);
-    return node ? textOrEmpty(node.value).trim() : "";
-  };
-  const data = {
-    type: value("inquiryType"),
-    kit: value("inquiryKit"),
-    name: value("inquiryName"),
-    email: value("inquiryEmail"),
-    timeline: value("inquiryTimeline"),
-    message: value("inquiryMessage")
-  };
-  if (!data.email || !data.message) {
-    status.textContent = "Email and message are required.";
-    return;
-  }
-  if (!window.google || !google.script || !google.script.run) {
-    status.textContent = inquiry.errorMessage;
-    return;
-  }
-
-  button.disabled = true;
-  button.textContent = inquiry.sendingLabel;
-  status.textContent = "";
-  google.script.run
-    .withSuccessHandler(function() {
-      form.reset();
-      button.disabled = false;
-      button.textContent = inquiry.submitLabel;
-      status.textContent = inquiry.successMessage;
-      updateHomeInquiryFields();
-    })
-    .withFailureHandler(function(err) {
-      button.disabled = false;
-      button.textContent = inquiry.submitLabel;
-      status.textContent = err && err.message ? err.message : inquiry.errorMessage;
-    })
-    .submitInquiry(data);
+  if (status) status.textContent = "The contact form is temporarily unavailable during the website migration.";
 }
 
 function startHomePage() {
