@@ -6,6 +6,7 @@ const output = path.join(root, "dist");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "0x4AAAAAAED54nDkAZ3duJOu";
 const contentFeedUrl = process.env.SITE_CONTENT_URL || "https://script.google.com/macros/s/AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg/exec?format=content";
+const fallbackSiteContent = JSON.parse(read("cloudflare/site-content.json"));
 
 const routes = {
   home: {
@@ -105,19 +106,24 @@ const partsItems = [
 ];
 
 async function loadSiteContent() {
-  try {
-    const response = await fetch(contentFeedUrl, { redirect: "follow", signal: AbortSignal.timeout(15000) });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const content = await response.json();
-    if (!content || typeof content !== "object" || Array.isArray(content)) {
-      throw new Error("content feed did not return an object");
+  let lastError;
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      const response = await fetch(contentFeedUrl, { redirect: "follow", signal: AbortSignal.timeout(45000) });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const content = await response.json();
+      if (!content || typeof content !== "object" || Array.isArray(content)) {
+        throw new Error("content feed did not return an object");
+      }
+      console.log("Loaded editable site copy from the Google Sheet.");
+      return content;
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) console.warn(`Spreadsheet content attempt ${attempt} failed; retrying.`);
     }
-    console.log("Loaded editable site copy from the Google Sheet.");
-    return content;
-  } catch (error) {
-    console.warn(`Using built-in site copy because the Google Sheet feed was unavailable: ${error.message}`);
-    return { sections: { parts: { items: partsItems } } };
   }
+  console.warn(`Using the saved spreadsheet snapshot because the live feed was unavailable: ${lastError.message}`);
+  return fallbackSiteContent;
 }
 
 const siteContent = await loadSiteContent();
