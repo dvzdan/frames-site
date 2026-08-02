@@ -30,6 +30,14 @@ The preview server listens on `http://127.0.0.1:4173/`. The deployable output is
 
 The Make 5×7 tool remains fully client-side.
 
+## Production status
+
+- Public site: `https://doubletakeframes.com/`
+- Alternate hostname: `https://www.doubletakeframes.com/`
+- Both hostnames are attached to the Pages project with Cloudflare SSL enabled.
+- Cloudflare is authoritative for DNS. The Porkbun email-forwarding MX records and SPF TXT record remain in place.
+- The production branch is `codex/cloudflare-port`; pushes to that branch deploy automatically.
+
 ## Cloudflare Pages build settings
 
 - Framework preset: `None`
