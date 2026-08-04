@@ -37,7 +37,7 @@ function renderKitPicker() {
   const root = el("div", "kit-comparison-picker");
   const selector = el("div", "kit-selector-list");
   selector.setAttribute("role", "tablist");
-  selector.setAttribute("aria-label", "Kit options");
+  selector.setAttribute("aria-label", "Ways to get one");
   const panel = el("div", "tier-active-panel-viewport");
   panel.id = "activeKitPanel";
   panel.setAttribute("role", "tabpanel");
@@ -111,7 +111,7 @@ function renderKitPicker() {
     }
     if (breakdown) {
       breakdown.textContent = adjustment
-        ? formatKitPrice(base) + " kit + " + formatKitPrice(adjustment) + " image preparation = " + formatKitPrice(total)
+        ? formatKitPrice(base) + " + " + formatKitPrice(adjustment) + " image preparation = " + formatKitPrice(total)
         : "";
     }
   }

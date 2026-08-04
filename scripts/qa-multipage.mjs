@@ -297,7 +297,7 @@ const customFields = await home.evaluate(() => ({
   kitHidden: document.getElementById("inquiryKit").closest(".inquiry-field").hidden,
   timelineHidden: document.getElementById("inquiryTimeline").closest(".inquiry-field").hidden
 }));
-await home.locator("#inquiryType").selectOption({ label: "Kit or order interest" });
+await home.locator("#inquiryType").selectOption({ label: "Order or availability" });
 const kitFields = await home.evaluate(() => ({
   kitHidden: document.getElementById("inquiryKit").closest(".inquiry-field").hidden,
   timelineHidden: document.getElementById("inquiryTimeline").closest(".inquiry-field").hidden

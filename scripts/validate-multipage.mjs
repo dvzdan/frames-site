@@ -28,7 +28,7 @@ const routes = {
       'id="kits"',
       'id="pricingTiers"',
       "Hardware Bundle",
-      "Assembly Kit",
+      "Ready-to-Assemble Bundle",
       "Finished Gift",
       "$25",
       "$45",

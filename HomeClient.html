@@ -1,6 +1,6 @@
 const HOME_OFFERING_LINKS = {
   "Hardware Bundle": "maker",
-  "Assembly Kit": "builder",
+  "Ready-to-Assemble Bundle": "builder",
   "Finished Gift": "gift"
 };
 
@@ -92,7 +92,7 @@ function appendHomeParagraphs(parent, text) {
 }
 
 function appendHomeOfferingText(parent, text) {
-  const pattern = /\b(Hardware Bundle|Assembly Kit|Finished Gift)\b/g;
+  const pattern = /\b(Hardware Bundle|Ready-to-Assemble Bundle|Finished Gift)\b/g;
   let cursor = 0;
   let match;
   while ((match = pattern.exec(text)) !== null) {
@@ -430,10 +430,10 @@ function updateHomeInquiryFields() {
   const timeline = document.getElementById("inquiryTimeline");
   const message = document.getElementById("inquiryMessage");
   const selected = type ? type.value : "";
-  setHomeConditionalField(kit, selected === "Kit or order interest");
+  setHomeConditionalField(kit, selected === "Order or availability");
   setHomeConditionalField(
     timeline,
-    ["Kit or order interest", "Commercial licensing", "Custom finished-frame inquiry"].includes(selected)
+    ["Order or availability", "Commercial licensing", "Custom finished-frame inquiry"].includes(selected)
   );
   if (message) {
     const inquiry = SITE_CONTENT.sections.inquiry || {};

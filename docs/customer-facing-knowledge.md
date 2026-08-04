@@ -1,6 +1,6 @@
 # Double Take Frames Customer Knowledge Base
 
-Last updated from site content: 2026-07-13
+Last updated from site content: 2026-08-04
 
 ## Summary
 
@@ -12,7 +12,7 @@ Current public framing:
 
 - Early small-batch release.
 - The mechanism works.
-- Kits are still being refined.
+- The ordering options are still being refined.
 - Requests are handled directly while a polished ordering flow is being built.
 - No payment is collected on the site yet.
 - Visitors should submit a request for quotes, questions, feedback, custom image ideas, testing, or collaboration.
@@ -27,7 +27,7 @@ Tagline: Physical photos that change in the blink of an eye, according to a time
 
 Intro: Gift a cherished photo and let it blend into the home. Then, a day, a week, or even a month later, the frame suddenly reveals a completely different image.
 
-Early-release note: Double Take Frames is being built in public. The mechanism works, the kits are taking shape, and requests are handled directly while the polished ordering flow is still in progress.
+Early-release note: Double Take Frames is being built in public. The mechanism works, and the ordering options are still being refined. Requests are handled directly while the polished ordering flow is still in progress.
 
 ## How It Works
 
@@ -88,46 +88,42 @@ The frame is not especially fragile once set up. It can handle normal jostling, 
 
 It makes a little noise. The clock mechanism ticks softly, but most recipients are unlikely to notice unless they are already inspecting the frame closely. The reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom can help muffle it.
 
-## Kit Paths
+## Ways to Get One
 
-### Maker Kit
+### Hardware Bundle
 
 Listed price: $25
 
-Short description: 3D print your own frame. Precision parts and images included.
+Short description: Hardware and materials only. You print the parts and assemble the frame.
 
 Included:
 
-- Hardware kit
-- Assembly supplies
-- Two custom prints on specialty media
-- Digital files for the frame and stand
+- Tested compatible hardware and materials in one-frame quantities
+- Ready-to-print digital files are available separately at no charge
 
 Customer does:
 
 - 3D print the frame and stand
 - Assemble the mechanism
-- Load the image pair
+- Prepare and load the image pair, or request image preparation as an add-on
 
 Note: Some basic hand tools required.
 
-### Builder Kit
+### Ready-to-Assemble Bundle
 
 Listed price: $45
 
-Short description: Full self-assembly. Frame, hardware, and images included.
+Short description: Every part included and prepared. You assemble the frame.
 
 Included:
 
-- 3D printed frame and stand
-- Hardware kit
-- Two custom prints on specialty media
-- Assembly supplies
+- Everything in the Hardware Bundle
+- Cleaned and prepared 3D-printed parts
 
 Customer does:
 
 - Assemble the mechanism
-- Load the image pair
+- Prepare and load the image pair, or request image preparation as an add-on
 
 Note: Some basic hand tools required.
 
@@ -176,7 +172,7 @@ Visitors should use the request form for:
 The request form asks for:
 
 - type of request
-- kit path
+- starting point
 - name
 - email
 - timeline
@@ -200,7 +196,7 @@ Return to the assembly instructions and repeat the steps that set the mechanism 
 
 ### Threading the string is a nuisance.
 
-It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.
+It can be. Stiffen the end with a small drop of superglue, or glue the supplied tiny metal wire to the end of the string and use it as a threading needle.
 
 ### I'm worried I assembled it incorrectly and it won't work.
 

@@ -147,7 +147,7 @@ Purpose:
 
 - communicate the basic lifecycle:
   - choose two images
-  - choose a reveal type or kit level
+  - choose a reveal type and starting point
   - assemble/setup or receive finished gift
   - trigger the reveal
 
@@ -180,15 +180,14 @@ Initial mechanism examples:
 
 Purpose:
 
-- present four clear purchase tiers
+- present three clear ways to get one
 - establish a simple ecommerce baseline
 - keep prices editable from one place
 
-Purchase tiers:
+Ordering options:
 
-- Maker Kit, $25: Customer prints cassette and stand. Includes precision mechanical/image components.
-- Builder Kit, $45: Printed cassette included. Full self-assembly.
-- Setup Kit, $90: Major assembly completed. Customer handles final loading/setup.
+- Hardware Bundle, $25: Hardware and materials only. Customer prints the parts and assembles the frame.
+- Ready-to-Assemble Bundle, $45: Every part is included and prepared. Customer assembles the frame.
 - Finished Gift, $80: Fully assembled, tested, images loaded, battery included, ready to display or gift.
 
 Editable content:
@@ -277,7 +276,7 @@ Likely FAQ topics:
 - What image formats work best?
 - How does the reveal happen?
 - Can I choose the reveal timing?
-- What is included in each kit?
+- What is included in each option?
 - Is assembly required?
 - Is checkout live?
 - How does shipping work?
@@ -342,7 +341,7 @@ Do not build yet:
 
 Purpose:
 
-- support kit assembly and finished gift setup
+- support assembly and finished gift setup
 - explain loading images and activating mechanisms
 
 Initial state:
@@ -353,7 +352,7 @@ Initial state:
 Editable content:
 
 - setup steps
-- kit-specific notes
+- setup notes
 - care instructions
 - mechanism warnings
 
@@ -376,7 +375,7 @@ Editable content:
 The site should be mobile-first and simple:
 
 - single-column content by default
-- pricing tiers stack cleanly
+- ordering options stack cleanly
 - forms remain readable and tappable
 - gallery uses responsive grid behavior
 - diagrams stay legible at small widths

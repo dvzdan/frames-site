@@ -24,7 +24,7 @@ const routes = {
     clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "ToolsClient.html", "BuildClient.html"]
   },
   kits: {
-    title: "Kits - Double Take Frames",
+    title: "Get One - Double Take Frames",
     directory: "kits",
     template: "Kits.html",
     config: "KitsConfig.html",
@@ -101,7 +101,7 @@ const partsItems = [
   { item: "Clock Movement", product: "Reference movement - Young Town 12888SA. Threadless / snap-in 12888-style quartz clock movement, approximately 8 mm total shaft, step/ticking movement.", url: "", quantity: "1", note: "Required. Capstans are fitted to the reference movement; if you use a different brand/model, you will have to adjust the bore sizes of the capstans." },
   { item: "Zipper", product: "UpBrands Fidget Zipper Bracelet", url: "", quantity: "1", note: "Recommended. Must unzip with very little resistance; reject any zipper that feels stiff or catches." },
   { item: "Pull Line", product: "X8 braided fishing line", url: "", quantity: "As required", note: "Required. Used as the clock-driven pull line." },
-  { item: "Weight Ballast", product: "Lead fishing weights / sinkers", url: "", quantity: "Enough to fill the printed weight carriage", note: "Recommended. Use small weights that can pack tightly into the carriage." },
+  { item: "Weight Ballast", product: "1/4 oz Black Coated Low Profile Adhesive Wheel Weights - White Tape, Roll of 715 Segments", url: "", quantity: "As needed; each segment is 1/4 oz", note: "Recommended. The adhesive segments can be stacked back-to-back and packed into the printed weight carriage." },
   { item: "UHMW Tape", product: "", url: "", quantity: "About 4 inches", note: "The type of tape is important: UHMW is remarkably low-friction." }
 ];
 
@@ -128,6 +128,36 @@ async function loadSiteContent() {
 
 const siteContent = await loadSiteContent();
 
+function migrateLegacySiteContent(content) {
+  const detailGroups = content?.homepage?.productIntro?.detailGroups || [];
+  for (const group of detailGroups) {
+    if (group.body === "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Assembly Kit.") {
+      group.body = "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Bundle.";
+    }
+  }
+
+  const faqItems = content?.sections?.faq?.items || [];
+  for (const item of faqItems) {
+    if (item.answer === "It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.") {
+      item.answer = "It can be. Stiffen the end with a small drop of superglue, or glue the supplied tiny metal wire to the end of the string and use it as a threading needle.";
+    }
+    if (item.answer === "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the kits gather the tested compatible pieces in one-frame quantities.") {
+      item.answer = "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the Hardware Bundle gathers the tested compatible pieces in one-frame quantities.";
+    }
+  }
+
+  const sourcingItems = content?.sections?.parts?.items || [];
+  for (const item of sourcingItems) {
+    if (item.item === "Weight Ballast" && item.product === "Lead fishing weights / sinkers") {
+      item.product = "1/4 oz Black Coated Low Profile Adhesive Wheel Weights - White Tape, Roll of 715 Segments";
+      item.quantity = "As needed; each segment is 1/4 oz";
+      item.note = "Recommended. The adhesive segments can be stacked back-to-back and packed into the printed weight carriage.";
+    }
+  }
+}
+
+migrateLegacySiteContent(siteContent);
+
 function routeHref(page, hash = "") {
   const base = page === "home" ? "/" : `/${page}/`;
   return `${base}${hash ? `#${hash}` : ""}`;
@@ -144,7 +174,7 @@ function header(activePage) {
   const links = [
     ["home", "Home"],
     ["build", "Build"],
-    ["kits", "Kits"],
+    ["kits", "Get One"],
     ["assembly", "Assembly"]
   ].map(([page, label]) => (
     `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`

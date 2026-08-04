@@ -9,7 +9,7 @@ const SITE_PAGE_ROUTES = {
   },
   kits: {
     template: "Kits",
-    title: "Kits - Double Take Frames"
+    title: "Get One - Double Take Frames"
   },
   assembly: {
     template: "Assembly",
@@ -136,7 +136,7 @@ const CMS_DEFAULT_ROWS = [
   ["how-it-works", "primary", 10, "", "Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.", true, "Main paragraph under How it works."],
   ["how-it-works", "detail", 20, "Wait, why?", "Halloween. April Fools. Baby reveals. Pet nonsense.\n\nFamily holiday cards. Promposals.\n\nSincere messages of hope and inspiration, if you must insist.\n\nImagine giving someone a framed photo, letting it sit quietly on a shelf, and then - days or weeks later - it suddenly becomes a different picture.", true, "Appears below the main How it works paragraph."],
   ["how-it-works", "detail", 21, "So it's both absurd and pointless. How do I get one?", "You build it! Download the ready-to-print files, print the parts, and put everything together. No modeling or design work required.\n\nIf you don't own a 3D printer, ask around - a friend, local library, or makerspace may have one. You can source the remaining hardware and materials yourself or get everything together in our Hardware Bundle.", true, "Offering bridge after Wait, why?"],
-  ["how-it-works", "detail", 22, "This whole 3D-printing craze doesn't interest me.", "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Assembly Kit.", true, "Offering bridge after Wait, why?"],
+  ["how-it-works", "detail", 22, "This whole 3D-printing craze doesn't interest me.", "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Bundle.", true, "Offering bridge after Wait, why?"],
   ["how-it-works", "detail", 23, "Take the hint. I want a fun prank gift, not a project.", "You're missing out! But if you insist, we'll sell you the Finished Gift - built, loaded, tested, and ready to give. It'll cost ya.", true, "Offering bridge after Wait, why?"],
   ["how-it-works", "detail", 24, "How exactly does it work?", "Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another.", true, ""],
   ["how-it-works", "detail", 25, "Will I enjoy putting this together?", "That depends almost entirely on what kind of project you enjoy.\n\nThis is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. If you enjoy examining unfamiliar parts, understanding how they interact, and making small adjustments until a mechanism comes to life, it is probably your kind of fun.\n\nNo individual step is especially difficult. But if you want a quick, strictly linear project that never asks you to stop and think, it may be more aggravating than enjoyable. The build rewards curiosity, patience, and a willingness to tinker.", true, "Moved from FAQ into How it works."],
@@ -146,14 +146,26 @@ const CMS_DEFAULT_ROWS = [
   ["how-it-works", "detail", 80, "Won't it seem weird to give someone a photo in this frame?", "Probably. A cover story helps. Try: \"My friend started 3D-printing frames and gave me one.\"", true, ""],
   ["how-it-works", "detail", 90, "Does it make noise?", "A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.\n\nThe reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.", true, ""],
   ["faq", "item", 20, "How do I reset the mechanism?", "Return to the assembly instructions and repeat the steps that set the mechanism in motion. You will need to redo some of the assembly process, but not all of it.", true, "FAQ item from docs/FAQ.docx."],
-  ["faq", "item", 30, "Threading the string is a nuisance.", "It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.", true, "FAQ item from docs/FAQ.docx."],
+  ["faq", "item", 30, "Threading the string is a nuisance.", "It can be. Stiffen the end with a small drop of superglue, or glue the supplied tiny metal wire to the end of the string and use it as a threading needle.", true, "FAQ item from docs/FAQ.docx."],
   ["faq", "item", 40, "I'm worried I assembled it incorrectly and it won't work.", "The design and assembly instructions include multiple layers of redundancy. Most individual steps are not essential on their own; instead, they work together to reduce the overall likelihood of failure to below 1%. If you get one detail slightly wrong, the mechanism will usually still work - you have most likely increased the risk of failure only marginally.", true, "FAQ item from docs/FAQ.docx."],
-  ["faq", "item", 50, "Can I build one entirely myself?", "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the kits gather the tested compatible pieces in one-frame quantities.", true, "Open-model FAQ item."],
+  ["faq", "item", 50, "Can I build one entirely myself?", "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the Hardware Bundle gathers the tested compatible pieces in one-frame quantities.", true, "Open-model FAQ item."],
   ["assembly", "intro", 10, "", "Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.", true, "Appears above the assembly step viewer."],
   ["assembly", "sequence", 20, "How the mechanism works:", "Clock mechanism sits inside the frame.\nCapstan presses onto the clock mechanism.\nString ties to the capstan.\n  Then runs through the clock/string guide hole.\n  And through the top-left eyelet.\n  Then ties to the zipper anchor.\nZipper head supports the latch.\nLatch supports the weight.\nWeight is tethered to the sliding cover image.\nCover image sits over the reveal image.\nWhen the timer runs, the clock winds the string, pulls the zipper, releases the latch, drops the weight, slides the cover image up, and reveals the image underneath.", true, "Each line appears as a bulleted sequence item. Indent lines with spaces for nested bullets."],
   ["assembly", "checklist", 30, "Easy-to-miss checks:", "Tuck the stem of the weight inside the roller lip so it cannot fall out.\nFasten the trap-door latch with the C-clip.\nThread the string through both the boss guide and the top-left eyelet.\nPull any remaining slack above the string/clock guide.", true, "Each line appears as a checkbox."]
 ];
 const CMS_DEFAULT_BODY_REPLACEMENTS = {
+  "how-it-works|detail|22": {
+    from: "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Assembly Kit.",
+    to: "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Bundle."
+  },
+  "faq|item|30": {
+    from: "It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.",
+    to: "It can be. Stiffen the end with a small drop of superglue, or glue the supplied tiny metal wire to the end of the string and use it as a threading needle."
+  },
+  "faq|item|50": {
+    from: "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the kits gather the tested compatible pieces in one-frame quantities.",
+    to: "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the Hardware Bundle gathers the tested compatible pieces in one-frame quantities."
+  },
   "how-it-works|detail|25": {
     from: "That depends almost entirely on what kind of project you enjoy.\n\nIf you like examining unfamiliar parts, understanding how they interact, making small adjustments, and eventually watching a mechanism come to life, this is probably your kind of fun. It is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. The instructions will guide you, but much of the satisfaction comes from understanding what the mechanism is doing and getting it dialed in.\n\nIf you are looking for a quick, linear project where you follow each step once and never have to stop and work out the little details for yourself, this may be more aggravating than enjoyable. There is nothing unusually difficult about it, but it rewards curiosity, patience, and a willingness to tinker.",
     to: "That depends almost entirely on what kind of project you enjoy.\n\nThis is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. If you enjoy examining unfamiliar parts, understanding how they interact, and making small adjustments until a mechanism comes to life, it is probably your kind of fun.\n\nNo individual step is especially difficult. But if you want a quick, strictly linear project that never asks you to stop and think, it may be more aggravating than enjoyable. The build rewards curiosity, patience, and a willingness to tinker."
@@ -256,7 +268,7 @@ function sendInquiryNotification_(data, timestamp) {
     "",
     "Submitted: " + timestamp,
     "Type: " + type,
-    "Kit path: " + kit,
+    "Starting point: " + kit,
     "Name: " + name,
     "Email: " + email,
     "Timeline: " + timeline,
@@ -786,6 +798,11 @@ function getSourcingItems_() {
       return a.order - b.order;
     })
     .map(function(item) {
+      if (item.item === "Weight Ballast" && item.product === "Lead fishing weights / sinkers") {
+        item.product = "1/4 oz Black Coated Low Profile Adhesive Wheel Weights - White Tape, Roll of 715 Segments";
+        item.quantity = "As needed; each segment is 1/4 oz";
+        item.note = "Recommended. The adhesive segments can be stacked back-to-back and packed into the printed weight carriage.";
+      }
       return {
         item: item.item,
         product: item.product,
