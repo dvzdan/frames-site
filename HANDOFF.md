@@ -1,6 +1,6 @@
 # Frames Site Handoff
 
-Last updated: 2026-07-19
+Last updated: 2026-08-04
 
 ## Project
 
@@ -18,7 +18,7 @@ Last updated: 2026-07-19
 - Versioned live deployment:
   `AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg`
 - Current verified live version:
-  `@194 - reframe site around documented build`
+  `@230 - Cloudflare read-only spreadsheet content feed`
 - Deployment workflow:
   1. `clasp.cmd push`
   2. `clasp.cmd version "short description"`
@@ -113,12 +113,14 @@ Recent commits on `main`:
 - Product name: `Double Take Frames`
 - Tagline: `One frame. Two takes.`
 - The product is a physical photo reveal, not a screen.
-- Current public status: freely documented build with an optional materials kit.
-- The mechanism works; the kit contents, fulfillment details, and pricing structure may continue to evolve.
-- Public kit prices are currently hidden; quotes are handled directly through the request form.
+- Current public status: freely documented build with three paid starting points.
+- The mechanism works; package contents, fulfillment details, and pricing may continue to evolve.
+- Launch prices are visible: Hardware Bundle $45, Assembly Kit $70, and Finished Gift $160.
 - No payment is collected on the site.
-- Visitors should use the contact form for materials kits, build questions, feedback, testing, collaboration, or unusual custom requests.
-- Finished frames are an occasional custom accommodation, not the core product model.
+- Visitors should use the contact form for order interest, build questions, feedback,
+  commercial licensing, or custom finished-frame inquiries.
+- `Finished Gift` is a normal catalog option, though the build resources remain the
+  site's primary emphasis.
 - Order/request form image guidance: roughly 5x7 proportions are ideal, and important content should stay away from the margins when submitted images have different proportions.
 
 ## Current Public Model
@@ -128,16 +130,14 @@ Documented build:
 - The main offering is the freely documented project: design files, printable files, image tools, assembly instructions, complete parts list, and project knowledge.
 - Builder sources or prints the necessary pieces, formats and prints an image pair, and assembles the mechanism.
 
-Optional materials kit:
+Catalog options:
 
-- The commercial offering is the non-printable material bundle for one build.
-- Includes tested compatible one-frame quantities: clock mechanism, specialty media, pre-cut acrylic/backing, UHMW tape, string/threading wire, zipper/latch/eyelets/C-clip/fasteners, and similar small hardware/materials.
-- Builder still uses the free build files and instructions, 3D prints the frame/stand, assembles the mechanism, and prints/loads an image pair.
-
-Custom finished build:
-
-- Possible case by case for someone who cannot or does not want to print and assemble.
-- Keep this quiet and subordinate in public copy.
+- `Hardware Bundle` supplies the non-3D-printed hardware and specialty materials;
+  the customer prints and assembles.
+- `Assembly Kit` adds cleaned, prepared 3D-printed parts; the customer assembles.
+- `Finished Gift` is fully assembled, loaded, tested, and ready to give.
+- It is not featured in the hero or as a site-wide CTA; its placement after the
+  build resources communicates the hierarchy without any minimizing prose.
 
 ## Design Files And Parts List
 
@@ -148,20 +148,38 @@ These are the core public resources, but avoid repeating "free" too aggressively
 - Files are auto-listed on the site from the Drive folder `<gallery folder>/downloads`
   (child folder of `FOLDER_ID` in Code.js, created automatically on first render).
   Drop files in; the site lists them with size/date and a public download link.
-- The `Source it yourself` table (`sections.parts` in Config.html) lists
-  each hardware part with `link: ""` placeholders - fill in buy-yourself links there.
+- The `Source it yourself` table is populated from the spreadsheet's `Sourcing`
+  tab through `getSourcingItems_()` in `Code.js`.
 - Make-5x7 tool is served at `<exec url>?page=make5x7` from `Make5x7.html`
   (copied from `Documents/codex-scad-experiment/photo stuff/make 5x7.html`).
-- Public materials-kit section currently has one visible offering: `Parts Kit`.
 - GitHub for design files deliberately deferred; Drive-first. Revisit if a remix
   community forms.
 
-## Archived Maker/Builder Tiers
+## Catalog
 
-Replaced by Build from scratch + Parts Kit on 2026-07-19. Restore from git history
-(`git log -- Config.html`, commit before that date) if needed. Key facts: Maker Kit
-($45) = hardware kit + supplies + 2 custom prints + digital files, you print and
-assemble; Builder Kit ($70) = printed frame/stand + hardware + prints, you assemble.
+The commercial section "Choose your starting point" (`#kits`) shows three options
+with the tab/card comparison interface:
+
+- `Hardware Bundle` ($45): non-3D-printed hardware and specialty materials;
+  customer prints and assembles.
+- `Assembly Kit` ($70): Hardware Bundle plus cleaned, prepared 3D-printed parts;
+  customer assembles.
+- `Finished Gift` ($160): complete, loaded, tested, and ready to give.
+
+Page order: Hero, How it works, Gallery, Build your own (`#plans`), What you'll
+need (`#parts`), Kits (`#kits`), Complete Build Inventory (`#setup-inventory`),
+Assembly, FAQ, Contact (`#checkout-placeholder`). Build resources precede the
+commercial catalog. Anchor aliases `#materials-kit` and `#order` still resolve to
+the kits section.
+
+Inventory cards carry `data-inv` categories (`print`/`hardware`/`image`); labels
+update to reflect the kit selected in the catalog via each tier's
+`inventoryLabels` in Config.html (`updateInventoryKitLabels` in Client.html).
+
+Hero actions: `Start building` -> `#plans`, `Get the parts` -> `#kits`. The hero
+has no status callout and no quote/contact CTA. Contact form types: Kit or order
+interest / Build question / Feedback / Commercial licensing / Custom
+finished-frame inquiry, with kit dropdown listing all three kits.
 
 ## Archived Setup Kit Tier
 
