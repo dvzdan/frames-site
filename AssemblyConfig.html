@@ -1,30 +1,19 @@
-SITE_CONTENT.sections.plans = {
-  supportGuide: {
-    modalEyebrow: "SELF-PRINTED PARTS ONLY",
-    modalHeading: "Support-removal guide",
-    modalText: "Ready-to-Assemble parts arrive cleaned, and the weight-carriage lid arrives glued.",
-    imageUrl: "https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/support-removal/support-removal-guide-v3.png",
-    imageAlt: "Rear view of the printed frame showing upper supports removed with pliers, lower supports removed with flush cutters, and the five window-edge connections that must be cut cleanly.",
-    fullSizeLabel: "Open full-size image",
-    closeLabel: "Close"
-  }
-};
-
 SITE_CONTENT.sections.imagePreparation = {
   heading: "Prepare the images",
-  intro: "Everyone assembling a frame needs a Display Image and a Reveal Image. Prepare and print your own, or skip this step if your order includes printed-and-cut images.",
+  intro: "Everyone assembling a frame needs a Cover Image and a Reveal Image. Prepare and print your own, or skip this step if your order includes printed-and-cut images.",
   selfHeading: "Preparing your own?",
   selfText: "Use Make 5x7 to position a PNG for the frame and print it at the correct size on standard 8.5 × 11 paper.",
+  toolText: "Have ready: A single-hole punch for making the slot in the Cover Image.",
   note: "Images close to a 5x7 shape work best. Leave extra room around important details, especially near the edges, so the final crop still works in the frame.",
   linkLabel: "Open Make 5x7",
   skipHeading: "Ordered prepared images?",
-  skipText: "Your Display and Reveal Images arrive formatted, printed, and cut. Continue directly to the parts check below.",
+  skipText: "Your Cover and Reveal Images arrive formatted, printed, and cut. Continue directly to the parts check below.",
   skipLabel: "Skip to the parts check"
 };
 
 SITE_CONTENT.sections.assembly = {
   intro: "Before following the steps, it helps to understand the little chain reaction inside the frame. The instructions will walk you through the setup, but the mechanism is forgiving. Once you understand what each part is trying to do, you can use the steps as both a guide and a checklist.",
-  toolsSummary: "Tweezers for everyone; preparation tools only when you print parts or prepare images yourself.",
+  toolsSummary: "Have tweezers ready for positioning the string and image paper.",
   mechanismSummary: "See how the clock, string, zipper, latch, weight, and cover image create the reveal.",
   tools: {
     id: "assembly-tools",
@@ -32,27 +21,10 @@ SITE_CONTENT.sections.assembly = {
     intro: "What you need depends on which parts you're preparing yourself.",
     groups: [
       {
-        heading: "For everyone assembling",
+        heading: "For assembly",
         items: [
           { name: "Tweezers", note: "helpful for grabbing and positioning the string and image paper in tight spots." }
         ]
-      },
-      {
-        heading: "If you printed the parts yourself",
-        items: [
-          { name: "Pliers", note: "for removing the upper built-in supports." },
-          { name: "Small flush cutters", note: "a short, angled pair is strongly preferred for removing the lower supports." },
-          { name: "Gel super glue", note: "for attaching the lid to the weight carriage." }
-        ],
-        guideLinkLabel: "View the support-removal guide",
-        clarification: "Ready-to-Assemble parts arrive cleaned, and the weight-carriage lid is already glued."
-      },
-      {
-        heading: "If you're preparing your own images",
-        items: [
-          { name: "Single-hole punch", note: "handy for making the paper slot in the Cover Image." }
-        ],
-        clarification: "If you choose printed-and-cut images, you do not need a hole punch."
       }
     ]
   },

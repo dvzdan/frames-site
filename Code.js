@@ -13,7 +13,7 @@ const SITE_PAGE_ROUTES = {
   },
   assembly: {
     template: "Assembly",
-    title: "Prepare & Assemble - Double Take Frames"
+    title: "Instructions - Double Take Frames"
   }
 };
 
@@ -801,6 +801,10 @@ function getSourcingItems_() {
       return a.order - b.order;
     })
     .map(function(item) {
+      if (item.item === "Display Image Material") {
+        item.item = "Cover Image Material";
+        item.note = item.note.replace(/Display Image/g, "Cover Image");
+      }
       if (item.item === "Weight Ballast" && item.product === "Lead fishing weights / sinkers") {
         item.product = "1/4 oz Black Coated Low Profile Adhesive Wheel Weights - White Tape, Roll of 715 Segments";
         item.quantity = "As needed; each segment is 1/4 oz";

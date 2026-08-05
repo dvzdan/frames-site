@@ -11,7 +11,7 @@ const routes = {
     partials: [],
     config: "HomeConfig.html",
     clients: ["SharedClient.html", "BlinkClient.html", "HomeClient.html"],
-    required: ['id="top"', 'id="how-it-works"', 'id="gallery-section"', 'id="choose-path"', 'id="checkout-placeholder"'],
+    required: ['id="top"', 'id="how-it-works"', 'id="gallery-section"', 'id="checkout-placeholder"'],
     forbidden: ["ASSEMBLY_MANIFEST", "pricingTiers", "AssemblyData.html"]
   },
   build: {
@@ -19,8 +19,8 @@ const routes = {
     partials: [],
     config: "BuildConfig.html",
     clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "BuildClient.html"],
-    required: ['id="plans"', 'id="build-print"', 'id="build-hardware"', 'id="build-continue"', 'id="parts"'],
-    forbidden: ["ASSEMBLY_MANIFEST", "INITIAL_GALLERY_ITEMS", "KitsConfig", 'id="build-images"', 'id="setup-inventory"']
+    required: ['id="plans"', 'id="build-print"', 'id="build-hardware"', 'id="parts"', 'id="self-print-next"'],
+    forbidden: ["ASSEMBLY_MANIFEST", "INITIAL_GALLERY_ITEMS", "KitsConfig", 'id="build-images"', 'id="build-continue"', 'id="setup-inventory"']
   },
   kits: {
     template: "Kits.html",
@@ -44,7 +44,7 @@ const routes = {
     template: "Assembly.html",
     partials: ["Preparation.html"],
     config: "AssemblyConfig.html",
-    clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "ToolsClient.html", "AssemblyData.html", "AssemblyClient.html", "AssemblyPageClient.html"],
+    clients: ["SharedClient.html", "TooltipClient.html", "ToolsClient.html", "AssemblyData.html", "AssemblyClient.html", "AssemblyPageClient.html"],
     required: ['id="assembly-start"', 'id="prepare-images"', 'id="setup-inventory"', 'id="setup-manual"', 'id="assembly-tools"', 'id="assemblyGuide"', 'id="faq"'],
     forbidden: ["INITIAL_GALLERY_ITEMS", "renderHomeGallery", "KitsConfig"]
   }

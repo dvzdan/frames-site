@@ -31,11 +31,11 @@ const routes = {
     clients: ["SharedClient.html", "BlinkClient.html", "KitsClient.html"]
   },
   assembly: {
-    title: "Prepare & Assemble - Double Take Frames",
+    title: "Instructions - Double Take Frames",
     directory: "assembly",
     template: "Assembly.html",
     config: "AssemblyConfig.html",
-    clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "ToolsClient.html", "AssemblyData.html", "AssemblyClient.html", "AssemblyPageClient.html"]
+    clients: ["SharedClient.html", "TooltipClient.html", "ToolsClient.html", "AssemblyData.html", "AssemblyClient.html", "AssemblyPageClient.html"]
   }
 };
 
@@ -94,7 +94,7 @@ const galleryItems = [
 // Static snapshot of the current sourcing sheet. These can move to D1 later if
 // frequent non-code editing becomes useful.
 const partsItems = [
-  { item: "Display Image Material", product: "KOALA Waterproof Matte White Tear-Resistant Printable Vinyl Paper, 8.5 x 11 in.", url: "", quantity: "1 sheet", note: "Required. Used to print the Display Image." },
+  { item: "Cover Image Material", product: "KOALA Waterproof Matte White Tear-Resistant Printable Vinyl Paper, 8.5 x 11 in.", url: "", quantity: "1 sheet", note: "Required. Used to print the Cover Image." },
   { item: "Reveal Image Material", product: "PPD Double-Sided Photo Paper / Glossy Brochure Paper, 8.5 x 11 in., 140 gsm, 6.2 mil, instant-dry and water-resistant.", url: "", quantity: "1 sheet", note: "Recommended. Used to print the Reveal Image." },
   { item: "Clear PET Sheet", product: "Clear, flexible PET sheet, 1 mm thick. Start with an 8 x 10 in. sheet and cut it to approximately 5.75 x 6.75 in.", url: "", quantity: "1 piece", note: "Required. Use clear, flexible PET rather than rigid acrylic." },
   { item: "Backing Board", product: "Backing-board sheet, 8 x 10 in. and approximately 1/20 in. thick. Cut to approximately 6.875 x 10 in.", url: "", quantity: "1 piece", note: "Required. Use 6.875 in. for the cut dimension." },
@@ -151,6 +151,10 @@ function migrateLegacySiteContent(content) {
 
   const sourcingItems = content?.sections?.parts?.items || [];
   for (const item of sourcingItems) {
+    if (item.item === "Display Image Material") {
+      item.item = "Cover Image Material";
+      item.note = String(item.note || "").replace(/Display Image/g, "Cover Image");
+    }
     if (item.item === "Weight Ballast" && item.product === "Lead fishing weights / sinkers") {
       item.product = "1/4 oz Black Coated Low Profile Adhesive Wheel Weights - White Tape, Roll of 715 Segments";
       item.quantity = "As needed; each segment is 1/4 oz";
@@ -177,7 +181,7 @@ function header(activePage) {
   const links = [
     ["kits", "Get One"],
     ["build", "Self-Print"],
-    ["assembly", "Prepare &amp; Assemble"]
+    ["assembly", "Instructions"]
   ].map(([page, label]) => (
     `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`
   )).join("");

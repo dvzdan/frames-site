@@ -195,7 +195,7 @@ async function assertPage(name, requiredSelectors, forbiddenSelectors) {
 
 const home = await assertPage(
   "home",
-  ["h1", "#how-it-works", "#gallery-section", "#choose-path", "#inquiryForm"],
+  ["h1", "#how-it-works", "#gallery-section", "#inquiryForm"],
   ["#assemblyGuide", "#pricingTiers"]
 );
 const homeHeroReady = await home.waitForFunction(() => (
@@ -332,8 +332,8 @@ await home.close();
 
 const build = await assertPage(
   "build",
-  ["h1", "#build-print", "#build-hardware", "#build-continue", "#parts"],
-  ["#build-images", "#setup-inventory", "#assemblyGuide", "#gallery-section", "#pricingTiers"]
+  ["h1", "#build-print", "#build-hardware", "#parts", "#self-print-next"],
+  ["#build-images", "#build-continue", "#setup-inventory", "#assemblyGuide", "#gallery-section", "#pricingTiers"]
 );
 const buildTooltip = build.locator("[data-term-help-trigger]").first();
 await buildTooltip.click();
@@ -350,11 +350,13 @@ await build.close();
 
 const kits = await assertPage(
   "kits",
-  ["h1", ".launch-pricing-note", "#pricingTiers", ".kit-selector-row", ".tier-active-card", ".image-prep-options"],
+  ["h1", ".launch-pricing-note", "#pricingTiers", ".kit-selector-row", ".kit-selector-facts", ".tier-active-card", ".image-prep-options", ".tier-actions"],
   ["#assemblyGuide", "#gallery-section", "#pricingTiers del", "#pricingTiers s"]
 );
 const kitsLaunchNote = await kits.locator(".launch-pricing-note").innerText();
 const kitsMakerBasePrice = await kits.locator("[data-tier-total-price]").innerText();
+const kitsMakerComparisonFacts = await kits.locator('.kit-selector-row[data-tier-index="0"] .kit-selector-fact').allInnerTexts();
+const kitsMakerInquiryHref = await kits.locator(".tier-action-primary").getAttribute("href");
 await kits.locator('input[value="print-cut"]').check();
 const kitsMakerPreparedPrice = await kits.locator("[data-tier-total-price]").innerText();
 await kits.locator('.kit-selector-row[data-tier-index="1"]').click();
@@ -367,11 +369,25 @@ results.push({
   interaction: "kits",
   kitsLaunchNote,
   kitsMakerBasePrice,
+  kitsMakerComparisonFacts,
+  kitsMakerInquiryHref,
   kitsMakerPreparedPrice,
   kitsBuilderPreparedPrice,
   kitsGiftPrice
 });
 await kits.close();
+
+const { page: inquiryDeepLink, errors: inquiryDeepLinkErrors } = await openPage(
+  "home",
+  { width: 1280, height: 900 },
+  "&offering=builder#checkout-placeholder"
+);
+const inquiryOfferingSelected = (
+  await inquiryDeepLink.locator("#inquiryType").inputValue() === "Order or availability" &&
+  await inquiryDeepLink.locator("#inquiryKit").inputValue() === "Ready-to-Assemble Kit"
+);
+results.push({ interaction: "inquiry-deep-link", inquiryOfferingSelected, errors: inquiryDeepLinkErrors });
+await inquiryDeepLink.close();
 
 const { page: kitsDeepLink, errors: kitsDeepLinkErrors } = await openPage(
   "kits",
@@ -407,9 +423,6 @@ const assemblyProgressAfter = await assembly.locator("[data-assembly-progress]")
 const assemblyToolsDisclosure = assembly.locator(".assembly-primer").first();
 await assemblyToolsDisclosure.locator("summary").click();
 const assemblyToolsDisclosureWorks = await assemblyToolsDisclosure.evaluate((node) => node.open);
-await assemblyToolsDisclosure.locator("[data-support-guide-trigger]").click();
-const assemblyModalVisible = await assembly.locator("#supportGuideModal").isVisible();
-await assembly.locator("[data-support-guide-close='button']").click();
 
 const assemblyMechanismDisclosure = assembly.locator(".assembly-primer").nth(1);
 await assemblyMechanismDisclosure.locator("summary").click();
@@ -432,8 +445,7 @@ results.push({
   assemblyToolsDisclosureWorks,
   assemblyMechanismDisclosureWorks,
   assemblyFaqDisclosureWorks,
-  assemblyTooltipVisible,
-  assemblyModalVisible
+  assemblyTooltipVisible
 });
 await assembly.close();
 
@@ -510,6 +522,9 @@ if (
   !buildModalVisible ||
   kitsLaunchNote !== "Launch pricing for the first production run; prices may change as materials and capacity settle." ||
   kitsMakerBasePrice !== "$25" ||
+  kitsMakerComparisonFacts.length !== 3 ||
+  !kitsMakerInquiryHref.includes("offering=maker") ||
+  !inquiryOfferingSelected ||
   kitsMakerPreparedPrice !== "$35" ||
   kitsBuilderPreparedPrice !== "$55" ||
   kitsGiftPrice !== "$80" ||
@@ -524,8 +539,7 @@ if (
   !assemblyToolsDisclosureWorks ||
   !assemblyMechanismDisclosureWorks ||
   !assemblyFaqDisclosureWorks ||
-  !assemblyTooltipVisible ||
-  !assemblyModalVisible
+  !assemblyTooltipVisible
 ) {
   process.exitCode = 1;
 }

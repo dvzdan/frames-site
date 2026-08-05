@@ -448,6 +448,20 @@ function setHomeConditionalField(control, visible) {
   control.disabled = !visible;
 }
 
+function applyHomeInquirySelection() {
+  const offering = new URLSearchParams(window.location.search).get("offering");
+  const offeringLabels = {
+    maker: "Hardware Bundle",
+    builder: "Ready-to-Assemble Kit",
+    gift: "Finished Gift"
+  };
+  if (!offeringLabels[offering]) return;
+  const type = document.getElementById("inquiryType");
+  const kit = document.getElementById("inquiryKit");
+  if (type) type.value = "Order or availability";
+  if (kit) kit.value = offeringLabels[offering];
+}
+
 async function submitHomeInquiry(event) {
   event.preventDefault();
   const form = event.currentTarget;
@@ -513,6 +527,7 @@ function startHomePage() {
   if (inquiry) inquiry.addEventListener("submit", submitHomeInquiry);
   const type = document.getElementById("inquiryType");
   if (type) type.addEventListener("change", updateHomeInquiryFields);
+  applyHomeInquirySelection();
   updateHomeInquiryFields();
 
   if ("requestIdleCallback" in window) {

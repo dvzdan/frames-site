@@ -7,6 +7,7 @@ function hydrateImagePreparation() {
     [".image-preparation-intro", content.intro],
     [".image-preparation-option:not(.image-preparation-skip) h3", content.selfHeading],
     [".image-preparation-option:not(.image-preparation-skip) .image-preparation-text", content.selfText],
+    [".image-preparation-tool", content.toolText],
     [".image-preparation-note", content.note],
     [".image-preparation-link", content.linkLabel],
     [".image-preparation-skip h3", content.skipHeading],
@@ -50,7 +51,7 @@ function renderAssemblyPreamble(content) {
   if (tools) {
     const disclosure = el("details", "assembly-primer");
     const summary = el("summary", "assembly-primer-summary");
-    summary.appendChild(el("span", "assembly-primer-title", "Tools and preparation"));
+    summary.appendChild(el("span", "assembly-primer-title", "Tools"));
     summary.appendChild(el("span", "assembly-primer-note", content.toolsSummary));
     disclosure.appendChild(summary);
     const body = el("div", "assembly-primer-body");
@@ -192,7 +193,6 @@ function startAssemblyPage() {
   hydrateAssemblyPage();
   hydrateAssemblyFaq();
   bindTermHelp();
-  bindSupportGuideModal();
   if (typeof window.renderAssemblyGuide === "function") {
     window.renderAssemblyGuide();
   }

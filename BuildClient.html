@@ -4,9 +4,7 @@ function hydrateBuildCopy() {
     ["#build-print .build-step-heading", plans.printHeading],
     ["#build-print .build-step-text", plans.printText],
     ["#build-hardware .build-step-heading", plans.hardware && plans.hardware.heading],
-    ["#build-hardware .build-step-text", plans.hardware && plans.hardware.text],
-    ["#build-continue .build-step-heading", plans.continue && plans.continue.heading],
-    ["#build-continue .build-step-text", plans.continue && plans.continue.text]
+    ["#build-hardware .build-step-text", plans.hardware && plans.hardware.text]
   ];
   updates.forEach(function(update) {
     const node = document.querySelector(update[0]);
@@ -16,10 +14,6 @@ function hydrateBuildCopy() {
   const hardwareLink = document.querySelector("#build-hardware .plans-hardware-link");
   if (hardwareLink && plans.hardware && plans.hardware.linkLabel) {
     hardwareLink.textContent = plans.hardware.linkLabel;
-  }
-  const continueLink = document.querySelector("#build-continue .plans-continue-link");
-  if (continueLink && plans.continue && plans.continue.linkLabel) {
-    continueLink.textContent = plans.continue.linkLabel;
   }
 }
 

@@ -126,9 +126,20 @@ function createKitSelector(tier, index, panelId) {
   row.dataset.tierIndex = String(index);
   row.setAttribute("role", "tab");
   row.setAttribute("aria-controls", panelId);
-  row.appendChild(el("span", "kit-selector-name", tier.name));
+  const heading = el("span", "kit-selector-heading");
+  heading.appendChild(el("span", "kit-selector-name", tier.name));
+  heading.appendChild(el("span", "kit-selector-price", tier.priceLabel || formatKitPrice(tier.priceValue)));
+  row.appendChild(heading);
   row.appendChild(el("span", "kit-selector-summary", tier.shortDescription));
-  row.appendChild(el("span", "kit-selector-price", tier.priceLabel || formatKitPrice(tier.priceValue)));
+  const facts = el("span", "kit-selector-facts");
+  (tier.comparison || []).forEach(function(item) {
+    if (!item || !item.label || !item.value) return;
+    const fact = el("span", "kit-selector-fact");
+    fact.appendChild(el("span", "kit-selector-fact-label", item.label));
+    fact.appendChild(el("span", "kit-selector-fact-value", item.value));
+    facts.appendChild(fact);
+  });
+  if (facts.children.length) row.appendChild(facts);
   return row;
 }
 
@@ -166,6 +177,7 @@ function createActiveKitPanel(tier, state, imageOptions, onImageChange) {
   const top = el("div", "tier-active-top");
   top.appendChild(createKitIllustration(tier));
   const intro = el("div", "tier-intro tier-active-intro");
+  intro.appendChild(el("h2", "tier-active-heading", tier.name));
   appendParagraph(intro, tier.description, "tier-long-description");
   intro.appendChild(createKitPriceSummary());
   top.appendChild(intro);
@@ -175,21 +187,36 @@ function createActiveKitPanel(tier, state, imageOptions, onImageChange) {
   if (tier.imagePreparationApplies && imageOptions.length) {
     body.appendChild(createKitImageOptions(tier, state, imageOptions, onImageChange));
   }
-  const nextStep = createKitNextStep(tier.nextStep);
-  if (nextStep) body.appendChild(nextStep);
+  const actions = createKitActions(tier);
+  if (actions) body.appendChild(actions);
   card.appendChild(top);
   card.appendChild(body);
   return card;
 }
 
-function createKitNextStep(nextStep) {
-  if (!nextStep || !nextStep.label || !nextStep.page) return null;
-  const wrapper = el("div", "tier-next-step");
-  wrapper.appendChild(el("span", "tier-next-step-label", "Next"));
-  const link = el("a", "button tier-next-step-link", nextStep.label);
-  link.href = sitePageHref(nextStep.page, nextStep.hash || "");
-  wrapper.appendChild(link);
+function createKitActions(tier) {
+  const primary = tier.primaryAction;
+  const secondary = tier.secondaryAction;
+  if (!primary && !secondary) return null;
+  const wrapper = el("div", "tier-actions");
+  if (primary && primary.label && primary.offeringId) {
+    const link = el("a", "button tier-action-primary", primary.label);
+    link.href = createOfferingInquiryHref(primary.offeringId);
+    wrapper.appendChild(link);
+  }
+  if (secondary && secondary.label && secondary.page) {
+    const link = el("a", "button secondary tier-action-secondary", secondary.label);
+    link.href = sitePageHref(secondary.page, secondary.hash || "");
+    wrapper.appendChild(link);
+  }
   return wrapper;
+}
+
+function createOfferingInquiryHref(offeringId) {
+  const url = new URL(sitePageHref("home"), window.location.href);
+  url.searchParams.set("offering", offeringId);
+  url.hash = "checkout-placeholder";
+  return url.toString();
 }
 
 function createKitIllustration(tier) {

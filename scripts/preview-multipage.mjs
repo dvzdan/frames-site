@@ -25,7 +25,7 @@ const routeFiles = {
   assembly: {
     template: "Assembly.html",
     config: "AssemblyConfig.html",
-    clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "ToolsClient.html", "AssemblyData.html", "AssemblyClient.html", "AssemblyPageClient.html"]
+    clients: ["SharedClient.html", "TooltipClient.html", "ToolsClient.html", "AssemblyData.html", "AssemblyClient.html", "AssemblyPageClient.html"]
   }
 };
 
@@ -55,7 +55,7 @@ function renderHeader(activePage) {
   const links = [
     ["kits", "Get One"],
     ["build", "Self-Print"],
-    ["assembly", "Prepare &amp; Assemble"]
+    ["assembly", "Instructions"]
   ].map(([page, label]) => (
     `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`
   )).join("");

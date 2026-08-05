@@ -1,6 +1,6 @@
 SITE_CONTENT.sections.order = {
-  heading: "Choose your starting point",
-  subhead: "Buy only the hardware, get every part ready to assemble, or order a finished frame.",
+  heading: "How much do you want to do yourself?",
+  subhead: "Print the parts yourself, assemble a complete kit, or order a finished frame.",
   pricePrefix: "Total",
   imagePreparationHeading: "How would you like to handle the images?",
   imageOptions: [
@@ -14,7 +14,7 @@ SITE_CONTENT.sections.order = {
     {
       id: "print-cut",
       title: "Print and cut them for me",
-      description: "Send us your Display Image and Reveal Image. We'll format, print, and precisely cut both.",
+      description: "Send us your Cover Image and Reveal Image. We'll format, print, and precisely cut both.",
       priceAdjustment: 10
     }
   ],
@@ -25,6 +25,11 @@ SITE_CONTENT.sections.order = {
       priceValue: 25,
       priceLabel: "$25",
       shortDescription: "Hardware only. You print and assemble.",
+      comparison: [
+        { label: "Printed parts", value: "You print" },
+        { label: "Assembly", value: "You assemble" },
+        { label: "Images", value: "DIY or +$10" }
+      ],
       description: "All the non-3D-printed hardware and specialty materials in one bundle. Use our free print files to make the frame and printed components, then assemble it yourself.",
       imagePreparationApplies: true,
       defaultActive: true,
@@ -42,7 +47,8 @@ SITE_CONTENT.sections.order = {
         "Complete the final setup",
         { text: "Have the required assembly tools ready", href: "#assembly-tools" }
       ],
-      nextStep: { label: "Start with Self-Print", page: "build" },
+      primaryAction: { label: "Ask about the Hardware Bundle", offeringId: "maker" },
+      secondaryAction: { label: "View print files", page: "build" },
       accentColor: "#6f7f53",
       illustration: {
         assetKey: "maker",
@@ -55,6 +61,11 @@ SITE_CONTENT.sections.order = {
       priceValue: 45,
       priceLabel: "$45",
       shortDescription: "All parts included. You assemble.",
+      comparison: [
+        { label: "Printed parts", value: "Included" },
+        { label: "Assembly", value: "You assemble" },
+        { label: "Images", value: "DIY or +$10" }
+      ],
       description: "Everything in the Hardware Bundle, plus all the 3D-printed parts, cleaned and ready to assemble.",
       imagePreparationApplies: true,
       included: [
@@ -70,7 +81,8 @@ SITE_CONTENT.sections.order = {
         "Assemble and load the mechanism",
         "Complete the final setup"
       ],
-      nextStep: { label: "Continue to Prepare & Assemble", page: "assembly" },
+      primaryAction: { label: "Ask about the Ready-to-Assemble Kit", offeringId: "builder" },
+      secondaryAction: { label: "View the instructions", page: "assembly" },
       accentColor: "#6b7f92",
       illustration: {
         assetKey: "builder",
@@ -83,17 +95,22 @@ SITE_CONTENT.sections.order = {
       priceValue: 80,
       priceLabel: "$80",
       shortDescription: "Fully completed. Ready to give.",
+      comparison: [
+        { label: "Printed parts", value: "Included" },
+        { label: "Assembly", value: "Included" },
+        { label: "Images", value: "Included" }
+      ],
       description: "Everything in the Ready-to-Assemble Kit, fully assembled, loaded, tested, and ready to give.",
       imagePreparationApplies: false,
       included: [
         "Fully assembled",
-        "Display and Reveal Images printed, cut, and loaded",
+        "Cover and Reveal Images printed, cut, and loaded",
         "Mechanism tested",
         "Battery included",
         "Ready to display or gift"
       ],
       youDo: ["Give it"],
-      nextStep: { label: "Ask about a Finished Gift", page: "home", hash: "checkout-placeholder" },
+      primaryAction: { label: "Ask about a Finished Gift", offeringId: "gift" },
       accentColor: "#7f5d68",
       illustration: {
         assetKey: "gift",

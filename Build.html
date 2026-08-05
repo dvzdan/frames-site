@@ -1,33 +1,28 @@
 <section class="section page-intro page-intro-build">
-  <div class="eyebrow">Optional preliminary module</div>
-  <h1>Self-print the parts</h1>
-  <p class="section-copy">Use this path only if you are printing the plastic parts yourself. It ends when your printed parts and hardware are ready; image preparation and assembly happen in the shared next stage.</p>
+  <div class="eyebrow">3D printing</div>
+  <h1>Print your own parts</h1>
+  <p class="section-copy">Download and print the frame and mechanism parts, then add the required hardware.</p>
 </section>
 
 <section class="section plans-section" id="plans">
-  <h2 class="plans-heading">Get the physical parts ready</h2>
+  <h2 class="plans-heading">Print the parts and get the hardware</h2>
   <div class="build-steps">
     <article class="build-step build-step-print" id="build-print">
       <div class="build-step-number">1</div>
       <h3 class="build-step-heading">Print the frame and mechanism parts</h3>
-      <p class="build-step-text">Print the frame, stand, and all parts at once from a ready-to-go 3MF; print individual pieces from the STL files; or tinker with and customize the OpenSCAD source.</p>
+      <p class="build-step-text">Print everything at once from the ready-to-go 3MF, print individual pieces from the STL files, or customize the OpenSCAD source.</p>
       <dl class="download-type-list"><dt>Complete print</dt><dd>3MF</dd><dt>Individual parts</dt><dd>STL</dd><dt>Editable source</dt><dd>OpenSCAD</dd></dl>
       <h4 class="plans-downloads-heading">Print files</h4>
       <div class="downloads-list" id="downloadsList"><?!= renderInitialDownloadsHtml() ?></div>
       <p class="fine-print plans-license"><a class="plans-license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> <span class="plans-license-text">For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form.</span></p>
+      <div class="print-cleanup-tools"><strong>For cleanup:</strong> Have pliers, small angled flush cutters, and gel super glue ready.</div>
       <div class="support-guide-print-callout"><strong>After printing:</strong> Remove the built-in supports before assembly. <button class="text-link-button support-guide-trigger" type="button" data-support-guide-trigger="true">View the support-removal guide</button></div>
     </article>
     <article class="build-step build-step-hardware" id="build-hardware">
       <div class="build-step-number">2</div>
       <h3 class="build-step-heading">Obtain the hardware</h3>
-      <p class="build-step-text">Get all the non-3D-printed parts and materials in one bundle, or source them yourself.</p>
+      <p class="build-step-text">Get the non-3D-printed parts in one bundle, or source each component yourself.</p>
       <a class="button secondary plans-hardware-link" href="#parts">Compare hardware options</a>
-    </article>
-    <article class="build-step build-step-continue" id="build-continue">
-      <div class="build-step-number">3</div>
-      <h3 class="build-step-heading">Join the shared path</h3>
-      <p class="build-step-text">Once the physical parts are ready, continue to the same image preparation, parts check, and assembly sequence used by Ready-to-Assemble Kit builders.</p>
-      <a class="button secondary plans-continue-link" href="<?= sitePageUrl('assembly') ?>">Continue to Prepare &amp; Assemble</a>
     </article>
   </div>
 </section>
@@ -45,4 +40,11 @@
     <div class="parts-table" id="partsTable"></div>
   </div>
   <p class="fine-print parts-note" id="partsNote"></p>
+</section>
+
+<section class="section self-print-next" id="self-print-next">
+  <div class="eyebrow">Parts ready?</div>
+  <h2>Prepare the images and assemble the frame</h2>
+  <p class="section-copy">Use the illustrated instructions to prepare the two images, check the parts, and put everything together.</p>
+  <a class="button" href="<?= sitePageUrl('assembly') ?>">Open the instructions</a>
 </section>
