@@ -69,7 +69,7 @@ Hardware Bundle:
 - Customer downloads and 3D prints the parts, assembles the mechanism, and prepares and loads the image pair.
 - Listed price: $25.
 
-Ready-to-Assemble Bundle:
+Ready-to-Assemble Kit:
 
 - For people who want the printed frame and stand included but still want to assemble the mechanism.
 - Includes the Hardware Bundle plus cleaned and prepared 3D-printed parts.
@@ -87,7 +87,7 @@ Archived Setup option:
 
 - This was previously a public option but is currently hidden from the website.
 - Do not promote it unless Zack asks to restore it.
-- Assembly and reset instructions may still apply to the Hardware Bundle, Ready-to-Assemble Bundle, and Finished Gift options.
+- Assembly and reset instructions may still apply to the Hardware Bundle, Ready-to-Assemble Kit, and Finished Gift options.
 
 ## FAQ Behavior
 
@@ -106,7 +106,7 @@ When a customer is unsure which option fits:
 1. Ask whether they want to 3D print parts themselves.
 2. Ask whether they want to assemble the mechanism.
 3. Ask whether this is for a deadline or gift.
-4. Recommend the Hardware Bundle, Ready-to-Assemble Bundle, or Finished Gift accordingly.
+4. Recommend the Hardware Bundle, Ready-to-Assemble Kit, or Finished Gift accordingly.
 
 When a customer has an image idea:
 

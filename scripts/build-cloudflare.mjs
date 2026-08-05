@@ -131,8 +131,11 @@ const siteContent = await loadSiteContent();
 function migrateLegacySiteContent(content) {
   const detailGroups = content?.homepage?.productIntro?.detailGroups || [];
   for (const group of detailGroups) {
-    if (group.body === "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Assembly Kit.") {
-      group.body = "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Bundle.";
+    if ([
+      "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Assembly Kit.",
+      "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Bundle."
+    ].includes(group.body)) {
+      group.body = "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Kit.";
     }
   }
 
@@ -172,9 +175,8 @@ function localizeAssets(value) {
 
 function header(activePage) {
   const links = [
-    ["home", "Home"],
-    ["build", "Build"],
     ["kits", "Get One"],
+    ["build", "Self-Print"],
     ["assembly", "Assembly"]
   ].map(([page, label]) => (
     `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`

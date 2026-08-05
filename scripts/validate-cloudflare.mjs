@@ -40,6 +40,16 @@ const buildScript = fs.readFileSync(path.join(root, "scripts", "build.js"), "utf
 const assembly = fs.readFileSync(path.join(root, "assembly", "index.html"), "utf8");
 const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 if (!home.includes('id="gallery-section"') || !home.includes('id="inquiryForm"')) errors.push("Home structure is incomplete");
+const getOneNavIndex = home.indexOf('href="/kits/">Get One</a>');
+const selfPrintNavIndex = home.indexOf('href="/build/">Self-Print</a>');
+const assemblyNavIndex = home.indexOf('href="/assembly/">Assembly</a>');
+if (
+  getOneNavIndex < 0 ||
+  selfPrintNavIndex < 0 ||
+  assemblyNavIndex < 0 ||
+  !(getOneNavIndex < selfPrintNavIndex && selfPrintNavIndex < assemblyNavIndex) ||
+  home.includes('href="/">Home</a>')
+) errors.push("Primary navigation labels or order are incorrect");
 if (home.includes("__TURNSTILE_SITE_KEY__") || !home.includes("challenges.cloudflare.com/turnstile")) errors.push("Turnstile is not configured in the home page");
 if (!homeScript.includes('fetch("/api/inquiries"') || !homeScript.includes('fetch("/api/gallery/submit"')) errors.push("Cloudflare form endpoints are not wired to the home page");
 const galleryMatch = homeScript.match(/window\.INITIAL_GALLERY_ITEMS=(\[[^\n]*\]);/);

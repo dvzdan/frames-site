@@ -136,7 +136,7 @@ const CMS_DEFAULT_ROWS = [
   ["how-it-works", "primary", 10, "", "Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.", true, "Main paragraph under How it works."],
   ["how-it-works", "detail", 20, "Wait, why?", "Halloween. April Fools. Baby reveals. Pet nonsense.\n\nFamily holiday cards. Promposals.\n\nSincere messages of hope and inspiration, if you must insist.\n\nImagine giving someone a framed photo, letting it sit quietly on a shelf, and then - days or weeks later - it suddenly becomes a different picture.", true, "Appears below the main How it works paragraph."],
   ["how-it-works", "detail", 21, "So it's both absurd and pointless. How do I get one?", "You build it! Download the ready-to-print files, print the parts, and put everything together. No modeling or design work required.\n\nIf you don't own a 3D printer, ask around - a friend, local library, or makerspace may have one. You can source the remaining hardware and materials yourself or get everything together in our Hardware Bundle.", true, "Offering bridge after Wait, why?"],
-  ["how-it-works", "detail", 22, "This whole 3D-printing craze doesn't interest me.", "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Bundle.", true, "Offering bridge after Wait, why?"],
+  ["how-it-works", "detail", 22, "This whole 3D-printing craze doesn't interest me.", "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Kit.", true, "Offering bridge after Wait, why?"],
   ["how-it-works", "detail", 23, "Take the hint. I want a fun prank gift, not a project.", "You're missing out! But if you insist, we'll sell you the Finished Gift - built, loaded, tested, and ready to give. It'll cost ya.", true, "Offering bridge after Wait, why?"],
   ["how-it-works", "detail", 24, "How exactly does it work?", "Simple: a clock winds a string, which pulls a zipper, which releases a latch, which drops a weight, which yoinks a photo, which reveals another.", true, ""],
   ["how-it-works", "detail", 25, "Will I enjoy putting this together?", "That depends almost entirely on what kind of project you enjoy.\n\nThis is a miniature machine disguised as a gift: part assembly project, part puzzle, and part experiment. If you enjoy examining unfamiliar parts, understanding how they interact, and making small adjustments until a mechanism comes to life, it is probably your kind of fun.\n\nNo individual step is especially difficult. But if you want a quick, strictly linear project that never asks you to stop and think, it may be more aggravating than enjoyable. The build rewards curiosity, patience, and a willingness to tinker.", true, "Moved from FAQ into How it works."],
@@ -155,8 +155,11 @@ const CMS_DEFAULT_ROWS = [
 ];
 const CMS_DEFAULT_BODY_REPLACEMENTS = {
   "how-it-works|detail|22": {
-    from: "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Assembly Kit.",
-    to: "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Bundle."
+    from: "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Bundle.",
+    alternates: [
+      "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Assembly Kit."
+    ],
+    to: "Fair enough. We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Kit."
   },
   "faq|item|30": {
     from: "It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.",

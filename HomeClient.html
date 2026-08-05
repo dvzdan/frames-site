@@ -1,6 +1,6 @@
 const HOME_OFFERING_LINKS = {
   "Hardware Bundle": "maker",
-  "Ready-to-Assemble Bundle": "builder",
+  "Ready-to-Assemble Kit": "builder",
   "Finished Gift": "gift"
 };
 
@@ -92,7 +92,7 @@ function appendHomeParagraphs(parent, text) {
 }
 
 function appendHomeOfferingText(parent, text) {
-  const pattern = /\b(Hardware Bundle|Ready-to-Assemble Bundle|Finished Gift)\b/g;
+  const pattern = /\b(Hardware Bundle|Ready-to-Assemble Kit|Finished Gift)\b/g;
   let cursor = 0;
   let match;
   while ((match = pattern.exec(text)) !== null) {

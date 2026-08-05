@@ -109,7 +109,7 @@ Customer does:
 
 Note: Some basic hand tools required.
 
-### Ready-to-Assemble Bundle
+### Ready-to-Assemble Kit
 
 Listed price: $45
 

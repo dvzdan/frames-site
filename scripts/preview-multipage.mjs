@@ -53,9 +53,8 @@ function routeHref(page, hash = "") {
 
 function renderHeader(activePage) {
   const links = [
-    ["home", "Home"],
-    ["build", "Build"],
     ["kits", "Get One"],
+    ["build", "Self-Print"],
     ["assembly", "Assembly"]
   ].map(([page, label]) => (
     `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`

@@ -187,7 +187,7 @@ Purpose:
 Ordering options:
 
 - Hardware Bundle, $25: Hardware and materials only. Customer prints the parts and assembles the frame.
-- Ready-to-Assemble Bundle, $45: Every part is included and prepared. Customer assembles the frame.
+- Ready-to-Assemble Kit, $45: Every part is included and prepared. Customer assembles the frame.
 - Finished Gift, $80: Fully assembled, tested, images loaded, battery included, ready to display or gift.
 
 Editable content:
