@@ -332,8 +332,8 @@ await home.close();
 
 const build = await assertPage(
   "build",
-  ["h1", "#build-print", "#build-images", "#build-hardware", "#build-tools", "#setup-inventory"],
-  ["#assemblyGuide", "#gallery-section", "#pricingTiers"]
+  ["h1", "#build-print", "#build-hardware", "#build-continue", "#parts"],
+  ["#build-images", "#setup-inventory", "#assemblyGuide", "#gallery-section", "#pricingTiers"]
 );
 const buildTooltip = build.locator("[data-term-help-trigger]").first();
 await buildTooltip.click();
@@ -397,7 +397,7 @@ await kitsDeepLink.close();
 
 const assembly = await assertPage(
   "assembly",
-  ["h1", "#assembly-tools", "#assemblyGuide", "[data-assembly-viewer]", "#faq"],
+  ["h1", "#prepare-images", ".image-preparation-link", "#setup-inventory", "#assembly-tools", "#assemblyGuide", "[data-assembly-viewer]", "#faq"],
   ["#gallery-section", "#pricingTiers"]
 );
 const assemblyProgressBefore = await assembly.locator("[data-assembly-progress]").innerText();

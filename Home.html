@@ -7,8 +7,8 @@
       <p>Build a 3D-printed frame that sits quietly as one picture, waits for a timer, then reveals another. All the files, tools, and instructions - free.</p>
     </div>
     <div class="actions">
-      <a class="button" href="<?= sitePageUrl('build') ?>">Start building</a>
-      <a class="button secondary" href="<?= sitePageUrl('kits') ?>">Get the parts</a>
+      <a class="button" href="<?= sitePageUrl('kits') ?>">Choose how to get one</a>
+      <a class="button secondary" href="<?= sitePageUrl('build') ?>">Self-print the parts</a>
     </div>
   </div>
   <div class="hero-gallery" id="heroGallery" hidden>
@@ -79,13 +79,14 @@
 
 <section class="section home-paths-section" id="choose-path">
   <div class="home-paths-heading">
-    <div class="eyebrow">Choose a path</div>
-    <h2>Start where you need to</h2>
+    <div class="eyebrow">One flow, flexible entry points</div>
+    <h2>Start where you are</h2>
+    <p class="section-copy">Choose a starting point, take only the preliminary module you need, then join the shared preparation and assembly sequence.</p>
   </div>
   <div class="home-paths-grid">
-    <a class="home-path" href="<?= sitePageUrl('build') ?>"><strong>Build</strong><span>Print the parts, prepare your images, get the hardware, and review the complete inventory.</span></a>
-    <a class="home-path" href="<?= sitePageUrl('kits') ?>"><strong>Get One</strong><span>Buy only the hardware, get every part ready to assemble, or order a finished frame.</span></a>
-    <a class="home-path" href="<?= sitePageUrl('assembly') ?>"><strong>Assembly</strong><span>Follow the illustrated manual to load the images, connect the mechanism, and set the timer.</span></a>
+    <a class="home-path home-path-primary" href="<?= sitePageUrl('kits') ?>"><span class="home-path-kicker">Start here</span><strong>Get One</strong><span>Choose the Hardware Bundle, Ready-to-Assemble Kit, or Finished Gift.</span></a>
+    <a class="home-path" href="<?= sitePageUrl('build') ?>"><span class="home-path-kicker">Optional preliminary module</span><strong>Self-Print</strong><span>Print the plastic parts and obtain the hardware. Stop here when the physical parts are ready.</span></a>
+    <a class="home-path" href="<?= sitePageUrl('assembly') ?>"><span class="home-path-kicker">Shared path</span><strong>Prepare &amp; Assemble</strong><span>Prepare the images, check every part, assemble the mechanism, and set the timer.</span></a>
   </div>
 </section>
 

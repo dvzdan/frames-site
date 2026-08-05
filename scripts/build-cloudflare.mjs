@@ -17,11 +17,11 @@ const routes = {
     clients: ["SharedClient.html", "BlinkClient.html", "HomeClient.html"]
   },
   build: {
-    title: "Build - Double Take Frames",
+    title: "Self-Print - Double Take Frames",
     directory: "build",
     template: "Build.html",
     config: "BuildConfig.html",
-    clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "ToolsClient.html", "BuildClient.html"]
+    clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "BuildClient.html"]
   },
   kits: {
     title: "Get One - Double Take Frames",
@@ -31,7 +31,7 @@ const routes = {
     clients: ["SharedClient.html", "BlinkClient.html", "KitsClient.html"]
   },
   assembly: {
-    title: "Assembly - Double Take Frames",
+    title: "Prepare & Assemble - Double Take Frames",
     directory: "assembly",
     template: "Assembly.html",
     config: "AssemblyConfig.html",
@@ -177,7 +177,7 @@ function header(activePage) {
   const links = [
     ["kits", "Get One"],
     ["build", "Self-Print"],
-    ["assembly", "Assembly"]
+    ["assembly", "Prepare &amp; Assemble"]
   ].map(([page, label]) => (
     `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`
   )).join("");
@@ -200,6 +200,7 @@ function downloadsMarkup() {
 
 function transformTemplate(page) {
   let markup = read(routes[page].template)
+    .replace(/<\?!=\s*include\('([^']+)'\)\s*;?\s*\?>/g, (_, partial) => read(`${partial}.html`))
     .replace(/<\?!=\s*renderInitialGalleryHtml\(\)\s*\?>/g, galleryMarkup())
     .replace(/<\?!=\s*renderInitialDownloadsHtml\(\)\s*\?>/g, downloadsMarkup())
     .replace(/<\?!=\s*ScriptApp\.getService\(\)\.getUrl\(\)\s*\?>\?page=make5x7/g, "/make-5x7/")

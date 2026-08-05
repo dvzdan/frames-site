@@ -15,7 +15,7 @@ const routeFiles = {
   build: {
     template: "Build.html",
     config: "BuildConfig.html",
-    clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "ToolsClient.html", "BuildClient.html"]
+    clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "BuildClient.html"]
   },
   kits: {
     template: "Kits.html",
@@ -55,7 +55,7 @@ function renderHeader(activePage) {
   const links = [
     ["kits", "Get One"],
     ["build", "Self-Print"],
-    ["assembly", "Assembly"]
+    ["assembly", "Prepare &amp; Assemble"]
   ].map(([page, label]) => (
     `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`
   )).join("");
@@ -72,6 +72,7 @@ function serverDownloadsMarkup() {
 
 function renderPartial(page) {
   return read(routeFiles[page].template)
+    .replace(/<\?!=\s*include\('([^']+)'\)\s*;?\s*\?>/g, (_, partial) => read(`${partial}.html`))
     .replace(/<\?!=\s*renderInitialGalleryHtml\(\)\s*\?>/g, serverGalleryMarkup())
     .replace(/<\?!=\s*renderInitialDownloadsHtml\(\)\s*\?>/g, serverDownloadsMarkup())
     .replace(/<\?!=\s*ScriptApp\.getService\(\)\.getUrl\(\)\s*\?>/g, "")

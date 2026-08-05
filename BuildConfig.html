@@ -1,6 +1,6 @@
 SITE_CONTENT.sections.plans = {
-  heading: "Build steps",
-  printHeading: "Print the frame",
+  heading: "Get the physical parts ready",
+  printHeading: "Print the frame and mechanism parts",
   printText: "Download the ready-to-print file for the frame, stand, and printable mechanism parts.",
   supportGuide: {
     calloutPrefix: "After printing:",
@@ -25,22 +25,16 @@ SITE_CONTENT.sections.plans = {
     summary: "Free for personal, noncommercial use",
     text: "Remixing is encouraged with attribution under the same CC BY-NC-SA 4.0 license. For commercial use, get in touch through the request form."
   },
-  tool: {
-    heading: "Prepare your images",
-    text: "Use Make 5x7 to position any PNG for a 5x7 frame and print it correctly on standard 8.5x11 paper.",
-    linkLabel: "Open Make 5x7",
-    note: "Images close to a 5x7 shape work best. Other proportions can usually be adapted, but leave extra room around anything important, especially near the edges, so the final crop still works in the frame."
-  },
   hardware: {
-    heading: "Get the hardware",
+    heading: "Obtain the hardware",
     text: "Get the non-3D-printed parts in one tested bundle, or source each component yourself.",
-    linkLabel: "Get the Hardware Bundle",
+    linkLabel: "Compare hardware options",
     sourceLabel: "Prefer to source the parts yourself?"
   },
-  assembly: {
-    heading: "Assemble it",
-    text: "Follow the illustrated manual to load the images, connect the mechanism, and set the timer.",
-    linkLabel: "Start assembly"
+  continue: {
+    heading: "Join the shared path",
+    text: "Once the physical parts are ready, continue to the same image preparation, parts check, and assembly sequence used by Ready-to-Assemble Kit builders.",
+    linkLabel: "Continue to Prepare & Assemble"
   }
 };
 
@@ -50,37 +44,4 @@ SITE_CONTENT.sections.parts = {
   quantityLabel: "Quantity",
   productLabel: "Product",
   items: []
-};
-
-SITE_CONTENT.sections.assembly = {
-  toolsSummary: "Tweezers for everyone; preparation tools only when you print parts or prepare images yourself.",
-  tools: {
-    heading: "Tools to have ready",
-    intro: "What you need depends on which parts you're preparing yourself.",
-    groups: [
-      {
-        heading: "For everyone assembling",
-        items: [
-          { name: "Tweezers", note: "helpful for grabbing and positioning the string and image paper in tight spots." }
-        ]
-      },
-      {
-        heading: "If you printed the parts yourself",
-        items: [
-          { name: "Pliers", note: "for removing the upper built-in supports." },
-          { name: "Small flush cutters", note: "a short, angled pair is strongly preferred for removing the lower supports." },
-          { name: "Gel super glue", note: "for attaching the lid to the weight carriage." }
-        ],
-        guideLinkLabel: "View the support-removal guide",
-        clarification: "Ready-to-Assemble parts arrive cleaned, and the weight-carriage lid is already glued."
-      },
-      {
-        heading: "If you're preparing your own images",
-        items: [
-          { name: "Single-hole punch", note: "handy for making the paper slot in the Cover Image." }
-        ],
-        clarification: "If you choose printed-and-cut images, you do not need a hole punch."
-      }
-    ]
-  }
 };

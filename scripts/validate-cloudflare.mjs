@@ -42,7 +42,7 @@ const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 if (!home.includes('id="gallery-section"') || !home.includes('id="inquiryForm"')) errors.push("Home structure is incomplete");
 const getOneNavIndex = home.indexOf('href="/kits/">Get One</a>');
 const selfPrintNavIndex = home.indexOf('href="/build/">Self-Print</a>');
-const assemblyNavIndex = home.indexOf('href="/assembly/">Assembly</a>');
+const assemblyNavIndex = home.indexOf('href="/assembly/">Prepare &amp; Assemble</a>');
 if (
   getOneNavIndex < 0 ||
   selfPrintNavIndex < 0 ||
@@ -65,9 +65,10 @@ if (!galleryMatch) {
     errors.push("Static gallery snapshot is invalid JSON");
   }
 }
-if (!build.includes('id="downloadsList"') || !build.includes('/make-5x7/') || !build.includes("main.3mf")) errors.push("Build route, download, or Make 5x7 link is incomplete");
+if (!build.includes('id="downloadsList"') || !build.includes('id="build-continue"') || !build.includes("main.3mf")) errors.push("Self-Print route or download is incomplete");
+if (build.includes('/make-5x7/') || build.includes('id="setup-inventory"')) errors.push("Shared preparation content leaked into Self-Print");
 if (!buildScript.includes("positionTermHelpPopover") || !styles.includes(".term-help-popover") || !styles.includes("position: fixed")) errors.push("Visible tooltip positioning is missing");
-if (!assembly.includes('id="assemblyGuide"')) errors.push("Assembly guide mount is missing");
+if (!assembly.includes('id="prepare-images"') || !assembly.includes('/make-5x7/') || !assembly.includes('id="setup-inventory"') || !assembly.includes('id="assemblyGuide"')) errors.push("Shared preparation and assembly flow is incomplete");
 
 const requiredBackendFiles = [
   "cloudflare/api-helpers.js",

@@ -8,6 +8,7 @@ const exists = (file) => fs.existsSync(path.join(root, file));
 const routes = {
   home: {
     template: "Home.html",
+    partials: [],
     config: "HomeConfig.html",
     clients: ["SharedClient.html", "BlinkClient.html", "HomeClient.html"],
     required: ['id="top"', 'id="how-it-works"', 'id="gallery-section"', 'id="choose-path"', 'id="checkout-placeholder"'],
@@ -15,13 +16,15 @@ const routes = {
   },
   build: {
     template: "Build.html",
+    partials: [],
     config: "BuildConfig.html",
-    clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "ToolsClient.html", "BuildClient.html"],
-    required: ['id="plans"', 'id="build-print"', 'id="build-images"', 'id="build-hardware"', 'id="build-tools"', 'id="setup-inventory"'],
-    forbidden: ["ASSEMBLY_MANIFEST", "INITIAL_GALLERY_ITEMS", "KitsConfig"]
+    clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "BuildClient.html"],
+    required: ['id="plans"', 'id="build-print"', 'id="build-hardware"', 'id="build-continue"', 'id="parts"'],
+    forbidden: ["ASSEMBLY_MANIFEST", "INITIAL_GALLERY_ITEMS", "KitsConfig", 'id="build-images"', 'id="setup-inventory"']
   },
   kits: {
     template: "Kits.html",
+    partials: [],
     config: "KitsConfig.html",
     clients: ["SharedClient.html", "BlinkClient.html", "KitsClient.html"],
     required: [
@@ -39,9 +42,10 @@ const routes = {
   },
   assembly: {
     template: "Assembly.html",
+    partials: ["Preparation.html"],
     config: "AssemblyConfig.html",
     clients: ["SharedClient.html", "TooltipClient.html", "SupportGuideClient.html", "ToolsClient.html", "AssemblyData.html", "AssemblyClient.html", "AssemblyPageClient.html"],
-    required: ['id="setup-manual"', 'id="assembly-tools"', 'id="assemblyGuide"', 'id="faq"'],
+    required: ['id="assembly-start"', 'id="prepare-images"', 'id="setup-inventory"', 'id="setup-manual"', 'id="assembly-tools"', 'id="assemblyGuide"', 'id="faq"'],
     forbidden: ["INITIAL_GALLERY_ITEMS", "renderHomeGallery", "KitsConfig"]
   }
 };
@@ -52,7 +56,7 @@ const code = read("Code.js");
 const claspIgnore = read(".claspignore");
 
 for (const [page, route] of Object.entries(routes)) {
-  const files = [route.template, "Config.html", route.config, ...route.clients];
+  const files = [route.template, ...(route.partials || []), "Config.html", route.config, ...route.clients];
   files.forEach((file) => {
     if (!exists(file)) errors.push(`${page}: missing ${file}`);
     if (file !== route.template && file !== "Config.html" && !claspIgnore.includes(`!${file}`)) {
@@ -60,7 +64,7 @@ for (const [page, route] of Object.entries(routes)) {
     }
   });
 
-  const markup = read(route.template);
+  const markup = [route.template, ...(route.partials || [])].map(read).join("\n");
   route.required.forEach((token) => {
     if (!markup.includes(token)) errors.push(`${page}: missing required markup ${token}`);
   });

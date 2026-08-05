@@ -2489,6 +2489,124 @@ p {
   line-height: 1.55;
 }
 
+.home-path .home-path-kicker {
+  color: var(--accent-brown);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.home-path-primary {
+  border-color: color-mix(in srgb, var(--accent-olive) 55%, var(--line));
+  box-shadow: 0 16px 38px color-mix(in srgb, var(--accent-olive) 12%, transparent);
+}
+
+.offering-flow-summary {
+  background: color-mix(in srgb, var(--accent-olive) 7%, var(--surface));
+  border-left: 3px solid var(--accent-olive);
+  color: var(--text-body);
+  line-height: 1.55;
+  margin: 18px 0 0;
+  max-width: 780px;
+  padding: 13px 16px;
+}
+
+.shared-flow-entries,
+.image-preparation-options {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 24px;
+  max-width: 980px;
+}
+
+.shared-flow-entry,
+.image-preparation-option {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 9px;
+  padding: clamp(17px, 2.5vw, 23px);
+}
+
+.shared-flow-entry-label {
+  color: var(--accent-brown);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shared-flow-entry strong {
+  color: var(--text-strong);
+  font-size: 18px;
+}
+
+.shared-flow-entry p,
+.image-preparation-text {
+  color: var(--text-body);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.shared-preparation-section {
+  border-top: 1px solid var(--line);
+}
+
+.shared-preparation-section > h2,
+.assembly-guide-page-heading {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4.5vw, 50px);
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 6px 0 14px;
+  max-width: 20ch;
+}
+
+.image-preparation-option h3 {
+  margin: 0;
+}
+
+.image-preparation-option .button,
+.image-preparation-skip-link {
+  justify-self: start;
+  margin-top: auto;
+}
+
+.image-preparation-skip {
+  background: color-mix(in srgb, var(--accent-olive) 5%, var(--surface));
+}
+
+.page-assembly .setup-kit-inventory-section::before {
+  content: none;
+}
+
+.tier-next-step {
+  align-items: center;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 18px;
+}
+
+.tier-next-step-label {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tier-next-step-link {
+  text-decoration: none;
+}
+
 .build-tools-section > .assembly-tools-callout {
   margin-top: 18px;
 }
@@ -2503,6 +2621,11 @@ p {
 
 @media (max-width: 760px) {
   .home-paths-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shared-flow-entries,
+  .image-preparation-options {
     grid-template-columns: 1fr;
   }
 

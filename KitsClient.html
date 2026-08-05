@@ -175,9 +175,21 @@ function createActiveKitPanel(tier, state, imageOptions, onImageChange) {
   if (tier.imagePreparationApplies && imageOptions.length) {
     body.appendChild(createKitImageOptions(tier, state, imageOptions, onImageChange));
   }
+  const nextStep = createKitNextStep(tier.nextStep);
+  if (nextStep) body.appendChild(nextStep);
   card.appendChild(top);
   card.appendChild(body);
   return card;
+}
+
+function createKitNextStep(nextStep) {
+  if (!nextStep || !nextStep.label || !nextStep.page) return null;
+  const wrapper = el("div", "tier-next-step");
+  wrapper.appendChild(el("span", "tier-next-step-label", "Next"));
+  const link = el("a", "button tier-next-step-link", nextStep.label);
+  link.href = sitePageHref(nextStep.page, nextStep.hash || "");
+  wrapper.appendChild(link);
+  return wrapper;
 }
 
 function createKitIllustration(tier) {

@@ -5,7 +5,7 @@ const SITE_PAGE_ROUTES = {
   },
   build: {
     template: "Build",
-    title: "Build - Double Take Frames"
+    title: "Self-Print - Double Take Frames"
   },
   kits: {
     template: "Kits",
@@ -13,7 +13,7 @@ const SITE_PAGE_ROUTES = {
   },
   assembly: {
     template: "Assembly",
-    title: "Assembly - Double Take Frames"
+    title: "Prepare & Assemble - Double Take Frames"
   }
 };
 

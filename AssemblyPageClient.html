@@ -1,3 +1,32 @@
+function hydrateImagePreparation() {
+  const section = document.getElementById("prepare-images");
+  const content = SITE_CONTENT.sections.imagePreparation || {};
+  if (!section) return;
+  const updates = [
+    ["h2", content.heading],
+    [".image-preparation-intro", content.intro],
+    [".image-preparation-option:not(.image-preparation-skip) h3", content.selfHeading],
+    [".image-preparation-option:not(.image-preparation-skip) .image-preparation-text", content.selfText],
+    [".image-preparation-note", content.note],
+    [".image-preparation-link", content.linkLabel],
+    [".image-preparation-skip h3", content.skipHeading],
+    [".image-preparation-skip .image-preparation-text", content.skipText],
+    [".image-preparation-skip-link", content.skipLabel]
+  ];
+  updates.forEach(function(update) {
+    const node = section.querySelector(update[0]);
+    if (node && update[1]) node.textContent = update[1];
+  });
+}
+
+function enhanceAssemblyInventoryTerms() {
+  document.querySelectorAll(".inventory-name").forEach(function(node) {
+    const value = node.textContent.trim();
+    if (!getTermHelpKey(value)) return;
+    node.replaceChildren(createTermTooltip(value));
+  });
+}
+
 function hydrateAssemblyPage() {
   const section = document.getElementById("setup-manual");
   const content = SITE_CONTENT.sections.assembly || {};
@@ -158,6 +187,8 @@ function hydrateAssemblyFaq() {
 }
 
 function startAssemblyPage() {
+  hydrateImagePreparation();
+  enhanceAssemblyInventoryTerms();
   hydrateAssemblyPage();
   hydrateAssemblyFaq();
   bindTermHelp();
