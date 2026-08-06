@@ -1,7 +1,6 @@
 function hydrateBuildCopy() {
   const plans = SITE_CONTENT.sections.plans || {};
   const updates = [
-    ["#build-print .build-step-heading", plans.printHeading],
     ["#build-print .build-step-text", plans.printText]
   ];
   updates.forEach(function(update) {
