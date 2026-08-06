@@ -2,19 +2,12 @@ function hydrateBuildCopy() {
   const plans = SITE_CONTENT.sections.plans || {};
   const updates = [
     ["#build-print .build-step-heading", plans.printHeading],
-    ["#build-print .build-step-text", plans.printText],
-    ["#build-hardware .build-step-heading", plans.hardware && plans.hardware.heading],
-    ["#build-hardware .build-step-text", plans.hardware && plans.hardware.text]
+    ["#build-print .build-step-text", plans.printText]
   ];
   updates.forEach(function(update) {
     const node = document.querySelector(update[0]);
     if (node && update[1]) node.textContent = update[1];
   });
-
-  const hardwareLink = document.querySelector("#build-hardware .plans-hardware-link");
-  if (hardwareLink && plans.hardware && plans.hardware.linkLabel) {
-    hardwareLink.textContent = plans.hardware.linkLabel;
-  }
 }
 
 function enhanceBuildDownloads() {
