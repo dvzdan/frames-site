@@ -57,7 +57,7 @@ const galleryItems = [
   {
     title: "Sick bird",
     revealTitle: "Nursed to health",
-    description: "For Water Frame variant",
+    description: "Designed for the water-triggered frame — coming soon.",
     cover: "https://drive.google.com/thumbnail?id=1-cmiGmK-QqsHtnNfZBT0UYDgs5ozt3GE&sz=w1000",
     reveal: "https://drive.google.com/thumbnail?id=1H7X53mkgchYt7vaMwY8ZgzNUNgaEbIp3&sz=w1000"
   },
@@ -71,7 +71,7 @@ const galleryItems = [
   {
     title: "Not where you stay",
     revealTitle: "Bloom anyway",
-    description: "",
+    description: "Designed for the water-triggered frame — coming soon.",
     cover: "https://drive.google.com/thumbnail?id=1NPvr5G_rS8jFn0Y_N8QvFFF_bFO_-D8r&sz=w1000",
     reveal: "https://drive.google.com/thumbnail?id=1iGrQ-OKlrjMKr9xstDBuWeoj3tLRybRt&sz=w1000"
   },
@@ -95,6 +95,13 @@ const galleryItems = [
     description: "",
     cover: "/assets/gallery/picture-day-normal-5x7.png",
     reveal: "/assets/gallery/picture-day-shadow-creature-5x7.png"
+  },
+  {
+    title: "Good Cat",
+    revealTitle: "Bad Cat",
+    description: "",
+    cover: "/assets/gallery/good-cat-5x7.png",
+    reveal: "/assets/gallery/bad-cat-5x7.png"
   }
 ];
 
