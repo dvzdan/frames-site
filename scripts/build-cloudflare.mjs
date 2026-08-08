@@ -44,7 +44,7 @@ const icons = {
   wrench: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></svg>'
 };
 
-// Static snapshot of the six published pairs from the approved Apps Script
+// Static snapshot of the published gallery pairs from the approved Apps Script
 // gallery. Cloudflare renders these without querying Google Sheets at runtime.
 const galleryItems = [
   {
@@ -88,6 +88,13 @@ const galleryItems = [
     description: "",
     cover: "https://drive.google.com/thumbnail?id=16L423SgUeeURPMvn7TjQGv_ZLMVfKlwg&sz=w1000",
     reveal: "https://drive.google.com/thumbnail?id=1Y6yk4mI9--aYN1zrzyg8bXJozmI0oAgM&sz=w1000"
+  },
+  {
+    title: "Picture Day",
+    revealTitle: "The Plus-One",
+    description: "A perfectly ordinary portrait—until you notice who joined her for the photo.",
+    cover: "/assets/gallery/picture-day-normal-5x7.png",
+    reveal: "/assets/gallery/picture-day-shadow-creature-5x7.png"
   }
 ];
 
