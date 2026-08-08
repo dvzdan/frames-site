@@ -92,7 +92,7 @@ const galleryItems = [
   {
     title: "Picture Day",
     revealTitle: "The Plus-One",
-    description: "A perfectly ordinary portrait—until you notice who joined her for the photo.",
+    description: "",
     cover: "/assets/gallery/picture-day-normal-5x7.png",
     reveal: "/assets/gallery/picture-day-shadow-creature-5x7.png"
   }
