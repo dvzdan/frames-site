@@ -5,6 +5,9 @@ const root = path.resolve(import.meta.dirname, "..");
 const output = path.join(root, "dist");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "0x4AAAAAAED54nDkAZ3duJOu";
+const stripeCheckoutMode = ["test", "live"].includes(String(process.env.STRIPE_CHECKOUT_MODE || "").toLowerCase())
+  ? String(process.env.STRIPE_CHECKOUT_MODE).toLowerCase()
+  : "off";
 const contentFeedUrl = process.env.SITE_CONTENT_URL || "https://script.google.com/macros/s/AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg/exec?format=content";
 const fallbackSiteContent = JSON.parse(read("cloudflare/site-content.json"));
 
@@ -251,6 +254,7 @@ function transformClientBundle(page) {
   const route = routes[page];
   let scripts = [
     `window.PAGE_KEY=${JSON.stringify(page)};`,
+    `window.STRIPE_CHECKOUT_MODE=${JSON.stringify(stripeCheckoutMode)};`,
     `window.INITIAL_GALLERY_ITEMS=${JSON.stringify(page === "home" ? galleryItems : [])};`,
     "window.INITIAL_TIER=\"\";",
     `window.SITE_CMS_CONTENT=${JSON.stringify(siteContent)};`,
@@ -305,6 +309,14 @@ for (const page of Object.keys(routes)) {
   fs.writeFileSync(path.join(directory, "index.html"), renderPage(page));
   fs.writeFileSync(path.join(output, "scripts", `${page}.js`), transformClientBundle(page));
 }
+
+fs.mkdirSync(path.join(output, "checkout", "success"), { recursive: true });
+fs.writeFileSync(path.join(output, "checkout", "success", "index.html"), `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Checkout complete - Double Take Frames</title><link rel="stylesheet" href="/styles.css"></head>
+<body>${header("")}<main class="page"><section class="section page-intro"><div class="eyebrow">Checkout complete</div>
+<h1>Thank you.</h1><p class="section-copy">Stripe will send the payment receipt to the email used at checkout. We will follow up about your order and any images we need.</p>
+<a class="button" href="/">Return home</a></section></main>${footer()}</body></html>`);
 
 let make5x7 = read("Make5x7.html")
   .replace(/<title>[\s\S]*?<\/title>/i, "<title>Make 5×7 - Double Take Frames</title>");

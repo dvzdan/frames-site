@@ -26,7 +26,7 @@ The preview server listens on `http://127.0.0.1:4173/`. The deployable output is
 - If Google is temporarily unavailable, the build succeeds with the approved built-in copy instead of breaking the public site.
 - Edits in the `Site CMS` and `Sourcing` spreadsheet tabs appear after the next Cloudflare deployment.
 - Inquiry and image-submission forms use Cloudflare storage and Turnstile protection.
-- Checkout and payment remain inactive.
+- Checkout and payment remain inactive by default. The Stripe Checkout integration is present but fail-closed until its mode, secret, and trusted Stripe Price IDs are configured.
 
 The Make 5×7 tool remains fully client-side.
 
@@ -60,3 +60,16 @@ Before re-enabling the forms or dynamic content, choose and implement services f
 - sourcing/CMS data.
 
 Secrets must be stored as encrypted Cloudflare secrets, never committed to the repository.
+
+## Stripe Checkout
+
+The site uses Stripe-hosted Checkout so card details never pass through this application. The existing inquiry links remain available in every mode.
+
+Required Cloudflare configuration:
+
+- Secret: `STRIPE_SECRET_KEY` (`sk_test_...` in test mode, `sk_live_...` in live mode)
+- Variable: `STRIPE_CHECKOUT_MODE` (`off`, `test`, or `live`; defaults to `off`)
+- Variables: `STRIPE_PRICE_MAKER`, `STRIPE_PRICE_BUILDER`, `STRIPE_PRICE_GIFT`, and `STRIPE_PRICE_IMAGE_PREP`
+- Optional variable: `STRIPE_AUTOMATIC_TAX=true` only after the applicable tax registrations are configured
+
+`STRIPE_CHECKOUT_MODE` must be set for both the Pages build and the Pages Function runtime. A build in `off` mode does not show a payment button. The server also refuses requests while off and verifies that the secret key matches the selected test/live mode.

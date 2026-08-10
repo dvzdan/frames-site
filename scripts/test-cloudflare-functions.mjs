@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { onRequestPost as submitInquiry } from "../functions/api/inquiries.js";
 import { onRequestPost as submitGallery } from "../functions/api/gallery/submit.js";
 import { onRequestGet as getGalleryImage } from "../functions/api/gallery/image/[[path]].js";
+import { onRequestPost as startCheckout } from "../functions/api/checkout.js";
 
 function createDb() {
   const calls = [];
@@ -115,6 +116,54 @@ try {
   });
   assert.equal(imageResponse.status, 200);
   assert.equal(imageResponse.headers.get("Content-Type"), "image/png");
+
+  const disabledCheckoutResponse = await startCheckout({
+    request: new Request("https://example.test/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Origin: "https://example.test" },
+      body: JSON.stringify({ offeringId: "maker", imageOptionId: "self-print" })
+    }),
+    env: { STRIPE_CHECKOUT_MODE: "off" }
+  });
+  assert.equal(disabledCheckoutResponse.status, 503);
+
+  let stripeRequest;
+  globalThis.fetch = async (url, options) => {
+    stripeRequest = { url, options, body: new URLSearchParams(options.body) };
+    return Response.json({ url: "https://checkout.stripe.com/c/pay/test-session" });
+  };
+  const checkoutResponse = await startCheckout({
+    request: new Request("https://example.test/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Origin: "https://example.test" },
+      body: JSON.stringify({ offeringId: "builder", imageOptionId: "print-cut", amount: 1 })
+    }),
+    env: {
+      STRIPE_CHECKOUT_MODE: "test",
+      STRIPE_SECRET_KEY: "sk_test_placeholder",
+      STRIPE_PRICE_MAKER: "price_maker",
+      STRIPE_PRICE_BUILDER: "price_builder",
+      STRIPE_PRICE_GIFT: "price_gift",
+      STRIPE_PRICE_IMAGE_PREP: "price_image_prep"
+    }
+  });
+  assert.equal(checkoutResponse.status, 200);
+  assert.equal(stripeRequest.url, "https://api.stripe.com/v1/checkout/sessions");
+  assert.equal(stripeRequest.options.headers.Authorization, "Bearer sk_test_placeholder");
+  assert.equal(stripeRequest.body.get("line_items[0][price]"), "price_builder");
+  assert.equal(stripeRequest.body.get("line_items[1][price]"), "price_image_prep");
+  assert.equal(stripeRequest.body.get("line_items[0][quantity]"), "1");
+  assert.equal(stripeRequest.body.has("amount"), false);
+
+  const mismatchedKeyResponse = await startCheckout({
+    request: new Request("https://example.test/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Origin: "https://example.test" },
+      body: JSON.stringify({ offeringId: "gift", imageOptionId: "" })
+    }),
+    env: { STRIPE_CHECKOUT_MODE: "live", STRIPE_SECRET_KEY: "sk_test_wrong_mode", STRIPE_PRICE_GIFT: "price_gift" }
+  });
+  assert.equal(mismatchedKeyResponse.status, 503);
 
   console.log("Cloudflare function tests passed.");
 } finally {

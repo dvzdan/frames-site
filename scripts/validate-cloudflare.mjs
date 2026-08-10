@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..", "dist");
-const routes = ["", "build", "kits", "assembly", "make-5x7"];
+const routes = ["", "build", "kits", "assembly", "make-5x7", path.join("checkout", "success")];
 const errors = [];
 const files = [];
 
@@ -71,11 +71,13 @@ if (!build.includes('id="downloadsList"') || !build.includes('id="self-print-nex
 if (build.includes('/make-5x7/') || build.includes('id="setup-inventory"')) errors.push("Shared preparation content leaked into Self-Print");
 if (!buildScript.includes("positionTermHelpPopover") || !styles.includes(".term-help-popover") || !styles.includes("position: fixed")) errors.push("Visible tooltip positioning is missing");
 if (!kits.includes("How much do you want to do yourself?") || !kitsScript.includes("kit-selector-facts") || !kitsScript.includes("createOfferingInquiryHref")) errors.push("Stable offering comparison or inquiry actions are missing");
+if (!kitsScript.includes("window.STRIPE_CHECKOUT_MODE=\"off\"") || !kitsScript.includes('fetch("/api/checkout"')) errors.push("Mode-gated Stripe Checkout is missing");
 if (!assembly.includes('id="prepare-images"') || !assembly.includes('/make-5x7/') || !assembly.includes('id="setup-inventory"') || !assembly.includes('id="assemblyGuide"')) errors.push("Shared preparation and assembly flow is incomplete");
 
 const requiredBackendFiles = [
   "cloudflare/api-helpers.js",
   "functions/api/inquiries.js",
+  "functions/api/checkout.js",
   "functions/api/gallery.js",
   "functions/api/gallery/submit.js",
   "functions/api/gallery/image/[[path]].js",
