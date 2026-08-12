@@ -16,12 +16,12 @@ const OFFERINGS = {
 };
 
 function checkoutMode(env) {
-  if (String(env && env.STRIPE_CHECKOUT_ENABLED || "").trim().toLowerCase() !== "true") {
-    return "off";
-  }
   const mode = String(env && env.STRIPE_CHECKOUT_MODE || "off").trim().toLowerCase();
   if (!["off", "test", "live"].includes(mode)) {
     throw new HttpError(503, "Checkout is not configured correctly.");
+  }
+  if (mode === "live" && String(env && env.STRIPE_CHECKOUT_ENABLED || "").trim().toLowerCase() !== "true") {
+    return "off";
   }
   return mode;
 }

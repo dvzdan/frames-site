@@ -68,13 +68,13 @@ The site uses Stripe-hosted Checkout so card details never pass through this app
 Required Cloudflare configuration:
 
 - Secret: `STRIPE_SECRET_KEY` (`sk_test_...` in test mode, `sk_live_...` in live mode)
-- Variable: `STRIPE_CHECKOUT_ENABLED=true` (the explicit master switch; absent or any other value keeps checkout off)
+- Variable: `STRIPE_CHECKOUT_ENABLED=true` (the explicit live-payment switch; test mode does not require it)
 - Variable: `STRIPE_CHECKOUT_MODE` (`off`, `test`, or `live`; defaults to `off`)
 - Variables: `STRIPE_PRICE_MAKER`, `STRIPE_PRICE_BUILDER`, `STRIPE_PRICE_GIFT`, and `STRIPE_PRICE_IMAGE_PREP`
 - Secret: `STRIPE_WEBHOOK_SECRET` (`whsec_...` from the Stripe endpoint for `/api/stripe/webhook`)
 - Optional variable: `STRIPE_AUTOMATIC_TAX=true` only after the applicable tax registrations are configured
 
-`STRIPE_CHECKOUT_ENABLED=true` and `STRIPE_CHECKOUT_MODE` must both be set for the Pages build and the Pages Function runtime. Without the explicit enable flag, the build does not show a payment button and the server refuses checkout requests even if an older mode variable remains configured. The server also verifies that the secret key matches the selected test/live mode.
+Test checkout works whenever `STRIPE_CHECKOUT_MODE=test` is set for both the Pages build and the Pages Function runtime. Live checkout requires both `STRIPE_CHECKOUT_MODE=live` and `STRIPE_CHECKOUT_ENABLED=true`; without the explicit live-payment flag, the build hides the Buy button and the server refuses live checkout requests. The server also verifies that the secret key matches the selected test/live mode.
 
 Ready-to-Assemble Kits and Finished Gifts use their existing Stripe Price IDs for every stocked color combination. Color choices are validated by the server and stored in Checkout Session metadata, so no color-specific Stripe products or prices are required. Custom colors do not enter checkout; they are submitted as quote requests.
 

@@ -6,8 +6,10 @@ const output = path.join(root, "dist");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "0x4AAAAAAED54nDkAZ3duJOu";
 const stripeCheckoutEnabled = String(process.env.STRIPE_CHECKOUT_ENABLED || "").toLowerCase() === "true";
-const stripeCheckoutMode = stripeCheckoutEnabled && ["test", "live"].includes(String(process.env.STRIPE_CHECKOUT_MODE || "").toLowerCase())
-  ? String(process.env.STRIPE_CHECKOUT_MODE).toLowerCase()
+const requestedStripeCheckoutMode = String(process.env.STRIPE_CHECKOUT_MODE || "").toLowerCase();
+const stripeCheckoutMode = requestedStripeCheckoutMode === "test" ||
+  (requestedStripeCheckoutMode === "live" && stripeCheckoutEnabled)
+  ? requestedStripeCheckoutMode
   : "off";
 const contentFeedUrl = process.env.SITE_CONTENT_URL || "https://script.google.com/macros/s/AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg/exec?format=content";
 const fallbackSiteContent = JSON.parse(read("cloudflare/site-content.json"));

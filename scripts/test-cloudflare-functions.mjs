@@ -226,7 +226,6 @@ try {
     }),
     env: {
       STRIPE_CHECKOUT_MODE: "test",
-      STRIPE_CHECKOUT_ENABLED: "true",
       STRIPE_SECRET_KEY: "sk_test_placeholder",
       STRIPE_PRICE_MAKER: "price_maker",
       STRIPE_PRICE_BUILDER: "price_builder",
@@ -259,7 +258,6 @@ try {
     }),
     env: {
       STRIPE_CHECKOUT_MODE: "test",
-      STRIPE_CHECKOUT_ENABLED: "true",
       STRIPE_SECRET_KEY: "sk_test_placeholder",
       STRIPE_PRICE_GIFT: "price_gift"
     }
