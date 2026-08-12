@@ -7,6 +7,12 @@ const TERM_HELP = {
   "capstan": "The small printed spool on the clock shaft that winds the string."
 };
 
+const TERM_HELP_OPEN_DELAY_MS = 400;
+const TERM_HELP_CLOSE_DELAY_MS = 120;
+let termHelpOpenTimer = 0;
+let termHelpCloseTimer = 0;
+let termHelpKeyboardNavigation = false;
+
 function getTermHelpKey(value) {
   const normalized = textOrEmpty(value).trim().toLowerCase();
   if (normalized === "3mf") return "3mf";
@@ -42,30 +48,91 @@ function createTermTooltip(value) {
 }
 
 function bindTermHelp() {
+  document.addEventListener("pointerover", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-term-help-trigger]")
+      : null;
+    if (!trigger || event.pointerType === "touch") return;
+    if (event.relatedTarget && trigger.contains(event.relatedTarget)) return;
+    scheduleTermHelpOpen(trigger);
+  });
+  document.addEventListener("pointerout", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-term-help-trigger]")
+      : null;
+    if (!trigger || event.pointerType === "touch") return;
+    if (event.relatedTarget && trigger.contains(event.relatedTarget)) return;
+    scheduleTermHelpClose();
+  });
+  document.addEventListener("pointerdown", function() {
+    termHelpKeyboardNavigation = false;
+  });
+  document.addEventListener("focusin", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-term-help-trigger]")
+      : null;
+    if (trigger && termHelpKeyboardNavigation) openTermHelpPopover(trigger);
+  });
+  document.addEventListener("focusout", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-term-help-trigger]")
+      : null;
+    if (trigger) scheduleTermHelpClose();
+  });
   document.addEventListener("click", function(event) {
     const trigger = event.target && event.target.closest
       ? event.target.closest("[data-term-help-trigger]")
       : null;
-    closeTermHelpPopovers(trigger);
-    if (!trigger) return;
-
-    event.preventDefault();
-    const panel = document.getElementById(trigger.getAttribute("aria-controls"));
-    if (!panel) return;
-    const expanded = trigger.getAttribute("aria-expanded") === "true";
-    trigger.setAttribute("aria-expanded", expanded ? "false" : "true");
-    panel.hidden = expanded;
-    if (!expanded) positionTermHelpPopover(trigger, panel);
+    if (trigger) event.preventDefault();
   });
   document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") closeTermHelpPopovers();
+    if (event.key === "Tab") termHelpKeyboardNavigation = true;
+    if (event.key === "Escape") {
+      clearTermHelpTimers();
+      closeTermHelpPopovers();
+    }
   });
-  window.addEventListener("resize", function() {
+  window.addEventListener("resize", closeAllTermHelpPopovers);
+  window.addEventListener("scroll", closeAllTermHelpPopovers, true);
+}
+
+function scheduleTermHelpOpen(trigger) {
+  clearTermHelpTimers();
+  termHelpOpenTimer = window.setTimeout(function() {
+    openTermHelpPopover(trigger);
+  }, TERM_HELP_OPEN_DELAY_MS);
+}
+
+function scheduleTermHelpClose() {
+  window.clearTimeout(termHelpOpenTimer);
+  termHelpOpenTimer = 0;
+  window.clearTimeout(termHelpCloseTimer);
+  termHelpCloseTimer = window.setTimeout(function() {
     closeTermHelpPopovers();
-  });
-  window.addEventListener("scroll", function() {
-    closeTermHelpPopovers();
-  }, true);
+  }, TERM_HELP_CLOSE_DELAY_MS);
+}
+
+function openTermHelpPopover(trigger) {
+  clearTermHelpTimers();
+  closeTermHelpPopovers(trigger);
+
+  const panel = document.getElementById(trigger.getAttribute("aria-controls"));
+  if (!panel) return;
+  trigger.setAttribute("aria-expanded", "true");
+  panel.hidden = false;
+  positionTermHelpPopover(trigger, panel);
+}
+
+function clearTermHelpTimers() {
+  window.clearTimeout(termHelpOpenTimer);
+  window.clearTimeout(termHelpCloseTimer);
+  termHelpOpenTimer = 0;
+  termHelpCloseTimer = 0;
+}
+
+function closeAllTermHelpPopovers() {
+  clearTermHelpTimers();
+  closeTermHelpPopovers();
 }
 
 function positionTermHelpPopover(trigger, panel) {

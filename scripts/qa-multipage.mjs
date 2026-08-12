@@ -336,16 +336,26 @@ const build = await assertPage(
   ["#build-images", "#build-continue", "#setup-inventory", "#assemblyGuide", "#gallery-section", "#pricingTiers"]
 );
 const buildTooltip = build.locator("[data-term-help-trigger]").first();
-await buildTooltip.click();
+await buildTooltip.dispatchEvent("click");
+await build.waitForTimeout(450);
+const buildTooltipIgnoresClick = (
+  await buildTooltip.getAttribute("aria-expanded") === "false" &&
+  !(await build.locator(`#${await buildTooltip.getAttribute("aria-controls")}`).isVisible())
+);
+await buildTooltip.hover();
+await build.waitForTimeout(450);
 const buildTooltipVisible = (
   await buildTooltip.getAttribute("aria-expanded") === "true" &&
   await build.locator(`#${await buildTooltip.getAttribute("aria-controls")}`).isVisible()
 );
+await build.locator("h1").hover();
+await build.waitForTimeout(170);
+const buildTooltipClosesAfterHover = await buildTooltip.getAttribute("aria-expanded") === "false";
 await build.keyboard.press("Escape");
 await build.locator("#build-print [data-support-guide-trigger]").click();
 const buildModalVisible = await build.locator("#supportGuideModal").isVisible();
 await build.locator("[data-support-guide-close='button']").click();
-results.push({ interaction: "build", buildTooltipVisible, buildModalVisible });
+results.push({ interaction: "build", buildTooltipIgnoresClick, buildTooltipVisible, buildTooltipClosesAfterHover, buildModalVisible });
 await build.close();
 
 const kits = await assertPage(
@@ -428,7 +438,8 @@ const assemblyMechanismDisclosure = assembly.locator(".assembly-primer").nth(1);
 await assemblyMechanismDisclosure.locator("summary").click();
 const assemblyMechanismDisclosureWorks = await assemblyMechanismDisclosure.evaluate((node) => node.open);
 const assemblyTooltip = assemblyMechanismDisclosure.locator("[data-term-help-trigger]").first();
-await assemblyTooltip.click();
+await assemblyTooltip.hover();
+await assembly.waitForTimeout(450);
 const assemblyTooltipVisible = (
   await assemblyTooltip.getAttribute("aria-expanded") === "true" &&
   await assembly.locator(`#${await assemblyTooltip.getAttribute("aria-controls")}`).isVisible()
@@ -518,7 +529,9 @@ if (
   !homeHeroCycles ||
   !homeRevealVisible ||
   !homeInquiryConditionals ||
+  !buildTooltipIgnoresClick ||
   !buildTooltipVisible ||
+  !buildTooltipClosesAfterHover ||
   !buildModalVisible ||
   kitsLaunchNote !== "Launch pricing for the first production run; prices may change as materials and capacity settle." ||
   kitsMakerBasePrice !== "$25" ||
