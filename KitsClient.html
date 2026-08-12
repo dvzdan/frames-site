@@ -21,17 +21,54 @@ function getInitialKitIndex(tiers) {
   return defaultIndex >= 0 ? defaultIndex : 0;
 }
 
+function getInitialKitColorState(options) {
+  const params = new URLSearchParams(window.location.search);
+  const requestedMode = params.get("colorMode");
+  const requestedPairing = params.get("pairing");
+  const requestedCassette = params.get("cassette");
+  const requestedStand = params.get("stand");
+  const pairing = (options.curated || []).find(function(item) { return item.id === requestedPairing; });
+  if (requestedMode === "curated" && pairing) {
+    return {
+      colorMode: "curated",
+      pairingId: pairing.id,
+      cassetteColorId: pairing.cassetteColorId,
+      standColorId: pairing.standColorId
+    };
+  }
+  if (
+    requestedMode === "mixed" &&
+    getKitColorById(options.cassetteColors, requestedCassette) &&
+    getKitColorById(options.standColors, requestedStand)
+  ) {
+    return {
+      colorMode: "mixed",
+      pairingId: "",
+      cassetteColorId: requestedCassette,
+      standColorId: requestedStand
+    };
+  }
+  const defaultPairing = (options.curated || []).find(function(item) { return item.id === "original"; }) || (options.curated || [])[0] || {};
+  return {
+    colorMode: "curated",
+    pairingId: defaultPairing.id || "original",
+    cassetteColorId: defaultPairing.cassetteColorId || "bone",
+    standColorId: defaultPairing.standColorId || "navy"
+  };
+}
+
 function renderKitPicker() {
   const target = document.getElementById("pricingTiers");
   const order = SITE_CONTENT.sections.order || {};
   const tiers = order.tiers || [];
   const imageOptions = order.imageOptions || [];
+  const colorOptions = order.colorOptions || {};
   if (!target || !tiers.length) return;
 
-  const state = {
+  const state = Object.assign({
     activeIndex: getInitialKitIndex(tiers),
     imageOptionId: getDefaultKitImageOption(imageOptions)
-  };
+  }, getInitialKitColorState(colorOptions));
   target.innerHTML = "";
 
   const root = el("div", "kit-comparison-picker");
@@ -78,7 +115,7 @@ function renderKitPicker() {
 
     const swap = function() {
       panelContent.replaceChildren(
-        createActiveKitPanel(tiers[index], state, imageOptions, updateKitPrice)
+        createActiveKitPanel(tiers[index], state, imageOptions, colorOptions, updateKitPrice)
       );
       updateKitPrice();
     };
@@ -114,6 +151,19 @@ function renderKitPicker() {
         ? formatKitPrice(base) + " + " + formatKitPrice(adjustment) + " image preparation = " + formatKitPrice(total)
         : "";
     }
+    const selection = getKitColorSelection(tier, state, colorOptions);
+    const colorSummary = card.querySelector("[data-color-selection-summary]");
+    if (colorSummary) colorSummary.textContent = selection.summary;
+    const mixedPreview = card.querySelector(".color-mix-preview .color-frame-preview");
+    if (mixedPreview) {
+      const cassette = getKitColorById(colorOptions.cassetteColors, selection.cassetteColorId);
+      const stand = getKitColorById(colorOptions.standColors, selection.standColorId);
+      if (cassette) mixedPreview.style.setProperty("--cassette-color", cassette.hex);
+      if (stand) mixedPreview.style.setProperty("--stand-color", stand.hex);
+    }
+    card.querySelectorAll("[data-color-inquiry]").forEach(function(link) {
+      link.href = createOfferingInquiryHref(tier.id, state, colorOptions);
+    });
   }
 
   setActiveKit(state.activeIndex, false);
@@ -169,7 +219,164 @@ function formatKitPrice(value) {
   return "$" + String(Number(value) || 0);
 }
 
-function createActiveKitPanel(tier, state, imageOptions, onImageChange) {
+function getKitColorById(colors, id) {
+  return (colors || []).find(function(color) { return color.id === id; }) || null;
+}
+
+function getKitColorSelection(tier, state, options) {
+  if (!tier || !tier.colorSelectionApplies) {
+    return { colorMode: "", pairingId: "", cassetteColorId: "", standColorId: "", summary: "" };
+  }
+  if (state.colorMode === "mixed") {
+    const cassette = getKitColorById(options.cassetteColors, state.cassetteColorId);
+    const stand = getKitColorById(options.standColors, state.standColorId);
+    return {
+      colorMode: "mixed",
+      pairingId: "",
+      cassetteColorId: cassette ? cassette.id : "bone",
+      standColorId: stand ? stand.id : "navy",
+      summary: "Matte " + (cassette ? cassette.name : "Bone") + " cassette + glossy " + (stand ? stand.name : "Midnight Navy") + " stand"
+    };
+  }
+  const pairing = (options.curated || []).find(function(item) { return item.id === state.pairingId; }) || (options.curated || [])[0];
+  if (!pairing) return { colorMode: "", pairingId: "", cassetteColorId: "", standColorId: "", summary: "" };
+  return {
+    colorMode: "curated",
+    pairingId: pairing.id,
+    cassetteColorId: pairing.cassetteColorId,
+    standColorId: pairing.standColorId,
+    summary: pairing.cassetteLabel + " + " + pairing.standLabel.toLowerCase()
+  };
+}
+
+function createColorFramePreview(cassette, stand) {
+  const preview = el("span", "color-frame-preview");
+  preview.style.setProperty("--cassette-color", cassette ? cassette.hex : "#E3D8C3");
+  preview.style.setProperty("--stand-color", stand ? stand.hex : "#182A45");
+  preview.setAttribute("aria-hidden", "true");
+  preview.appendChild(el("span", "color-frame-cassette"));
+  preview.appendChild(el("span", "color-frame-stand"));
+  return preview;
+}
+
+function createKitColorOptions(tier, state, options, onChange) {
+  const section = el("section", "kit-color-options");
+  section.appendChild(el("h3", "kit-color-heading", options.heading || "Choose your colors"));
+  appendParagraph(section, options.intro, "kit-color-intro");
+
+  const curated = el("fieldset", "color-pairing-fieldset");
+  const legend = el("legend", "visually-hidden", "Curated color combinations");
+  curated.appendChild(legend);
+  const cards = el("div", "color-pairing-list");
+  (options.curated || []).forEach(function(pairing) {
+    const cassette = getKitColorById(options.cassetteColors, pairing.cassetteColorId);
+    const stand = getKitColorById(options.standColors, pairing.standColorId);
+    const label = el("label", "color-pairing-card");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "color-pairing-" + tier.id;
+    input.value = pairing.id;
+    input.checked = state.colorMode === "curated" && state.pairingId === pairing.id;
+    input.addEventListener("change", function() {
+      if (!input.checked) return;
+      state.colorMode = "curated";
+      state.pairingId = pairing.id;
+      state.cassetteColorId = pairing.cassetteColorId;
+      state.standColorId = pairing.standColorId;
+      onChange();
+    });
+    label.appendChild(input);
+    const content = el("span", "color-pairing-content");
+    content.appendChild(createColorFramePreview(cassette, stand));
+    content.appendChild(el("strong", "color-pairing-name", pairing.name));
+    content.appendChild(el("span", "color-pairing-part", pairing.cassetteLabel));
+    content.appendChild(el("span", "color-pairing-part", pairing.standLabel));
+    label.appendChild(content);
+    cards.appendChild(label);
+  });
+  curated.appendChild(cards);
+  section.appendChild(curated);
+
+  const more = document.createElement("details");
+  more.className = "color-more-options";
+  more.open = state.colorMode === "mixed";
+  const moreSummary = document.createElement("summary");
+  moreSummary.textContent = options.moreLabel || "More color options";
+  more.appendChild(moreSummary);
+  const moreBody = el("div", "color-more-body");
+
+  const mixed = el("div", "color-mix-option");
+  const mixedLabel = el("label", "color-mix-choice");
+  const mixedInput = document.createElement("input");
+  mixedInput.type = "radio";
+  mixedInput.name = "color-pairing-" + tier.id;
+  mixedInput.value = "mixed";
+  mixedInput.checked = state.colorMode === "mixed";
+  mixedInput.addEventListener("change", function() {
+    if (!mixedInput.checked) return;
+    state.colorMode = "mixed";
+    onChange();
+  });
+  mixedLabel.appendChild(mixedInput);
+  mixedLabel.appendChild(el("strong", "", options.mixedHeading || "Mix & match stocked colors — $0"));
+  mixed.appendChild(mixedLabel);
+  appendParagraph(mixed, options.mixedCopy, "fine-print color-mix-copy");
+
+  const selectors = el("div", "color-mix-selectors");
+  selectors.appendChild(createKitColorSelect("Matte cassette", options.cassetteColors, state.cassetteColorId, function(value) {
+    state.colorMode = "mixed";
+    state.cassetteColorId = value;
+    mixedInput.checked = true;
+    onChange();
+  }));
+  selectors.appendChild(createKitColorSelect("Glossy stand", options.standColors, state.standColorId, function(value) {
+    state.colorMode = "mixed";
+    state.standColorId = value;
+    mixedInput.checked = true;
+    onChange();
+  }));
+  mixed.appendChild(selectors);
+  const livePreview = el("div", "color-mix-preview");
+  livePreview.appendChild(createColorFramePreview(
+    getKitColorById(options.cassetteColors, state.cassetteColorId),
+    getKitColorById(options.standColors, state.standColorId)
+  ));
+  const liveSummary = el("span", "color-selection-summary");
+  liveSummary.setAttribute("data-color-selection-summary", "true");
+  livePreview.appendChild(liveSummary);
+  mixed.appendChild(livePreview);
+  moreBody.appendChild(mixed);
+
+  const custom = el("div", "color-custom-option");
+  custom.appendChild(el("h4", "", options.customHeading || "Looking for another color?"));
+  appendParagraph(custom, options.customCopy, "fine-print");
+  custom.appendChild(el("p", "fine-print color-custom-price", "Base price " + formatKitPrice(tier.priceValue) + ". Custom-color fee quoted separately."));
+  const customLink = el("a", "button secondary", options.customAction || "Request custom colors");
+  customLink.href = createOfferingInquiryHref(tier.id, state, options, { colorMode: "custom", pairingId: "", cassetteColorId: "", standColorId: "" });
+  custom.appendChild(customLink);
+  moreBody.appendChild(custom);
+  more.appendChild(moreBody);
+  section.appendChild(more);
+  return section;
+}
+
+function createKitColorSelect(labelText, colors, selectedId, onChange) {
+  const label = el("label", "color-mix-field");
+  label.appendChild(el("span", "field-label", labelText));
+  const select = document.createElement("select");
+  (colors || []).forEach(function(color) {
+    const option = document.createElement("option");
+    option.value = color.id;
+    option.textContent = color.name;
+    option.selected = color.id === selectedId;
+    select.appendChild(option);
+  });
+  select.addEventListener("change", function() { onChange(select.value); });
+  label.appendChild(select);
+  return label;
+}
+
+function createActiveKitPanel(tier, state, imageOptions, colorOptions, onSelectionChange) {
   const card = el("article", "tier-card tier-active-card");
   card.dataset.tierKey = tier.illustration && tier.illustration.assetKey || "";
   if (tier.accentColor) card.style.setProperty("--tier-accent", tier.accentColor);
@@ -184,17 +391,20 @@ function createActiveKitPanel(tier, state, imageOptions, onImageChange) {
 
   const body = el("div", "tier-body");
   body.appendChild(createKitDetails(tier));
-  if (tier.imagePreparationApplies && imageOptions.length) {
-    body.appendChild(createKitImageOptions(tier, state, imageOptions, onImageChange));
+  if (tier.colorSelectionApplies && (colorOptions.curated || []).length) {
+    body.appendChild(createKitColorOptions(tier, state, colorOptions, onSelectionChange));
   }
-  const actions = createKitActions(tier, state);
+  if (tier.imagePreparationApplies && imageOptions.length) {
+    body.appendChild(createKitImageOptions(tier, state, imageOptions, onSelectionChange));
+  }
+  const actions = createKitActions(tier, state, colorOptions);
   if (actions) body.appendChild(actions);
   card.appendChild(top);
   card.appendChild(body);
   return card;
 }
 
-function createKitActions(tier, state) {
+function createKitActions(tier, state, colorOptions) {
   const primary = tier.primaryAction;
   const secondary = tier.secondaryAction;
   if (!primary && !secondary) return null;
@@ -213,7 +423,8 @@ function createKitActions(tier, state) {
   }
   if (primary && primary.label && primary.offeringId) {
     const link = el("a", "button " + (window.STRIPE_CHECKOUT_MODE === "live" ? "secondary " : "") + "tier-action-primary", primary.label);
-    link.href = createOfferingInquiryHref(primary.offeringId);
+    link.href = createOfferingInquiryHref(primary.offeringId, state, colorOptions);
+    if (tier.colorSelectionApplies) link.setAttribute("data-color-inquiry", "true");
     wrapper.appendChild(link);
   }
   if (secondary && secondary.label && secondary.page) {
@@ -234,7 +445,8 @@ async function startStripeCheckout(button, tier, state) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         offeringId: tier.id,
-        imageOptionId: tier.imagePreparationApplies ? state.imageOptionId : ""
+        imageOptionId: tier.imagePreparationApplies ? state.imageOptionId : "",
+        ...getKitColorSelection(tier, state, (SITE_CONTENT.sections.order || {}).colorOptions || {})
       })
     });
     const result = await response.json();
@@ -247,9 +459,17 @@ async function startStripeCheckout(button, tier, state) {
   }
 }
 
-function createOfferingInquiryHref(offeringId) {
+function createOfferingInquiryHref(offeringId, state, colorOptions, overrides) {
   const url = new URL(sitePageHref("home"), window.location.href);
   url.searchParams.set("offering", offeringId);
+  const tier = ((SITE_CONTENT.sections.order || {}).tiers || []).find(function(item) { return item.id === offeringId; });
+  if (tier && tier.colorSelectionApplies) {
+    const selection = Object.assign({}, getKitColorSelection(tier, state, colorOptions || {}), overrides || {});
+    if (selection.colorMode) url.searchParams.set("colorMode", selection.colorMode);
+    if (selection.pairingId) url.searchParams.set("pairing", selection.pairingId);
+    if (selection.cassetteColorId) url.searchParams.set("cassette", selection.cassetteColorId);
+    if (selection.standColorId) url.searchParams.set("stand", selection.standColorId);
+  }
   url.hash = "checkout-placeholder";
   return url.toString();
 }

@@ -1725,6 +1725,241 @@ p {
   white-space: nowrap;
 }
 
+.kit-color-options {
+  border-top: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 18px;
+}
+
+.kit-color-heading {
+  color: var(--text-strong);
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.kit-color-intro {
+  color: var(--text-body);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 720px;
+}
+
+.color-pairing-fieldset {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+.color-pairing-list {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.color-pairing-card {
+  cursor: pointer;
+  min-width: 0;
+  position: relative;
+}
+
+.color-pairing-card input {
+  left: 10px;
+  margin: 0;
+  position: absolute;
+  top: 10px;
+  z-index: 1;
+}
+
+.color-pairing-content {
+  background: color-mix(in srgb, var(--surface) 86%, var(--paper));
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  display: grid;
+  gap: 3px;
+  height: 100%;
+  padding: 10px 10px 11px 34px;
+}
+
+.color-pairing-card input:checked + .color-pairing-content {
+  background: var(--surface);
+  border-color: var(--text-strong);
+  box-shadow: 0 0 0 1px var(--text-strong);
+}
+
+.color-pairing-card input:focus-visible + .color-pairing-content {
+  outline: 2px solid color-mix(in srgb, var(--accent-brown) 52%, transparent);
+  outline-offset: 2px;
+}
+
+.color-pairing-name {
+  color: var(--text-strong);
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.color-pairing-part {
+  color: var(--text-muted);
+  font-size: 11.5px;
+  line-height: 1.3;
+}
+
+.color-frame-preview {
+  --cassette-color: #e3d8c3;
+  --stand-color: #182a45;
+  display: block;
+  height: 64px;
+  margin: 0 auto 4px;
+  max-width: 96px;
+  position: relative;
+  width: 100%;
+}
+
+.color-frame-cassette {
+  background: var(--cassette-color);
+  border: 1px solid rgba(27, 26, 24, 0.18);
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 8px var(--cassette-color), inset 0 0 0 9px rgba(27, 26, 24, 0.13);
+  height: 48px;
+  left: 20px;
+  position: absolute;
+  top: 0;
+  width: 56px;
+}
+
+.color-frame-cassette::after {
+  background: #fffdfa;
+  content: "";
+  height: 27px;
+  left: 12px;
+  position: absolute;
+  top: 10px;
+  width: 30px;
+}
+
+.color-frame-stand {
+  background: linear-gradient(110deg, color-mix(in srgb, var(--stand-color) 86%, #fff) 0 18%, var(--stand-color) 35% 72%, color-mix(in srgb, var(--stand-color) 78%, #fff) 100%);
+  border-radius: 2px 2px 5px 5px;
+  bottom: 0;
+  height: 14px;
+  left: 7px;
+  position: absolute;
+  width: 82px;
+}
+
+.color-more-options {
+  border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+  border-radius: 8px;
+  margin-top: 2px;
+  overflow: hidden;
+}
+
+.color-more-options > summary {
+  color: var(--text-strong);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 11px 13px;
+}
+
+.color-more-options[open] > summary {
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+}
+
+.color-more-body {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+}
+
+.color-mix-option,
+.color-custom-option {
+  background: color-mix(in srgb, var(--surface) 88%, var(--paper));
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.color-mix-choice {
+  align-items: center;
+  color: var(--text-strong);
+  cursor: pointer;
+  display: flex;
+  font-size: 13px;
+  gap: 8px;
+}
+
+.color-mix-copy {
+  margin: 5px 0 10px 24px;
+}
+
+.color-mix-selectors {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.color-mix-field {
+  display: grid;
+  gap: 5px;
+}
+
+.color-mix-field select {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text-body);
+  font: inherit;
+  min-width: 0;
+  padding: 9px 10px;
+  width: 100%;
+}
+
+.color-mix-preview {
+  align-items: center;
+  color: var(--text-strong);
+  display: grid;
+  font-size: 12.5px;
+  font-weight: 700;
+  gap: 10px;
+  grid-template-columns: 96px minmax(0, 1fr);
+  margin-top: 10px;
+}
+
+.color-mix-preview .color-frame-preview {
+  margin: 0;
+}
+
+.color-custom-option h4 {
+  color: var(--text-strong);
+  font-size: 14px;
+  margin: 0 0 5px;
+}
+
+.color-custom-option p {
+  margin: 0 0 10px;
+}
+
+.color-custom-option .button {
+  text-decoration: none;
+}
+
+.kit-color-faq {
+  margin: 22px auto 0;
+  max-width: 860px;
+}
+
+@media (max-width: 700px) {
+  .color-pairing-list,
+  .color-mix-selectors {
+    grid-template-columns: 1fr;
+  }
+}
+
 .tier-manual-link {
   box-sizing: border-box;
   display: inline-flex;
@@ -2667,6 +2902,10 @@ textarea {
 .inquiry-field {
   display: grid;
   gap: 6px;
+}
+
+.inquiry-field-wide {
+  grid-column: 1 / -1;
 }
 
 .inquiry-field .field-label {

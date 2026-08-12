@@ -429,12 +429,24 @@ function updateHomeInquiryFields() {
   const kit = document.getElementById("inquiryKit");
   const timeline = document.getElementById("inquiryTimeline");
   const message = document.getElementById("inquiryMessage");
+  const colorMode = document.getElementById("inquiryColorMode");
+  const cassette = document.getElementById("inquiryCassetteColor");
+  const stand = document.getElementById("inquiryStandColor");
+  const customNotes = document.getElementById("inquiryCustomColorNotes");
   const selected = type ? type.value : "";
   setHomeConditionalField(kit, selected === "Order or availability");
   setHomeConditionalField(
     timeline,
     ["Order or availability", "Commercial licensing", "Custom finished-frame inquiry"].includes(selected)
   );
+  const selectedKit = kit ? kit.value : "";
+  const colorApplies = selected === "Order or availability" && ["Ready-to-Assemble Kit", "Finished Gift"].includes(selectedKit);
+  const selectedColorMode = colorMode ? colorMode.value : "";
+  setHomeConditionalField(colorMode, colorApplies);
+  setHomeConditionalField(cassette, colorApplies && selectedColorMode === "mixed");
+  setHomeConditionalField(stand, colorApplies && selectedColorMode === "mixed");
+  setHomeConditionalField(customNotes, colorApplies && selectedColorMode === "custom");
+  if (customNotes) customNotes.required = colorApplies && selectedColorMode === "custom";
   if (message) {
     const inquiry = SITE_CONTENT.sections.inquiry || {};
     message.placeholder = (inquiry.messagePlaceholders || {})[selected] || inquiry.messagePlaceholder || "";
@@ -449,7 +461,8 @@ function setHomeConditionalField(control, visible) {
 }
 
 function applyHomeInquirySelection() {
-  const offering = new URLSearchParams(window.location.search).get("offering");
+  const params = new URLSearchParams(window.location.search);
+  const offering = params.get("offering");
   const offeringLabels = {
     maker: "Hardware Bundle",
     builder: "Ready-to-Assemble Kit",
@@ -460,6 +473,51 @@ function applyHomeInquirySelection() {
   const kit = document.getElementById("inquiryKit");
   if (type) type.value = "Order or availability";
   if (kit) kit.value = offeringLabels[offering];
+  const colorMode = document.getElementById("inquiryColorMode");
+  const requestedMode = params.get("colorMode");
+  const pairing = params.get("pairing");
+  if (colorMode && requestedMode === "curated" && ["original", "rose", "grove"].includes(pairing)) {
+    colorMode.value = "curated:" + pairing;
+  } else if (colorMode && ["mixed", "custom"].includes(requestedMode)) {
+    colorMode.value = requestedMode;
+  }
+  const cassette = document.getElementById("inquiryCassetteColor");
+  const stand = document.getElementById("inquiryStandColor");
+  if (cassette && ["bone", "blush", "sage"].includes(params.get("cassette"))) cassette.value = params.get("cassette");
+  if (stand && ["navy", "oxblood", "forest"].includes(params.get("stand"))) stand.value = params.get("stand");
+}
+
+function getHomeInquiryColorSelection() {
+  const control = document.getElementById("inquiryColorMode");
+  const value = control && !control.disabled ? control.value : "";
+  if (value.indexOf("curated:") === 0) {
+    return {
+      colorMode: "curated",
+      pairingId: value.slice("curated:".length),
+      cassetteColorId: "",
+      standColorId: "",
+      customColorNotes: ""
+    };
+  }
+  if (value === "mixed") {
+    return {
+      colorMode: "mixed",
+      pairingId: "",
+      cassetteColorId: document.getElementById("inquiryCassetteColor").value,
+      standColorId: document.getElementById("inquiryStandColor").value,
+      customColorNotes: ""
+    };
+  }
+  if (value === "custom") {
+    return {
+      colorMode: "custom",
+      pairingId: "",
+      cassetteColorId: "",
+      standColorId: "",
+      customColorNotes: document.getElementById("inquiryCustomColorNotes").value
+    };
+  }
+  return { colorMode: "", pairingId: "", cassetteColorId: "", standColorId: "", customColorNotes: "" };
 }
 
 async function submitHomeInquiry(event) {
@@ -485,6 +543,7 @@ async function submitHomeInquiry(event) {
       body: JSON.stringify({
         type: document.getElementById("inquiryType").value,
         kit: document.getElementById("inquiryKit").value,
+        ...getHomeInquiryColorSelection(),
         name: document.getElementById("inquiryName").value,
         email: document.getElementById("inquiryEmail").value,
         timeline: document.getElementById("inquiryTimeline").value,
@@ -527,6 +586,10 @@ function startHomePage() {
   if (inquiry) inquiry.addEventListener("submit", submitHomeInquiry);
   const type = document.getElementById("inquiryType");
   if (type) type.addEventListener("change", updateHomeInquiryFields);
+  const kit = document.getElementById("inquiryKit");
+  if (kit) kit.addEventListener("change", updateHomeInquiryFields);
+  const colorMode = document.getElementById("inquiryColorMode");
+  if (colorMode) colorMode.addEventListener("change", updateHomeInquiryFields);
   applyHomeInquirySelection();
   updateHomeInquiryFields();
 

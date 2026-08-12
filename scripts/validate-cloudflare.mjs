@@ -71,17 +71,22 @@ if (!build.includes('id="downloadsList"') || !build.includes('id="self-print-nex
 if (build.includes('/make-5x7/') || build.includes('id="setup-inventory"')) errors.push("Shared preparation content leaked into Self-Print");
 if (!buildScript.includes("positionTermHelpPopover") || !styles.includes(".term-help-popover") || !styles.includes("position: fixed")) errors.push("Visible tooltip positioning is missing");
 if (!kits.includes("How much do you want to do yourself?") || !kitsScript.includes("kit-selector-facts") || !kitsScript.includes("createOfferingInquiryHref")) errors.push("Stable offering comparison or inquiry actions are missing");
+if (!kitsScript.includes("Choose your colors") || !kitsScript.includes("Mix & match stocked colors") || !styles.includes(".color-pairing-list")) errors.push("Color configurator is missing");
+if (!home.includes('id="inquiryColorMode"') || !homeScript.includes("getHomeInquiryColorSelection")) errors.push("Inquiry color handoff is missing");
 if (!kitsScript.includes("window.STRIPE_CHECKOUT_MODE=\"off\"") || !kitsScript.includes('fetch("/api/checkout"')) errors.push("Mode-gated Stripe Checkout is missing");
 if (!assembly.includes('id="prepare-images"') || !assembly.includes('/make-5x7/') || !assembly.includes('id="setup-inventory"') || !assembly.includes('id="assemblyGuide"')) errors.push("Shared preparation and assembly flow is incomplete");
 
 const requiredBackendFiles = [
   "cloudflare/api-helpers.js",
+  "cloudflare/color-options.js",
   "functions/api/inquiries.js",
   "functions/api/checkout.js",
+  "functions/api/stripe/webhook.js",
   "functions/api/gallery.js",
   "functions/api/gallery/submit.js",
   "functions/api/gallery/image/[[path]].js",
-  "migrations/0001_initial.sql"
+  "migrations/0001_initial.sql",
+  "migrations/0002_color_options_and_orders.sql"
 ];
 for (const file of requiredBackendFiles) {
   if (!fs.existsSync(path.join(root, "..", file))) errors.push(`Missing backend file: ${file}`);

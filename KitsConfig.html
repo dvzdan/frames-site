@@ -18,6 +18,52 @@ SITE_CONTENT.sections.order = {
       priceAdjustment: 10
     }
   ],
+  colorOptions: {
+    heading: "Choose your colors",
+    intro: "Every frame pairs a matte cassette with a glossy stand. Choose one of our three combinations, or mix the stocked colors at no extra charge.",
+    curated: [
+      {
+        id: "original",
+        name: "Original",
+        cassetteColorId: "bone",
+        standColorId: "navy",
+        cassetteLabel: "Matte Bone cassette",
+        standLabel: "Glossy Midnight Navy stand"
+      },
+      {
+        id: "rose",
+        name: "Rose",
+        cassetteColorId: "blush",
+        standColorId: "oxblood",
+        cassetteLabel: "Matte Dusty Blush cassette",
+        standLabel: "Glossy Oxblood stand"
+      },
+      {
+        id: "grove",
+        name: "Grove",
+        cassetteColorId: "sage",
+        standColorId: "forest",
+        cassetteLabel: "Matte Muted Sage cassette",
+        standLabel: "Glossy Dark Forest stand"
+      }
+    ],
+    cassetteColors: [
+      { id: "bone", name: "Bone", hex: "#E3D8C3" },
+      { id: "blush", name: "Dusty Blush", hex: "#D5A09B" },
+      { id: "sage", name: "Muted Sage", hex: "#A8B49F" }
+    ],
+    standColors: [
+      { id: "navy", name: "Midnight Navy", hex: "#182A45" },
+      { id: "oxblood", name: "Oxblood", hex: "#642B36" },
+      { id: "forest", name: "Dark Forest", hex: "#294137" }
+    ],
+    moreLabel: "More color options",
+    mixedHeading: "Mix & match stocked colors — $0",
+    mixedCopy: "Choose any matte cassette color with any glossy stand color. There’s no extra charge.",
+    customHeading: "Looking for another color?",
+    customCopy: "Custom colors are available by request and may include an additional charge. We’ll confirm availability and the exact price before you pay.",
+    customAction: "Request custom colors"
+  },
   tiers: [
     {
       id: "maker",
@@ -28,7 +74,8 @@ SITE_CONTENT.sections.order = {
       comparison: [
         { label: "Printed parts", value: "You print" },
         { label: "Assembly", value: "You assemble" },
-        { label: "Images", value: "DIY or +$10" }
+        { label: "Images", value: "DIY or +$10" },
+        { label: "Colors", value: "You choose" }
       ],
       description: "All the non-3D-printed hardware and specialty materials in one bundle. Use our free print files to make the frame and printed components, then assemble it yourself.",
       imagePreparationApplies: true,
@@ -64,10 +111,12 @@ SITE_CONTENT.sections.order = {
       comparison: [
         { label: "Printed parts", value: "Included" },
         { label: "Assembly", value: "You assemble" },
-        { label: "Images", value: "DIY or +$10" }
+        { label: "Images", value: "DIY or +$10" },
+        { label: "Colors", value: "3 pairings + mix" }
       ],
       description: "Everything in the Hardware Bundle, plus all the 3D-printed parts, cleaned and ready to assemble.",
       imagePreparationApplies: true,
+      colorSelectionApplies: true,
       included: [
         "Complete Hardware Bundle",
         "All 3D-printed parts",
@@ -98,10 +147,12 @@ SITE_CONTENT.sections.order = {
       comparison: [
         { label: "Printed parts", value: "Included" },
         { label: "Assembly", value: "Included" },
-        { label: "Images", value: "Included" }
+        { label: "Images", value: "Included" },
+        { label: "Colors", value: "3 pairings + mix" }
       ],
       description: "Everything in the Ready-to-Assemble Kit, fully assembled, loaded, tested, and ready to give.",
       imagePreparationApplies: false,
+      colorSelectionApplies: true,
       included: [
         "Fully assembled",
         "Cover and Reveal Images printed, cut, and loaded",

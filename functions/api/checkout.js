@@ -7,6 +7,7 @@ import {
   readJson,
   requireBinding
 } from "../../cloudflare/api-helpers.js";
+import { emptyColorSelection, validateColorSelection } from "../../cloudflare/color-options.js";
 
 const OFFERINGS = {
   maker: "STRIPE_PRICE_MAKER",
@@ -15,6 +16,9 @@ const OFFERINGS = {
 };
 
 function checkoutMode(env) {
+  if (String(env && env.STRIPE_CHECKOUT_ENABLED || "").trim().toLowerCase() !== "true") {
+    return "off";
+  }
   const mode = String(env && env.STRIPE_CHECKOUT_MODE || "off").trim().toLowerCase();
   if (!["off", "test", "live"].includes(mode)) {
     throw new HttpError(503, "Checkout is not configured correctly.");
@@ -57,6 +61,9 @@ export async function onRequestPost(context) {
     if (offeringId === "gift" && imageOptionId && imageOptionId !== "self-print") {
       throw new HttpError(400, "That image option does not apply to this offering.");
     }
+    const color = offeringId === "maker"
+      ? emptyColorSelection()
+      : validateColorSelection(body, { required: true, allowCustom: false });
 
     const stripeKey = requireModeKey(env, mode);
     const origin = new URL(request.url).origin;
@@ -71,10 +78,24 @@ export async function onRequestPost(context) {
       lineItemIndex += 1;
     }
     form.set("success_url", `${origin}/checkout/success/?session_id={CHECKOUT_SESSION_ID}`);
-    form.set("cancel_url", `${origin}/kits/?tier=${encodeURIComponent(offeringId)}`);
+    const cancelUrl = new URL("/kits/", origin);
+    cancelUrl.searchParams.set("tier", offeringId);
+    if (color.colorMode) cancelUrl.searchParams.set("colorMode", color.colorMode);
+    if (color.pairingId) cancelUrl.searchParams.set("pairing", color.pairingId);
+    if (color.cassetteColorId) cancelUrl.searchParams.set("cassette", color.cassetteColorId);
+    if (color.standColorId) cancelUrl.searchParams.set("stand", color.standColorId);
+    form.set("cancel_url", cancelUrl.toString());
     form.set("shipping_address_collection[allowed_countries][0]", "US");
     form.set("metadata[offering_id]", offeringId);
     form.set("metadata[image_option_id]", imageOptionId || "included");
+    form.set("metadata[color_mode]", color.colorMode);
+    form.set("metadata[pairing_id]", color.pairingId);
+    form.set("metadata[cassette_color_id]", color.cassetteColorId);
+    form.set("metadata[stand_color_id]", color.standColorId);
+    form.set("metadata[color_summary]", color.colorSummary);
+    if (color.colorSummary) {
+      form.set("custom_text[submit][message]", `Colors: ${color.colorSummary}`);
+    }
     form.set("client_reference_id", crypto.randomUUID());
     if (String(env.STRIPE_AUTOMATIC_TAX || "").toLowerCase() === "true") {
       form.set("automatic_tax[enabled]", "true");
