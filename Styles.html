@@ -1817,6 +1817,21 @@ p {
   line-height: 1.3;
 }
 
+.color-name-text,
+.color-name-select {
+  color: var(--color-name);
+  font-weight: 800;
+  text-shadow:
+    -1px -1px 0 color-mix(in srgb, var(--text-strong) 28%, transparent),
+    1px -1px 0 color-mix(in srgb, var(--text-strong) 28%, transparent),
+    -1px 1px 0 color-mix(in srgb, var(--text-strong) 28%, transparent),
+    1px 1px 0 color-mix(in srgb, var(--text-strong) 28%, transparent);
+}
+
+.color-selection-summary .color-pairing-part {
+  font-size: inherit;
+}
+
 .color-frame-preview {
   --cassette-color: #e3d8c3;
   --stand-color: #182a45;

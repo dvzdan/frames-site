@@ -153,7 +153,7 @@ function renderKitPicker() {
     }
     const selection = getKitColorSelection(tier, state, colorOptions);
     const colorSummary = card.querySelector("[data-color-selection-summary]");
-    if (colorSummary) colorSummary.textContent = selection.summary;
+    if (colorSummary) renderKitColorSummary(colorSummary, selection, colorOptions);
     const mixedPreview = card.querySelector(".color-mix-preview .color-frame-preview");
     if (mixedPreview) {
       const cassette = getKitColorById(colorOptions.cassetteColors, selection.cassetteColorId);
@@ -259,6 +259,25 @@ function createColorFramePreview(cassette, stand) {
   return preview;
 }
 
+function createKitColorDescription(prefix, color, suffix) {
+  const description = el("span", "color-pairing-part");
+  description.appendChild(document.createTextNode(prefix));
+  const colorName = el("span", "color-name-text", color ? color.name : "");
+  if (color && color.hex) colorName.style.setProperty("--color-name", color.hex);
+  description.appendChild(colorName);
+  description.appendChild(document.createTextNode(suffix));
+  return description;
+}
+
+function renderKitColorSummary(target, selection, options) {
+  const cassette = getKitColorById(options.cassetteColors, selection.cassetteColorId);
+  const stand = getKitColorById(options.standColors, selection.standColorId);
+  target.replaceChildren();
+  target.appendChild(createKitColorDescription("Matte ", cassette, " cassette"));
+  target.appendChild(document.createTextNode(" + "));
+  target.appendChild(createKitColorDescription("glossy ", stand, " stand"));
+}
+
 function createKitColorOptions(tier, state, options, onChange) {
   const section = el("section", "kit-color-options");
   section.appendChild(el("h3", "kit-color-heading", options.heading || "Choose your colors"));
@@ -289,8 +308,8 @@ function createKitColorOptions(tier, state, options, onChange) {
     const content = el("span", "color-pairing-content");
     content.appendChild(createColorFramePreview(cassette, stand));
     content.appendChild(el("strong", "color-pairing-name", pairing.name));
-    content.appendChild(el("span", "color-pairing-part", pairing.cassetteLabel));
-    content.appendChild(el("span", "color-pairing-part", pairing.standLabel));
+    content.appendChild(createKitColorDescription("Matte ", cassette, " cassette"));
+    content.appendChild(createKitColorDescription("Glossy ", stand, " stand"));
     label.appendChild(content);
     cards.appendChild(label);
   });
@@ -369,9 +388,19 @@ function createKitColorSelect(labelText, colors, selectedId, onChange) {
     option.value = color.id;
     option.textContent = color.name;
     option.selected = color.id === selectedId;
+    option.style.color = color.hex;
     select.appendChild(option);
   });
-  select.addEventListener("change", function() { onChange(select.value); });
+  const setSelectedColor = function() {
+    const selected = getKitColorById(colors, select.value);
+    if (selected && selected.hex) select.style.setProperty("--color-name", selected.hex);
+  };
+  select.classList.add("color-name-select");
+  setSelectedColor();
+  select.addEventListener("change", function() {
+    setSelectedColor();
+    onChange(select.value);
+  });
   label.appendChild(select);
   return label;
 }
