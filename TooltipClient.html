@@ -12,6 +12,7 @@ const TERM_HELP_CLOSE_DELAY_MS = 120;
 let termHelpOpenTimer = 0;
 let termHelpCloseTimer = 0;
 let termHelpKeyboardNavigation = false;
+let termHelpLastPointerType = "";
 
 function getTermHelpKey(value) {
   const normalized = textOrEmpty(value).trim().toLowerCase();
@@ -64,8 +65,9 @@ function bindTermHelp() {
     if (event.relatedTarget && trigger.contains(event.relatedTarget)) return;
     scheduleTermHelpClose();
   });
-  document.addEventListener("pointerdown", function() {
+  document.addEventListener("pointerdown", function(event) {
     termHelpKeyboardNavigation = false;
+    termHelpLastPointerType = event.pointerType || "";
   });
   document.addEventListener("focusin", function(event) {
     const trigger = event.target && event.target.closest
@@ -83,7 +85,18 @@ function bindTermHelp() {
     const trigger = event.target && event.target.closest
       ? event.target.closest("[data-term-help-trigger]")
       : null;
-    if (trigger) event.preventDefault();
+    if (!trigger) {
+      closeAllTermHelpPopovers();
+      return;
+    }
+
+    event.preventDefault();
+    if (termHelpLastPointerType !== "touch") return;
+    if (trigger.getAttribute("aria-expanded") === "true") {
+      closeAllTermHelpPopovers();
+    } else {
+      openTermHelpPopover(trigger);
+    }
   });
   document.addEventListener("keydown", function(event) {
     if (event.key === "Tab") termHelpKeyboardNavigation = true;

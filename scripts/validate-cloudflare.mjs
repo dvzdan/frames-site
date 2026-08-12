@@ -69,7 +69,7 @@ if (!galleryMatch) {
 }
 if (!build.includes('id="downloadsList"') || !build.includes('id="self-print-next"') || !build.includes("main.3mf")) errors.push("Self-Print route or download is incomplete");
 if (build.includes('/make-5x7/') || build.includes('id="setup-inventory"')) errors.push("Shared preparation content leaked into Self-Print");
-if (!buildScript.includes("positionTermHelpPopover") || !buildScript.includes("scheduleTermHelpOpen") || !buildScript.includes("TERM_HELP_OPEN_DELAY_MS") || !styles.includes(".term-help-popover") || !styles.includes("position: fixed")) errors.push("Timed-hover tooltip behavior or positioning is missing");
+if (!buildScript.includes("positionTermHelpPopover") || !buildScript.includes("scheduleTermHelpOpen") || !buildScript.includes("TERM_HELP_OPEN_DELAY_MS") || !buildScript.includes('termHelpLastPointerType !== "touch"') || !styles.includes(".term-help-popover") || !styles.includes("position: fixed")) errors.push("Hybrid hover-and-touch tooltip behavior or positioning is missing");
 if (!kits.includes("How much do you want to do yourself?") || !kitsScript.includes("kit-selector-facts") || !kitsScript.includes("createOfferingInquiryHref")) errors.push("Stable offering comparison or inquiry actions are missing");
 if (!kitsScript.includes("Choose your colors") || !kitsScript.includes("Mix & match stocked colors") || !styles.includes(".color-pairing-list")) errors.push("Color configurator is missing");
 if (!home.includes('id="inquiryColorMode"') || !homeScript.includes("getHomeInquiryColorSelection")) errors.push("Inquiry color handoff is missing");
