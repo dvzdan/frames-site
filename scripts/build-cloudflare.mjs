@@ -314,12 +314,21 @@ for (const page of Object.keys(routes)) {
 }
 
 fs.mkdirSync(path.join(output, "checkout", "success"), { recursive: true });
+fs.writeFileSync(path.join(output, "scripts", "checkout-success.js"), read("CheckoutSuccessClient.html"));
 fs.writeFileSync(path.join(output, "checkout", "success", "index.html"), `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex"><title>Checkout complete - Double Take Frames</title><link rel="stylesheet" href="/styles.css"></head>
 <body>${header("")}<main class="page"><section class="section page-intro"><div class="eyebrow">Checkout complete</div>
-<h1>Thank you.</h1><p class="section-copy">Stripe will send the payment receipt to the email used at checkout. We will follow up about your order and any images we need.</p>
-<a class="button" href="/">Return home</a></section></main>${footer()}</body></html>`);
+<h1>Thank you.</h1><p class="section-copy">Stripe will send the payment receipt to the email used at checkout.</p>
+<p class="section-copy" id="checkoutGenericMessage">We’ll follow up if we need anything else for your order.</p>
+<section class="order-image-upload" id="orderImageUploadPanel" hidden>
+<h2>Upload your Cover and Reveal images</h2><p>One last checkout step: attach the two images we’ll format, print, and precisely cut for your frame.</p>
+<form id="orderImageUploadForm"><div class="order-image-upload-fields">
+<label><span class="field-label">Cover image</span><input type="file" name="cover" accept="image/png,image/jpeg" required><span class="fine-print">PNG or JPEG, up to 8 MB.</span></label>
+<label><span class="field-label">Reveal image</span><input type="file" name="reveal" accept="image/png,image/jpeg" required><span class="fine-print">PNG or JPEG, up to 8 MB.</span></label>
+</div><button class="button" type="submit">Attach images to my order</button></form>
+<p class="form-status" id="orderImageUploadStatus" role="status" aria-live="polite"></p></section>
+<a class="button secondary" href="/">Return home</a></section></main>${footer()}<script src="/scripts/checkout-success.js"></script></body></html>`);
 
 let make5x7 = read("Make5x7.html")
   .replace(/<title>[\s\S]*?<\/title>/i, "<title>Make 5×7 - Double Take Frames</title>");

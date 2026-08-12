@@ -1725,6 +1725,54 @@ p {
   white-space: nowrap;
 }
 
+.order-image-upload {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 24px 0;
+  max-width: 760px;
+  padding: 22px;
+}
+
+.order-image-upload h2 {
+  margin: 0 0 8px;
+}
+
+.order-image-upload > p {
+  margin: 0 0 18px;
+}
+
+.order-image-upload-fields {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.order-image-upload-fields label {
+  display: grid;
+  gap: 7px;
+}
+
+.order-image-upload-fields input[type="file"] {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text-body);
+  max-width: 100%;
+  padding: 10px;
+}
+
+.form-status-error {
+  color: #8a2732;
+}
+
+@media (max-width: 640px) {
+  .order-image-upload-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
 .kit-color-options {
   border-top: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
   display: grid;

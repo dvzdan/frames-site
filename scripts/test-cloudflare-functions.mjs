@@ -3,6 +3,7 @@ import { onRequestPost as submitInquiry } from "../functions/api/inquiries.js";
 import { onRequestPost as submitGallery } from "../functions/api/gallery/submit.js";
 import { onRequestGet as getGalleryImage } from "../functions/api/gallery/image/[[path]].js";
 import { onRequestPost as startCheckout } from "../functions/api/checkout.js";
+import { onRequestGet as getOrderImages, onRequestPost as submitOrderImages } from "../functions/api/order-images.js";
 import { onRequestPost as receiveStripeWebhook } from "../functions/api/stripe/webhook.js";
 
 async function stripeSignature(payload, secret, timestamp) {
@@ -63,6 +64,9 @@ function createSubmissionStore() {
     objects,
     async put(key, value, options) { objects.set(key, { value, options }); },
     async delete(key) { objects.delete(key); },
+    async list({ prefix }) {
+      return { objects: Array.from(objects.keys()).filter((key) => key.startsWith(prefix)).map((key) => ({ key })) };
+    },
     async getWithMetadata(key) {
       const object = objects.get(key);
       return object ? { value: object.value, metadata: object.options.metadata } : null;
@@ -244,6 +248,43 @@ try {
   assert.equal(stripeRequest.body.get("metadata[cassette_color_id]"), "sage");
   assert.equal(stripeRequest.body.get("metadata[stand_color_id]"), "oxblood");
   assert.match(stripeRequest.body.get("custom_text[submit][message]"), /Muted Sage cassette.*Oxblood stand/);
+
+  const orderImageStore = createSubmissionStore();
+  globalThis.fetch = async (url, options) => {
+    assert.equal(url, "https://api.stripe.com/v1/checkout/sessions/cs_test_imageorder");
+    assert.equal(options.headers.Authorization, "Bearer sk_test_placeholder");
+    return Response.json({
+      id: "cs_test_imageorder",
+      status: "complete",
+      payment_status: "paid",
+      customer_details: { email: "buyer@example.com" },
+      metadata: { image_option_id: "print-cut" }
+    });
+  };
+  const orderImageForm = new FormData();
+  orderImageForm.set("sessionId", "cs_test_imageorder");
+  orderImageForm.set("cover", new File([new Uint8Array([1, 2, 3])], "cover.png", { type: "image/png" }));
+  orderImageForm.set("reveal", new File([new Uint8Array([4, 5, 6])], "reveal.jpg", { type: "image/jpeg" }));
+  const orderImageResponse = await submitOrderImages({
+    request: new Request("https://example.test/api/order-images", {
+      method: "POST",
+      headers: { Origin: "https://example.test" },
+      body: orderImageForm
+    }),
+    env: { STRIPE_SECRET_KEY: "sk_test_placeholder", SUBMISSIONS: orderImageStore }
+  });
+  assert.equal(orderImageResponse.status, 201);
+  assert.equal(orderImageStore.objects.size, 2);
+  assert.ok(orderImageStore.objects.has("orders/cs_test_imageorder/cover.png"));
+  assert.ok(orderImageStore.objects.has("orders/cs_test_imageorder/reveal.jpg"));
+  assert.equal(orderImageStore.objects.get("orders/cs_test_imageorder/cover.png").options.customMetadata.kind, "cover");
+
+  const orderImageStatusResponse = await getOrderImages({
+    request: new Request("https://example.test/api/order-images?session_id=cs_test_imageorder"),
+    env: { STRIPE_SECRET_KEY: "sk_test_placeholder", SUBMISSIONS: orderImageStore }
+  });
+  assert.equal(orderImageStatusResponse.status, 200);
+  assert.equal((await orderImageStatusResponse.json()).uploaded, true);
 
   const customCheckoutResponse = await startCheckout({
     request: new Request("https://example.test/api/checkout", {

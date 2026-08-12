@@ -1,0 +1,51 @@
+(function() {
+  const panel = document.getElementById("orderImageUploadPanel");
+  const form = document.getElementById("orderImageUploadForm");
+  const status = document.getElementById("orderImageUploadStatus");
+  const genericMessage = document.getElementById("checkoutGenericMessage");
+  const sessionId = new URLSearchParams(window.location.search).get("session_id");
+  if (!panel || !form || !status || !sessionId) return;
+
+  function showStatus(message, isError) {
+    status.textContent = message;
+    status.classList.toggle("form-status-error", Boolean(isError));
+  }
+
+  fetch("/api/order-images?session_id=" + encodeURIComponent(sessionId), { headers: { Accept: "application/json" } })
+    .then(function(response) {
+      return response.json().then(function(result) { return { response, result }; });
+    })
+    .then(function(payload) {
+      if (!payload.response.ok || !payload.result.requiresImages) return;
+      if (genericMessage) genericMessage.hidden = true;
+      panel.hidden = false;
+      if (payload.result.uploaded) {
+        form.hidden = true;
+        showStatus("Your Cover and Reveal images are already attached to this order.", false);
+      }
+    })
+    .catch(function() {
+      showStatus("We couldn’t load the image-upload step. Keep this page open and try again.", true);
+    });
+
+  form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+    const button = form.querySelector('button[type="submit"]');
+    const data = new FormData(form);
+    data.set("sessionId", sessionId);
+    button.disabled = true;
+    button.textContent = "Uploading images…";
+    showStatus("", false);
+    try {
+      const response = await fetch("/api/order-images", { method: "POST", body: data });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "The images could not be uploaded.");
+      form.hidden = true;
+      showStatus(result.message, false);
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = "Attach images to my order";
+      showStatus(error && error.message ? error.message : "The images could not be uploaded.", true);
+    }
+  });
+})();
