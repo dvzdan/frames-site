@@ -391,14 +391,16 @@ function createActiveKitPanel(tier, state, imageOptions, colorOptions, onSelecti
 
   const body = el("div", "tier-body");
   body.appendChild(createKitDetails(tier));
-  if (tier.colorSelectionApplies && (colorOptions.curated || []).length) {
-    body.appendChild(createKitColorOptions(tier, state, colorOptions, onSelectionChange));
-  }
   if (tier.imagePreparationApplies && imageOptions.length) {
     body.appendChild(createKitImageOptions(tier, state, imageOptions, onSelectionChange));
   }
   const actions = createKitActions(tier, state, colorOptions);
   if (actions) body.appendChild(actions);
+  if (tier.colorSelectionApplies && (colorOptions.curated || []).length) {
+    const colorSection = createKitColorOptions(tier, state, colorOptions, onSelectionChange);
+    colorSection.classList.add("kit-color-options-prominent");
+    card.appendChild(colorSection);
+  }
   card.appendChild(top);
   card.appendChild(body);
   return card;
