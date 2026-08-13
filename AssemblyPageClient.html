@@ -6,7 +6,6 @@ function hydrateImagePreparation() {
     ["h2", content.heading],
     [".image-preparation-intro", content.intro],
     [".image-preparation-option:not(.image-preparation-skip) h3", content.selfHeading],
-    [".image-preparation-option:not(.image-preparation-skip) .image-preparation-text", content.selfText],
     [".image-preparation-tool", content.toolText],
     [".image-preparation-note", content.note],
     [".image-preparation-link", content.linkLabel],
@@ -18,6 +17,12 @@ function hydrateImagePreparation() {
     const node = section.querySelector(update[0]);
     if (node && update[1]) node.textContent = update[1];
   });
+  if (content.selfText) {
+    setLinkedMake5x7Text(
+      section.querySelector(".image-preparation-option:not(.image-preparation-skip) .image-preparation-text"),
+      content.selfText
+    );
+  }
 }
 
 function enhanceAssemblyInventoryTerms() {

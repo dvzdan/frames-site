@@ -567,7 +567,9 @@ function createKitImageOptions(tier, state, options, onChange) {
     });
     const text = el("span", "image-prep-option-text");
     text.appendChild(el("span", "image-prep-option-title", option.title));
-    text.appendChild(el("span", "image-prep-option-description", option.description));
+    const description = el("span", "image-prep-option-description");
+    setLinkedMake5x7Text(description, option.description);
+    text.appendChild(description);
     const amount = Number(option.priceAdjustment) || 0;
     label.appendChild(input);
     label.appendChild(text);

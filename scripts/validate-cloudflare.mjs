@@ -40,6 +40,7 @@ const buildScript = fs.readFileSync(path.join(root, "scripts", "build.js"), "utf
 const kits = fs.readFileSync(path.join(root, "kits", "index.html"), "utf8");
 const kitsScript = fs.readFileSync(path.join(root, "scripts", "kits.js"), "utf8");
 const assembly = fs.readFileSync(path.join(root, "assembly", "index.html"), "utf8");
+const assemblyScript = fs.readFileSync(path.join(root, "scripts", "assembly.js"), "utf8");
 const policies = fs.readFileSync(path.join(root, "policies", "index.html"), "utf8");
 const checkoutSuccess = fs.readFileSync(path.join(root, "checkout", "success", "index.html"), "utf8");
 const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
@@ -94,6 +95,7 @@ if (!kitsScript.includes("Choose your colors") || !kitsScript.includes("Mix & ma
 if (!home.includes('id="inquiryColorMode"') || !homeScript.includes("getHomeInquiryColorSelection")) errors.push("Inquiry color handoff is missing");
 if (!kitsScript.includes("window.STRIPE_CHECKOUT_MODE=\"off\"") || !kitsScript.includes('fetch("/api/checkout"')) errors.push("Mode-gated Stripe Checkout is missing");
 if (!assembly.includes('id="prepare-images"') || !assembly.includes('/make-5x7/') || !assembly.includes('id="setup-inventory"') || !assembly.includes('id="assemblyGuide"')) errors.push("Shared preparation and assembly flow is incomplete");
+if (!assembly.includes('class="make-5x7-inline-link"') || !assemblyScript.includes('setLinkedMake5x7Text') || !kitsScript.includes('setLinkedMake5x7Text(description, option.description)') || !kitsScript.includes('make5x7: "/make-5x7/"')) errors.push("Make 5x7 references are not consistently linked");
 if (!assembly.includes("Capstan x2") || !assembly.includes("Cotton String") || !assembly.includes("Flat Birch Stick") || !assembly.includes("Adhesive Steel Weights")) errors.push("Parts reference is incomplete");
 if (assembly.includes("Tuck the stem of the weight")) errors.push("Removed assembly reference content remains");
 

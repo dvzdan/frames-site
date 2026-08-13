@@ -310,7 +310,7 @@ function transformClientBundle(page) {
 
   scripts = scripts.replace(
     /function sitePageHref\(pageKey, hash\) \{[\s\S]*?\n\}/,
-    `function sitePageHref(pageKey, hash) {\n  var routes = { home: "/", build: "/build/", kits: "/kits/", assembly: "/assembly/" };\n  var base = routes[pageKey] || "/";\n  return base + (hash ? "#" + hash : "");\n}`
+    `function sitePageHref(pageKey, hash) {\n  var routes = { home: "/", build: "/build/", kits: "/kits/", assembly: "/assembly/", make5x7: "/make-5x7/" };\n  var base = routes[pageKey] || "/";\n  return base + (hash ? "#" + hash : "");\n}`
   );
   scripts = scripts
     .replace(/sitePageHref\("kits"\) \+ "&tier="/g, 'sitePageHref("kits") + "?tier="')

@@ -13,6 +13,26 @@ function appendParagraph(parent, text, className) {
   if (text) parent.appendChild(el("p", className || "", text));
 }
 
+function setLinkedMake5x7Text(node, value) {
+  if (!node) return;
+  const text = textOrEmpty(value);
+  const phrase = "Make 5x7";
+  node.replaceChildren();
+  let cursor = 0;
+  let index = text.indexOf(phrase);
+  while (index !== -1) {
+    if (index > cursor) node.appendChild(document.createTextNode(text.slice(cursor, index)));
+    const link = el("a", "make-5x7-inline-link", phrase);
+    link.href = sitePageHref("make5x7");
+    link.target = "_blank";
+    link.rel = "noopener";
+    node.appendChild(link);
+    cursor = index + phrase.length;
+    index = text.indexOf(phrase, cursor);
+  }
+  if (cursor < text.length) node.appendChild(document.createTextNode(text.slice(cursor)));
+}
+
 function splitParagraphs(value) {
   return textOrEmpty(value)
     .split(/\n{2,}/)
