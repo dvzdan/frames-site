@@ -77,7 +77,7 @@ if (!galleryMatch) {
 } else {
   try {
     const galleryItems = JSON.parse(galleryMatch[1]);
-    if (galleryItems.length !== 8 || galleryItems.some((item) => !item.cover || !item.reveal)) {
+    if (galleryItems.length !== 9 || galleryItems.some((item) => !item.cover || !item.reveal)) {
       errors.push(`Static gallery snapshot is incomplete (${galleryItems.length} pairs)`);
     }
   } catch {

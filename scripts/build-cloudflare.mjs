@@ -116,6 +116,13 @@ const galleryItems = [
     description: "",
     cover: "/assets/gallery/good-cat-5x7.png",
     reveal: "/assets/gallery/bad-cat-5x7.png"
+  },
+  {
+    title: "Wholesome",
+    revealTitle: "Horrific",
+    description: "",
+    cover: "/assets/gallery/wholesome-family-halloween-5x7.png",
+    reveal: "/assets/gallery/horrific-family-halloween-5x7.png"
   }
 ];
 
