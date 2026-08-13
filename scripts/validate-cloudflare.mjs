@@ -69,7 +69,7 @@ if (
 ) errors.push("Primary navigation labels or order are incorrect");
 if (home.includes("__TURNSTILE_SITE_KEY__") || !home.includes("challenges.cloudflare.com/turnstile")) errors.push("Turnstile is not configured in the home page");
 if (!homeScript.includes('fetch("/api/inquiries"') || !homeScript.includes('fetch("/api/gallery/submit"')) errors.push("Cloudflare form endpoints are not wired to the home page");
-if (!home.includes('summary class="how-works-user-question"') || !homeScript.includes('how-works-user-question how-works-path-prompt') || !styles.includes('.how-works-path-prompt.how-works-user-question')) errors.push("Home question-and-answer hierarchy is incomplete");
+if (!home.includes('summary class="how-works-user-question"') || !homeScript.includes('how-works-user-question how-works-path-prompt') || !styles.includes('.how-works-copy-item > summary') || !styles.includes('.how-works-path-prompt.how-works-user-question')) errors.push("Home question-and-answer hierarchy is incomplete");
 const galleryMatch = homeScript.match(/window\.INITIAL_GALLERY_ITEMS=(\[[^\n]*\]);/);
 if (!galleryMatch) {
   errors.push("Static gallery snapshot is missing");
