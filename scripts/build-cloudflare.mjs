@@ -42,6 +42,13 @@ const routes = {
     template: "Assembly.html",
     config: "AssemblyConfig.html",
     clients: ["SharedClient.html", "TooltipClient.html", "ToolsClient.html", "AssemblyData.html", "AssemblyClient.html", "AssemblyPageClient.html"]
+  },
+  policies: {
+    title: "Shipping & Returns - Double Take Frames",
+    directory: "policies",
+    template: "Policies.html",
+    config: "PoliciesConfig.html",
+    clients: ["SharedClient.html"]
   }
 };
 
@@ -209,7 +216,7 @@ function header(activePage) {
 }
 
 function footer() {
-  return `<footer class="footer"><strong>Double Take Frames</strong><p>Questions and image submissions are reviewed directly.</p></footer>`;
+  return `<footer class="footer"><div><strong>Double Take Frames</strong><p>Questions and image submissions are reviewed directly.</p></div><nav class="footer-links" aria-label="Policies"><a href="/policies/">Shipping &amp; Returns</a></nav></footer>`;
 }
 
 function galleryMarkup() {

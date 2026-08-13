@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..", "dist");
-const routes = ["", "build", "kits", "assembly", "make-5x7", path.join("checkout", "success")];
+const routes = ["", "build", "kits", "assembly", "policies", "make-5x7", path.join("checkout", "success")];
 const errors = [];
 const files = [];
 
@@ -40,6 +40,7 @@ const buildScript = fs.readFileSync(path.join(root, "scripts", "build.js"), "utf
 const kits = fs.readFileSync(path.join(root, "kits", "index.html"), "utf8");
 const kitsScript = fs.readFileSync(path.join(root, "scripts", "kits.js"), "utf8");
 const assembly = fs.readFileSync(path.join(root, "assembly", "index.html"), "utf8");
+const policies = fs.readFileSync(path.join(root, "policies", "index.html"), "utf8");
 const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 if (!home.includes('id="gallery-section"') || !home.includes('id="inquiryForm"')) errors.push("Home structure is incomplete");
 const getOneNavIndex = home.indexOf('href="/kits/">Get One</a>');
@@ -71,6 +72,8 @@ if (!build.includes('id="downloadsList"') || !build.includes('id="self-print-nex
 if (build.includes('/make-5x7/') || build.includes('id="setup-inventory"')) errors.push("Shared preparation content leaked into Self-Print");
 if (!buildScript.includes("positionTermHelpPopover") || !buildScript.includes("scheduleTermHelpOpen") || !buildScript.includes("TERM_HELP_OPEN_DELAY_MS") || !buildScript.includes('termHelpLastPointerType !== "touch"') || !styles.includes(".term-help-popover") || !styles.includes("position: fixed")) errors.push("Hybrid hover-and-touch tooltip behavior or positioning is missing");
 if (!kits.includes("How much do you want to do yourself?") || !kitsScript.includes("kit-selector-facts") || !kitsScript.includes("createOfferingInquiryHref")) errors.push("Stable offering comparison or inquiry actions are missing");
+if (!kitsScript.includes("Usually ships in 1–2 business days.") || !kitsScript.includes("Usually ships in 3–5 business days.") || !kitsScript.includes("Usually ships in 5–7 business days.")) errors.push("Offering preparation times are missing");
+if (!policies.includes("30 calendar days") || !policies.includes("Personalized products") || !policies.includes("Damaged, defective, or incorrect orders")) errors.push("Shipping and return policy is incomplete");
 if (!kitsScript.includes("Choose your colors") || !kitsScript.includes("Mix & match stocked colors") || !styles.includes(".color-pairing-list")) errors.push("Color configurator is missing");
 if (!home.includes('id="inquiryColorMode"') || !homeScript.includes("getHomeInquiryColorSelection")) errors.push("Inquiry color handoff is missing");
 if (!kitsScript.includes("window.STRIPE_CHECKOUT_MODE=\"off\"") || !kitsScript.includes('fetch("/api/checkout"')) errors.push("Mode-gated Stripe Checkout is missing");

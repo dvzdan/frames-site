@@ -415,6 +415,7 @@ function createActiveKitPanel(tier, state, imageOptions, colorOptions, onSelecti
   const intro = el("div", "tier-intro tier-active-intro");
   intro.appendChild(el("h2", "tier-active-heading", tier.name));
   appendParagraph(intro, tier.description, "tier-long-description");
+  appendParagraph(intro, tier.preparationTime, "tier-preparation-time");
   intro.appendChild(createKitPriceSummary());
   top.appendChild(intro);
 
