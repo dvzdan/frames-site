@@ -1,51 +1,32 @@
 SITE_CONTENT.sections.order = {
-  heading: "How much do you want to do yourself?",
-  subhead: "Print the parts yourself, assemble a complete kit, or order a finished frame.",
+  heading: "Choose how much of the build you want to do",
+  subhead: "Print the frame yourself with the Hardware Bundle, start with every part ready to assemble, or order a finished gift.",
   pricePrefix: "Total",
-  imagePreparationHeading: "How would you like to handle the images?",
+  imagePreparationHeading: "Images",
   imageOptions: [
     {
-      id: "self-print",
-      title: "I'll print my own",
-      description: "Templates and blank specialty image material are included. You print and trim the images yourself.",
-      priceAdjustment: 0,
+      id: "print-cut",
+      title: "Prepare the images for me",
+      description: "Upload your Cover and Reveal images at checkout. We'll format, print, and precisely cut both.",
+      priceAdjustment: 10,
+      priceLabel: "Included",
       defaultSelected: true
     },
     {
-      id: "print-cut",
-      title: "Print and cut them for me",
-      description: "You’ll be asked to upload your Cover and Reveal images at checkout. We’ll format, print, and precisely cut both.",
-      priceAdjustment: 10
+      id: "self-print",
+      title: "I'll prepare the images myself",
+      description: "Use Make 5x7 and the supplied specialty material to print and trim both images.",
+      priceAdjustment: 0,
+      priceLabel: "Save $10"
     }
   ],
   colorOptions: {
     heading: "Choose your colors",
     intro: "Every frame pairs a matte cassette with a glossy stand. Choose one of our three combinations, or mix the stocked colors at no extra charge.",
     curated: [
-      {
-        id: "original",
-        name: "Original",
-        cassetteColorId: "bone",
-        standColorId: "navy",
-        cassetteLabel: "Matte Bone cassette",
-        standLabel: "Glossy Midnight Navy stand"
-      },
-      {
-        id: "rose",
-        name: "Rose",
-        cassetteColorId: "blush",
-        standColorId: "oxblood",
-        cassetteLabel: "Matte Dusty Blush cassette",
-        standLabel: "Glossy Oxblood stand"
-      },
-      {
-        id: "grove",
-        name: "Grove",
-        cassetteColorId: "sage",
-        standColorId: "forest",
-        cassetteLabel: "Matte Muted Sage cassette",
-        standLabel: "Glossy Dark Forest stand"
-      }
+      { id: "original", name: "Original", cassetteColorId: "bone", standColorId: "navy", cassetteLabel: "Matte Bone cassette", standLabel: "Glossy Midnight Navy stand" },
+      { id: "rose", name: "Rose", cassetteColorId: "blush", standColorId: "oxblood", cassetteLabel: "Matte Dusty Blush cassette", standLabel: "Glossy Oxblood stand" },
+      { id: "grove", name: "Grove", cassetteColorId: "sage", standColorId: "forest", cassetteLabel: "Matte Muted Sage cassette", standLabel: "Glossy Dark Forest stand" }
     ],
     cassetteColors: [
       { id: "bone", name: "Bone", hex: "#E3D8C3" },
@@ -59,9 +40,9 @@ SITE_CONTENT.sections.order = {
     ],
     moreLabel: "More color options",
     mixedHeading: "Mix & match stocked colors — $0",
-    mixedCopy: "Choose any matte cassette color with any glossy stand color. There’s no extra charge.",
+    mixedCopy: "Choose any matte cassette color with any glossy stand color. There's no extra charge.",
     customHeading: "Looking for another color?",
-    customCopy: "Custom colors are available by request and may include an additional charge. We’ll confirm availability and the exact price before you pay.",
+    customCopy: "Custom colors are available by request and may include an additional charge. We'll confirm availability and the exact price before you pay.",
     customAction: "Request custom colors"
   },
   tiers: [
@@ -69,15 +50,15 @@ SITE_CONTENT.sections.order = {
       id: "maker",
       name: "Hardware Bundle",
       priceValue: 25,
-      priceLabel: "$25",
-      shortDescription: "Hardware only. You print and assemble.",
+      priceLabel: "$35",
+      shortDescription: "You print the frame. Hardware supplied.",
       comparison: [
         { label: "Printed parts", value: "You print" },
         { label: "Assembly", value: "You assemble" },
-        { label: "Images", value: "DIY or +$10" },
+        { label: "Images", value: "Prepared by default" },
         { label: "Colors", value: "You choose" }
       ],
-      description: "All the non-3D-printed hardware and specialty materials in one bundle. Use our free print files to make the frame and printed components, then assemble it yourself.",
+      description: "The self-print option: use the free files to print the frame and plastic parts, while the Hardware Bundle supplies the tested non-printed components and materials for one build.",
       preparationTime: "Usually ships in 1–2 business days.",
       imagePreparationApplies: true,
       defaultActive: true,
@@ -89,8 +70,7 @@ SITE_CONTENT.sections.order = {
       youDo: [
         "Download the free print files",
         "3D-print the frame and printable components",
-        "Prepare the images",
-        "Check the complete inventory",
+        "Upload your two images, or choose the DIY image option",
         "Assemble and load the mechanism",
         "Complete the final setup",
         { text: "Have the required assembly tools ready", href: "#assembly-tools" }
@@ -98,21 +78,18 @@ SITE_CONTENT.sections.order = {
       primaryAction: { label: "Ask about the Hardware Bundle", offeringId: "maker" },
       secondaryAction: { label: "View print files", page: "build" },
       accentColor: "#6f7f53",
-      illustration: {
-        assetKey: "maker",
-        alt: "Framed symbolic parts layout for the Hardware Bundle"
-      }
+      illustration: { assetKey: "maker", alt: "Framed symbolic parts layout for the Hardware Bundle" }
     },
     {
       id: "builder",
       name: "Ready-to-Assemble Kit",
       priceValue: 45,
-      priceLabel: "$45",
+      priceLabel: "$55",
       shortDescription: "All parts included. You assemble.",
       comparison: [
         { label: "Printed parts", value: "Included" },
         { label: "Assembly", value: "You assemble" },
-        { label: "Images", value: "DIY or +$10" },
+        { label: "Images", value: "Prepared by default" },
         { label: "Colors", value: "3 pairings + mix" }
       ],
       description: "Everything in the Hardware Bundle, plus all the 3D-printed parts, cleaned and ready to assemble.",
@@ -122,23 +99,19 @@ SITE_CONTENT.sections.order = {
       included: [
         "Complete Hardware Bundle",
         "All 3D-printed parts",
-        "Printed parts cleaned and prepared for assembly",
+        "Printed parts cleaned and ready to assemble",
         "Weighted component prepared",
         "Battery not included"
       ],
       youDo: [
-        "Prepare the images",
-        "Check the complete inventory",
+        "Upload your two images, or choose the DIY image option",
         "Assemble and load the mechanism",
         "Complete the final setup"
       ],
       primaryAction: { label: "Ask about the Ready-to-Assemble Kit", offeringId: "builder" },
       secondaryAction: { label: "View the instructions", page: "assembly" },
       accentColor: "#6b7f92",
-      illustration: {
-        assetKey: "builder",
-        alt: "Framed symbolic assembly layout for the Ready-to-Assemble Kit"
-      }
+      illustration: { assetKey: "builder", alt: "Framed symbolic assembly layout for the Ready-to-Assemble Kit" }
     },
     {
       id: "gift",
@@ -155,6 +128,7 @@ SITE_CONTENT.sections.order = {
       description: "Everything in the Ready-to-Assemble Kit, fully assembled, loaded, tested, and ready to give.",
       preparationTime: "Usually ships in 5–7 business days.",
       imagePreparationApplies: false,
+      giftTimingApplies: true,
       colorSelectionApplies: true,
       included: [
         "Fully assembled",
@@ -163,13 +137,14 @@ SITE_CONTENT.sections.order = {
         "Battery included",
         "Ready to display or gift"
       ],
-      youDo: ["Give it"],
+      youDo: [
+        "Choose the countdown",
+        "Pull the start tab after it arrives, or ask us to start it at shipping",
+        "Give it"
+      ],
       primaryAction: { label: "Ask about a Finished Gift", offeringId: "gift" },
       accentColor: "#7f5d68",
-      illustration: {
-        assetKey: "gift",
-        alt: "Framed symbolic finished gift layout"
-      }
+      illustration: { assetKey: "gift", alt: "Framed symbolic finished gift layout" }
     }
   ]
 };

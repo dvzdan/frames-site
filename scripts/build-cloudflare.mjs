@@ -23,7 +23,7 @@ const routes = {
     clients: ["SharedClient.html", "BlinkClient.html", "HomeClient.html"]
   },
   build: {
-    title: "Self-Print - Double Take Frames",
+    title: "Print Files - Double Take Frames",
     directory: "build",
     template: "Build.html",
     config: "BuildConfig.html",
@@ -128,7 +128,9 @@ const partsItems = [
   { item: "Clock Movement", product: "Reference movement - Young Town 12888SA. Threadless / snap-in 12888-style quartz clock movement, approximately 8 mm total shaft, step/ticking movement.", url: "", quantity: "1", note: "Required. Capstans are fitted to the reference movement; if you use a different brand/model, you will have to adjust the bore sizes of the capstans." },
   { item: "Zipper", product: "UpBrands Fidget Zipper Bracelet", url: "", quantity: "1", note: "Recommended. Must unzip with very little resistance; reject any zipper that feels stiff or catches." },
   { item: "Pull Line", product: "X8 braided fishing line", url: "", quantity: "As required", note: "Required. Used as the clock-driven pull line." },
-  { item: "Weight Ballast", product: "1/4 oz Black Coated Low Profile Adhesive Wheel Weights - White Tape, Roll of 715 Segments", url: "", quantity: "As needed; each segment is 1/4 oz", note: "Recommended. The adhesive segments can be stacked back-to-back and packed into the printed weight carriage." },
+  { item: "Adhesive Steel Weights", product: "Low-profile adhesive steel wheel-weight segments", url: "", quantity: "As needed; 1/4 oz segments", note: "Recommended. Stack the adhesive segments back-to-back and pack them into the printed weight carriage." },
+  { item: "Flat Birch Stick (Coffee Stirrer)", product: "Flat birch wood stick, 0.20 x 0.05 in. (5.1 x 1.3 mm)", url: "", quantity: "1 piece; cut to fit", note: "Required. The purchased stick length does not matter." },
+  { item: "Cotton String", product: "100% cotton stranded embroidery floss", url: "", quantity: "As required", note: "Required for the weight rig. Egyptian cotton embroidery floss is suitable, but the exact brand is not important." },
   { item: "UHMW Tape", product: "", url: "", quantity: "About 4 inches", note: "The type of tape is important: UHMW is remarkably low-friction." }
 ];
 
@@ -177,16 +179,32 @@ function migrateLegacySiteContent(content) {
   }
 
   const sourcingItems = content?.sections?.parts?.items || [];
+  if (content?.sections?.parts) {
+    content.sections.parts.sourceIntro = "Use these dimensions and compatibility notes if you want to assemble your own material set.";
+  }
   for (const item of sourcingItems) {
     if (item.item === "Display Image Material") {
       item.item = "Cover Image Material";
       item.note = String(item.note || "").replace(/Display Image/g, "Cover Image");
     }
-    if (item.item === "Weight Ballast" && item.product === "Lead fishing weights / sinkers") {
-      item.product = "1/4 oz Black Coated Low Profile Adhesive Wheel Weights - White Tape, Roll of 715 Segments";
-      item.quantity = "As needed; each segment is 1/4 oz";
-      item.note = "Recommended. The adhesive segments can be stacked back-to-back and packed into the printed weight carriage.";
+    if (item.item === "Weight Ballast" || item.item === "Adhesive Steel Weights") {
+      item.item = "Adhesive Steel Weights";
+      item.product = "Low-profile adhesive steel wheel-weight segments";
+      item.quantity = "As needed; 1/4 oz segments";
+      item.note = "Recommended. Stack the adhesive segments back-to-back and pack them into the printed weight carriage.";
     }
+  }
+  const requiredSourcingItems = [
+    { item: "Flat Birch Stick (Coffee Stirrer)", product: "Flat birch wood stick, 0.20 x 0.05 in. (5.1 x 1.3 mm)", url: "", quantity: "1 piece; cut to fit", note: "Required. The purchased stick length does not matter." },
+    { item: "Cotton String", product: "100% cotton stranded embroidery floss", url: "", quantity: "As required", note: "Required for the weight rig. Egyptian cotton embroidery floss is suitable, but the exact brand is not important." }
+  ];
+  for (const requiredItem of requiredSourcingItems) {
+    if (!sourcingItems.some((item) => item.item === requiredItem.item)) sourcingItems.push(requiredItem);
+  }
+
+  const assembly = content?.sections?.assembly;
+  if (assembly && Array.isArray(assembly.checklistItems)) {
+    assembly.checklistItems = assembly.checklistItems.filter((item) => !String(item).startsWith("Tuck the stem"));
   }
 }
 
@@ -206,11 +224,11 @@ function localizeAssets(value) {
 
 function header(activePage) {
   const links = [
-    ["kits", "Get One"],
-    ["build", "Self-Print"],
-    ["assembly", "Instructions"]
-  ].map(([page, label]) => (
-    `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`
+    ["kits", "Get One", routeHref("kits")],
+    ["home", "How It Works", routeHref("home", "how-it-works")],
+    ["assembly", "Instructions", routeHref("assembly")]
+  ].map(([page, label, href]) => (
+    `<a href="${href}"${page === activePage && page !== "home" ? ' aria-current="page"' : ""}>${label}</a>`
   )).join("");
   return `<header class="site-nav" aria-label="Primary navigation"><a class="site-nav-brand" href="/">Double Take Frames</a><nav class="site-nav-links">${links}<a href="/#gallery-section">Gallery</a><a href="/#checkout-placeholder">Contact</a></nav></header>`;
 }
@@ -327,9 +345,10 @@ fs.writeFileSync(path.join(output, "checkout", "success", "index.html"), `<!doct
 <meta name="robots" content="noindex"><title>Checkout complete - Double Take Frames</title><link rel="stylesheet" href="/styles.css"></head>
 <body>${header("")}<main class="page"><section class="section page-intro"><div class="eyebrow">Checkout complete</div>
 <h1>Thank you.</h1><p class="section-copy">Stripe will send the payment receipt to the email used at checkout.</p>
-<p class="section-copy" id="checkoutGenericMessage">We’ll follow up if we need anything else for your order.</p>
+<p class="section-copy" id="checkoutGenericMessage">We'll follow up if we need anything else for your order.</p>
 <section class="order-image-upload" id="orderImageUploadPanel" hidden>
-<h2>Upload your Cover and Reveal images</h2><p>One last checkout step: attach the two images we’ll format, print, and precisely cut for your frame.</p>
+<h2>Upload your Cover and Reveal images</h2><p>One last checkout step: attach the two images we'll format, print, and precisely cut for your frame.</p>
+<div class="gift-order-summary" id="giftOrderSummary" hidden><h3>Timer setup</h3><p id="giftCountdownSummary"></p><p id="giftStartSummary"></p></div>
 <form id="orderImageUploadForm"><div class="order-image-upload-fields">
 <label><span class="field-label">Cover image</span><input type="file" name="cover" accept="image/png,image/jpeg" required><span class="fine-print">PNG or JPEG, up to 8 MB.</span></label>
 <label><span class="field-label">Reveal image</span><input type="file" name="reveal" accept="image/png,image/jpeg" required><span class="fine-print">PNG or JPEG, up to 8 MB.</span></label>

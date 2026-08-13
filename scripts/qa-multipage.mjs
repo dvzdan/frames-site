@@ -292,12 +292,12 @@ const feedbackFields = await home.evaluate(() => ({
   kitHidden: document.getElementById("inquiryKit").closest(".inquiry-field").hidden,
   timelineHidden: document.getElementById("inquiryTimeline").closest(".inquiry-field").hidden
 }));
-await home.locator("#inquiryType").selectOption({ label: "Custom finished-frame inquiry" });
+await home.locator("#inquiryType").selectOption({ label: "Commercial licensing" });
 const customFields = await home.evaluate(() => ({
   kitHidden: document.getElementById("inquiryKit").closest(".inquiry-field").hidden,
   timelineHidden: document.getElementById("inquiryTimeline").closest(".inquiry-field").hidden
 }));
-await home.locator("#inquiryType").selectOption({ label: "Order or availability" });
+await home.locator("#inquiryType").selectOption({ label: "Order question" });
 const kitFields = await home.evaluate(() => ({
   kitHidden: document.getElementById("inquiryKit").closest(".inquiry-field").hidden,
   timelineHidden: document.getElementById("inquiryTimeline").closest(".inquiry-field").hidden
@@ -393,7 +393,7 @@ const { page: inquiryDeepLink, errors: inquiryDeepLinkErrors } = await openPage(
   "&offering=builder#checkout-placeholder"
 );
 const inquiryOfferingSelected = (
-  await inquiryDeepLink.locator("#inquiryType").inputValue() === "Order or availability" &&
+  await inquiryDeepLink.locator("#inquiryType").inputValue() === "Order question" &&
   await inquiryDeepLink.locator("#inquiryKit").inputValue() === "Ready-to-Assemble Kit"
 );
 results.push({ interaction: "inquiry-deep-link", inquiryOfferingSelected, errors: inquiryDeepLinkErrors });
@@ -411,7 +411,7 @@ const kitsDeepLinkState = await kitsDeepLink.evaluate(() => ({
 }));
 const kitsDeepLinkWorks = (
   await deepLinkTab.getAttribute("aria-selected") === "true" &&
-  await kitsDeepLink.locator("[data-tier-total-price]").innerText() === "$45"
+  await kitsDeepLink.locator("[data-tier-total-price]").innerText() === "$55"
 );
 results.push({
   interaction: "kits-deep-link",
@@ -534,8 +534,8 @@ if (
   !buildTooltipClosesAfterHover ||
   !buildModalVisible ||
   kitsLaunchNote !== "Launch pricing for the first production run; prices may change as materials and capacity settle." ||
-  kitsMakerBasePrice !== "$25" ||
-  kitsMakerComparisonFacts.length !== 3 ||
+  kitsMakerBasePrice !== "$35" ||
+  kitsMakerComparisonFacts.length !== 4 ||
   !kitsMakerInquiryHref.includes("offering=maker") ||
   !inquiryOfferingSelected ||
   kitsMakerPreparedPrice !== "$35" ||
@@ -544,7 +544,7 @@ if (
   !kitsDeepLinkWorks ||
   !kitsMobilePricing ||
   !kitsMobilePricing.noteVisible ||
-  kitsMobilePricing.makerBase !== "$25" ||
+  kitsMobilePricing.makerBase !== "$35" ||
   kitsMobilePricing.makerPrepared !== "$35" ||
   kitsMobilePricing.builderPrepared !== "$55" ||
   kitsMobilePricing.gift !== "$80" ||

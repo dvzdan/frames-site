@@ -44,13 +44,13 @@ const policies = fs.readFileSync(path.join(root, "policies", "index.html"), "utf
 const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 if (!home.includes('id="gallery-section"') || !home.includes('id="inquiryForm"')) errors.push("Home structure is incomplete");
 const getOneNavIndex = home.indexOf('href="/kits/">Get One</a>');
-const selfPrintNavIndex = home.indexOf('href="/build/">Self-Print</a>');
+const howItWorksNavIndex = home.indexOf('href="/#how-it-works">How It Works</a>');
 const assemblyNavIndex = home.indexOf('href="/assembly/">Instructions</a>');
 if (
   getOneNavIndex < 0 ||
-  selfPrintNavIndex < 0 ||
+  howItWorksNavIndex < 0 ||
   assemblyNavIndex < 0 ||
-  !(getOneNavIndex < selfPrintNavIndex && selfPrintNavIndex < assemblyNavIndex) ||
+  !(getOneNavIndex < howItWorksNavIndex && howItWorksNavIndex < assemblyNavIndex) ||
   home.includes('href="/">Home</a>')
 ) errors.push("Primary navigation labels or order are incorrect");
 if (home.includes("__TURNSTILE_SITE_KEY__") || !home.includes("challenges.cloudflare.com/turnstile")) errors.push("Turnstile is not configured in the home page");
@@ -71,13 +71,16 @@ if (!galleryMatch) {
 if (!build.includes('id="downloadsList"') || !build.includes('id="self-print-next"') || !build.includes("main.3mf")) errors.push("Self-Print route or download is incomplete");
 if (build.includes('/make-5x7/') || build.includes('id="setup-inventory"')) errors.push("Shared preparation content leaked into Self-Print");
 if (!buildScript.includes("positionTermHelpPopover") || !buildScript.includes("scheduleTermHelpOpen") || !buildScript.includes("TERM_HELP_OPEN_DELAY_MS") || !buildScript.includes('termHelpLastPointerType !== "touch"') || !styles.includes(".term-help-popover") || !styles.includes("position: fixed")) errors.push("Hybrid hover-and-touch tooltip behavior or positioning is missing");
-if (!kits.includes("How much do you want to do yourself?") || !kitsScript.includes("kit-selector-facts") || !kitsScript.includes("createOfferingInquiryHref")) errors.push("Stable offering comparison or inquiry actions are missing");
+if (!kits.includes("Choose how much of the build you want to do") || !kitsScript.includes("kit-selector-facts") || !kitsScript.includes("createOfferingInquiryHref")) errors.push("Stable offering comparison or inquiry actions are missing");
+if (!kitsScript.includes("createGiftTimingOptions") || !kitsScript.includes("countdownRequest") || !kitsScript.includes("startMode")) errors.push("Finished Gift timer setup is missing");
 if (!kitsScript.includes("Usually ships in 1–2 business days.") || !kitsScript.includes("Usually ships in 3–5 business days.") || !kitsScript.includes("Usually ships in 5–7 business days.")) errors.push("Offering preparation times are missing");
 if (!policies.includes("30 calendar days") || !policies.includes("Personalized products") || !policies.includes("Damaged, defective, or incorrect orders")) errors.push("Shipping and return policy is incomplete");
 if (!kitsScript.includes("Choose your colors") || !kitsScript.includes("Mix & match stocked colors") || !styles.includes(".color-pairing-list")) errors.push("Color configurator is missing");
 if (!home.includes('id="inquiryColorMode"') || !homeScript.includes("getHomeInquiryColorSelection")) errors.push("Inquiry color handoff is missing");
 if (!kitsScript.includes("window.STRIPE_CHECKOUT_MODE=\"off\"") || !kitsScript.includes('fetch("/api/checkout"')) errors.push("Mode-gated Stripe Checkout is missing");
 if (!assembly.includes('id="prepare-images"') || !assembly.includes('/make-5x7/') || !assembly.includes('id="setup-inventory"') || !assembly.includes('id="assemblyGuide"')) errors.push("Shared preparation and assembly flow is incomplete");
+if (!assembly.includes("Capstan x2") || !assembly.includes("Cotton String") || !assembly.includes("Flat Birch Stick") || !assembly.includes("Adhesive Steel Weights")) errors.push("Parts reference is incomplete");
+if (assembly.includes("Tuck the stem of the weight")) errors.push("Removed assembly reference content remains");
 
 const requiredBackendFiles = [
   "cloudflare/api-helpers.js",
@@ -89,7 +92,8 @@ const requiredBackendFiles = [
   "functions/api/gallery/submit.js",
   "functions/api/gallery/image/[[path]].js",
   "migrations/0001_initial.sql",
-  "migrations/0002_color_options_and_orders.sql"
+  "migrations/0002_color_options_and_orders.sql",
+  "migrations/0003_gift_timing.sql"
 ];
 for (const file of requiredBackendFiles) {
   if (!fs.existsSync(path.join(root, "..", file))) errors.push(`Missing backend file: ${file}`);

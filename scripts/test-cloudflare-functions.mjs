@@ -87,7 +87,7 @@ try {
     method: "POST",
     headers: { "Content-Type": "application/json", Origin: "https://example.test" },
     body: JSON.stringify({
-      type: "Order or availability",
+      type: "Order question",
       kit: "Ready-to-Assemble Kit",
       colorMode: "curated",
       pairingId: "rose",
@@ -121,7 +121,7 @@ try {
       method: "POST",
       headers: { "Content-Type": "application/json", Origin: "https://example.test" },
       body: JSON.stringify({
-        type: "Order or availability",
+        type: "Order question",
         kit: "Finished Gift",
         colorMode: "mixed",
         cassetteColorId: "sage",
@@ -255,6 +255,31 @@ try {
   assert.equal(stripeRequest.body.get("metadata[stand_color_id]"), "oxblood");
   assert.match(stripeRequest.body.get("custom_text[submit][message]"), /Muted Sage cassette.*Oxblood stand/);
 
+  const giftCheckoutResponse = await startCheckout({
+    request: new Request("https://example.test/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Origin: "https://example.test" },
+      body: JSON.stringify({
+        offeringId: "gift",
+        imageOptionId: "",
+        colorMode: "curated",
+        pairingId: "original",
+        countdownRequest: "Reveal after 10 days",
+        startMode: "shipping"
+      })
+    }),
+    env: {
+      STRIPE_CHECKOUT_MODE: "test",
+      STRIPE_SECRET_KEY: "sk_test_placeholder",
+      STRIPE_PRICE_GIFT: "price_gift",
+      STRIPE_SHIPPING_GIFT: "1095"
+    }
+  });
+  assert.equal(giftCheckoutResponse.status, 200);
+  assert.equal(stripeRequest.body.get("metadata[countdown_request]"), "Reveal after 10 days");
+  assert.equal(stripeRequest.body.get("metadata[start_mode]"), "shipping");
+  assert.match(stripeRequest.body.get("custom_text[submit][message]"), /Start when shipped/);
+
   const orderImageStore = createSubmissionStore();
   globalThis.fetch = async (url, options) => {
     assert.equal(url, "https://api.stripe.com/v1/checkout/sessions/cs_test_imageorder");
@@ -315,7 +340,7 @@ try {
     request: new Request("https://example.test/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json", Origin: "https://example.test" },
-      body: JSON.stringify({ offeringId: "gift", imageOptionId: "", colorMode: "curated", pairingId: "original" })
+      body: JSON.stringify({ offeringId: "gift", imageOptionId: "", colorMode: "curated", pairingId: "original", countdownRequest: "3 days", startMode: "recipient" })
     }),
     env: { STRIPE_CHECKOUT_ENABLED: "true", STRIPE_CHECKOUT_MODE: "live", STRIPE_SECRET_KEY: "sk_test_wrong_mode", STRIPE_PRICE_GIFT: "price_gift", STRIPE_SHIPPING_GIFT: "1095" }
   });
@@ -361,6 +386,8 @@ try {
   assert.equal(webhookDb.calls[0].values[8], "builder");
   assert.equal(webhookDb.calls[0].values[12], "sage");
   assert.equal(webhookDb.calls[0].values[13], "oxblood");
+  assert.equal(webhookDb.calls[0].values[15], "");
+  assert.equal(webhookDb.calls[0].values[16], "");
 
   console.log("Cloudflare function tests passed.");
 } finally {

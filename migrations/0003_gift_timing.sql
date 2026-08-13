@@ -1,0 +1,2 @@
+ALTER TABLE orders ADD COLUMN countdown_request TEXT NOT NULL DEFAULT '';
+ALTER TABLE orders ADD COLUMN start_mode TEXT NOT NULL DEFAULT '';

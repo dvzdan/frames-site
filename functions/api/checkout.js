@@ -77,8 +77,20 @@ export async function onRequestPost(context) {
     if (!["", "self-print", "print-cut"].includes(imageOptionId)) {
       throw new HttpError(400, "Choose a valid image option.");
     }
-    if (offeringId === "gift" && imageOptionId && imageOptionId !== "self-print") {
+    if (offeringId === "gift" && imageOptionId) {
       throw new HttpError(400, "That image option does not apply to this offering.");
+    }
+    if (offeringId !== "gift" && !imageOptionId) {
+      throw new HttpError(400, "Choose an image option.");
+    }
+    const countdownRequest = offeringId === "gift"
+      ? cleanText(body.countdownRequest, 200, "Countdown", true)
+      : "";
+    const startMode = offeringId === "gift"
+      ? cleanText(body.startMode, 24, "Start preference", true)
+      : "";
+    if (offeringId === "gift" && !["recipient", "shipping"].includes(startMode)) {
+      throw new HttpError(400, "Choose when the timer should start.");
     }
     const color = offeringId === "maker"
       ? emptyColorSelection()
@@ -103,6 +115,8 @@ export async function onRequestPost(context) {
     if (color.pairingId) cancelUrl.searchParams.set("pairing", color.pairingId);
     if (color.cassetteColorId) cancelUrl.searchParams.set("cassette", color.cassetteColorId);
     if (color.standColorId) cancelUrl.searchParams.set("stand", color.standColorId);
+    if (countdownRequest) cancelUrl.searchParams.set("countdown", countdownRequest);
+    if (startMode) cancelUrl.searchParams.set("startMode", startMode);
     form.set("cancel_url", cancelUrl.toString());
     form.set("shipping_address_collection[allowed_countries][0]", "US");
     form.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
@@ -116,9 +130,13 @@ export async function onRequestPost(context) {
     form.set("metadata[cassette_color_id]", color.cassetteColorId);
     form.set("metadata[stand_color_id]", color.standColorId);
     form.set("metadata[color_summary]", color.colorSummary);
-    if (color.colorSummary) {
-      form.set("custom_text[submit][message]", `Colors: ${color.colorSummary}`);
-    }
+    form.set("metadata[countdown_request]", countdownRequest);
+    form.set("metadata[start_mode]", startMode);
+    const checkoutNotes = [];
+    if (color.colorSummary) checkoutNotes.push(`Colors: ${color.colorSummary}`);
+    if (countdownRequest) checkoutNotes.push(`Countdown: ${countdownRequest}`);
+    if (startMode) checkoutNotes.push(startMode === "shipping" ? "Start when shipped" : "Customer starts after arrival");
+    if (checkoutNotes.length) form.set("custom_text[submit][message]", checkoutNotes.join(" · "));
     form.set("client_reference_id", crypto.randomUUID());
     if (String(env.STRIPE_AUTOMATIC_TAX || "").toLowerCase() === "true") {
       form.set("automatic_tax[enabled]", "true");

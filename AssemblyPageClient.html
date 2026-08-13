@@ -22,6 +22,7 @@ function hydrateImagePreparation() {
 
 function enhanceAssemblyInventoryTerms() {
   document.querySelectorAll(".inventory-name").forEach(function(node) {
+    if (node.querySelector("[data-term-help-trigger]")) return;
     const value = node.textContent.trim();
     if (!getTermHelpKey(value)) return;
     node.replaceChildren(createTermTooltip(value));

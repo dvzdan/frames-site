@@ -33,8 +33,8 @@ const routes = {
       "Hardware Bundle",
       "Ready-to-Assemble Kit",
       "Finished Gift",
-      "$25",
-      "$45",
+      "$35",
+      "$55",
       "$80",
       "Launch pricing for the first production run; prices may change as materials and capacity settle."
     ],

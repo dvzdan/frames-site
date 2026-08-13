@@ -42,45 +42,64 @@ function renderHomeLongCopy(groups) {
   const used = {};
 
   if (thread.length === HOME_THREAD_HEADINGS.length) {
-    const details = el("details", "how-works-copy-item faq-item how-works-thread");
+    const details = el("details", "how-works-copy-item faq-item");
     details.appendChild(el("summary", "", thread[0].heading));
     const body = el("div", "how-works-copy-body faq-answer");
     appendHomeParagraphs(body, thread[0].body);
-    body.appendChild(createHomeNestedDisclosure(thread, 1));
     details.appendChild(body);
     list.appendChild(details);
+
+    list.appendChild(createHomeOfferingPaths());
     thread.forEach(function(group) { used[group.heading] = true; });
   }
 
   groups.forEach(function(group) {
     if (!group || !group.heading || !group.body || used[group.heading]) return;
     const details = el("details", "how-works-copy-item faq-item");
-    details.appendChild(el("summary", "", group.heading));
+    const shippingQuestion = group.heading === "Is it fragile?";
+    details.appendChild(el("summary", "", shippingQuestion ? "Can it count down while it ships?" : group.heading));
     const body = el("div", "how-works-copy-body faq-answer");
-    appendHomeParagraphs(body, group.body);
+    appendHomeParagraphs(body, shippingQuestion
+      ? "Yes. It is designed to keep counting through normal packing, shipping, jostling, tilting, and being turned upside down. It only needs to be upright when the timer finishes so gravity can do its job."
+      : group.body);
     details.appendChild(body);
     list.appendChild(details);
   });
   return list;
 }
 
-function createHomeNestedDisclosure(groups, index) {
-  const wrapper = el("div", "how-works-nested-disclosure");
-  const panelId = "how-works-followup-" + index;
-  const trigger = el("button", "how-works-nested-trigger", groups[index].heading);
-  trigger.type = "button";
-  trigger.setAttribute("aria-expanded", "false");
-  trigger.setAttribute("aria-controls", panelId);
-  trigger.setAttribute("data-how-works-nested-trigger", "true");
-
-  const panel = el("div", "how-works-nested-panel");
-  panel.id = panelId;
-  panel.hidden = true;
-  appendHomeParagraphs(panel, groups[index].body);
-  if (groups[index + 1]) panel.appendChild(createHomeNestedDisclosure(groups, index + 1));
-  wrapper.appendChild(trigger);
-  wrapper.appendChild(panel);
-  return wrapper;
+function createHomeOfferingPaths() {
+  const details = el("details", "how-works-copy-item faq-item how-works-paths");
+  details.appendChild(el("summary", "", "How do I get one?"));
+  const body = el("div", "how-works-copy-body faq-answer");
+  const list = el("div", "how-works-path-list");
+  [
+    {
+      heading: "You build it!",
+      body: "Download the free print files and print the frame and plastic parts. The Hardware Bundle supplies the tested non-printed components and materials for one build."
+    },
+    {
+      prompt: "This whole 3D-printing craze doesn't interest me.",
+      heading: "Fair enough.",
+      body: "We'll print every plastic part and send it with the hardware and materials. You do the assembly. That's the Ready-to-Assemble Kit."
+    },
+    {
+      prompt: "Take the hint. I want a fun prank gift, not a project.",
+      heading: "You're missing out!",
+      body: "But if you insist, the Finished Gift arrives built, loaded, tested, and ready to give. It'll cost ya."
+    }
+  ].forEach(function(path) {
+    const article = el("article", "how-works-path");
+    if (path.prompt) article.appendChild(el("p", "how-works-path-prompt", path.prompt));
+    article.appendChild(el("h3", "", path.heading));
+    const paragraph = el("p");
+    appendHomeOfferingText(paragraph, path.body);
+    article.appendChild(paragraph);
+    list.appendChild(article);
+  });
+  body.appendChild(list);
+  details.appendChild(body);
+  return details;
 }
 
 function appendHomeParagraphs(parent, text) {
@@ -107,22 +126,6 @@ function appendHomeOfferingText(parent, text) {
     cursor = match.index + match[0].length;
   }
   if (cursor < text.length) parent.appendChild(document.createTextNode(text.slice(cursor)));
-}
-
-function bindHomeNestedDisclosures() {
-  document.addEventListener("click", function(event) {
-    const trigger = event.target && event.target.closest
-      ? event.target.closest("[data-how-works-nested-trigger]")
-      : null;
-    if (!trigger) return;
-    event.preventDefault();
-    event.stopPropagation();
-    const panel = document.getElementById(trigger.getAttribute("aria-controls"));
-    if (!panel) return;
-    const expanded = trigger.getAttribute("aria-expanded") === "true";
-    trigger.setAttribute("aria-expanded", expanded ? "false" : "true");
-    panel.hidden = expanded;
-  });
 }
 
 function normalizeHomeGallery(items) {
@@ -434,13 +437,13 @@ function updateHomeInquiryFields() {
   const stand = document.getElementById("inquiryStandColor");
   const customNotes = document.getElementById("inquiryCustomColorNotes");
   const selected = type ? type.value : "";
-  setHomeConditionalField(kit, selected === "Order or availability");
+  setHomeConditionalField(kit, selected === "Order question");
   setHomeConditionalField(
     timeline,
-    ["Order or availability", "Commercial licensing", "Custom finished-frame inquiry"].includes(selected)
+    ["Order question", "Commercial licensing"].includes(selected)
   );
   const selectedKit = kit ? kit.value : "";
-  const colorApplies = selected === "Order or availability" && ["Ready-to-Assemble Kit", "Finished Gift"].includes(selectedKit);
+  const colorApplies = selected === "Order question" && ["Ready-to-Assemble Kit", "Finished Gift"].includes(selectedKit);
   const selectedColorMode = colorMode ? colorMode.value : "";
   setHomeConditionalField(colorMode, colorApplies);
   setHomeConditionalField(cassette, colorApplies && selectedColorMode === "mixed");
@@ -471,8 +474,18 @@ function applyHomeInquirySelection() {
   if (!offeringLabels[offering]) return;
   const type = document.getElementById("inquiryType");
   const kit = document.getElementById("inquiryKit");
-  if (type) type.value = "Order or availability";
+  if (type) type.value = "Order question";
   if (kit) kit.value = offeringLabels[offering];
+  const countdown = params.get("countdown");
+  const startMode = params.get("startMode");
+  const timeline = document.getElementById("inquiryTimeline");
+  const message = document.getElementById("inquiryMessage");
+  if (offering === "gift" && timeline && countdown) timeline.value = countdown;
+  if (offering === "gift" && message && startMode) {
+    message.value = startMode === "shipping"
+      ? "Please start the timer when the finished gift ships."
+      : "I plan to start the timer after it arrives.";
+  }
   const colorMode = document.getElementById("inquiryColorMode");
   const requestedMode = params.get("colorMode");
   const pairing = params.get("pairing");
@@ -569,7 +582,6 @@ async function submitHomeInquiry(event) {
 
 function startHomePage() {
   hydrateHomeCms();
-  bindHomeNestedDisclosures();
   document.querySelectorAll("a[data-offering-id]").forEach(function(link) {
     const offeringId = link.getAttribute("data-offering-id");
     if (offeringId) {

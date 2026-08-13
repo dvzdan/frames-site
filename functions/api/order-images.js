@@ -23,7 +23,7 @@ function requireStripeKey(env, sessionId) {
   return key;
 }
 
-async function getPaidPrintCutSession(env, sessionId) {
+async function getPaidImageSession(env, sessionId) {
   const response = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
     headers: { Authorization: `Bearer ${requireStripeKey(env, sessionId)}` }
   });
@@ -34,7 +34,8 @@ async function getPaidPrintCutSession(env, sessionId) {
   if (session.status !== "complete" || session.payment_status === "unpaid") {
     throw new HttpError(403, "Complete payment before uploading order images.");
   }
-  if (!session.metadata || session.metadata.image_option_id !== "print-cut") {
+  const metadata = session.metadata || {};
+  if (metadata.image_option_id !== "print-cut" && metadata.offering_id !== "gift") {
     throw new HttpError(400, "This order does not include image preparation.");
   }
   return session;
@@ -52,13 +53,16 @@ async function imageUploadStatus(store, sessionId) {
 export async function onRequestGet(context) {
   try {
     const sessionId = validateSessionId(new URL(context.request.url).searchParams.get("session_id"));
-    const session = await getPaidPrintCutSession(context.env, sessionId);
+    const session = await getPaidImageSession(context.env, sessionId);
     const store = requireBinding(context.env, "SUBMISSIONS");
     const uploaded = await imageUploadStatus(store, sessionId);
     return jsonResponse({
       ok: true,
       requiresImages: true,
       uploaded: uploaded.cover && uploaded.reveal,
+      offeringId: cleanText(session.metadata && session.metadata.offering_id, 32, "Offering"),
+      countdownRequest: cleanText(session.metadata && session.metadata.countdown_request, 200, "Countdown"),
+      startMode: cleanText(session.metadata && session.metadata.start_mode, 24, "Start preference"),
       customerEmail: cleanText(session.customer_details && session.customer_details.email || session.customer_email, 254, "Email")
     });
   } catch (error) {
@@ -72,7 +76,7 @@ export async function onRequestPost(context) {
     assertSameOrigin(context.request);
     const form = await context.request.formData();
     const sessionId = validateSessionId(form.get("sessionId"));
-    const session = await getPaidPrintCutSession(context.env, sessionId);
+    const session = await getPaidImageSession(context.env, sessionId);
     const cover = form.get("cover");
     const reveal = form.get("reveal");
     const coverExtension = validateImage(cover, "Cover");

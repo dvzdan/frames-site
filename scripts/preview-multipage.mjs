@@ -53,11 +53,11 @@ function routeHref(page, hash = "") {
 
 function renderHeader(activePage) {
   const links = [
-    ["kits", "Get One"],
-    ["build", "Self-Print"],
-    ["assembly", "Instructions"]
-  ].map(([page, label]) => (
-    `<a href="${routeHref(page)}"${page === activePage ? ' aria-current="page"' : ""}>${label}</a>`
+    ["kits", "Get One", routeHref("kits")],
+    ["home", "How It Works", routeHref("home", "how-it-works")],
+    ["assembly", "Instructions", routeHref("assembly")]
+  ].map(([page, label, href]) => (
+    `<a href="${href}"${page === activePage && page !== "home" ? ' aria-current="page"' : ""}>${label}</a>`
   )).join("");
   return `<header class="site-nav" aria-label="Primary navigation"><a class="site-nav-brand" href="${routeHref("home")}">Double Take Frames</a><nav class="site-nav-links">${links}<a href="${routeHref("home", "gallery-section")}">Gallery</a><a href="${routeHref("home", "checkout-placeholder")}">Contact</a></nav></header>`;
 }

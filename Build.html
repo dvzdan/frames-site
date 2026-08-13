@@ -1,7 +1,7 @@
 <section class="section page-intro page-intro-build">
   <div class="eyebrow">3D printing</div>
   <h1>Build your own frame</h1>
-  <p class="section-copy">Download the files, add the required hardware, then follow the illustrated instructions.</p>
+  <p class="section-copy">Download the free files, print the frame and plastic parts, then add the Hardware Bundle and assemble.</p>
 </section>
 
 <section class="section plans-section" id="plans">
@@ -21,22 +21,21 @@
 
 <section class="section parts-section" id="parts">
   <h2 class="parts-heading">…and get the hardware</h2>
-  <div class="hardware-bundle-card">
+  <div class="hardware-bundle-card" id="build-hardware">
     <h3>Get the Hardware Bundle</h3>
     <p class="section-copy parts-intro">Purchase all the non-3D-printed parts and materials needed for one frame in a single convenient bundle.</p>
     <a class="button parts-bundle-link" href="<?= sitePageUrl('kits', 'kits') ?>" data-offering-id="maker">Go to Hardware Bundle</a>
   </div>
-  <div class="parts-source-section">
-    <h3 class="parts-source-heading">Prefer to source it yourself?</h3>
-    <p class="section-copy parts-source-intro">Here are the current components and recommended sourcing notes.</p>
-    <div class="parts-table" id="partsTable"></div>
-  </div>
+  <details class="parts-source-section parts-source-disclosure">
+    <summary class="parts-source-heading">Source the hardware yourself</summary>
+    <div class="parts-source-body"><p class="section-copy parts-source-intro">Use these dimensions and compatibility notes if you want to assemble your own material set.</p><div class="parts-table" id="partsTable"></div></div>
+  </details>
   <p class="fine-print parts-note" id="partsNote"></p>
 </section>
 
 <section class="section self-print-next" id="self-print-next">
   <div class="eyebrow">Parts ready?</div>
-  <h2>Prepare the images and assemble the frame</h2>
-  <p class="section-copy">Use the illustrated instructions to prepare the two images, check the parts, and put everything together.</p>
+  <h2>Assemble the frame</h2>
+  <p class="section-copy">Use the illustrated guide to get the images and parts ready, then put everything together.</p>
   <a class="button" href="<?= sitePageUrl('assembly') ?>">Open the instructions</a>
 </section>

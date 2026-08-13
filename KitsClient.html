@@ -67,7 +67,9 @@ function renderKitPicker() {
 
   const state = Object.assign({
     activeIndex: getInitialKitIndex(tiers),
-    imageOptionId: getDefaultKitImageOption(imageOptions)
+    imageOptionId: getDefaultKitImageOption(imageOptions),
+    giftCountdown: "",
+    giftStartMode: "recipient"
   }, getInitialKitColorState(colorOptions));
   target.innerHTML = "";
 
@@ -147,9 +149,11 @@ function renderKitPicker() {
       price.setAttribute("aria-label", (order.pricePrefix || "Total") + " " + formatKitPrice(total));
     }
     if (breakdown) {
-      breakdown.textContent = adjustment
-        ? formatKitPrice(base) + " + " + formatKitPrice(adjustment) + " image preparation = " + formatKitPrice(total)
-        : "";
+      breakdown.textContent = option && option.id === "print-cut"
+        ? "Includes image preparation."
+        : option && option.id === "self-print"
+          ? "Self-prepared images: save $10."
+          : "";
     }
     const selection = getKitColorSelection(tier, state, colorOptions);
     const colorSummary = card.querySelector("[data-color-selection-summary]");
@@ -263,7 +267,6 @@ function createKitColorDescription(prefix, color, suffix) {
   const description = el("span", "color-pairing-part");
   description.appendChild(document.createTextNode(prefix));
   const colorName = el("span", "color-name-text", color ? color.name : "");
-  if (color && color.hex) colorName.style.setProperty("--color-name", color.hex);
   description.appendChild(colorName);
   description.appendChild(document.createTextNode(suffix));
   return description;
@@ -388,17 +391,10 @@ function createKitColorSelect(labelText, colors, selectedId, onChange) {
     option.value = color.id;
     option.textContent = color.name;
     option.selected = color.id === selectedId;
-    option.style.color = color.hex;
     select.appendChild(option);
   });
-  const setSelectedColor = function() {
-    const selected = getKitColorById(colors, select.value);
-    if (selected && selected.hex) select.style.setProperty("--color-name", selected.hex);
-  };
   select.classList.add("color-name-select");
-  setSelectedColor();
   select.addEventListener("change", function() {
-    setSelectedColor();
     onChange(select.value);
   });
   label.appendChild(select);
@@ -423,6 +419,9 @@ function createActiveKitPanel(tier, state, imageOptions, colorOptions, onSelecti
   body.appendChild(createKitDetails(tier));
   if (tier.imagePreparationApplies && imageOptions.length) {
     body.appendChild(createKitImageOptions(tier, state, imageOptions, onSelectionChange));
+  }
+  if (tier.giftTimingApplies) {
+    body.appendChild(createGiftTimingOptions(state, onSelectionChange));
   }
   const actions = createKitActions(tier, state, colorOptions);
   if (actions) body.appendChild(actions);
@@ -468,6 +467,12 @@ function createKitActions(tier, state, colorOptions) {
 }
 
 async function startStripeCheckout(button, tier, state) {
+  if (tier.giftTimingApplies && !textOrEmpty(state.giftCountdown).trim()) {
+    const input = document.getElementById("giftCountdown");
+    if (input) input.focus();
+    window.alert("Tell us what countdown you want before continuing.");
+    return;
+  }
   const originalLabel = button.textContent;
   button.disabled = true;
   button.textContent = "Opening secure checkout…";
@@ -478,6 +483,8 @@ async function startStripeCheckout(button, tier, state) {
       body: JSON.stringify({
         offeringId: tier.id,
         imageOptionId: tier.imagePreparationApplies ? state.imageOptionId : "",
+        countdownRequest: tier.giftTimingApplies ? textOrEmpty(state.giftCountdown).trim() : "",
+        startMode: tier.giftTimingApplies ? state.giftStartMode : "",
         ...getKitColorSelection(tier, state, (SITE_CONTENT.sections.order || {}).colorOptions || {})
       })
     });
@@ -495,6 +502,10 @@ function createOfferingInquiryHref(offeringId, state, colorOptions, overrides) {
   const url = new URL(sitePageHref("home"), window.location.href);
   url.searchParams.set("offering", offeringId);
   const tier = ((SITE_CONTENT.sections.order || {}).tiers || []).find(function(item) { return item.id === offeringId; });
+  if (tier && tier.giftTimingApplies) {
+    if (textOrEmpty(state.giftCountdown).trim()) url.searchParams.set("countdown", textOrEmpty(state.giftCountdown).trim());
+    if (state.giftStartMode) url.searchParams.set("startMode", state.giftStartMode);
+  }
   if (tier && tier.colorSelectionApplies) {
     const selection = Object.assign({}, getKitColorSelection(tier, state, colorOptions || {}), overrides || {});
     if (selection.colorMode) url.searchParams.set("colorMode", selection.colorMode);
@@ -560,11 +571,69 @@ function createKitImageOptions(tier, state, options, onChange) {
     const amount = Number(option.priceAdjustment) || 0;
     label.appendChild(input);
     label.appendChild(text);
-    label.appendChild(el("span", "image-prep-option-price", amount ? "+" + formatKitPrice(amount) : "$0"));
+    label.appendChild(el("span", "image-prep-option-price", option.priceLabel || (amount ? "+" + formatKitPrice(amount) : "$0")));
     list.appendChild(label);
   });
   fieldset.appendChild(list);
   return fieldset;
+}
+
+function createGiftTimingOptions(state, onChange) {
+  const section = el("section", "gift-timing-options");
+  section.appendChild(el("h3", "gift-timing-heading", "Set the countdown"));
+  appendParagraph(section, "Tell us how long the clock should run after it starts.", "gift-timing-intro");
+
+  const countdownLabel = el("label", "gift-countdown-field");
+  countdownLabel.htmlFor = "giftCountdown";
+  countdownLabel.appendChild(el("span", "field-label", "What should the timer be set to?"));
+  const countdown = document.createElement("input");
+  countdown.id = "giftCountdown";
+  countdown.type = "text";
+  countdown.maxLength = 200;
+  countdown.placeholder = "For example: 10 days, or reveal at 6:00 PM on October 31";
+  countdown.value = state.giftCountdown;
+  countdown.addEventListener("input", function() {
+    state.giftCountdown = countdown.value;
+    onChange();
+  });
+  countdownLabel.appendChild(countdown);
+  section.appendChild(countdownLabel);
+
+  const startFieldset = el("fieldset", "gift-start-fieldset");
+  startFieldset.appendChild(el("legend", "field-label", "When should it start?"));
+  [
+    {
+      id: "recipient",
+      title: "I'll start it after it arrives",
+      description: "Remove the cassette from the frame, then pull the exposed tab to start the clock."
+    },
+    {
+      id: "shipping",
+      title: "Start it when it ships",
+      description: "We can send it directly to the recipient. If the images are scary or otherwise risqué, you'll need to receive and send it yourself."
+    }
+  ].forEach(function(option) {
+    const label = el("label", "gift-start-option");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "gift-start-mode";
+    input.value = option.id;
+    input.checked = state.giftStartMode === option.id;
+    input.addEventListener("change", function() {
+      if (!input.checked) return;
+      state.giftStartMode = option.id;
+      onChange();
+    });
+    const copy = el("span", "gift-start-copy");
+    copy.appendChild(el("strong", "", option.title));
+    copy.appendChild(el("span", "", option.description));
+    label.appendChild(input);
+    label.appendChild(copy);
+    startFieldset.appendChild(label);
+  });
+  section.appendChild(startFieldset);
+  appendParagraph(section, "The mechanism is designed to keep counting through normal packing, shipping, tilting, and being turned upside down. It only needs to be upright when the timer finishes.", "fine-print gift-shipping-note");
+  return section;
 }
 
 function createKitDetails(tier) {

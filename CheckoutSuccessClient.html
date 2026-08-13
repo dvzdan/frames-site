@@ -3,6 +3,9 @@
   const form = document.getElementById("orderImageUploadForm");
   const status = document.getElementById("orderImageUploadStatus");
   const genericMessage = document.getElementById("checkoutGenericMessage");
+  const giftSummary = document.getElementById("giftOrderSummary");
+  const countdownSummary = document.getElementById("giftCountdownSummary");
+  const startSummary = document.getElementById("giftStartSummary");
   const sessionId = new URLSearchParams(window.location.search).get("session_id");
   if (!panel || !form || !status || !sessionId) return;
 
@@ -19,6 +22,13 @@
       if (!payload.response.ok || !payload.result.requiresImages) return;
       if (genericMessage) genericMessage.hidden = true;
       panel.hidden = false;
+      if (payload.result.offeringId === "gift" && giftSummary) {
+        giftSummary.hidden = false;
+        if (countdownSummary) countdownSummary.textContent = "Countdown: " + (payload.result.countdownRequest || "We'll confirm the timing with you.");
+        if (startSummary) startSummary.textContent = payload.result.startMode === "shipping"
+          ? "We'll start the timer when the frame ships. It can keep counting while in transit."
+          : "To start it later: remove the cassette from the frame and pull the exposed tab.";
+      }
       if (payload.result.uploaded) {
         form.hidden = true;
         showStatus("Your Cover and Reveal images are already attached to this order.", false);

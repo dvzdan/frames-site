@@ -66,7 +66,7 @@ export async function onRequestPost(context) {
       createdAt: new Date().toISOString(),
       type: cleanText(data.type, 80, "Request type"),
       kit: cleanText(data.kit, 80, "Starting point"),
-      name: cleanText(data.name, 120, "Name", true),
+      name: cleanText(data.name, 120, "Name"),
       email: validateEmail(data.email, true),
       timeline: cleanText(data.timeline, 200, "Timeline"),
       message: cleanText(data.message, 5000, "Message", true),

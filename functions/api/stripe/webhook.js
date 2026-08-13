@@ -70,8 +70,8 @@ async function saveCompletedOrder(env, event) {
       (stripe_session_id, stripe_event_id, created_at, updated_at, payment_status,
        amount_total, currency, customer_email, offering_id, image_option_id,
        color_mode, pairing_id, cassette_color_id, stand_color_id, color_summary,
-       fulfillment_status)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new')
+       countdown_request, start_mode, fulfillment_status)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new')
     ON CONFLICT(stripe_session_id) DO UPDATE SET
       stripe_event_id = excluded.stripe_event_id,
       updated_at = excluded.updated_at,
@@ -85,7 +85,9 @@ async function saveCompletedOrder(env, event) {
       pairing_id = excluded.pairing_id,
       cassette_color_id = excluded.cassette_color_id,
       stand_color_id = excluded.stand_color_id,
-      color_summary = excluded.color_summary
+      color_summary = excluded.color_summary,
+      countdown_request = excluded.countdown_request,
+      start_mode = excluded.start_mode
   `).bind(
     text(session.id, 255),
     text(event.id, 255),
@@ -101,7 +103,9 @@ async function saveCompletedOrder(env, event) {
     text(metadata.pairing_id, 24),
     text(metadata.cassette_color_id, 24),
     text(metadata.stand_color_id, 24),
-    text(metadata.color_summary, 500)
+    text(metadata.color_summary, 500),
+    text(metadata.countdown_request, 200),
+    text(metadata.start_mode, 24)
   ).run();
 }
 
