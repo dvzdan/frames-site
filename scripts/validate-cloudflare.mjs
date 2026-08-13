@@ -41,7 +41,21 @@ const kits = fs.readFileSync(path.join(root, "kits", "index.html"), "utf8");
 const kitsScript = fs.readFileSync(path.join(root, "scripts", "kits.js"), "utf8");
 const assembly = fs.readFileSync(path.join(root, "assembly", "index.html"), "utf8");
 const policies = fs.readFileSync(path.join(root, "policies", "index.html"), "utf8");
+const checkoutSuccess = fs.readFileSync(path.join(root, "checkout", "success", "index.html"), "utf8");
 const styles = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+const versionedPages = [
+  ["home", home],
+  ["build", build],
+  ["kits", kits],
+  ["assembly", assembly],
+  ["policies", policies],
+  ["checkout-success", checkoutSuccess]
+];
+for (const [name, source] of versionedPages) {
+  if (!/href="\/styles\.css\?v=[a-zA-Z0-9_-]+"/.test(source)) errors.push(`${name}: stylesheet URL is not deployment-versioned`);
+  const scriptName = name === "checkout-success" ? "checkout-success" : name;
+  if (!source.includes(`/scripts/${scriptName}.js?v=`)) errors.push(`${name}: site script URL is not deployment-versioned`);
+}
 if (!home.includes('id="gallery-section"') || !home.includes('id="inquiryForm"')) errors.push("Home structure is incomplete");
 const getOneNavIndex = home.indexOf('href="/kits/">Get One</a>');
 const howItWorksNavIndex = home.indexOf('href="/#how-it-works">How It Works</a>');
@@ -55,6 +69,7 @@ if (
 ) errors.push("Primary navigation labels or order are incorrect");
 if (home.includes("__TURNSTILE_SITE_KEY__") || !home.includes("challenges.cloudflare.com/turnstile")) errors.push("Turnstile is not configured in the home page");
 if (!homeScript.includes('fetch("/api/inquiries"') || !homeScript.includes('fetch("/api/gallery/submit"')) errors.push("Cloudflare form endpoints are not wired to the home page");
+if (!home.includes('summary class="how-works-user-question"') || !homeScript.includes('how-works-user-question how-works-path-prompt') || !styles.includes('.how-works-path-prompt.how-works-user-question')) errors.push("Home question-and-answer hierarchy is incomplete");
 const galleryMatch = homeScript.match(/window\.INITIAL_GALLERY_ITEMS=(\[[^\n]*\]);/);
 if (!galleryMatch) {
   errors.push("Static gallery snapshot is missing");

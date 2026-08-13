@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -11,9 +12,6 @@ const stripeCheckoutMode = requestedStripeCheckoutMode === "test" ||
   (requestedStripeCheckoutMode === "live" && stripeCheckoutEnabled)
   ? requestedStripeCheckoutMode
   : "off";
-const assetVersion = String(process.env.CF_PAGES_COMMIT_SHA || "dev")
-  .slice(0, 12)
-  .replace(/[^a-zA-Z0-9_-]/g, "") || "dev";
 const contentFeedUrl = process.env.SITE_CONTENT_URL || "https://script.google.com/macros/s/AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg/exec?format=content";
 const fallbackSiteContent = JSON.parse(read("cloudflare/site-content.json"));
 
@@ -212,6 +210,19 @@ function migrateLegacySiteContent(content) {
 }
 
 migrateLegacySiteContent(siteContent);
+
+const versionedSourceFiles = new Set([
+  "Styles.html",
+  "Config.html",
+  "CheckoutSuccessClient.html",
+  ...Object.values(routes).flatMap((route) => [route.template, route.config, ...route.clients])
+]);
+const fallbackAssetHash = crypto.createHash("sha256");
+for (const file of versionedSourceFiles) fallbackAssetHash.update(read(file));
+fallbackAssetHash.update(JSON.stringify(siteContent));
+const assetVersion = String(process.env.CF_PAGES_COMMIT_SHA || fallbackAssetHash.digest("hex"))
+  .slice(0, 12)
+  .replace(/[^a-zA-Z0-9_-]/g, "") || "build";
 
 function routeHref(page, hash = "") {
   const base = page === "home" ? "/" : `/${page}/`;

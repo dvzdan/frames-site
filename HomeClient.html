@@ -70,7 +70,7 @@ function renderHomeLongCopy(groups) {
 
 function createHomeOfferingPaths() {
   const details = el("details", "how-works-copy-item faq-item how-works-paths");
-  details.appendChild(el("summary", "", "How do I get one?"));
+  details.appendChild(el("summary", "how-works-user-question", "How do I get one?"));
   const body = el("div", "how-works-copy-body faq-answer");
   const list = el("div", "how-works-path-list");
   [
@@ -90,7 +90,7 @@ function createHomeOfferingPaths() {
     }
   ].forEach(function(path) {
     const article = el("article", "how-works-path");
-    if (path.prompt) article.appendChild(el("p", "how-works-path-prompt", path.prompt));
+    if (path.prompt) article.appendChild(el("p", "how-works-user-question how-works-path-prompt", path.prompt));
     article.appendChild(el("h3", "", path.heading));
     const paragraph = el("p");
     appendHomeOfferingText(paragraph, path.body);
