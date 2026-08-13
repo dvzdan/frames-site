@@ -11,6 +11,9 @@ const stripeCheckoutMode = requestedStripeCheckoutMode === "test" ||
   (requestedStripeCheckoutMode === "live" && stripeCheckoutEnabled)
   ? requestedStripeCheckoutMode
   : "off";
+const assetVersion = String(process.env.CF_PAGES_COMMIT_SHA || "dev")
+  .slice(0, 12)
+  .replace(/[^a-zA-Z0-9_-]/g, "") || "dev";
 const contentFeedUrl = process.env.SITE_CONTENT_URL || "https://script.google.com/macros/s/AKfycbwijm7g7RhKLK_j8FuUiJ4b2m5rwxZIOy5-vHlcxt5USITIPswmaGeXN-UL2RAdBxg/exec?format=content";
 const fallbackSiteContent = JSON.parse(read("cloudflare/site-content.json"));
 
@@ -313,14 +316,14 @@ function renderPage(page) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Build a physical photo frame that reveals a second image on a timer.">
 <title>${route.title}</title>
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=${assetVersion}">
 ${page === "home" ? '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' : ""}
 </head>
 <body data-page="${page}">
 ${header(page)}
 <main class="page page-${page}" id="app">${transformTemplate(page)}</main>
 ${footer()}
-<script src="/scripts/${page}.js" defer></script>
+<script src="/scripts/${page}.js?v=${assetVersion}" defer></script>
 </body>
 </html>
 `;
@@ -342,7 +345,7 @@ fs.mkdirSync(path.join(output, "checkout", "success"), { recursive: true });
 fs.writeFileSync(path.join(output, "scripts", "checkout-success.js"), read("CheckoutSuccessClient.html"));
 fs.writeFileSync(path.join(output, "checkout", "success", "index.html"), `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex"><title>Checkout complete - Double Take Frames</title><link rel="stylesheet" href="/styles.css"></head>
+<meta name="robots" content="noindex"><title>Checkout complete - Double Take Frames</title><link rel="stylesheet" href="/styles.css?v=${assetVersion}"></head>
 <body>${header("")}<main class="page"><section class="section page-intro"><div class="eyebrow">Checkout complete</div>
 <h1>Thank you.</h1><p class="section-copy">Stripe will send the payment receipt to the email used at checkout.</p>
 <p class="section-copy" id="checkoutGenericMessage">We'll follow up if we need anything else for your order.</p>
@@ -354,7 +357,7 @@ fs.writeFileSync(path.join(output, "checkout", "success", "index.html"), `<!doct
 <label><span class="field-label">Reveal image</span><input type="file" name="reveal" accept="image/png,image/jpeg" required><span class="fine-print">PNG or JPEG, up to 8 MB.</span></label>
 </div><button class="button" type="submit">Attach images to my order</button></form>
 <p class="form-status" id="orderImageUploadStatus" role="status" aria-live="polite"></p></section>
-<a class="button secondary" href="/">Return home</a></section></main>${footer()}<script src="/scripts/checkout-success.js"></script></body></html>`);
+<a class="button secondary" href="/">Return home</a></section></main>${footer()}<script src="/scripts/checkout-success.js?v=${assetVersion}"></script></body></html>`);
 
 let make5x7 = read("Make5x7.html")
   .replace(/<title>[\s\S]*?<\/title>/i, "<title>Make 5×7 - Double Take Frames</title>");
