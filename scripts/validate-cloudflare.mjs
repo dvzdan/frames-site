@@ -97,6 +97,7 @@ if (!kitsScript.includes("window.STRIPE_CHECKOUT_MODE=\"off\"") || !kitsScript.i
 if (!assembly.includes('id="prepare-images"') || !assembly.includes('/make-5x7/') || !assembly.includes('id="setup-inventory"') || !assembly.includes('id="assemblyGuide"')) errors.push("Shared preparation and assembly flow is incomplete");
 if (!assembly.includes('class="make-5x7-inline-link"') || !assemblyScript.includes('setLinkedMake5x7Text') || !kitsScript.includes('setLinkedMake5x7Text(description, option.description)') || !kitsScript.includes('make5x7: "/make-5x7/"')) errors.push("Make 5x7 references are not consistently linked");
 if (!assembly.includes("Capstan x2") || !assembly.includes("Cotton String") || !assembly.includes("Flat Birch Stick") || !assembly.includes("Adhesive Steel Weights")) errors.push("Parts reference is incomplete");
+if (/QR Sticker|qr-sticker\.png/i.test(assembly)) errors.push("QR sticker remains in the parts inventory");
 if (assembly.includes("Tuck the stem of the weight")) errors.push("Removed assembly reference content remains");
 
 const requiredBackendFiles = [
