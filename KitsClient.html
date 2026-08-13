@@ -467,10 +467,11 @@ function createKitActions(tier, state, colorOptions) {
 }
 
 async function startStripeCheckout(button, tier, state) {
-  if (tier.giftTimingApplies && !textOrEmpty(state.giftCountdown).trim()) {
+  const countdownDays = Number(textOrEmpty(state.giftCountdown).trim());
+  if (tier.giftTimingApplies && (!Number.isInteger(countdownDays) || countdownDays < 1)) {
     const input = document.getElementById("giftCountdown");
     if (input) input.focus();
-    window.alert("Tell us what countdown you want before continuing.");
+    window.alert("Enter the approximate number of days before continuing.");
     return;
   }
   const originalLabel = button.textContent;
@@ -483,7 +484,7 @@ async function startStripeCheckout(button, tier, state) {
       body: JSON.stringify({
         offeringId: tier.id,
         imageOptionId: tier.imagePreparationApplies ? state.imageOptionId : "",
-        countdownRequest: tier.giftTimingApplies ? textOrEmpty(state.giftCountdown).trim() : "",
+        countdownRequest: tier.giftTimingApplies ? countdownDays + (countdownDays === 1 ? " day" : " days") : "",
         startMode: tier.giftTimingApplies ? state.giftStartMode : "",
         ...getKitColorSelection(tier, state, (SITE_CONTENT.sections.order || {}).colorOptions || {})
       })
@@ -587,12 +588,17 @@ function createGiftTimingOptions(state, onChange) {
 
   const countdownLabel = el("label", "gift-countdown-field");
   countdownLabel.htmlFor = "giftCountdown";
-  countdownLabel.appendChild(el("span", "field-label", "What should the timer be set to?"));
+  const countdownText = el("span", "field-label", "Approximate number of days");
+  countdownText.title = "The timer can also be set to trigger approximately a chosen number of hours after the battery tab is pulled.";
+  countdownLabel.appendChild(countdownText);
   const countdown = document.createElement("input");
   countdown.id = "giftCountdown";
-  countdown.type = "text";
-  countdown.maxLength = 200;
-  countdown.placeholder = "For example: 10 days, or reveal at 6:00 PM on October 31";
+  countdown.type = "number";
+  countdown.min = "1";
+  countdown.step = "1";
+  countdown.inputMode = "numeric";
+  countdown.placeholder = "For example: 10";
+  countdown.title = countdownText.title;
   countdown.value = state.giftCountdown;
   countdown.addEventListener("input", function() {
     state.giftCountdown = countdown.value;
