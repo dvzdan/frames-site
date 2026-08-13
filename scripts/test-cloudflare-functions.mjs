@@ -234,7 +234,10 @@ try {
       STRIPE_PRICE_MAKER: "price_maker",
       STRIPE_PRICE_BUILDER: "price_builder",
       STRIPE_PRICE_GIFT: "price_gift",
-      STRIPE_PRICE_IMAGE_PREP: "price_image_prep"
+      STRIPE_PRICE_IMAGE_PREP: "price_image_prep",
+      STRIPE_SHIPPING_MAKER: "895",
+      STRIPE_SHIPPING_BUILDER: "1095",
+      STRIPE_SHIPPING_GIFT: "1095"
     }
   });
   assert.equal(checkoutResponse.status, 200);
@@ -244,6 +247,9 @@ try {
   assert.equal(stripeRequest.body.get("line_items[1][price]"), "price_image_prep");
   assert.equal(stripeRequest.body.get("line_items[0][quantity]"), "1");
   assert.equal(stripeRequest.body.has("amount"), false);
+  assert.equal(stripeRequest.body.get("shipping_options[0][shipping_rate_data][display_name]"), "USPS Ground Advantage");
+  assert.equal(stripeRequest.body.get("shipping_options[0][shipping_rate_data][fixed_amount][amount]"), "1095");
+  assert.equal(stripeRequest.body.get("shipping_options[0][shipping_rate_data][fixed_amount][currency]"), "usd");
   assert.equal(stripeRequest.body.get("metadata[color_mode]"), "mixed");
   assert.equal(stripeRequest.body.get("metadata[cassette_color_id]"), "sage");
   assert.equal(stripeRequest.body.get("metadata[stand_color_id]"), "oxblood");
@@ -311,7 +317,7 @@ try {
       headers: { "Content-Type": "application/json", Origin: "https://example.test" },
       body: JSON.stringify({ offeringId: "gift", imageOptionId: "", colorMode: "curated", pairingId: "original" })
     }),
-    env: { STRIPE_CHECKOUT_ENABLED: "true", STRIPE_CHECKOUT_MODE: "live", STRIPE_SECRET_KEY: "sk_test_wrong_mode", STRIPE_PRICE_GIFT: "price_gift" }
+    env: { STRIPE_CHECKOUT_ENABLED: "true", STRIPE_CHECKOUT_MODE: "live", STRIPE_SECRET_KEY: "sk_test_wrong_mode", STRIPE_PRICE_GIFT: "price_gift", STRIPE_SHIPPING_GIFT: "1095" }
   });
   assert.equal(mismatchedKeyResponse.status, 503);
 

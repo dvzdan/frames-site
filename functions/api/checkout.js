@@ -15,6 +15,12 @@ const OFFERINGS = {
   gift: "STRIPE_PRICE_GIFT"
 };
 
+const SHIPPING_AMOUNTS = {
+  maker: "STRIPE_SHIPPING_MAKER",
+  builder: "STRIPE_SHIPPING_BUILDER",
+  gift: "STRIPE_SHIPPING_GIFT"
+};
+
 function checkoutMode(env) {
   const mode = String(env && env.STRIPE_CHECKOUT_MODE || "off").trim().toLowerCase();
   if (!["off", "test", "live"].includes(mode)) {
@@ -41,6 +47,19 @@ function requirePrice(env, bindingName) {
     throw new HttpError(503, "A Stripe price is not configured correctly.");
   }
   return String(price);
+}
+
+function requireShippingAmount(env, offeringId) {
+  const bindingName = SHIPPING_AMOUNTS[offeringId];
+  const value = requireBinding(env, bindingName);
+  if (!/^\d+$/.test(String(value))) {
+    throw new HttpError(503, "Shipping is not configured correctly.");
+  }
+  const amount = Number(value);
+  if (!Number.isSafeInteger(amount) || amount < 0) {
+    throw new HttpError(503, "Shipping is not configured correctly.");
+  }
+  return String(amount);
 }
 
 export async function onRequestPost(context) {
@@ -86,6 +105,10 @@ export async function onRequestPost(context) {
     if (color.standColorId) cancelUrl.searchParams.set("stand", color.standColorId);
     form.set("cancel_url", cancelUrl.toString());
     form.set("shipping_address_collection[allowed_countries][0]", "US");
+    form.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
+    form.set("shipping_options[0][shipping_rate_data][display_name]", "USPS Ground Advantage");
+    form.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", requireShippingAmount(env, offeringId));
+    form.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", "usd");
     form.set("metadata[offering_id]", offeringId);
     form.set("metadata[image_option_id]", imageOptionId || "included");
     form.set("metadata[color_mode]", color.colorMode);

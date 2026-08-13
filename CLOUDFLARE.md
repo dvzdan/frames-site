@@ -71,6 +71,7 @@ Required Cloudflare configuration:
 - Variable: `STRIPE_CHECKOUT_ENABLED=true` (the explicit live-payment switch; test mode does not require it)
 - Variable: `STRIPE_CHECKOUT_MODE` (`off`, `test`, or `live`; defaults to `off`)
 - Variables: `STRIPE_PRICE_MAKER`, `STRIPE_PRICE_BUILDER`, `STRIPE_PRICE_GIFT`, and `STRIPE_PRICE_IMAGE_PREP`
+- Variables: `STRIPE_SHIPPING_MAKER`, `STRIPE_SHIPPING_BUILDER`, and `STRIPE_SHIPPING_GIFT` (flat U.S. shipping amounts in cents)
 - Secret: `STRIPE_WEBHOOK_SECRET` (`whsec_...` from the Stripe endpoint for `/api/stripe/webhook`)
 - Optional variable: `STRIPE_AUTOMATIC_TAX=true` only after the applicable tax registrations are configured
 
