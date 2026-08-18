@@ -4193,6 +4193,48 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
 }
 
 /* Flow and reference refinements */
+.how-works-video-cta {
+  align-items: center;
+  background: color-mix(in srgb, var(--accent-brown) 7%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent-brown) 28%, var(--line));
+  border-radius: 7px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin: 18px 0 0;
+  max-width: 700px;
+  padding: 13px 15px;
+}
+
+.how-works-video-cta div {
+  display: grid;
+  gap: 2px;
+}
+
+.how-works-video-cta strong {
+  color: var(--text-strong);
+  font-size: 16px;
+}
+
+.how-works-video-cta span {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.how-works-video-button {
+  color: var(--accent-brown);
+  flex: 0 0 auto;
+  font-size: 14px;
+  font-weight: 850;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.how-works-video-button:hover,
+.how-works-video-button:focus-visible {
+  color: var(--text-strong);
+}
+
 .how-works-travel-note {
   background: color-mix(in srgb, var(--accent-olive) 7%, var(--surface));
   border-left: 3px solid color-mix(in srgb, var(--accent-olive) 62%, var(--line));
@@ -4221,6 +4263,11 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   max-width: min(560px, 96vw);
 }
 
+.reveal-video-dialog {
+  max-width: min(980px, 96vw);
+}
+
+.reveal-video-player,
 .handling-video-player {
   align-self: center;
   background: #161513;
@@ -4233,7 +4280,19 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   width: auto;
 }
 
+.reveal-video-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
 @media (max-width: 640px) {
+  .how-works-video-cta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .reveal-video-player,
   .handling-video-player {
     max-height: 68vh;
   }

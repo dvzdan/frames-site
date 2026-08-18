@@ -8,6 +8,7 @@
     </div>
     <div class="actions">
       <a class="button" href="<?= sitePageUrl('kits') ?>">Get One</a>
+      <a class="button secondary" href="/assets/videos/living-frame-reveal-v16-16x9.mp4" data-reveal-video-open>Watch the reveal</a>
     </div>
   </div>
   <div class="hero-gallery" id="heroGallery" hidden>
@@ -37,6 +38,13 @@
     <div class="product-intro-copy">
       <h2>How it works</h2>
       <p class="section-copy how-works-primary-copy">Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.</p>
+      <div class="how-works-video-cta">
+        <div>
+          <strong>See a real frame do it.</strong>
+          <span>Watch the mechanism count down, release, and reveal the hidden image.</span>
+        </div>
+        <a class="how-works-video-button" href="/assets/videos/living-frame-reveal-v16-16x9.mp4" data-reveal-video-open>Watch the reveal <span aria-hidden="true">&#8594;</span></a>
+      </div>
       <p class="how-works-travel-note"><strong><a class="handling-video-link" href="/assets/videos/living-frame-handling-test-9x16.mp4" data-handling-video-open>Designed to travel.</a></strong> It can keep counting through normal packing, shipping, jostling, tilting, and being turned upside down. It only needs to be upright when the timer finishes.</p>
     </div>
   </div>
@@ -56,6 +64,25 @@
     <details class="how-works-copy-item faq-item"><summary>Does it make noise?</summary><div class="how-works-copy-body faq-answer"><p>A little. The clock mechanism ticks softly, but unless your recipient is already inspecting the frame for tiny hidden machinery, they are unlikely to notice.</p><p>The reveal makes a small thud when the weight drops. A small piece of fabric or felt at the bottom helps muffle it.</p></div></details>
   </div>
 </section>
+
+<div class="support-guide-modal reveal-video-modal" id="revealVideoModal" hidden aria-hidden="true">
+  <div class="support-guide-backdrop" data-reveal-video-close="backdrop"></div>
+  <div class="support-guide-dialog reveal-video-dialog" role="dialog" aria-modal="true" aria-labelledby="revealVideoTitle" aria-describedby="revealVideoDescription" tabindex="-1">
+    <div class="support-guide-header">
+      <div class="support-guide-eyebrow">Real frame demonstration</div>
+      <h2 id="revealVideoTitle">Watch the reveal</h2>
+      <p class="support-guide-text" id="revealVideoDescription">Accelerated time shows the mechanism at work; the final reveal plays in real time with live sound.</p>
+    </div>
+    <video class="reveal-video-player" id="revealVideoPlayer" controls playsinline preload="none" aria-label="Demonstration of a Double Take Frame counting down and revealing its hidden image">
+      <source data-src="/assets/videos/living-frame-reveal-v16-16x9.mp4" type="video/mp4">
+      Your browser does not support embedded video. <a href="/assets/videos/living-frame-reveal-v16-16x9.mp4">Open the reveal video directly.</a>
+    </video>
+    <div class="support-guide-actions">
+      <a class="support-guide-fullsize" href="/assets/videos/living-frame-reveal-v16-16x9.mp4" target="_blank" rel="noopener">Open video in a new tab</a>
+      <button class="button secondary support-guide-close" type="button" data-reveal-video-close="button">Close</button>
+    </div>
+  </div>
+</div>
 
 <div class="support-guide-modal handling-video-modal" id="handlingVideoModal" hidden aria-hidden="true">
   <div class="support-guide-backdrop" data-handling-video-close="backdrop"></div>
