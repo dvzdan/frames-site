@@ -1,3 +1,37 @@
+## Canonical project routing - mandatory
+
+This `frames-site-cloudflare` worktree is the **authoritative public frontend**
+for `https://doubletakeframes.com/`. Every browser-visible page, route, style,
+script, poster, downloadable public file, and public image or video asset
+belongs here. Public media belongs under this worktree's `assets/` tree; the
+build copies that tree into `dist/assets/`.
+
+The Apps Script backend worktree is:
+
+`C:\Users\zack and lil\frames-site`
+
+Use that backend worktree only for Apps Script functions, the sheet-backed
+CMS/content feed, Google Drive/Sheets integration, and backend behavior. Do not
+put canonical public media or public layout changes there.
+
+Large original recordings, extracted frames, and editing intermediates belong
+on `D:`. Only selected, web-ready deliverables belong in this worktree's
+`assets/` tree.
+
+These folders are separate worktrees of the same Git repository. This worktree
+may be on a feature branch during active work; production deploys from
+`codex/cloudflare-port`. Check the current branch, finish or merge the feature
+branch intentionally, and do not assume every push from this worktree is a
+production deployment.
+
+Before editing for a website request:
+
+1. Classify the change as public frontend/media or Apps Script/backend.
+2. Switch to the matching worktree before creating or editing files.
+3. Confirm the deployment target in that worktree's documentation.
+4. State which worktree is being changed.
+5. Keep one canonical copy of each public asset in this Cloudflare worktree.
+
 ## Assembly instruction panel house style
 
 When creating assembly-instruction visuals, build a dedicated instruction SCAD scene rather than using the full master assembly.
