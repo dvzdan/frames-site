@@ -18,6 +18,107 @@ const HOME_GALLERY = {
   timers: []
 };
 
+function getHandlingVideoFocusable(modal) {
+  return Array.prototype.slice.call(modal.querySelectorAll(
+    'a[href], button:not([disabled]), video[controls], [tabindex]:not([tabindex="-1"])'
+  )).filter(function(node) {
+    return node.offsetParent !== null || node === document.activeElement;
+  });
+}
+
+function closeHandlingVideoModal() {
+  const modal = document.getElementById("handlingVideoModal");
+  const player = document.getElementById("handlingVideoPlayer");
+  if (!modal || modal.hidden) return;
+
+  if (player) {
+    player.pause();
+    player.currentTime = 0;
+  }
+  const returnFocus = modal.__returnFocus;
+  const scrollY = Number(modal.dataset.returnScrollY) || 0;
+  modal.hidden = true;
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+  window.scrollTo(0, scrollY);
+  if (returnFocus && typeof returnFocus.focus === "function") returnFocus.focus();
+  modal.__returnFocus = null;
+}
+
+function openHandlingVideoModal(trigger) {
+  const modal = document.getElementById("handlingVideoModal");
+  const player = document.getElementById("handlingVideoPlayer");
+  if (!modal || !player) return;
+
+  const source = player.querySelector("source[data-src]");
+  if (source && !source.src) {
+    source.src = source.dataset.src;
+    player.load();
+  }
+  const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  modal.dataset.returnScrollY = String(scrollY);
+  modal.__returnFocus = trigger;
+  document.body.style.position = "fixed";
+  document.body.style.top = "-" + scrollY + "px";
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
+  document.body.classList.add("modal-open");
+  modal.hidden = false;
+  modal.setAttribute("aria-hidden", "false");
+  const dialog = modal.querySelector(".handling-video-dialog");
+  const firstFocus = getHandlingVideoFocusable(modal)[0] || dialog;
+  if (firstFocus) firstFocus.focus();
+  const playPromise = player.play();
+  if (playPromise && typeof playPromise.catch === "function") playPromise.catch(function() {});
+}
+
+function bindHandlingVideoModal() {
+  const modal = document.getElementById("handlingVideoModal");
+  if (!modal) return;
+
+  document.addEventListener("click", function(event) {
+    const trigger = event.target && event.target.closest
+      ? event.target.closest("[data-handling-video-open]")
+      : null;
+    if (!trigger) return;
+    event.preventDefault();
+    openHandlingVideoModal(trigger);
+  });
+  modal.addEventListener("click", function(event) {
+    if (event.target && event.target.getAttribute("data-handling-video-close")) {
+      closeHandlingVideoModal();
+    }
+  });
+  modal.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeHandlingVideoModal();
+    } else if (event.key === "Tab") {
+      const focusable = getHandlingVideoFocusable(modal);
+      if (!focusable.length) {
+        event.preventDefault();
+        modal.querySelector(".handling-video-dialog").focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  });
+}
+
 function hydrateHomeCms() {
   const content = SITE_CONTENT.homepage.productIntro || {};
   const section = document.getElementById("how-it-works");
@@ -582,6 +683,7 @@ async function submitHomeInquiry(event) {
 
 function startHomePage() {
   hydrateHomeCms();
+  bindHandlingVideoModal();
   document.querySelectorAll("a[data-offering-id]").forEach(function(link) {
     const offeringId = link.getAttribute("data-offering-id");
     if (offeringId) {
