@@ -265,7 +265,38 @@ function galleryMarkup() {
 }
 
 function downloadsMarkup() {
-  return '<a class="download-row" target="_blank" rel="noopener" href="https://drive.google.com/uc?export=download&amp;id=1d337bPLj43E7ge_t69K9j9kmf9QktIM8"><span class="download-name">main.3mf</span><span class="download-meta">125 KB · Updated Jul 22, 2026</span><span class="download-action" aria-hidden="true">Download</span></a>';
+  const downloads = [
+    {
+      file: "Frame and Stand 3mf, .6mm nozzle recommended.3mf",
+      name: "Frame and Stand.3mf",
+      meta: "3MF · 0.6 mm nozzle recommended"
+    },
+    {
+      file: "All other parts 3mf, .4mm nozzle required - includes roller, trap door rig, latch, C clip, Clock_string guide.3mf",
+      name: "Everything Else.3mf",
+      meta: "3MF · 0.4 mm nozzle required"
+    },
+    { file: "Capstans.scad", name: "Capstans.scad", meta: "OpenSCAD source" },
+    { file: "clock_string guide.scad", name: "clock_string guide.scad", meta: "OpenSCAD source" },
+    { file: "dry wall rig.scad", name: "dry wall rig.scad", meta: "OpenSCAD source" },
+    { file: "frame stand.scad", name: "frame stand.scad", meta: "OpenSCAD source" },
+    { file: "latch and keeper.scad", name: "latch and keeper.scad", meta: "OpenSCAD source" },
+    { file: "main Frame file.scad", name: "main Frame file.scad", meta: "OpenSCAD source" },
+    { file: "roller.scad", name: "roller.scad", meta: "OpenSCAD source" }
+  ];
+
+  return downloads.map((download) => {
+    const source = path.join(root, "assets", "downloads", download.file);
+    if (!fs.existsSync(source)) throw new Error(`Missing download asset: ${download.file}`);
+    const bytes = fs.statSync(source).size;
+    const size = bytes < 1024
+      ? `${bytes} B`
+      : bytes < 1024 * 1024
+        ? `${Math.round(bytes / 1024)} KB`
+        : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    const href = `/assets/downloads/${encodeURIComponent(download.file)}`;
+    return `<a class="download-row" download href="${href}"><span class="download-name">${download.name}</span><span class="download-meta">${download.meta} · ${size}</span><span class="download-action" aria-hidden="true">Download</span></a>`;
+  }).join("");
 }
 
 function transformTemplate(page) {

@@ -143,17 +143,19 @@ Custom finished build:
 
 These are the core public resources, but avoid repeating "free" too aggressively in visible copy. Demonstrate access directly.
 
-- SCAD/STL/3MF design files are available from the site downloads section.
+- SCAD and 3MF design files are available from the site downloads section.
 - License: CC BY-NC-SA 4.0 for personal, noncommercial use.
-- Files are auto-listed on the site from the Drive folder `<gallery folder>/downloads`
-  (child folder of `FOLDER_ID` in Code.js, created automatically on first render).
-  Drop files in; the site lists them with size/date and a public download link.
+- Public design files live in `assets/downloads/` and are listed by
+  `downloadsMarkup()` in `scripts/build-cloudflare.mjs`.
+- The published set comes from the top level of the OpenSCAD project's
+  `canonical files/` folder: two 3MF print bundles and seven SCAD sources.
+  Water-only, pending, STL, and older individual exports are not published.
 - The `Source it yourself` table (`sections.parts` in Config.html) lists
   each hardware part with `link: ""` placeholders - fill in buy-yourself links there.
 - Make-5x7 tool is served at `<exec url>?page=make5x7` from `Make5x7.html`
   (copied from `Documents/codex-scad-experiment/photo stuff/make 5x7.html`).
 - Public materials-kit section currently has one visible offering: `Parts Kit`.
-- GitHub for design files deliberately deferred; Drive-first. Revisit if a remix
+- GitHub hosting for design files is deliberately deferred. Revisit if a remix
   community forms.
 
 ## Archived Maker/Builder Tiers

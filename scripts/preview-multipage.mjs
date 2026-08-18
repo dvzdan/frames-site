@@ -67,7 +67,7 @@ function serverGalleryMarkup() {
 }
 
 function serverDownloadsMarkup() {
-  return `<a class="download-row" href="#"><span class="download-name">double-take-frame.3mf</span><span class="download-meta">4.2 MB</span><span class="download-action">Download</span></a><a class="download-row" href="#"><span class="download-name">parts.stl</span><span class="download-meta">1.8 MB</span><span class="download-action">Download</span></a>`;
+  return `<a class="download-row" href="#"><span class="download-name">Frame and Stand.3mf</span><span class="download-meta">3MF · 0.6 mm nozzle recommended</span><span class="download-action">Download</span></a><a class="download-row" href="#"><span class="download-name">Everything Else.3mf</span><span class="download-meta">3MF · 0.4 mm nozzle required</span><span class="download-action">Download</span></a><a class="download-row" href="#"><span class="download-name">main Frame file.scad</span><span class="download-meta">OpenSCAD source</span><span class="download-action">Download</span></a>`;
 }
 
 function renderPartial(page) {

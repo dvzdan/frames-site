@@ -1,6 +1,5 @@
 const TERM_HELP = {
   "3mf": "A print-project file that can preserve plate layout, orientation, and slicer settings.",
-  "stl": "A common 3D-model file for printing individual parts; it does not store slicer settings.",
   "openscad": "The editable source format used to modify or regenerate the printable design.",
   "pet": "Polyester film: a thin, durable plastic sheet used where the mechanism needs a smooth flexible surface.",
   "uhmw": "Ultra-high-molecular-weight polyethylene tape: a very slick, low-friction tape used along the image path.",
@@ -17,7 +16,6 @@ let termHelpLastPointerType = "";
 function getTermHelpKey(value) {
   const normalized = textOrEmpty(value).trim().toLowerCase();
   if (normalized === "3mf") return "3mf";
-  if (normalized === "stl") return "stl";
   if (normalized === "openscad") return "openscad";
   if (normalized === "pet" || /\bpet\b/.test(normalized)) return "pet";
   if (normalized === "uhmw" || /\buhmw\b/.test(normalized)) return "uhmw";

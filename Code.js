@@ -856,7 +856,7 @@ function getGallerySheet_() {
   }) || ss.getActiveSheet();
 }
 
-/* Design file downloads. Drop SCAD/STL/3MF files into the Drive folder
+/* Design file downloads. Drop SCAD/3MF files into the Drive folder
    "<gallery folder>/downloads" and they are listed on the site automatically. */
 function getDownloadsFolder_() {
   const parent = DriveApp.getFolderById(FOLDER_ID);

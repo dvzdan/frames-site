@@ -14,23 +14,6 @@ function enhanceBuildDownloads() {
     const value = node.textContent.trim();
     node.replaceChildren(createTermTooltip(value));
   });
-
-  const list = document.getElementById("downloadsList");
-  const printCard = document.getElementById("build-print");
-  if (!list || !printCard) return;
-  const rows = Array.prototype.slice.call(list.querySelectorAll(".download-row"));
-  const primary = rows.find(function(row) {
-    const name = row.querySelector(".download-name");
-    return name && /\.3mf\b/i.test(name.textContent || "");
-  });
-  if (!primary) return;
-
-  const name = primary.querySelector(".download-name");
-  primary.className = "button build-primary-action build-primary-download";
-  primary.setAttribute("aria-label", "Download " + (name ? name.textContent.trim() : "3MF print file"));
-  primary.textContent = "Download 3MF";
-  const heading = printCard.querySelector(".plans-downloads-heading");
-  if (heading) heading.insertAdjacentElement("afterend", primary);
 }
 
 function populateBuildParts() {

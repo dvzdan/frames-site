@@ -84,7 +84,25 @@ if (!galleryMatch) {
     errors.push("Static gallery snapshot is invalid JSON");
   }
 }
-if (!build.includes('id="downloadsList"') || !build.includes('id="self-print-next"') || !build.includes("main.3mf")) errors.push("Self-Print route or download is incomplete");
+const expectedDownloads = [
+  "Frame and Stand.3mf",
+  "Everything Else.3mf",
+  "Capstans.scad",
+  "clock_string guide.scad",
+  "dry wall rig.scad",
+  "frame stand.scad",
+  "latch and keeper.scad",
+  "main Frame file.scad",
+  "roller.scad"
+];
+if (
+  !build.includes('id="downloadsList"') ||
+  !build.includes('id="self-print-next"') ||
+  expectedDownloads.some((name) => !build.includes(name))
+) errors.push("Self-Print route or download set is incomplete");
+if (/\bstl\b|\.stl(?:[?"'#]|$)/i.test(build) || files.some((file) => /\.stl$/i.test(file))) {
+  errors.push("STL files or references remain in the public build");
+}
 if (build.includes('/make-5x7/') || build.includes('id="setup-inventory"')) errors.push("Shared preparation content leaked into Self-Print");
 if (!buildScript.includes("positionTermHelpPopover") || !buildScript.includes("scheduleTermHelpOpen") || !buildScript.includes("TERM_HELP_OPEN_DELAY_MS") || !buildScript.includes('termHelpLastPointerType !== "touch"') || !styles.includes(".term-help-popover") || !styles.includes("position: fixed")) errors.push("Hybrid hover-and-touch tooltip behavior or positioning is missing");
 if (!kits.includes("Choose how much of the build you want to do") || !kitsScript.includes("kit-selector-facts") || !kitsScript.includes("createOfferingInquiryHref")) errors.push("Stable offering comparison or inquiry actions are missing");
