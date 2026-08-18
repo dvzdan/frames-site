@@ -423,13 +423,13 @@ function createActiveKitPanel(tier, state, imageOptions, colorOptions, onSelecti
   if (tier.giftTimingApplies) {
     body.appendChild(createGiftTimingOptions(state, onSelectionChange));
   }
-  const actions = createKitActions(tier, state, colorOptions);
-  if (actions) body.appendChild(actions);
   if (tier.colorSelectionApplies && (colorOptions.curated || []).length) {
     const colorSection = createKitColorOptions(tier, state, colorOptions, onSelectionChange);
     colorSection.classList.add("kit-color-options-prominent");
-    card.appendChild(colorSection);
+    body.appendChild(colorSection);
   }
+  const actions = createKitActions(tier, state, colorOptions);
+  if (actions) body.appendChild(actions);
   card.appendChild(top);
   card.appendChild(body);
   return card;
