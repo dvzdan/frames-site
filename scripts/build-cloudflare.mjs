@@ -212,7 +212,22 @@ function migrateLegacySiteContent(content) {
 
   const assembly = content?.sections?.assembly;
   if (assembly && Array.isArray(assembly.checklistItems)) {
-    assembly.checklistItems = assembly.checklistItems.filter((item) => !String(item).startsWith("Tuck the stem"));
+    const weightRigChecks = [
+      "Keep the exposed string between the Cover Image and five-weight rig to about 1 inch.",
+      "Tuck the birch stick just under the roller lip so the rig stays in place when tilted."
+    ];
+    assembly.checklistItems = [
+      ...weightRigChecks,
+      ...assembly.checklistItems.filter((item) => (
+        !String(item).startsWith("Tuck the stem") && !weightRigChecks.includes(item)
+      ))
+    ];
+  }
+
+  const imagePreparation = content?.sections?.imagePreparation;
+  if (imagePreparation?.toolText) {
+    imagePreparation.toolText = String(imagePreparation.toolText)
+      .replace("making the slot in the Cover Image", "punching the hole in the Cover Image");
   }
 }
 
