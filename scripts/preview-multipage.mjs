@@ -67,7 +67,7 @@ function serverGalleryMarkup() {
 }
 
 function serverDownloadsMarkup() {
-  return `<a class="download-row" href="#"><span class="download-name">Frame and Stand.3mf</span><span class="download-meta">3MF · 0.6 mm nozzle recommended</span><span class="download-action">Download</span></a><a class="download-row" href="#"><span class="download-name">Everything Else.3mf</span><span class="download-meta">3MF · 0.4 mm nozzle required</span><span class="download-action">Download</span></a><a class="download-row" href="#"><span class="download-name">main Frame file.scad</span><span class="download-meta">OpenSCAD source</span><span class="download-action">Download</span></a>`;
+  return `<a class="download-row download-row-primary" href="#"><span class="download-name">Frame and Stand.3mf</span><span class="download-meta">3MF · 0.6 mm nozzle recommended</span><span class="download-action">Download</span></a><a class="download-row download-row-primary" href="#"><span class="download-name">Everything Else.3mf</span><span class="download-meta">3MF · 0.4 mm nozzle required</span><span class="download-action">Download</span></a><details class="download-source-group"><summary class="download-source-summary"><span class="download-source-title">Editable OpenSCAD source</span><span class="download-meta">7 files for modifying the design</span><span class="download-source-toggle" aria-hidden="true"></span></summary><div class="download-source-list"><a class="download-row" href="#"><span class="download-name">main Frame file.scad</span><span class="download-meta">OpenSCAD source</span><span class="download-action">Download</span></a></div></details>`;
 }
 
 function renderPartial(page) {

@@ -300,7 +300,7 @@ function downloadsMarkup() {
     { file: "roller.scad", name: "roller.scad", meta: "OpenSCAD source" }
   ];
 
-  return downloads.map((download) => {
+  const rows = downloads.map((download) => {
     const source = path.join(root, "assets", "downloads", download.file);
     if (!fs.existsSync(source)) throw new Error(`Missing download asset: ${download.file}`);
     const bytes = fs.statSync(source).size;
@@ -310,8 +310,13 @@ function downloadsMarkup() {
         ? `${Math.round(bytes / 1024)} KB`
         : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
     const href = `/assets/downloads/${encodeURIComponent(download.file)}`;
-    return `<a class="download-row" download href="${href}"><span class="download-name">${download.name}</span><span class="download-meta">${download.meta} · ${size}</span><span class="download-action" aria-hidden="true">Download</span></a>`;
-  }).join("");
+    const primaryClass = download.file.toLowerCase().endsWith(".3mf") ? " download-row-primary" : "";
+    return { ...download, markup: `<a class="download-row${primaryClass}" download href="${href}"><span class="download-name">${download.name}</span><span class="download-meta">${download.meta} · ${size}</span><span class="download-action" aria-hidden="true">Download</span></a>` };
+  });
+  const printFiles = rows.filter((download) => download.file.toLowerCase().endsWith(".3mf"));
+  const sourceFiles = rows.filter((download) => download.file.toLowerCase().endsWith(".scad"));
+  return printFiles.map((download) => download.markup).join("") +
+    `<details class="download-source-group"><summary class="download-source-summary"><span class="download-source-title">Editable OpenSCAD source</span><span class="download-meta">${sourceFiles.length} files for modifying the design</span><span class="download-source-toggle" aria-hidden="true"></span></summary><div class="download-source-list">${sourceFiles.map((download) => download.markup).join("")}</div></details>`;
 }
 
 function transformTemplate(page) {

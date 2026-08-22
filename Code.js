@@ -905,16 +905,22 @@ function renderInitialDownloadsHtml() {
       return '<div class="downloads-empty fine-print">Print files are being staged - check back shortly, or send a request below and I will email them to you directly.</div>';
     }
 
-    return files.map(function(file) {
+    const rows = files.map(function(file) {
       const meta = [formatFileSize_(file.size),
         "Updated " + Utilities.formatDate(file.updated, Session.getScriptTimeZone(), "MMM d, yyyy")]
         .filter(Boolean).join(" · ");
-      return '<a class="download-row" target="_blank" rel="noopener" href="https://drive.google.com/uc?export=download&id=' + file.id + '">' +
+      return { name: file.name, markup: '<a class="download-row' + (/\.3mf$/i.test(file.name) ? ' download-row-primary' : '') + '" target="_blank" rel="noopener" href="https://drive.google.com/uc?export=download&id=' + file.id + '">' +
         '<span class="download-name">' + escapeHtmlServer(file.name) + '</span>' +
         '<span class="download-meta">' + escapeHtmlServer(meta) + '</span>' +
         '<span class="download-action" aria-hidden="true">Download</span>' +
-        '</a>';
-    }).join("");
+        '</a>' };
+    });
+    const printFiles = rows.filter(function(file) { return /\.3mf$/i.test(file.name); });
+    const sourceFiles = rows.filter(function(file) { return /\.scad$/i.test(file.name); });
+    return printFiles.map(function(file) { return file.markup; }).join("") +
+      '<details class="download-source-group"><summary class="download-source-summary"><span class="download-source-title">Editable OpenSCAD source</span><span class="download-meta">' + sourceFiles.length + ' files for modifying the design</span><span class="download-source-toggle" aria-hidden="true"></span></summary><div class="download-source-list">' +
+      sourceFiles.map(function(file) { return file.markup; }).join("") +
+      '</div></details>';
   } catch (err) {
     return '<div class="downloads-empty fine-print">Download list error: ' + escapeHtmlServer(err.message || err) + '</div>';
   }
