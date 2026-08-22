@@ -431,11 +431,12 @@ function createKitActions(tier, state, colorOptions) {
   const secondary = tier.secondaryAction;
   if (!primary && !secondary) return null;
   const wrapper = el("div", "tier-actions");
-  if (window.STRIPE_CHECKOUT_MODE === "test" || window.STRIPE_CHECKOUT_MODE === "live") {
+  const checkoutAvailable = window.STRIPE_CHECKOUT_MODE === "test" || window.STRIPE_CHECKOUT_MODE === "live";
+  if (checkoutAvailable) {
     const checkoutButton = el(
       "button",
       "button tier-action-primary",
-      window.STRIPE_CHECKOUT_MODE === "test" ? "Try test checkout" : "Buy " + tier.name
+      "Checkout"
     );
     checkoutButton.type = "button";
     checkoutButton.addEventListener("click", function() {
@@ -443,8 +444,8 @@ function createKitActions(tier, state, colorOptions) {
     });
     wrapper.appendChild(checkoutButton);
   }
-  if (primary && primary.label && primary.offeringId) {
-    const link = el("a", "button " + (window.STRIPE_CHECKOUT_MODE === "live" ? "secondary " : "") + "tier-action-primary", primary.label);
+  if (!checkoutAvailable && primary && primary.label && primary.offeringId) {
+    const link = el("a", "button tier-action-primary", primary.label);
     link.href = createOfferingInquiryHref(primary.offeringId, state, colorOptions);
     if (tier.colorSelectionApplies) link.setAttribute("data-color-inquiry", "true");
     wrapper.appendChild(link);

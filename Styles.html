@@ -2523,6 +2523,49 @@ p {
   position: relative;
 }
 
+.assembly-self-print-callout {
+  align-items: center;
+  background: color-mix(in srgb, var(--accent-olive) 6%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent-olive) 22%, var(--line));
+  border-radius: 8px;
+  display: flex;
+  gap: 14px 20px;
+  justify-content: space-between;
+  margin-top: 20px;
+  max-width: 760px;
+  padding: 12px 14px;
+}
+
+.assembly-self-print-callout > div {
+  display: grid;
+  gap: 3px;
+}
+
+.assembly-self-print-callout strong {
+  color: var(--text-strong);
+}
+
+.assembly-self-print-callout span {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.assembly-self-print-callout .button {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 620px) {
+  .assembly-self-print-callout {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .assembly-self-print-callout .button {
+    align-self: start;
+  }
+}
+
 .assembly-guide {
   display: grid;
   gap: 14px;

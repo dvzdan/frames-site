@@ -116,8 +116,10 @@ if (!kitsScript.includes("Usually ships in 1–2 business days.") || !kitsScript
 if (!policies.includes("30 calendar days") || !policies.includes("Personalized products") || !policies.includes("Damaged, defective, or incorrect orders")) errors.push("Shipping and return policy is incomplete");
 if (!kitsScript.includes("Choose your colors") || !kitsScript.includes("Mix & match stocked colors") || !styles.includes(".color-pairing-list")) errors.push("Color configurator is missing");
 if (!home.includes('id="inquiryColorMode"') || !homeScript.includes("getHomeInquiryColorSelection")) errors.push("Inquiry color handoff is missing");
-if (!kitsScript.includes("window.STRIPE_CHECKOUT_MODE=\"off\"") || !kitsScript.includes('fetch("/api/checkout"')) errors.push("Mode-gated Stripe Checkout is missing");
+if (!kitsScript.includes("window.STRIPE_CHECKOUT_MODE=\"off\"") || !kitsScript.includes('fetch("/api/checkout"') || kitsScript.includes("Try test checkout") || !kitsScript.includes('"Checkout"') || !kitsScript.includes("!checkoutAvailable && primary")) errors.push("Mode-gated Stripe Checkout or its live actions are incorrect");
+if (!kitsScript.includes("Get 3D Print Files")) errors.push("Hardware Bundle self-print action is unclear");
 if (!assembly.includes('id="prepare-images"') || !assembly.includes('/make-5x7/') || !assembly.includes('id="setup-inventory"') || !assembly.includes('id="assemblyGuide"')) errors.push("Shared preparation and assembly flow is incomplete");
+if (!assembly.includes("3D-printing your own parts?") || !assembly.includes('href="/build/#plans"') || !assembly.includes("Get 3D Print Files")) errors.push("Assembly self-print route is missing");
 if (assembly.includes('id="assembly-tools"') || !assembly.includes('class="term-help assembly-threading-help"') || !assembly.includes("Tweezers are strongly recommended for guiding the string through tight spots")) errors.push("Assembly threading help is not streamlined correctly");
 if (/\.assembly-viewer-top\s*\{[^}]*position:\s*sticky/s.test(styles)) errors.push("Assembly navigation can overlap instruction images");
 if (!assembly.includes('<details class="inventory-disclosure">') || assembly.includes('<details class="inventory-disclosure" open') || !assembly.includes('check that you have everything')) errors.push("Parts inventory is not a closed preflight disclosure");
