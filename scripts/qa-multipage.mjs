@@ -360,12 +360,12 @@ await build.close();
 
 const kits = await assertPage(
   "kits",
-  ["h1", ".launch-pricing-note", "#pricingTiers", ".kit-selector-row", ".kit-selector-facts", ".tier-active-card", ".image-prep-options", ".tier-actions"],
+  ["h1", ".launch-pricing-note", "#pricingTiers", ".kit-selector-row", ".tier-active-card", ".image-prep-options", ".tier-actions"],
   ["#assemblyGuide", "#gallery-section", "#pricingTiers del", "#pricingTiers s"]
 );
 const kitsLaunchNote = await kits.locator(".launch-pricing-note").innerText();
 const kitsMakerBasePrice = await kits.locator("[data-tier-total-price]").innerText();
-const kitsMakerComparisonFacts = await kits.locator('.kit-selector-row[data-tier-index="0"] .kit-selector-fact').allInnerTexts();
+const kitsComparisonFactCount = await kits.locator(".kit-selector-fact").count();
 const kitsMakerInquiryHref = await kits.locator(".tier-action-primary").getAttribute("href");
 await kits.locator('input[value="print-cut"]').check();
 const kitsMakerPreparedPrice = await kits.locator("[data-tier-total-price]").innerText();
@@ -379,7 +379,7 @@ results.push({
   interaction: "kits",
   kitsLaunchNote,
   kitsMakerBasePrice,
-  kitsMakerComparisonFacts,
+  kitsComparisonFactCount,
   kitsMakerInquiryHref,
   kitsMakerPreparedPrice,
   kitsBuilderPreparedPrice,
@@ -535,7 +535,7 @@ if (
   !buildModalVisible ||
   kitsLaunchNote !== "Launch pricing for the first production run; prices may change as materials and capacity settle." ||
   kitsMakerBasePrice !== "$35" ||
-  kitsMakerComparisonFacts.length !== 4 ||
+  kitsComparisonFactCount !== 0 ||
   !kitsMakerInquiryHref.includes("offering=maker") ||
   !inquiryOfferingSelected ||
   kitsMakerPreparedPrice !== "$35" ||

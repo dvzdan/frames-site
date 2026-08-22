@@ -185,15 +185,6 @@ function createKitSelector(tier, index, panelId) {
   heading.appendChild(el("span", "kit-selector-price", tier.priceLabel || formatKitPrice(tier.priceValue)));
   row.appendChild(heading);
   row.appendChild(el("span", "kit-selector-summary", tier.shortDescription));
-  const facts = el("span", "kit-selector-facts");
-  (tier.comparison || []).forEach(function(item) {
-    if (!item || !item.label || !item.value) return;
-    const fact = el("span", "kit-selector-fact");
-    fact.appendChild(el("span", "kit-selector-fact-label", item.label));
-    fact.appendChild(el("span", "kit-selector-fact-value", item.value));
-    facts.appendChild(fact);
-  });
-  if (facts.children.length) row.appendChild(facts);
   return row;
 }
 
