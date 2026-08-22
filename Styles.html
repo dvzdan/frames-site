@@ -3988,22 +3988,51 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   overflow: hidden;
 }
 
+.page-assembly .setup-kit-inventory-section {
+  border-top: 0;
+  margin-top: 0;
+  padding-bottom: clamp(26px, 4vw, 44px);
+  padding-top: 0;
+}
+
 .inventory-disclosure-summary {
   align-items: center;
   color: var(--text-strong);
   cursor: pointer;
   display: flex;
-  font-family: var(--font-display);
-  font-size: clamp(20px, 2.5vw, 27px);
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 750;
   gap: 16px;
   list-style: none;
-  min-height: 64px;
-  padding: 4px clamp(16px, 3vw, 26px);
+  min-height: 56px;
+  padding: 8px clamp(14px, 2.5vw, 20px);
 }
 
 .inventory-disclosure-summary::-webkit-details-marker {
   display: none;
+}
+
+.inventory-disclosure-label {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+}
+
+.inventory-disclosure-title {
+  color: var(--text-strong);
+  font-weight: 800;
+}
+
+.inventory-disclosure-note {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.inventory-disclosure-note::before {
+  content: "— ";
 }
 
 .inventory-disclosure-body {
