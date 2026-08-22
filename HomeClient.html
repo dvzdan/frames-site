@@ -163,6 +163,9 @@ function renderHomeLongCopy(groups) {
       : group.body);
     details.appendChild(body);
     list.appendChild(details);
+    if (group.heading === "How exactly does it work?") {
+      list.appendChild(createHomeTinkererExchange());
+    }
   });
   return list;
 }
@@ -196,6 +199,31 @@ function createHomeOfferingPaths() {
     article.appendChild(paragraph);
     list.appendChild(article);
   });
+  body.appendChild(list);
+  details.appendChild(body);
+  return details;
+}
+
+function createHomeTinkererExchange() {
+  const details = el("details", "how-works-copy-item faq-item how-works-paths");
+  details.appendChild(el("summary", "how-works-user-question", "You lack imagination, Mr. Double Take, if that is your real name."));
+
+  const body = el("div", "how-works-copy-body faq-answer");
+  const list = el("div", "how-works-path-list");
+  const article = el("article", "how-works-path");
+  article.appendChild(el("h3", "", "It's not."));
+  article.appendChild(el("p", "how-works-user-question how-works-path-prompt", "With a few small changes to the core mechanism, I could turn it into something else entirely. I might even combine it with ideas of my own and make something truly wild."));
+  article.appendChild(el("h3", "", "I bet you could."));
+
+  const answer = el("p");
+  answer.appendChild(document.createTextNode("The "));
+  const filesLink = el("a", "offering-inline-link", "3D design files");
+  filesLink.href = sitePageHref("build", "plans");
+  answer.appendChild(filesLink);
+  answer.appendChild(document.createTextNode(" are yours to tinker with. Show me what you've got. If it's good, I might even help you sell it."));
+  article.appendChild(answer);
+
+  list.appendChild(article);
   body.appendChild(list);
   details.appendChild(body);
   return details;
