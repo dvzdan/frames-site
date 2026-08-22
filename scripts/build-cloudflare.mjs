@@ -178,8 +178,8 @@ function migrateLegacySiteContent(content) {
 
   const faqItems = content?.sections?.faq?.items || [];
   for (const item of faqItems) {
-    if (item.answer === "It can be. Stiffen the end with a small drop of superglue, or glue the tiny metal wire included in the kit to the end of the string and use it as a threading needle.") {
-      item.answer = "It can be. Stiffen the end with a small drop of superglue, or glue the supplied tiny metal wire to the end of the string and use it as a threading needle.";
+    if (item.question === "Threading the string is a nuisance.") {
+      item.answer = "It can be. Tweezers are strongly recommended for guiding the string through tight spots and positioning the image paper. If needed, stiffen the end with a small drop of superglue, or glue the supplied tiny metal wire to the end of the string and use it as a threading needle.";
     }
     if (item.answer === "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the kits gather the tested compatible pieces in one-frame quantities.") {
       item.answer = "Yes. The design files, image-formatting tool, assembly guide, and parts list are available on this site. If you want to avoid buying larger packs, rolls, or sheets for a single build, the Hardware Bundle gathers the tested compatible pieces in one-frame quantities.";

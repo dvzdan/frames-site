@@ -45,7 +45,7 @@ const routes = {
     partials: ["Preparation.html"],
     config: "AssemblyConfig.html",
     clients: ["SharedClient.html", "TooltipClient.html", "ToolsClient.html", "AssemblyData.html", "AssemblyClient.html", "AssemblyPageClient.html"],
-    required: ['id="assembly-start"', 'id="prepare-images"', 'id="setup-inventory"', 'id="setup-manual"', 'id="assembly-tools"', 'id="assemblyGuide"', 'id="faq"'],
+    required: ['id="assembly-start"', 'id="prepare-images"', 'id="setup-inventory"', 'id="setup-manual"', 'class="term-help assembly-threading-help"', 'id="assemblyGuide"', 'id="faq"'],
     forbidden: ["INITIAL_GALLERY_ITEMS", "renderHomeGallery", "KitsConfig"]
   }
 };

@@ -53,19 +53,6 @@ function renderAssemblyPreamble(content) {
   appendParagraph(root, content.intro, "section-copy assembly-preamble-intro");
   const primers = el("div", "assembly-primer-list");
 
-  const tools = renderPreparationTools(content.tools, "assembly-tools");
-  if (tools) {
-    const disclosure = el("details", "assembly-primer");
-    const summary = el("summary", "assembly-primer-summary");
-    summary.appendChild(el("span", "assembly-primer-title", "Tools"));
-    summary.appendChild(el("span", "assembly-primer-note", content.toolsSummary));
-    disclosure.appendChild(summary);
-    const body = el("div", "assembly-primer-body");
-    body.appendChild(tools);
-    disclosure.appendChild(body);
-    primers.appendChild(disclosure);
-  }
-
   if (Array.isArray(content.sequenceItems) && content.sequenceItems.length) {
     const disclosure = el("details", "assembly-primer");
     const summary = el("summary", "assembly-primer-summary");
@@ -91,7 +78,10 @@ function renderAssemblyPreamble(content) {
   if (primers.children.length) root.appendChild(primers);
   if (Array.isArray(content.checklistItems) && content.checklistItems.length) {
     const checklist = el("div", "assembly-preamble-block assembly-checklist-block");
-    checklist.appendChild(el("h3", "", content.checklistHeading || "Easy-to-miss checks:"));
+    const checklistHeading = el("h3", "", content.checklistHeading || "Easy-to-miss checks:");
+    checklistHeading.appendChild(document.createTextNode(" "));
+    checklistHeading.appendChild(createAssemblyThreadingHelp());
+    checklist.appendChild(checklistHeading);
     const list = el("div", "assembly-checklist");
     content.checklistItems.forEach(function(item, index) {
       const label = el("label", "assembly-check-item");
@@ -106,6 +96,22 @@ function renderAssemblyPreamble(content) {
     root.appendChild(checklist);
   }
   return root;
+}
+
+function createAssemblyThreadingHelp() {
+  const help = el("span", "term-help assembly-threading-help");
+  const trigger = el("button", "term-help-trigger", "String threading tip");
+  trigger.type = "button";
+  trigger.setAttribute("aria-expanded", "false");
+  trigger.setAttribute("aria-controls", "assembly-threading-help");
+  trigger.dataset.termHelpTrigger = "true";
+  const popover = el("span", "term-help-popover", "Tweezers are strongly recommended for guiding the string and image paper. For stubborn threading, stiffen the end with a tiny drop of superglue or use the supplied wire as a threading needle.");
+  popover.id = "assembly-threading-help";
+  popover.hidden = true;
+  popover.setAttribute("role", "tooltip");
+  help.appendChild(trigger);
+  help.appendChild(popover);
+  return help;
 }
 
 function renderAssemblySequence(items) {
