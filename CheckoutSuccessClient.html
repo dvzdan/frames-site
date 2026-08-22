@@ -27,7 +27,7 @@
         if (countdownSummary) countdownSummary.textContent = "Countdown: " + (payload.result.countdownRequest || "We'll confirm the timing with you.");
         if (startSummary) startSummary.textContent = payload.result.startMode === "shipping"
           ? "We'll start the timer when the frame ships. It can keep counting while in transit."
-          : "To start it later: remove the cassette from the frame and pull the exposed tab.";
+          : "To start it later: remove the bottom stand and pull the start string firmly until it releases.";
       }
       if (payload.result.uploaded) {
         form.hidden = true;

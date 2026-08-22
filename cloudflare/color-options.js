@@ -21,7 +21,7 @@ export const CURATED_PAIRINGS = {
 function colorSummary(cassetteColorId, standColorId) {
   const cassette = CASSETTE_COLORS[cassetteColorId];
   const stand = STAND_COLORS[standColorId];
-  return `Matte ${cassette.name} cassette + glossy ${stand.name} stand`;
+  return `Matte ${cassette.name} frame + glossy ${stand.name} stand`;
 }
 
 export function emptyColorSelection() {
@@ -59,10 +59,10 @@ export function validateColorSelection(data, { required = false, allowCustom = f
   }
 
   if (colorMode === "mixed") {
-    const cassetteColorId = cleanText(data && data.cassetteColorId, 24, "Cassette color", true);
+    const cassetteColorId = cleanText(data && data.cassetteColorId, 24, "Frame color", true);
     const standColorId = cleanText(data && data.standColorId, 24, "Stand color", true);
     if (!CASSETTE_COLORS[cassetteColorId] || !STAND_COLORS[standColorId]) {
-      throw new HttpError(400, "Choose valid stocked cassette and stand colors.");
+      throw new HttpError(400, "Choose valid stocked frame and stand colors.");
     }
     return {
       colorMode,

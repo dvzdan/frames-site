@@ -230,7 +230,7 @@ function getKitColorSelection(tier, state, options) {
       pairingId: "",
       cassetteColorId: cassette ? cassette.id : "bone",
       standColorId: stand ? stand.id : "navy",
-      summary: "Matte " + (cassette ? cassette.name : "Bone") + " cassette + glossy " + (stand ? stand.name : "Midnight Navy") + " stand"
+      summary: "Matte " + (cassette ? cassette.name : "Bone") + " frame + glossy " + (stand ? stand.name : "Midnight Navy") + " stand"
     };
   }
   const pairing = (options.curated || []).find(function(item) { return item.id === state.pairingId; }) || (options.curated || [])[0];
@@ -267,7 +267,7 @@ function renderKitColorSummary(target, selection, options) {
   const cassette = getKitColorById(options.cassetteColors, selection.cassetteColorId);
   const stand = getKitColorById(options.standColors, selection.standColorId);
   target.replaceChildren();
-  target.appendChild(createKitColorDescription("Matte ", cassette, " cassette"));
+  target.appendChild(createKitColorDescription("Matte ", cassette, " frame"));
   target.appendChild(document.createTextNode(" + "));
   target.appendChild(createKitColorDescription("glossy ", stand, " stand"));
 }
@@ -302,7 +302,7 @@ function createKitColorOptions(tier, state, options, onChange) {
     const content = el("span", "color-pairing-content");
     content.appendChild(createColorFramePreview(cassette, stand));
     content.appendChild(el("strong", "color-pairing-name", pairing.name));
-    content.appendChild(createKitColorDescription("Matte ", cassette, " cassette"));
+    content.appendChild(createKitColorDescription("Matte ", cassette, " frame"));
     content.appendChild(createKitColorDescription("Glossy ", stand, " stand"));
     label.appendChild(content);
     cards.appendChild(label);
@@ -336,7 +336,7 @@ function createKitColorOptions(tier, state, options, onChange) {
   appendParagraph(mixed, options.mixedCopy, "fine-print color-mix-copy");
 
   const selectors = el("div", "color-mix-selectors");
-  selectors.appendChild(createKitColorSelect("Matte cassette", options.cassetteColors, state.cassetteColorId, function(value) {
+  selectors.appendChild(createKitColorSelect("Matte frame", options.cassetteColors, state.cassetteColorId, function(value) {
     state.colorMode = "mixed";
     state.cassetteColorId = value;
     mixedInput.checked = true;
@@ -605,7 +605,7 @@ function createGiftTimingOptions(state, onChange) {
     {
       id: "recipient",
       title: "I'll start it after it arrives",
-      description: "Remove the cassette from the frame, then pull the exposed tab to start the clock."
+      description: "Use the short start guide below after the Finished Gift arrives."
     },
     {
       id: "shipping",

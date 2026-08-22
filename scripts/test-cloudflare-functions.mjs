@@ -138,7 +138,7 @@ try {
   });
   assert.equal(legacyInquiryResponse.status, 201);
   assert.equal(legacyInquiryDb.calls.length, 1);
-  assert.match(legacyInquiryDb.calls[0].values[7], /Muted Sage cassette.*Oxblood stand/);
+  assert.match(legacyInquiryDb.calls[0].values[7], /Muted Sage frame.*Oxblood stand/);
 
   const galleryDb = createDb();
   const submissions = createSubmissionStore();
@@ -253,7 +253,7 @@ try {
   assert.equal(stripeRequest.body.get("metadata[color_mode]"), "mixed");
   assert.equal(stripeRequest.body.get("metadata[cassette_color_id]"), "sage");
   assert.equal(stripeRequest.body.get("metadata[stand_color_id]"), "oxblood");
-  assert.match(stripeRequest.body.get("custom_text[submit][message]"), /Muted Sage cassette.*Oxblood stand/);
+  assert.match(stripeRequest.body.get("custom_text[submit][message]"), /Muted Sage frame.*Oxblood stand/);
 
   const giftCheckoutResponse = await startCheckout({
     request: new Request("https://example.test/api/checkout", {
@@ -365,7 +365,7 @@ try {
           pairing_id: "",
           cassette_color_id: "sage",
           stand_color_id: "oxblood",
-          color_summary: "Mix & match — Matte Muted Sage cassette + glossy Oxblood stand"
+          color_summary: "Mix & match — Matte Muted Sage frame + glossy Oxblood stand"
         }
       }
     }

@@ -29,6 +29,7 @@ drafts/generated-images/failed/*
 
 # Large source rasters not needed for Apps Script deployment
 assets/*.png
+!assets/finished-gift-start-timer.png
 
 # Local Apps Script auth/config
 .clasp.json

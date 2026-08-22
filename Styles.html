@@ -4695,7 +4695,58 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   margin: 0;
 }
 
+.gift-start-guide {
+  border-top: 1px solid var(--line);
+  margin-top: 28px;
+  padding-top: 18px;
+}
+
+.gift-start-guide summary {
+  color: var(--text-strong);
+  cursor: pointer;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.gift-start-guide-body {
+  align-items: start;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+  padding-top: 18px;
+}
+
+.gift-start-guide-image {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.gift-start-guide-copy h2 {
+  margin: 0 0 10px;
+}
+
+.gift-start-guide-copy ol {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding-left: 22px;
+}
+
+.gift-start-guide-copy .fine-print {
+  margin: 0;
+}
+
 @media (max-width: 620px) {
+  .gift-start-guide-body {
+    grid-template-columns: 1fr;
+  }
+
   .how-works-path {
     grid-template-columns: 1fr;
   }
