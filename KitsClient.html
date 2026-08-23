@@ -573,6 +573,37 @@ function createKitImageOptions(tier, state, options, onChange) {
   return fieldset;
 }
 
+function createGiftStartGuide() {
+  const guide = el("details", "gift-start-guide");
+  guide.id = "start-finished-gift";
+  guide.appendChild(el("summary", "", "How to start the timer"));
+
+  const body = el("div", "gift-start-guide-body");
+  const image = el("img", "gift-start-guide-image");
+  image.src = "/assets/finished-gift-start-timer.png";
+  image.alt = "Start string extending from the underside of a Finished Gift frame";
+  body.appendChild(image);
+
+  const copy = el("div", "gift-start-guide-copy");
+  const steps = el("ol");
+  [
+    "Remove the bottom stand to expose the underside of the frame.",
+    "Pull the string firmly—it takes some force—until you feel it release.",
+    "Trim the loose string and replace the stand."
+  ].forEach(function(text) {
+    steps.appendChild(el("li", "", text));
+  });
+  copy.appendChild(steps);
+
+  const note = el("p", "fine-print");
+  note.appendChild(el("strong", "", "If you have any trouble or doubts:"));
+  note.appendChild(document.createTextNode(" The string simply dislodges a small battery spacer. Open the frame from behind and remove the spacer by hand."));
+  copy.appendChild(note);
+  body.appendChild(copy);
+  guide.appendChild(body);
+  return guide;
+}
+
 function createGiftTimingOptions(state, onChange) {
   const section = el("section", "gift-timing-options");
   section.appendChild(el("h3", "gift-timing-heading", "Set the countdown"));
@@ -632,6 +663,7 @@ function createGiftTimingOptions(state, onChange) {
     startFieldset.appendChild(label);
   });
   section.appendChild(startFieldset);
+  section.appendChild(createGiftStartGuide());
   appendParagraph(section, "The mechanism is designed to keep counting through normal packing, shipping, tilting, and being turned upside down. It only needs to be upright when the timer finishes.", "fine-print gift-shipping-note");
   return section;
 }
