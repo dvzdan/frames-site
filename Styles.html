@@ -421,7 +421,12 @@ p {
   align-items: center;
   display: grid;
   gap: 26px;
+  grid-template-areas: "visual copy";
   grid-template-columns: minmax(520px, 1.7fr) minmax(260px, 0.7fr);
+}
+
+.product-intro-copy {
+  grid-area: copy;
 }
 
 .product-visual {
@@ -429,6 +434,7 @@ p {
   border: 0;
   border-radius: 0;
   display: grid;
+  grid-area: visual;
   min-height: 150px;
   place-items: center;
 }
@@ -3233,9 +3239,17 @@ input[type="number"] {
   line-height: 1.45;
 }
 
-.submission-consent-check input {
+.submission-module .submission-consent-check input[type="checkbox"] {
   flex: 0 0 auto;
-  margin-top: 0.2rem;
+  height: 16px;
+  margin: 0.2rem 0 0;
+  max-width: 16px;
+  min-width: 16px;
+  width: 16px;
+}
+
+.submission-consent-check span {
+  min-width: 0;
 }
 
 .cf-turnstile {
@@ -4208,6 +4222,7 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   }
 
   .how-works-top {
+    grid-template-areas: "copy" "visual";
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -4291,7 +4306,9 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   }
 
   .page.page-home > section#how-it-works {
-    padding-top: 24px;
+    border-top: 1px solid color-mix(in srgb, var(--accent-brown) 30%, var(--line));
+    margin-top: 28px;
+    padding-top: 38px;
   }
 
   .page.page-home .hero-feature-button {
@@ -4300,6 +4317,38 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
 
   .page.page-home .gallery-frame-art.hero-feature-art {
     min-height: 0;
+  }
+
+  .page.page-home .product-intro-section {
+    gap: 22px;
+  }
+
+  .page.page-home .product-visual {
+    min-height: 0;
+  }
+
+  .page.page-home .how-works-flow {
+    gap: 10px 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 316px;
+  }
+
+  .page.page-home .how-works-frame,
+  .page.page-home .how-works-mechanism {
+    max-width: 152px;
+    width: 100%;
+  }
+
+  .page.page-home .how-works-connector {
+    grid-column: 1 / -1;
+    height: 18px;
+    justify-self: center;
+  }
+
+  .page.page-home .how-works-flow > .how-works-frame:last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 152px;
   }
 }
 
