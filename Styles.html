@@ -476,12 +476,29 @@ p {
 }
 
 .how-works-mechanism {
+  appearance: none;
   aspect-ratio: 4 / 5;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: zoom-in;
   display: grid;
   min-width: 0;
   overflow: hidden;
+  padding: 0;
   place-items: center;
+  transition: box-shadow 150ms ease, transform 150ms ease;
   width: 100%;
+}
+
+.how-works-mechanism:hover {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-brown) 55%, transparent);
+  transform: translateY(-1px);
+}
+
+.how-works-mechanism:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-brown) 72%, transparent);
+  outline: none;
 }
 
 .how-works-mechanism img {
@@ -4294,7 +4311,7 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   border-radius: 7px;
   display: flex;
   gap: 16px;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin: 18px 0 0;
   max-width: 700px;
   padding: 13px 15px;
@@ -4361,6 +4378,36 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   max-width: min(980px, 96vw);
 }
 
+.mechanism-guide-dialog {
+  max-width: min(1040px, 96vw);
+}
+
+.mechanism-guide-layout {
+  align-items: center;
+  display: grid;
+  gap: clamp(18px, 3vw, 34px);
+  grid-template-areas: "copy image";
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+}
+
+.mechanism-guide-figure {
+  grid-area: image;
+  margin: 0;
+}
+
+.mechanism-guide-figure img {
+  background: var(--paper);
+  display: block;
+  height: auto;
+  max-height: 560px;
+  object-fit: contain;
+  width: 100%;
+}
+
+.mechanism-guide-list {
+  grid-area: copy;
+}
+
 .reveal-video-player,
 .handling-video-player {
   align-self: center;
@@ -4389,6 +4436,15 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   .reveal-video-player,
   .handling-video-player {
     max-height: 68vh;
+  }
+
+  .mechanism-guide-layout {
+    grid-template-areas: "image" "copy";
+    grid-template-columns: 1fr;
+  }
+
+  .mechanism-guide-figure img {
+    max-height: 48vh;
   }
 }
 

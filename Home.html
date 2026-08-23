@@ -21,14 +21,14 @@
 
 <section class="section product-intro-section" id="how-it-works">
   <div class="how-works-top">
-    <div class="product-visual" role="img" aria-label="Layered physical reveal frame">
+    <div class="product-visual">
       <div class="how-works-flow">
         <div class="how-works-frame">
           <div class="how-works-art"><img src="https://drive.google.com/thumbnail?id=16L423SgUeeURPMvn7TjQGv_ZLMVfKlwg&amp;sz=w1000" alt=""></div>
         </div>
-        <div class="how-works-mechanism">
-          <img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@e136512/assets/instruction%20images/final%20setup.png" alt="">
-        </div>
+        <button class="how-works-mechanism" type="button" data-mechanism-guide-open aria-label="Open an enlarged diagram of the mechanism inside the frame">
+          <img src="/assets/instruction%20images/final%20setup.png" alt="Color-coded mechanism inside the back of the frame">
+        </button>
         <div class="how-works-connector" aria-hidden="true"></div>
         <div class="how-works-frame">
           <div class="how-works-art"><img src="https://cdn.jsdelivr.net/gh/dvzdan/frames-site@main/assets/how-it-works-reveal-trojan-party.png" alt=""></div>
@@ -40,6 +40,7 @@
       <p class="section-copy how-works-primary-copy">Two printed images sit inside one physical frame - along with a tiny clock mechanism, a bit of thread, a trap door, and a falling weight. When the time is up, the frame reveals the hidden image.</p>
       <div class="how-works-video-cta">
         <a class="how-works-video-button" href="/assets/videos/living-frame-reveal-v16-16x9.mp4" data-reveal-video-open>Watch the reveal <span aria-hidden="true">&#8594;</span></a>
+        <a class="how-works-video-button" href="/assets/instruction%20images/final%20setup.png" data-mechanism-guide-open>See the mechanism <span aria-hidden="true">&#8594;</span></a>
       </div>
       <p class="how-works-travel-note"><strong><a class="handling-video-link" href="/assets/videos/living-frame-handling-test-9x16.mp4" data-handling-video-open>Designed to travel.</a></strong> It can keep counting through normal packing, shipping, jostling, tilting, and being turned upside down. It only needs to be upright when the timer finishes.</p>
     </div>
@@ -80,6 +81,34 @@
     <div class="support-guide-actions">
       <a class="support-guide-fullsize" href="/assets/videos/living-frame-reveal-v16-16x9.mp4" target="_blank" rel="noopener">Open video in a new tab</a>
       <button class="button secondary support-guide-close" type="button" data-reveal-video-close="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="support-guide-modal mechanism-guide-modal" id="mechanismGuideModal" hidden aria-hidden="true">
+  <div class="support-guide-backdrop" data-mechanism-guide-close="backdrop"></div>
+  <div class="support-guide-dialog mechanism-guide-dialog" role="dialog" aria-modal="true" aria-labelledby="mechanismGuideTitle" aria-describedby="mechanismGuideDescription" tabindex="-1">
+    <div class="support-guide-header">
+      <div class="support-guide-eyebrow">Inside the frame</div>
+      <h2 id="mechanismGuideTitle">See how the mechanism works</h2>
+      <p class="support-guide-text" id="mechanismGuideDescription">The clock starts a simple chain reaction that removes the cover image.</p>
+    </div>
+    <div class="mechanism-guide-layout">
+      <figure class="mechanism-guide-figure"><img src="/assets/instruction%20images/final%20setup.png" alt="Full color-coded mechanism overview"></figure>
+      <ul class="assembly-mechanism-list mechanism-guide-list">
+        <li><span class="mechanism-term mechanism-term-clock">Clock mechanism</span> sits inside the frame.</li>
+        <li><span class="mechanism-term mechanism-term-capstan">Capstan</span> presses onto the <span class="mechanism-term mechanism-term-clock">clock mechanism</span>.</li>
+        <li><span class="mechanism-term mechanism-term-string">String</span> ties to the <span class="mechanism-term mechanism-term-capstan">capstan</span>.<ul class="assembly-mechanism-sublist"><li>Then runs through the <span class="mechanism-term mechanism-term-guide">clock/string guide</span> hole.</li><li>And through the top-left <span class="mechanism-term mechanism-term-eyelet">eyelet</span>.</li><li>Then ties to the <span class="mechanism-term mechanism-term-zipper">zipper</span> anchor.</li></ul></li>
+        <li><span class="mechanism-term mechanism-term-zipper">Zipper</span> head supports the <span class="mechanism-term mechanism-term-latch">latch</span>.</li>
+        <li><span class="mechanism-term mechanism-term-latch">Latch</span> supports the <span class="mechanism-term mechanism-term-weight">weight</span>.</li>
+        <li><span class="mechanism-term mechanism-term-weight">Weight</span> is tethered to the sliding <span class="mechanism-term mechanism-term-cover">cover image</span>.</li>
+        <li><span class="mechanism-term mechanism-term-cover">Cover image</span> sits over the reveal image.</li>
+        <li>When the timer runs, the clock winds the <span class="mechanism-term mechanism-term-string">string</span>, pulls the <span class="mechanism-term mechanism-term-zipper">zipper</span>, releases the <span class="mechanism-term mechanism-term-latch">latch</span>, drops the <span class="mechanism-term mechanism-term-weight">weight</span>, slides the <span class="mechanism-term mechanism-term-cover">cover image</span> up, and reveals the image underneath.</li>
+      </ul>
+    </div>
+    <div class="support-guide-actions">
+      <a class="support-guide-fullsize" href="<?= sitePageUrl('assembly', 'setup-manual') ?>">Open the assembly guide</a>
+      <button class="button secondary support-guide-close" type="button" data-mechanism-guide-close="button">Close</button>
     </div>
   </div>
 </div>

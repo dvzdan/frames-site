@@ -28,7 +28,7 @@ function getHomeVideoFocusable(modal) {
 
 function closeHomeVideoModal(config) {
   const modal = document.getElementById(config.modalId);
-  const player = document.getElementById(config.playerId);
+  const player = config.playerId ? document.getElementById(config.playerId) : null;
   if (!modal || modal.hidden) return;
 
   if (player) {
@@ -52,13 +52,15 @@ function closeHomeVideoModal(config) {
 
 function openHomeVideoModal(config, trigger) {
   const modal = document.getElementById(config.modalId);
-  const player = document.getElementById(config.playerId);
-  if (!modal || !player) return;
+  const player = config.playerId ? document.getElementById(config.playerId) : null;
+  if (!modal || (config.playerId && !player)) return;
 
-  const source = player.querySelector("source[data-src]");
-  if (source && !source.src) {
-    source.src = source.dataset.src;
-    player.load();
+  if (player) {
+    const source = player.querySelector("source[data-src]");
+    if (source && !source.src) {
+      source.src = source.dataset.src;
+      player.load();
+    }
   }
   const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
   modal.dataset.returnScrollY = String(scrollY);
@@ -721,6 +723,12 @@ function startHomePage() {
     openSelector: "[data-reveal-video-open]",
     closeAttribute: "data-reveal-video-close",
     dialogSelector: ".reveal-video-dialog"
+  });
+  bindHomeVideoModal({
+    modalId: "mechanismGuideModal",
+    openSelector: "[data-mechanism-guide-open]",
+    closeAttribute: "data-mechanism-guide-close",
+    dialogSelector: ".mechanism-guide-dialog"
   });
   bindHomeVideoModal({
     modalId: "handlingVideoModal",
