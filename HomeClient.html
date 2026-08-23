@@ -210,10 +210,16 @@ function createHomeTinkererExchange() {
 
   const body = el("div", "how-works-copy-body faq-answer");
   const list = el("div", "how-works-path-list");
+  const nameReply = el("article", "how-works-path");
+  nameReply.appendChild(el("h3", "", "It's not."));
+  list.appendChild(nameReply);
+
   const article = el("article", "how-works-path");
-  article.appendChild(el("h3", "", "It's not."));
-  article.appendChild(el("p", "how-works-user-question how-works-path-prompt", "With a few small changes to the core mechanism, I could turn it into something else entirely. I might even combine it with ideas of my own and make something truly wild."));
-  article.appendChild(el("h3", "", "I bet you could."));
+  const prompt = el("p", "how-works-path-prompt");
+  prompt.appendChild(el("strong", "", "With a few small changes to the core mechanism,"));
+  prompt.appendChild(document.createTextNode(" I could turn it into something else entirely. I might even combine it with ideas of my own and make something truly wild."));
+  article.appendChild(prompt);
+  article.appendChild(el("h3", "", "I bet you could!"));
 
   const answer = el("p");
   answer.appendChild(document.createTextNode("The "));
