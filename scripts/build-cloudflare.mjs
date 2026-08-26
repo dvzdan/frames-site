@@ -286,7 +286,8 @@ function downloadsMarkup() {
     {
       file: "All other parts 3mf, .4mm nozzle required - includes roller, trap door rig, latch, C clip, Clock_string guide.3mf",
       name: "Everything Else.3mf",
-      meta: "3MF · 0.4 mm nozzle required"
+      meta: "3MF · 0.4 mm nozzle required",
+      note: "You may need to clear some loose filament from inside the minute capstan after printing."
     },
     { file: "Capstans.scad", name: "Capstans.scad", meta: "OpenSCAD source" },
     { file: "clock_string guide.scad", name: "clock_string guide.scad", meta: "OpenSCAD source" },
@@ -308,7 +309,11 @@ function downloadsMarkup() {
         : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
     const href = `/assets/downloads/${encodeURIComponent(download.file)}`;
     const primaryClass = download.file.toLowerCase().endsWith(".3mf") ? " download-row-primary" : "";
-    return { ...download, markup: `<a class="download-row${primaryClass}" download href="${href}"><span class="download-name">${download.name}</span><span class="download-meta">${download.meta} · ${size}</span><span class="download-action" aria-hidden="true">Download</span></a>` };
+    const row = `<a class="download-row${primaryClass}" download href="${href}"><span class="download-name">${download.name}</span><span class="download-meta">${download.meta} · ${size}</span><span class="download-action" aria-hidden="true">Download</span></a>`;
+    const markup = download.note
+      ? `<div class="download-item-with-note">${row}<p class="download-printing-note"><strong>Printing note:</strong> ${download.note}</p></div>`
+      : row;
+    return { ...download, markup };
   });
   const printFiles = rows.filter((download) => download.file.toLowerCase().endsWith(".3mf"));
   const sourceFiles = rows.filter((download) => download.file.toLowerCase().endsWith(".scad"));
