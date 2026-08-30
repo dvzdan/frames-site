@@ -734,6 +734,71 @@ clock_bar_trap_z0 =
     - clock_bar_trap_h_z/2
     + clock_bar_trap_z_shift;
 
+// DRY-ONLY: paired, deliberately shallow +Y retention detents for the clock
+// string guide. Each is only a local surface rise inside the existing X-end
+// recess, so the bar keeps its normal tension fit everywhere else.
+clock_bar_detent_projection_x = 0.20;
+clock_bar_detent_ramp_y = 2.0;
+clock_bar_detent_h_z = 4.0;
+clock_bar_detent_y0 = clock_bar_trap_y1 - clock_bar_detent_ramp_y;
+clock_bar_detent_z0 =
+    clock_bar_trap_z0
+    + (clock_bar_trap_h_z - clock_bar_detent_h_z)/2;
+
+assert(clock_bar_detent_projection_x < clock_bar_trap_depth_x,
+       "clock-guide detent consumes the outer recess depth");
+assert(clock_bar_detent_ramp_y < clock_bar_trap_y1 - clock_bar_trap_y0,
+       "clock-guide detent ramp consumes the guide recess");
+
+module clock_bar_outer_y_detent(){
+    recess_back_x =
+        wall_w - side_panel_t + clock_bar_trap_depth_x;
+    hull(){
+        // Abrupt -Y shoulder provides the actual +Y retention.
+        translate([
+            recess_back_x - clock_bar_detent_projection_x,
+            clock_bar_detent_y0,
+            clock_bar_detent_z0
+        ])
+            cube([
+                clock_bar_detent_projection_x + eps,
+                eps,
+                clock_bar_detent_h_z
+            ]);
+        // The +Y approach tapers to nearly nothing for gentle insertion.
+        translate([
+            recess_back_x - eps,
+            clock_bar_trap_y1 - eps,
+            clock_bar_detent_z0
+        ])
+            cube([2*eps, eps, clock_bar_detent_h_z]);
+    }
+}
+
+module clock_bar_gusset_y_detent(){
+    recess_back_x =
+        clock_side_gusset_x1 - clock_bar_trap_depth_x;
+    hull(){
+        // Mirror of the outer-wall shoulder at the opposite bar end.
+        translate([
+            recess_back_x - eps,
+            clock_bar_detent_y0,
+            clock_bar_detent_z0
+        ])
+            cube([
+                clock_bar_detent_projection_x + eps,
+                eps,
+                clock_bar_detent_h_z
+            ]);
+        translate([
+            recess_back_x - eps,
+            clock_bar_trap_y1 - eps,
+            clock_bar_detent_z0
+        ])
+            cube([2*eps, eps, clock_bar_detent_h_z]);
+    }
+}
+
 module right_side_panel(){
     difference(){
         union(){
@@ -749,6 +814,8 @@ roller_receiver_right();
                 cube([clock_bar_trap_depth_x + eps, clock_bar_trap_y1 - clock_bar_trap_y0, clock_bar_trap_h_z]);
 
     }
+    if(dry)
+        clock_bar_outer_y_detent();
 }
 
 
@@ -1612,6 +1679,8 @@ module right_clock_stop_floor_gusset(){
             translate([clock_side_gusset_x1 - clock_bar_trap_depth_x, clock_bar_trap_y0, clock_bar_trap_z0])
                 cube([clock_bar_trap_depth_x2+eps, clock_bar_trap_y1-clock_bar_trap_y0-gusset_trap_pos_y_lip, clock_bar_trap_h_z]);
     }
+    if(dry)
+        clock_bar_gusset_y_detent();
 }
 
 clock_backstop_inset_each_side = 6.0;
