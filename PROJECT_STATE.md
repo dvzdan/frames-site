@@ -33,6 +33,14 @@ working tree before making changes.
 - It was copied byte-for-byte from the historical experiment on 2026-08-30.
 - It is not yet canonical and must not replace a public download until the user
   explicitly promotes it.
+- The coordinated captive capstan and clock-string-guide work is Pending Canon
+  for `1.1.0-rc.1`. The authoritative working controller is
+  `cad/pending-canon/capstans-and-clock-string-guide-captive-v1.1.0-rc.1.scad`;
+  its two printable dependencies sit beside it.
+- The associated fit-check, collision-check, screenshots, STL renders, and
+  historical snapshots remain Experimental in the backend draft folder.
+- There is no dry-rig file in Pending Canon. The proper accepted dry rig is
+  `cad/source/dry-wall-rig-v1.0.0.scad`.
 
 ## Current weight system
 

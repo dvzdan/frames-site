@@ -40,6 +40,31 @@
       "note": "Primary pending-canon water-cassette design; not yet approved as canonical."
     },
     {
+      "id": "captive-capstan-guide-master-scad",
+      "tier": "pending-canon",
+      "status": "saved",
+      "canonical": "cad/pending-canon/capstans-and-clock-string-guide-captive-v1.1.0-rc.1.scad",
+      "publicCopies": [],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/capstans-and-clock-string-guide-captive-v1.1.0-rc.1.scad",
+      "note": "Authoritative working controller for the coordinated 1.1.0-rc.1 capstan and string-guide candidates."
+    },
+    {
+      "id": "captive-capstans-scad",
+      "tier": "pending-canon",
+      "status": "saved",
+      "canonical": "cad/pending-canon/capstans-captive-v1.1.0-rc.1.scad",
+      "publicCopies": [],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/capstans-captive-v1.1.0-rc.1.scad"
+    },
+    {
+      "id": "captive-clock-string-guide-scad",
+      "tier": "pending-canon",
+      "status": "saved",
+      "canonical": "cad/pending-canon/clock-string-guide-captive-v1.1.0-rc.1.scad",
+      "publicCopies": [],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/clock-string-guide-captive-v1.1.0-rc.1.scad"
+    },
+    {
       "id": "weight-inventory-image",
       "tier": "canonical",
       "status": "live",
