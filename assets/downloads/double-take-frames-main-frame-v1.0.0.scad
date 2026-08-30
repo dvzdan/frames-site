@@ -1,14 +1,18 @@
-// WATER CASSETTE EXPERIMENTS
-// Experimental copy of the shared cassette. The canonical main cassette is
-// intentionally unchanged.
+// DOUBLE TAKE FRAMES DESIGN RELEASE
+// DTF_RELEASE: 1.0.0
+// Released: 2026-08-30
+// Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
+// Status: CANONICAL
+// Changes in 1.0.0:
+// - Initial versioned public design release.
+// - Establishes the current accepted geometry as the 1.x compatibility baseline.
+// Full release notes: https://doubletakeframes.com/build/#design-release
 //
-// Current experiment:
-// - replace the delicate drip aperture with a robust direct-drop outlet;
-// - replace the removable bucket with a fused lower reservoir and narrow riser;
-// - branch a rigid, sheltered string-wetting chamber from the high water column;
-// - pass PVA string through that chamber with a short exposed wet span;
-// - provide a two-hole side-wall bridge for a luggage-tag / girth hitch;
-// - provide a bottom drain and recessed plug seat.
+// CLEANED ACTIVE CASSETTE FILE — DRY/WET VARIANT SWITCHES
+// Modified: reservoir fill geometry simplified;
+//           configurable side fill bore added; top vent enlarged.
+// Experimental wet cassette: bucket overflow side clearance enlarged to
+// 7.8 mm, lowered, tilted 6 degrees downhill, and extended through the wall.
 
 $fn=128;
 inch=25.4;
@@ -17,12 +21,8 @@ eps=0.05;
 // Variant switches.
 // dry controls clock-mechanism-specific cassette geometry.
 // wet controls water-reveal-specific cassette geometry.
-dry = false;
-wet = true;
-
-// Wet-system experiment selector. Only one lower receiver should be active.
-wet_use_legacy_bucket = false;
-wet_use_integrated_pva_receiver = true;
+dry = true;
+wet = false;
 
 // Legacy dry-cassette presentation switch. The dot-pull branch keeps this
 // false: the front skin stays closed while the internal side-winding passage
@@ -156,9 +156,6 @@ top_cross_t=1.6;
 top_cross_z0=shell_inner_top_z-top_cross_t;
 top_cross_z1=shell_inner_top_z;
 top_cross_z_len=top_cross_z1-top_cross_z0;
-// Independent interior roof skin. Keep top_cross_t/top_cross_z0 unchanged so
-// every existing roof-relative feature retains its original Z position.
-top_cross_reinforcement_t=0.8;
 tube_od=0.84*inch;
 tube_r=tube_od/2;
 tube_top_clearance=7.0;
@@ -310,26 +307,19 @@ backing_board_hook_h_z = 18.0;
 upper_board_hook_z0 =
     shell_inner_top_z - top_insert_open_h - backing_board_hook_h_z - 57;
 
-// The backing board is also undersized in X. Add a true side-contact pad at
-// each lower hook; the translated upper-hook pair inherits the same pads.
-// 0.50mm per side removes 1.00mm total lateral play without changing Y fit.
-// The hook returns add this same amount to their original inward overlap so
-// the shifted board edge remains fully seated in a true snap pocket.
-backing_board_side_pad_x = 0.50;
-
-// Two top pockets reproduce the side-hook cross-section beneath the existing
-// top bridges. The return begins at the same 1.20 mm board pocket and descends
-// far enough to capture the undersized board's top edge as a real socket.
+// Two small top clips reproduce the side-hook cross-section beneath the
+// existing top bridges. The return begins at the same 1.20 mm board pocket,
+// while a very short downward lip catches a slightly undersized board edge.
 top_board_snap_w_x = 6.0;
 top_board_snap_return_t_y = side_panel_t;
-top_board_snap_lip_overlap_z = 5.0;
+top_board_snap_lip_overlap_z = 0.60;
 
-// Two inward-side stops descend 1.5 mm below the +Y returns. That stagger gives
-// the board a first-contact lead-in before it enters the full 1.20 mm Y pocket,
-// while still preventing its top edge from tipping inward.
-top_board_inward_fang_w_x = 5.0;
-top_board_inward_fang_d_y = 2.2;
-top_board_inward_fang_h_z = 6.5;
+// Two inward-side stops descend from the support tops at the inside face of
+// the backing board. These prevent the board's top edge from tipping into the
+// cassette without changing the existing +Y snap pocket or return lip.
+top_board_inward_fang_w_x = 3.0;
+top_board_inward_fang_d_y = 1.2;
+top_board_inward_fang_h_z = 5.0;
 
 mask_center_extra_y = 0;
 mask_core_w         = 25.4;
@@ -713,8 +703,8 @@ module left_side_panel(){
                 cube([side_lip_overlap_x,side_lip_y_len,side_lip_h]);
             roller_receiver_left();
         }
-        // LEGACY WET-ONLY: clearance for the former removable-bucket spout.
-        if(wet && wet_use_legacy_bucket)
+        // WET-ONLY: side-wall overflow tube clearance.
+        if(wet)
             bucket_overflow_tube_slot();
     }
 }
@@ -734,71 +724,6 @@ clock_bar_trap_z0 =
     - clock_bar_trap_h_z/2
     + clock_bar_trap_z_shift;
 
-// DRY-ONLY: paired, deliberately shallow +Y retention detents for the clock
-// string guide. Each is only a local surface rise inside the existing X-end
-// recess, so the bar keeps its normal tension fit everywhere else.
-clock_bar_detent_projection_x = 0.20;
-clock_bar_detent_ramp_y = 2.0;
-clock_bar_detent_h_z = 4.0;
-clock_bar_detent_y0 = clock_bar_trap_y1 - clock_bar_detent_ramp_y;
-clock_bar_detent_z0 =
-    clock_bar_trap_z0
-    + (clock_bar_trap_h_z - clock_bar_detent_h_z)/2;
-
-assert(clock_bar_detent_projection_x < clock_bar_trap_depth_x,
-       "clock-guide detent consumes the outer recess depth");
-assert(clock_bar_detent_ramp_y < clock_bar_trap_y1 - clock_bar_trap_y0,
-       "clock-guide detent ramp consumes the guide recess");
-
-module clock_bar_outer_y_detent(){
-    recess_back_x =
-        wall_w - side_panel_t + clock_bar_trap_depth_x;
-    hull(){
-        // Abrupt -Y shoulder provides the actual +Y retention.
-        translate([
-            recess_back_x - clock_bar_detent_projection_x,
-            clock_bar_detent_y0,
-            clock_bar_detent_z0
-        ])
-            cube([
-                clock_bar_detent_projection_x + eps,
-                eps,
-                clock_bar_detent_h_z
-            ]);
-        // The +Y approach tapers to nearly nothing for gentle insertion.
-        translate([
-            recess_back_x - eps,
-            clock_bar_trap_y1 - eps,
-            clock_bar_detent_z0
-        ])
-            cube([2*eps, eps, clock_bar_detent_h_z]);
-    }
-}
-
-module clock_bar_gusset_y_detent(){
-    recess_back_x =
-        clock_side_gusset_x1 - clock_bar_trap_depth_x;
-    hull(){
-        // Mirror of the outer-wall shoulder at the opposite bar end.
-        translate([
-            recess_back_x - eps,
-            clock_bar_detent_y0,
-            clock_bar_detent_z0
-        ])
-            cube([
-                clock_bar_detent_projection_x + eps,
-                eps,
-                clock_bar_detent_h_z
-            ]);
-        translate([
-            recess_back_x - eps,
-            clock_bar_trap_y1 - eps,
-            clock_bar_detent_z0
-        ])
-            cube([2*eps, eps, clock_bar_detent_h_z]);
-    }
-}
-
 module right_side_panel(){
     difference(){
         union(){
@@ -814,8 +739,6 @@ roller_receiver_right();
                 cube([clock_bar_trap_depth_x + eps, clock_bar_trap_y1 - clock_bar_trap_y0, clock_bar_trap_h_z]);
 
     }
-    if(dry)
-        clock_bar_outer_y_detent();
 }
 
 
@@ -835,37 +758,22 @@ lower_board_hook_y1 =
     + backing_board_side_pocket_y
     + lower_board_hook_return_t_y;
 lower_board_hook_x_inset = 1.2;
-lower_board_hook_capture_x_inset =
-    lower_board_hook_x_inset + backing_board_side_pad_x;
 lower_board_hook_roof_h = 5.0;
 
 module left_lower_board_hook(){
     union(){
         translate([0, lower_board_hook_y0, lower_board_hook_z0])
             cube([side_panel_t, lower_board_hook_y1 - lower_board_hook_y0, lower_board_hook_h]);
-
-        // Local X shim against the left edge of the backing board.
-        translate([
-            side_panel_t - eps,
-            lower_board_hook_y0,
-            lower_board_hook_z0
-        ])
-            cube([
-                backing_board_side_pad_x + eps,
-                backing_board_side_pocket_y,
-                lower_board_hook_h
-            ]);
-
-        translate([side_panel_t - eps, lower_board_hook_y1 - lower_board_hook_return_t_y, lower_board_hook_z0])
-            cube([lower_board_hook_capture_x_inset + eps, lower_board_hook_return_t_y, lower_board_hook_h]);
+        translate([side_panel_t, lower_board_hook_y1 - lower_board_hook_return_t_y, lower_board_hook_z0])
+            cube([lower_board_hook_x_inset, lower_board_hook_return_t_y, lower_board_hook_h]);
         difference(){
             triangular_prism_x(
                 [[lower_board_hook_y0, lower_board_hook_z0 + lower_board_hook_h],
                  [lower_board_hook_y1, lower_board_hook_z0 + lower_board_hook_h],
                  [lower_board_hook_y0, lower_board_hook_z0 + lower_board_hook_h + lower_board_hook_roof_h]],
-                0, side_panel_t + lower_board_hook_capture_x_inset);
+                0, side_panel_t + lower_board_hook_x_inset);
             translate([side_panel_t, lower_board_hook_y0 - eps, lower_board_hook_z0 + lower_board_hook_h - eps])
-                cube([lower_board_hook_capture_x_inset + eps, lower_board_hook_y1 - lower_board_hook_y0 + 2*eps, lower_board_hook_roof_h + 2*eps]);
+                cube([lower_board_hook_x_inset + eps, lower_board_hook_y1 - lower_board_hook_y0 + 2*eps, lower_board_hook_roof_h + 2*eps]);
         }
     }
 }
@@ -874,42 +782,24 @@ module right_lower_board_hook(){
     union(){
         translate([wall_w - side_panel_t, lower_board_hook_y0, lower_board_hook_z0])
             cube([side_panel_t, lower_board_hook_y1 - lower_board_hook_y0, lower_board_hook_h]);
-
-        // Matching X shim against the right edge of the backing board.
-        translate([
-            wall_w - side_panel_t - backing_board_side_pad_x,
-            lower_board_hook_y0,
-            lower_board_hook_z0
-        ])
-            cube([
-                backing_board_side_pad_x + eps,
-                backing_board_side_pocket_y,
-                lower_board_hook_h
-            ]);
-
-        translate([wall_w - side_panel_t - lower_board_hook_capture_x_inset, lower_board_hook_y1 - lower_board_hook_return_t_y, lower_board_hook_z0])
-            cube([lower_board_hook_capture_x_inset + eps, lower_board_hook_return_t_y, lower_board_hook_h]);
+        translate([wall_w - side_panel_t - lower_board_hook_x_inset, lower_board_hook_y1 - lower_board_hook_return_t_y, lower_board_hook_z0])
+            cube([lower_board_hook_x_inset, lower_board_hook_return_t_y, lower_board_hook_h]);
         difference(){
             triangular_prism_x(
                 [[lower_board_hook_y0, lower_board_hook_z0 + lower_board_hook_h],
                  [lower_board_hook_y1, lower_board_hook_z0 + lower_board_hook_h],
                  [lower_board_hook_y0, lower_board_hook_z0 + lower_board_hook_h + lower_board_hook_roof_h]],
-                wall_w - side_panel_t - lower_board_hook_capture_x_inset, wall_w);
-            translate([wall_w - side_panel_t - lower_board_hook_capture_x_inset - eps, lower_board_hook_y0 - eps, lower_board_hook_z0 + lower_board_hook_h - eps])
-                cube([lower_board_hook_capture_x_inset + eps, lower_board_hook_y1 - lower_board_hook_y0 + 2*eps, lower_board_hook_roof_h + 2*eps]);
+                wall_w - side_panel_t - lower_board_hook_x_inset, wall_w);
+            translate([wall_w - side_panel_t - lower_board_hook_x_inset - eps, lower_board_hook_y0 - eps, lower_board_hook_z0 + lower_board_hook_h - eps])
+                cube([lower_board_hook_x_inset + eps, lower_board_hook_y1 - lower_board_hook_y0 + 2*eps, lower_board_hook_roof_h + 2*eps]);
         }
     }
 }
 
 module lower_board_hooks(){left_lower_board_hook();right_lower_board_hook();}
-module top_cross_member(){
-    translate([0,true_full_y0,top_cross_z0])
-        cube([wall_w,true_full_y_len,top_cross_z_len]);
-    translate([0,true_full_y0,top_cross_z0-top_cross_reinforcement_t])
-        cube([wall_w,true_full_y_len,top_cross_reinforcement_t]);
-}
-// Backing-board top bridges with downward returns on both sides of the board.
-// Together with the inward fangs, these form two loose upward-facing pockets.
+module top_cross_member(){translate([0,true_full_y0,top_cross_z0])cube([wall_w,true_full_y_len,top_cross_z_len]);}
+// Simple backing-board top Y extensions only.
+// No downward Z socket / no overhead capture lip.
 
 back_socket_y_extension = back_board_slot_t + retainer_pad_d;
 
@@ -985,82 +875,6 @@ channel_bottom_kill_z = 3 * inch;
 bottom_front_shelf_y_span = 3.0;
 bottom_front_shelf_y0 = front_buildout_y0 + front_frame_t;
 bottom_front_shelf_y1     = bottom_front_shelf_y0 + bottom_front_shelf_y_span;
-
-// Loose center registration pocket for the acrylic + two-image stack.
-// It stops excess +Y travel without clamping the stack. The cassette prints
-// upside down, so three thin posts borrow from the existing removable scaffold
-// to support it during printing. The finished mouth stays completely open.
-center_stack_pocket_w_x = rear_guard_center_strip_w;
-center_stack_pocket_x0 = rear_guard_center_x - center_stack_pocket_w_x/2;
-center_stack_pocket_x1 = rear_guard_center_x + center_stack_pocket_w_x/2;
-center_stack_pocket_inner_y0 = bottom_front_shelf_y0;
-center_stack_pocket_inner_y1 = bottom_front_shelf_y1;
-center_stack_pocket_rear_wall_t_y = 1.2;
-center_stack_pocket_rear_outer_y1 =
-    center_stack_pocket_inner_y1 + center_stack_pocket_rear_wall_t_y;
-center_stack_pocket_front_anchor_overlap_y = 0.4;
-center_stack_pocket_mouth_z1 = view_z0;
-center_stack_pocket_chamfer_h_z = 1.2;
-center_stack_pocket_chamfer_y = 0.6;
-center_stack_pocket_mouth_inner_y1 =
-    center_stack_pocket_inner_y1 + center_stack_pocket_chamfer_y;
-center_stack_pocket_support_post_count = 3;
-center_stack_pocket_support_branch_w_x = 1.2;
-center_stack_pocket_support_branch_d_y = 1.2;
-center_stack_pocket_support_contact_w_x = 1.2;
-center_stack_pocket_support_contact_d_y = 0.6;
-center_stack_pocket_support_post_x_margin = 2.0;
-// All three branches stay in this single Y plane: the center of the narrow
-// chamfered rear rim marked in the user's red-line / green-contact review.
-center_stack_pocket_support_post_y =
-    (center_stack_pocket_mouth_inner_y1
-     + center_stack_pocket_rear_outer_y1) / 2;
-center_stack_pocket_support_contact_overlap_z = 0.30;
-center_stack_pocket_support_contact_z0 =
-    center_stack_pocket_mouth_z1
-    - center_stack_pocket_support_contact_overlap_z;
-center_stack_pocket_support_landing_z0 =
-    center_stack_pocket_mouth_z1 + 0.60;
-center_stack_pocket_support_landing_h_z = 0.80;
-
-// Centerline of the existing center diagonal scaffold. The trident root is
-// placed where that diagonal passes directly over the pocket contact row.
-center_stack_pocket_support_diag_lower_y =
-    center_stack_pocket_inner_y0 - 0.30;
-center_stack_pocket_support_diag_lower_z =
-    center_stack_pocket_mouth_z1 + 3.0 + 1.2;
-center_stack_pocket_support_diag_upper_y = backer_plane_y - 1.5;
-center_stack_pocket_support_diag_upper_z = clock_top_tab_z0 + 22.0;
-center_stack_pocket_support_root_y = center_stack_pocket_support_post_y;
-center_stack_pocket_support_root_frac =
-    (center_stack_pocket_support_root_y
-     - center_stack_pocket_support_diag_lower_y)
-    / (center_stack_pocket_support_diag_upper_y
-       - center_stack_pocket_support_diag_lower_y);
-center_stack_pocket_support_root_z =
-    center_stack_pocket_support_diag_lower_z
-    + center_stack_pocket_support_root_frac
-      * (center_stack_pocket_support_diag_upper_z
-         - center_stack_pocket_support_diag_lower_z);
-center_stack_pocket_support_root_w_x = 1.8;
-center_stack_pocket_support_root_d_y = 0.8;
-center_stack_pocket_support_root_h_z = 1.2;
-
-assert(center_stack_pocket_inner_y1 - center_stack_pocket_inner_y0 >= 3.0,
-       "center acrylic/image pocket must remain a loose 3 mm channel");
-assert(center_stack_pocket_mouth_inner_y1
-       < center_stack_pocket_rear_outer_y1,
-       "center pocket chamfer consumes the rear stop wall");
-assert(center_stack_pocket_support_root_frac > 0
-       && center_stack_pocket_support_root_frac < 1,
-       "pocket-support trident root misses the center scaffold diagonal");
-assert(center_stack_pocket_support_post_y
-           - center_stack_pocket_support_contact_d_y/2
-       >= center_stack_pocket_mouth_inner_y1 - eps
-       && center_stack_pocket_support_post_y
-              + center_stack_pocket_support_contact_d_y/2
-          <= center_stack_pocket_rear_outer_y1 + eps,
-       "pocket-support contacts miss the narrow rear rim");
 // The raised shelf remains the terminal lower end of this channel wall.
 // Keep the upper endpoint fixed so shelf adjustment only makes a small Y-Z
 // slope change instead of translating the full channel geometry.
@@ -1120,124 +934,10 @@ translate([rear_guard_x0, wall_offset, inner_z1 - top_bar_extra_z_bottom])
 module bottom_front_shelves(){
     translate([rear_guard_x0, bottom_front_shelf_y0, acrylic_shelf_z0])
         cube([rear_guard_border_x, bottom_front_shelf_y1 - bottom_front_shelf_y0, acrylic_shelf_t]);
-    // The former center shelf segment was a legacy nub directly below the
-    // middle scaffold contact. It served no retention function and confused
-    // removal, so only the useful left and right shelf segments remain.
+    translate([rear_guard_center_x - rear_guard_center_strip_w/2, bottom_front_shelf_y0, acrylic_shelf_z0])
+        cube([rear_guard_center_strip_w, bottom_front_shelf_y1 - bottom_front_shelf_y0, acrylic_shelf_t]);
     translate([rear_guard_x1 - rear_guard_border_x, bottom_front_shelf_y0, acrylic_shelf_z0])
         cube([rear_guard_border_x, bottom_front_shelf_y1 - bottom_front_shelf_y0, acrylic_shelf_t]);
-}
-
-// NEUTRAL: shared acrylic/image +Y registration stop.
-// The existing lower front mask is the -Y side of this U-shaped pocket. The
-// new floor and chamfered rear wall form its base and +Y stop. At the center,
-// the removable membrane overlaps the scaffold contact during inverted
-// printing; the permanent pocket remains attached to the front mask after
-// both temporary features are cut away.
-module center_stack_registration_pocket(){
-    floor_y0 =
-        center_stack_pocket_inner_y0
-        - center_stack_pocket_front_anchor_overlap_y;
-    rear_chamfer_z0 =
-        center_stack_pocket_mouth_z1
-        - center_stack_pocket_chamfer_h_z;
-    // Horizontal seat, level with the two existing side shelves.
-    translate([
-        center_stack_pocket_x0,
-        floor_y0,
-        acrylic_shelf_z0
-    ])
-        cube([
-            center_stack_pocket_x1 - center_stack_pocket_x0,
-            center_stack_pocket_rear_outer_y1 - floor_y0,
-            acrylic_shelf_t
-        ]);
-
-    // Straight lower part of the +Y stop wall.
-    translate([
-        center_stack_pocket_x0,
-        center_stack_pocket_inner_y1,
-        acrylic_shelf_top_z - eps
-    ])
-        cube([
-            center_stack_pocket_x1 - center_stack_pocket_x0,
-            center_stack_pocket_rear_wall_t_y,
-            rear_chamfer_z0 - acrylic_shelf_top_z + 2*eps
-        ]);
-
-    // Simple outward flare so acrylic and paper edges enter without snagging.
-    sloped_wall_prism_x(
-        [[center_stack_pocket_inner_y1, rear_chamfer_z0 - eps],
-         [center_stack_pocket_rear_outer_y1, rear_chamfer_z0 - eps],
-         [center_stack_pocket_rear_outer_y1,
-          center_stack_pocket_mouth_z1],
-         [center_stack_pocket_mouth_inner_y1,
-          center_stack_pocket_mouth_z1]],
-        center_stack_pocket_x0,
-        center_stack_pocket_x1
-    );
-
-}
-
-// PRINT-SUPPORTS ONLY: a three-branch trident rooted directly in the underside
-// of the existing center diagonal scaffold. The branches fan to the three
-// narrow rear-rim contacts that are first to print; nothing new touches the
-// visible viewing-window lip or the already-supported broad pocket floor.
-module center_stack_pocket_sacrificial_posts(){
-    post_x_span = center_stack_pocket_w_x
-        - 2*center_stack_pocket_support_post_x_margin;
-
-    for(i = [0 : center_stack_pocket_support_post_count - 1]){
-        post_x = center_stack_pocket_x0
-            + center_stack_pocket_support_post_x_margin
-            + i * post_x_span
-              / (center_stack_pocket_support_post_count - 1);
-
-        // Each branch is a two-line-width body. The side branches remain
-        // steeper than 45 degrees and the middle branch is nearly vertical.
-        hull(){
-            translate([
-                rear_guard_center_x
-                    - center_stack_pocket_support_root_w_x/2,
-                center_stack_pocket_support_root_y
-                    - center_stack_pocket_support_root_d_y/2,
-                center_stack_pocket_support_root_z
-                    - center_stack_pocket_support_root_h_z/2
-            ])
-                cube([
-                    center_stack_pocket_support_root_w_x,
-                    center_stack_pocket_support_root_d_y,
-                    center_stack_pocket_support_root_h_z
-                ]);
-            translate([
-                post_x - center_stack_pocket_support_branch_w_x/2,
-                center_stack_pocket_support_post_y
-                    - center_stack_pocket_support_branch_d_y/2,
-                center_stack_pocket_support_landing_z0
-            ])
-                cube([
-                    center_stack_pocket_support_branch_w_x,
-                    center_stack_pocket_support_branch_d_y,
-                    center_stack_pocket_support_landing_h_z
-                ]);
-        }
-
-        // One shallow layer-scale foot on the narrow rim is the only removable
-        // contact. This supports the first pocket layer instead of arriving
-        // later on the already-printed floor.
-        translate([
-            post_x - center_stack_pocket_support_contact_w_x/2,
-            center_stack_pocket_support_post_y
-                - center_stack_pocket_support_contact_d_y/2,
-            center_stack_pocket_support_contact_z0
-        ])
-            cube([
-                center_stack_pocket_support_contact_w_x,
-                center_stack_pocket_support_contact_d_y,
-                center_stack_pocket_support_landing_z0
-                    + eps
-                    - center_stack_pocket_support_contact_z0
-            ]);
-    }
 }
 
 // DRY-ONLY: small floor stick tied to the clock mechanism pocket.
@@ -1252,16 +952,7 @@ module clock_box_floor_stick(){
         cube([stick_w, stick_w, stick_z1 - stick_z0]);
 }
 
-module acrylic_top_feed_cut(){
-    // Extend through the independent roof skin without moving the slot.
-    reinforcement_cut_z0 = acrylic_top_feed_z0-top_cross_reinforcement_t;
-    translate([acrylic_top_feed_x0,acrylic_slot_y0,reinforcement_cut_z0])
-        cube([
-            acrylic_top_feed_x1-acrylic_top_feed_x0,
-            acrylic_slot_y1-acrylic_slot_y0,
-            acrylic_top_feed_z1-reinforcement_cut_z0
-        ]);
-}
+module acrylic_top_feed_cut(){translate([acrylic_top_feed_x0,acrylic_slot_y0,acrylic_top_feed_z0])cube([acrylic_top_feed_x1-acrylic_top_feed_x0,acrylic_slot_y1-acrylic_slot_y0,acrylic_top_feed_z1-acrylic_top_feed_z0]);}
 
 module right_outer_clock_tab_tip_support(){
     tab_x0 = cutout_x + cutout_w - clock_tab_w - 8;
@@ -1423,12 +1114,12 @@ module paper_load_top_slot_cut(){
     translate([
         paper_load_slot_x0,
         paper_load_slot_y0,
-        top_cross_z0 - top_cross_reinforcement_t - eps
+        top_cross_z0 - eps
     ])
         cube([
             paper_load_slot_x1 - paper_load_slot_x0,
             paper_load_slot_y1 - paper_load_slot_y0,
-            top_cross_z_len + top_cross_reinforcement_t + 2*eps
+            top_cross_z_len + 2*eps
         ]);
 }
 module front_buildout_parts(){
@@ -1440,7 +1131,6 @@ module front_buildout_parts(){
     left_side_channel_block_top_support();
     right_side_channel_block_top_support();
     bottom_front_shelves();
-    center_stack_registration_pocket();
     acrylic_lateral_stops();
     side_channel_terminal_side_braces();
     acrylic_bottom_side_nubs();
@@ -1679,8 +1369,6 @@ module right_clock_stop_floor_gusset(){
             translate([clock_side_gusset_x1 - clock_bar_trap_depth_x, clock_bar_trap_y0, clock_bar_trap_z0])
                 cube([clock_bar_trap_depth_x2+eps, clock_bar_trap_y1-clock_bar_trap_y0-gusset_trap_pos_y_lip, clock_bar_trap_h_z]);
     }
-    if(dry)
-        clock_bar_gusset_y_detent();
 }
 
 clock_backstop_inset_each_side = 6.0;
@@ -2013,14 +1701,8 @@ water_tank_inner_roof_z_y0 =
 water_tank_inner_roof_z_y1 =
     water_tank_outer_roof_z_at_y(water_tank_inner_y1) - water_tank_roof_t_z;
 
-// Upper reservoir outlet + top vent. The integrated cassette uses a broad,
-// direct drop instead of relying on the former delicate needle aperture.
-// The smaller aperture remains available only with the legacy bucket switch.
+// bottom drain + top vent
 reservoir_needle_hole_d = 2.8;
-reservoir_drop_hole_d =
-    wet_use_integrated_pva_receiver ? 8.0 : reservoir_needle_hole_d;
-reservoir_drop_boss_w =
-    wet_use_integrated_pva_receiver ? 12.0 : 5.0;
 reservoir_vent_hole_d   = 2.2;   // slightly larger so the top perforation reliably prints
 
 reservoir_port_edge_clear_x = 10.0;
@@ -2066,8 +1748,8 @@ assert(reservoir_side_fill_y - reservoir_side_fill_hole_r >= water_tank_inner_y0
 assert(reservoir_side_fill_z + reservoir_side_fill_hole_r <= reservoir_side_fill_local_inner_roof_z,
        "side fill hole clips the sloped inner roof");
 
-module reservoir_drop_bore_2d(){
-    circle(d = reservoir_drop_hole_d);
+module reservoir_needle_bore_2d(){
+    circle(d = reservoir_needle_hole_d);
 }
 
 /*
@@ -2084,7 +1766,7 @@ module reservoir_side_fill_bore(){
                      center = true);
 }
 
-// WET-ONLY additive feature: sloped-roof reservoir, hollow, drop boss, and outlet.
+// WET-ONLY additive feature: sloped-roof reservoir, hollow, drip boss, and drain.
 // The outer body is a rectangle plus a full-width right-triangular roof.
 // The inner void follows the same slope, so there is no horizontal internal roof.
 module water_tank_outer_solid(){
@@ -2118,21 +1800,21 @@ module left_water_tank(){
         union(){
             water_tank_outer_solid();
 
-            // Reinforced drop boss centered on the direct outlet.
-            translate([reservoir_port_x - reservoir_drop_boss_w/2,
-                       reservoir_port_y - reservoir_drop_boss_w/2,
+            // 3mm drip boss centered on bottom drain
+            translate([reservoir_port_x - 2.5,
+                       reservoir_port_y - 2.5,
                        reservoir_port_z - 3.0])
-                cube([reservoir_drop_boss_w, reservoir_drop_boss_w, 3.0]);
+                cube([5.0, 5.0, 3.0]);
         }
 
         // Full sloped interior cavity. This replaces the former rectangular
         // hollow that left a separate horizontal roof at water_tank_z1.
         water_tank_inner_void();
 
-        // Direct drop outlet extended through the three-millimeter boss.
+        // bottom drain — extended through 3mm drip boss
         translate([reservoir_port_x, reservoir_port_y, reservoir_port_z - 3.0 - eps])
             linear_extrude(height = water_tank_floor_t + 3.0 + 2*eps)
-                reservoir_drop_bore_2d();
+                reservoir_needle_bore_2d();
 
    /*     // optional top vent hole; placement must follow the selected slope
         // before this is re-enabled.
@@ -2179,532 +1861,6 @@ module left_thread_string_tube_void(){
     z1 = thread_tube_z1 - 3 + eps;
     translate([x0, y0, z0])
         cube([x1-x0, y1-y0, z1-z0]);
-}
-
-// =========================================================
-// INTEGRATED PVA WATER RECEIVER
-// Replaces the removable bucket without changing the upper drip reservoir.
-//
-// The falling stream enters a narrow vertical water column and accumulates in
-// the wider reservoir boot at the bottom. A rigid side chamber branches from
-// the column near the top, out of the falling stream. Water reaches that
-// chamber only when the level rises to its branch inlet. The consumable PVA
-// STRING crosses the short X width of the chamber through two small opposing
-// holes; the chamber itself is permanent cassette structure. After leaving
-// the chamber toward -X, a folded string loop can be secured around the bridge
-// between the two holes in the cassette side wall.
-// =========================================================
-
-wet_print_nozzle_d = 0.6;
-integrated_receiver_wall_t = 3.0;
-integrated_receiver_floor_t = 3.0;
-
-// Wide low boot plus narrow riser. This retains a generous catch target while
-// keeping the volume below the PVA elevation small enough for the upper tank.
-integrated_receiver_x0 = side_panel_t;
-integrated_receiver_x1 = water_tank_x1;
-integrated_receiver_y0 = water_tank_y0;
-integrated_receiver_y1 = water_tank_y1;
-integrated_receiver_z0 = bottom_t_thin;
-integrated_receiver_boss_overlap_z = 0.5;
-integrated_receiver_z1 =
-    water_tank_z0 - 3.0 + integrated_receiver_boss_overlap_z;
-
-integrated_receiver_boot_top_z = bottom_t + 23.0;
-integrated_receiver_tower_w_x = 16.0;
-integrated_receiver_tower_x0 =
-    reservoir_port_x - integrated_receiver_tower_w_x/2;
-integrated_receiver_tower_x1 =
-    reservoir_port_x + integrated_receiver_tower_w_x/2;
-integrated_receiver_tower_z0 =
-    integrated_receiver_boot_top_z - integrated_receiver_wall_t;
-
-integrated_receiver_boot_inner_x0 =
-    integrated_receiver_x0 + integrated_receiver_wall_t;
-integrated_receiver_boot_inner_x1 =
-    integrated_receiver_x1 - integrated_receiver_wall_t;
-integrated_receiver_tower_inner_x0 =
-    integrated_receiver_tower_x0 + integrated_receiver_wall_t;
-integrated_receiver_tower_inner_x1 =
-    integrated_receiver_tower_x1 - integrated_receiver_wall_t;
-integrated_receiver_inner_y0 =
-    integrated_receiver_y0 + integrated_receiver_wall_t;
-integrated_receiver_inner_y1 =
-    integrated_receiver_y1 - integrated_receiver_wall_t;
-integrated_receiver_inner_z0 =
-    integrated_receiver_z0 + integrated_receiver_floor_t;
-integrated_receiver_boot_inner_z1 =
-    integrated_receiver_boot_top_z - integrated_receiver_wall_t;
-integrated_receiver_tower_inner_z0 =
-    integrated_receiver_boot_inner_z1 - integrated_receiver_wall_t;
-
-// High, rear string-wetting chamber. It is a rigid closed-roof branch of the
-// water column, sheltered from falling water. Its two small string bores also
-// vent displaced air while it fills. Keep this deliberately tiny so the PVA
-// string only has to cross a short, easily threaded tunnel.
-// Four nominal 0.6mm extrusion lines on the compact chamber shell. Preserve
-// the two-millimeter internal crossing while thickening its wet walls.
-pva_chamber_side_wall_x = 2.4;
-pva_chamber_floor_roof_t = 2.4;
-pva_chamber_inner_w_x = 2.0;
-pva_chamber_outer_w_x =
-    pva_chamber_inner_w_x + 2*pva_chamber_side_wall_x;
-pva_chamber_column_edge_inset_x = 1.0;
-pva_chamber_outer_x1 =
-    integrated_receiver_tower_x1 - pva_chamber_column_edge_inset_x;
-pva_chamber_outer_x0 = pva_chamber_outer_x1 - pva_chamber_outer_w_x;
-pva_chamber_outer_y0 = integrated_receiver_y1 - 2.4;
-pva_chamber_outer_y1 = bottom_d;
-pva_chamber_outer_z0 = 92.0;
-pva_chamber_outer_z1 = 104.0;
-
-pva_chamber_inner_x0 =
-    pva_chamber_outer_x0 + pva_chamber_side_wall_x;
-pva_chamber_inner_x1 =
-    pva_chamber_outer_x1 - pva_chamber_side_wall_x;
-pva_chamber_inner_y0 =
-    pva_chamber_outer_y0 + integrated_receiver_wall_t;
-pva_chamber_inner_y1 =
-    pva_chamber_outer_y1 - integrated_receiver_wall_t;
-pva_chamber_inner_z0 =
-    pva_chamber_outer_z0 + pva_chamber_floor_roof_t;
-pva_chamber_inner_z1 =
-    pva_chamber_outer_z1 - pva_chamber_floor_roof_t;
-
-// High branch inlet: this is the bottom leg of the elbow-like side chamber.
-// It sits below the string but far above the reservoir boot, so water cannot
-// reach the string until the whole column has risen to the trigger height.
-pva_equalizer_d = 4.0;
-pva_equalizer_x =
-    (pva_chamber_inner_x0 + pva_chamber_inner_x1) / 2;
-pva_equalizer_z = pva_chamber_inner_z0 + pva_equalizer_d/2 + 0.4;
-pva_equalizer_y0 = integrated_receiver_inner_y1 - eps;
-pva_equalizer_y1 = pva_chamber_inner_y0 + eps;
-
-// PVA pass-through. A 1.2mm straight throat is two nominal 0.6mm nozzle
-// widths: small enough to limit seepage, but still realistic to slice open.
-// No enlarged face funnels: the compact X span makes direct threading easy.
-pva_string_hole_d = 2*wet_print_nozzle_d;
-pva_string_y = (pva_chamber_inner_y0 + pva_chamber_inner_y1) / 2;
-pva_string_z = 99.0;
-pva_string_bore_x0 = pva_chamber_outer_x0 - 1.0;
-pva_string_bore_x1 = pva_chamber_outer_x1 + 1.0;
-
-// Two button-sized side-wall holes form a stout vertical bridge that can
-// receive a luggage-tag / girth hitch. They sit behind the wet receiver in a
-// locally reinforced dry wall region, centered around the string elevation.
-pva_hitch_hole_d = 4.0;
-pva_hitch_hole_y = (integrated_receiver_y1 + bottom_d) / 2;
-pva_hitch_hole_z0 = pva_string_z - 4.0;
-pva_hitch_hole_z1 = pva_string_z + 4.0;
-pva_hitch_pad_x0 = 0.0;
-pva_hitch_pad_x1 = side_panel_t + 3.0;
-pva_hitch_pad_y0 = integrated_receiver_y1 - 0.15;
-pva_hitch_pad_y1 = bottom_d - 0.10;
-pva_hitch_pad_z0 = pva_hitch_hole_z0 - pva_hitch_hole_d/2 - 1.5;
-pva_hitch_pad_z1 = pva_hitch_hole_z1 + pva_hitch_hole_d/2 + 1.5;
-
-// Bottom drain sized for the uxcell snap-lock silicone plug sold for 5-5.5 mm
-// holes (5.2 mm pole, 2.0 mm locking slot, 9.8 mm head, 7.0 mm overall height).
-// The outside recess leaves a 2.0 mm web for the plug's locking slot, so the
-// inner flange positively retains the plug against water pressure.
-integrated_drain_x = reservoir_port_x;
-integrated_drain_y = reservoir_port_y;
-integrated_drain_bore_d = 5.2;
-integrated_drain_commercial_plug_head_d = 9.8;
-integrated_drain_seat_radial_clearance = 0.3;
-integrated_drain_seat_d =
-    integrated_drain_commercial_plug_head_d
-    + 2*integrated_drain_seat_radial_clearance;
-integrated_drain_locking_web_t = 2.0;
-integrated_drain_seat_h =
-    integrated_receiver_inner_z0 - integrated_drain_locking_web_t;
-
-assert(integrated_receiver_tower_x0 >= integrated_receiver_x0,
-       "integrated receiver tower exceeds the boot at -X");
-assert(integrated_drain_seat_h > 0,
-       "commercial drain-plug seat has no depth");
-assert(integrated_drain_locking_web_t >= 3*wet_print_nozzle_d,
-       "commercial drain plug leaves too little locking wall");
-assert(integrated_receiver_wall_t >= 5*wet_print_nozzle_d,
-       "main wet walls provide fewer than five nominal nozzle lines");
-assert(water_tank_wall_t_x >= 5*wet_print_nozzle_d
-       && water_tank_wall_t_y >= 5*wet_print_nozzle_d
-       && water_tank_floor_t >= 5*wet_print_nozzle_d,
-       "upper tank wet walls provide fewer than five nominal nozzle lines");
-assert(water_tank_roof_t_z >= 5*wet_print_nozzle_d,
-       "upper tank roof provides fewer than five nominal nozzle lines");
-assert(pva_chamber_side_wall_x >= 4*wet_print_nozzle_d
-       && pva_chamber_floor_roof_t >= 4*wet_print_nozzle_d,
-       "compact chamber wet walls provide fewer than four nominal nozzle lines");
-assert(integrated_receiver_tower_x1 <= integrated_receiver_x1,
-       "integrated receiver tower exceeds the boot width");
-assert(integrated_receiver_z1 < water_tank_z0,
-       "water column must stop inside the upper reservoir's drop boss");
-assert(pva_chamber_inner_x1 > pva_chamber_inner_x0,
-       "string-wetting chamber has no internal X width");
-assert(pva_chamber_outer_x0 - side_panel_t >= 10.0,
-       "string-wetting chamber leaves too little side-wall finger space");
-assert(pva_chamber_inner_y1 > pva_chamber_inner_y0,
-       "string-wetting chamber has no internal Y depth");
-assert(pva_string_z < pva_chamber_inner_z1 - pva_string_hole_d/2,
-       "PVA bore is too close to the chamber roof");
-assert(pva_hitch_hole_z0 + pva_hitch_hole_d/2
-       < pva_hitch_hole_z1 - pva_hitch_hole_d/2,
-       "PVA hitch holes leave no solid bridge");
-assert(pva_hitch_hole_y - pva_hitch_hole_d/2
-       > integrated_receiver_y1,
-       "PVA hitch holes clip the wet receiver");
-assert(pva_hitch_hole_y + pva_hitch_hole_d/2
-       < pva_hitch_pad_y1,
-       "PVA hitch holes clip the cassette back edge");
-assert(pva_hitch_hole_z0 - pva_hitch_hole_d/2 > pva_hitch_pad_z0
-       && pva_hitch_hole_z1 + pva_hitch_hole_d/2 < pva_hitch_pad_z1,
-       "PVA hitch holes clip the reinforced pad in Z");
-
-module integrated_pva_receiver_solid(){
-    union(){
-        // Wide, low catch boot.
-        translate([
-            integrated_receiver_x0,
-            integrated_receiver_y0,
-            integrated_receiver_z0
-        ])
-            cube([
-                integrated_receiver_x1 - integrated_receiver_x0,
-                integrated_receiver_y1 - integrated_receiver_y0,
-                integrated_receiver_boot_top_z - integrated_receiver_z0
-            ]);
-
-        // Narrow vertical riser directly below the upper drip reservoir.
-        translate([
-            integrated_receiver_tower_x0,
-            integrated_receiver_y0,
-            integrated_receiver_tower_z0
-        ])
-            cube([
-                integrated_receiver_tower_x1 - integrated_receiver_tower_x0,
-                integrated_receiver_y1 - integrated_receiver_y0,
-                integrated_receiver_z1 - integrated_receiver_tower_z0
-            ]);
-
-        // Rear, string-bore-vented wetting side chamber.
-        translate([
-            pva_chamber_outer_x0,
-            pva_chamber_outer_y0,
-            pva_chamber_outer_z0
-        ])
-            cube([
-                pva_chamber_outer_x1 - pva_chamber_outer_x0,
-                pva_chamber_outer_y1 - pva_chamber_outer_y0,
-                pva_chamber_outer_z1 - pva_chamber_outer_z0
-            ]);
-    }
-}
-
-module integrated_pva_receiver_water_voids(){
-    union(){
-        // Lower boot cavity.
-        translate([
-            integrated_receiver_boot_inner_x0,
-            integrated_receiver_inner_y0,
-            integrated_receiver_inner_z0
-        ])
-            cube([
-                integrated_receiver_boot_inner_x1 - integrated_receiver_boot_inner_x0,
-                integrated_receiver_inner_y1 - integrated_receiver_inner_y0,
-                integrated_receiver_boot_inner_z1 - integrated_receiver_inner_z0
-            ]);
-
-        // Open-top riser cavity; overlap joins it to the lower boot cavity.
-        translate([
-            integrated_receiver_tower_inner_x0,
-            integrated_receiver_inner_y0,
-            integrated_receiver_tower_inner_z0
-        ])
-            cube([
-                integrated_receiver_tower_inner_x1 - integrated_receiver_tower_inner_x0,
-                integrated_receiver_inner_y1 - integrated_receiver_inner_y0,
-                integrated_receiver_z1
-                    - integrated_receiver_tower_inner_z0 + eps
-            ]);
-
-        // Sheltered string-wetting chamber cavity; retain a solid roof so the
-        // last water from the upper tank cannot overflow out of this branch.
-        translate([
-            pva_chamber_inner_x0,
-            pva_chamber_inner_y0,
-            pva_chamber_inner_z0
-        ])
-            cube([
-                pva_chamber_inner_x1 - pva_chamber_inner_x0,
-                pva_chamber_inner_y1 - pva_chamber_inner_y0,
-                pva_chamber_inner_z1 - pva_chamber_inner_z0
-            ]);
-
-        // Short high branch from the main column into the sheltered chamber.
-        translate([pva_equalizer_x, pva_equalizer_y0, pva_equalizer_z])
-            rotate([-90,0,0])
-                cylinder(
-                    d = pva_equalizer_d,
-                    h = pva_equalizer_y1 - pva_equalizer_y0
-                );
-    }
-}
-
-module integrated_pva_string_bore(){
-    translate([pva_string_bore_x0, pva_string_y, pva_string_z])
-        rotate([0,90,0])
-            cylinder(
-                d = pva_string_hole_d,
-                h = pva_string_bore_x1 - pva_string_bore_x0
-            );
-}
-
-module integrated_pva_hitch_holes(){
-    for(z = [pva_hitch_hole_z0, pva_hitch_hole_z1])
-        translate([-eps, pva_hitch_hole_y, z])
-            rotate([0,90,0])
-                cylinder(
-                    d = pva_hitch_hole_d,
-                    h = pva_hitch_pad_x1 + 2*eps
-                );
-}
-
-module integrated_pva_hitch_pad(){
-    translate([pva_hitch_pad_x0, pva_hitch_pad_y0, pva_hitch_pad_z0])
-        cube([
-            pva_hitch_pad_x1 - pva_hitch_pad_x0,
-            pva_hitch_pad_y1 - pva_hitch_pad_y0,
-            pva_hitch_pad_z1 - pva_hitch_pad_z0
-        ]);
-}
-
-module integrated_receiver_bottom_drain(){
-    // Straight wet bore through the receiver floor and cassette bottom.
-    translate([integrated_drain_x, integrated_drain_y, -eps])
-        cylinder(
-            d = integrated_drain_bore_d,
-            h = integrated_receiver_inner_z0 + 2*eps
-        );
-
-    // Outside counterbore for the commercial plug head. Its depth leaves the
-    // specified 2 mm locking web immediately below the wet cavity.
-    translate([integrated_drain_x, integrated_drain_y, -eps])
-        cylinder(
-            d = integrated_drain_seat_d,
-            h = integrated_drain_seat_h + eps
-        );
-}
-
-module integrated_pva_receiver_voids(){
-    integrated_pva_receiver_water_voids();
-    integrated_pva_string_bore();
-    integrated_pva_hitch_holes();
-    integrated_receiver_bottom_drain();
-}
-
-module integrated_pva_receiver_finished(){
-    difference(){
-        integrated_pva_receiver_solid();
-        integrated_pva_receiver_water_voids();
-        integrated_pva_string_bore();
-        integrated_receiver_bottom_drain();
-    }
-}
-
-// Isolated review of every water-system feature that is fused into the
-// cassette. This is a diagnostic scene, not a separate printable part.
-module integrated_water_system_review(){
-    difference(){
-        union(){
-            left_water_tank();
-            integrated_pva_receiver_solid();
-            integrated_pva_hitch_pad();
-        }
-        reservoir_side_fill_bore();
-        integrated_pva_receiver_water_voids();
-        integrated_pva_string_bore();
-        integrated_pva_hitch_holes();
-        integrated_receiver_bottom_drain();
-    }
-}
-
-// Minimal structure needed to print and handle the water mechanism without
-// the cassette frame. The base reproduces the original cassette floor under
-// the drain. The narrow rear spine holds the two hitch holes at their real
-// offset while leaving the threading/finger gap open.
-standalone_test_base_x0 = 0.0;
-standalone_test_base_x1 = integrated_receiver_x1;
-standalone_test_base_y0 = integrated_receiver_y0;
-standalone_test_base_y1 = bottom_d;
-standalone_test_base_z0 = 0.0;
-standalone_test_base_z1 = bottom_t;
-
-standalone_test_spine_x0 = 0.0;
-standalone_test_spine_x1 = side_panel_t + 1.8;
-standalone_test_spine_y0 = integrated_receiver_y1 - 3.0;
-standalone_test_spine_y1 = bottom_d - 0.10;
-standalone_test_spine_z0 = standalone_test_base_z0;
-standalone_test_spine_z1 = pva_hitch_pad_z1;
-
-assert(standalone_test_base_x1 > integrated_receiver_x0,
-       "standalone base does not overlap the receiver");
-assert(standalone_test_spine_x1 > integrated_receiver_x0
-       && standalone_test_spine_y0 < integrated_receiver_y1,
-       "standalone hitch spine does not overlap the water-system base");
-assert(pva_chamber_outer_x0 - pva_hitch_pad_x1 >= 8.0,
-       "standalone tester leaves too little threading access");
-
-module standalone_hydraulic_test_structure(){
-    union(){
-        translate([
-            standalone_test_base_x0,
-            standalone_test_base_y0,
-            standalone_test_base_z0
-        ])
-            cube([
-                standalone_test_base_x1 - standalone_test_base_x0,
-                standalone_test_base_y1 - standalone_test_base_y0,
-                standalone_test_base_z1 - standalone_test_base_z0
-            ]);
-
-        translate([
-            standalone_test_spine_x0,
-            standalone_test_spine_y0,
-            standalone_test_spine_z0
-        ])
-            cube([
-                standalone_test_spine_x1 - standalone_test_spine_x0,
-                standalone_test_spine_y1 - standalone_test_spine_y0,
-                standalone_test_spine_z1 - standalone_test_spine_z0
-            ]);
-    }
-}
-
-module standalone_hydraulic_string_tester(){
-    difference(){
-        union(){
-            left_water_tank();
-            integrated_pva_receiver_solid();
-            integrated_pva_hitch_pad();
-            standalone_hydraulic_test_structure();
-        }
-        reservoir_side_fill_bore();
-        integrated_pva_receiver_water_voids();
-        integrated_pva_string_bore();
-        integrated_pva_hitch_holes();
-        integrated_receiver_bottom_drain();
-    }
-}
-
-// Minimum scaffolding that belongs to the upside-down test print:
-// - a flat plate above the reservoir becomes the build-plate base after flip;
-// - a four-line-thick side wall ties that plate to the lower test base;
-// - a tiny bridge at the hitch-pad top closes the red-circled gap to the riser.
-standalone_print_skin_t = 4*wet_print_nozzle_d;
-
-standalone_print_plate_x0 = standalone_test_base_x0;
-standalone_print_plate_x1 = standalone_test_base_x1;
-standalone_print_plate_y0 = standalone_test_base_y0;
-standalone_print_plate_y1 = standalone_test_base_y1;
-standalone_print_plate_z0 = reservoir_vent_z;
-standalone_print_plate_z1 =
-    standalone_print_plate_z0 + standalone_print_skin_t;
-
-standalone_print_wall_x0 =
-    standalone_test_base_x1 - standalone_print_skin_t;
-standalone_print_wall_x1 = standalone_test_base_x1;
-standalone_print_wall_y0 = standalone_test_base_y0;
-standalone_print_wall_y1 = standalone_test_base_y1;
-standalone_print_wall_z0 = standalone_test_base_z0;
-standalone_print_wall_z1 = standalone_print_plate_z1;
-
-standalone_hitch_bridge_x0 = pva_hitch_pad_x1 - 0.4;
-standalone_hitch_bridge_x1 = integrated_receiver_tower_x0 + 0.4;
-standalone_hitch_bridge_y0 = integrated_receiver_y1 - 2.4;
-standalone_hitch_bridge_y1 = pva_hitch_pad_y0 + 2.4;
-standalone_hitch_bridge_z0 = pva_hitch_pad_z1 - standalone_print_skin_t;
-standalone_hitch_bridge_z1 = pva_hitch_pad_z1;
-
-assert(standalone_hitch_bridge_x0 < pva_hitch_pad_x1
-       && standalone_hitch_bridge_x1 > integrated_receiver_tower_x0,
-       "standalone hitch bridge misses the pad or water column");
-assert(standalone_print_skin_t >= 4*wet_print_nozzle_d,
-       "standalone print plate/wall provides fewer than four nozzle lines");
-
-module standalone_inverted_print_structure(){
-    union(){
-        // Green horizontal marker: flat build plate after inversion.
-        translate([
-            standalone_print_plate_x0,
-            standalone_print_plate_y0,
-            standalone_print_plate_z0
-        ])
-            cube([
-                standalone_print_plate_x1 - standalone_print_plate_x0,
-                standalone_print_plate_y1 - standalone_print_plate_y0,
-                standalone_print_plate_z1 - standalone_print_plate_z0
-            ]);
-
-        // Green vertical marker: minimum full-height connecting wall.
-        translate([
-            standalone_print_wall_x0,
-            standalone_print_wall_y0,
-            standalone_print_wall_z0
-        ])
-            cube([
-                standalone_print_wall_x1 - standalone_print_wall_x0,
-                standalone_print_wall_y1 - standalone_print_wall_y0,
-                standalone_print_wall_z1 - standalone_print_wall_z0
-            ]);
-
-        // Red circle: short pad-to-riser connector.
-        translate([
-            standalone_hitch_bridge_x0,
-            standalone_hitch_bridge_y0,
-            standalone_hitch_bridge_z0
-        ])
-            cube([
-                standalone_hitch_bridge_x1 - standalone_hitch_bridge_x0,
-                standalone_hitch_bridge_y1 - standalone_hitch_bridge_y0,
-                standalone_hitch_bridge_z1 - standalone_hitch_bridge_z0
-            ]);
-    }
-}
-
-module standalone_hydraulic_string_tester_with_print_structure(){
-    union(){
-        standalone_hydraulic_string_tester();
-        standalone_inverted_print_structure();
-    }
-}
-
-module standalone_hydraulic_string_tester_inverted(){
-    translate([
-        0,
-        standalone_test_base_y1,
-        standalone_print_plate_z1
-    ])
-        rotate([180,0,0])
-            standalone_hydraulic_string_tester_with_print_structure();
-}
-
-// Diagnostic X section through the high branch and PVA-string bore centers.
-module integrated_pva_receiver_cutaway(){
-    intersection(){
-        integrated_pva_receiver_finished();
-        translate([
-            integrated_receiver_x0 - eps,
-            integrated_receiver_y0 - eps,
-            integrated_receiver_z0 - eps
-        ])
-            cube([
-                pva_equalizer_x - integrated_receiver_x0 + eps,
-                bottom_d - integrated_receiver_y0 + 2*eps,
-                integrated_receiver_z1 - integrated_receiver_z0 + 2*eps
-            ]);
-    }
 }
 
 module spring_loop_catch(){
@@ -3330,30 +2486,26 @@ module dry_variant_subtractive_features(){
 module wet_variant_additive_features(){
     // WET-ONLY: water reveal hardware.
     left_water_tank();
-    if(wet_use_legacy_bucket){
-        bucket_under_tank_tension_lips();
-        bucket_retention_hook();
-    }
-    if(wet_use_integrated_pva_receiver)
-        integrated_pva_receiver_solid();
-    if(wet_use_integrated_pva_receiver)
-        integrated_pva_hitch_pad();
+    bucket_under_tank_tension_lips();
+    bucket_retention_hook();
+translate([
+    spring_loop_catch_x,
+    spring_loop_catch_y,
+    spring_loop_catch_z
+])
+    spring_loop_catch();
     translate([
-        spring_loop_catch_x,
-        spring_loop_catch_y,
-        spring_loop_catch_z
+        water_tank_x1 + wall_w,                 // puts mirrored hook at tank +X face
+        water_tank_y0 + 4.0 - (bottom_d - 22.0), // cancels hook's built-in Y
+        water_tank_z0 - (fang_main_z0 - 6.0)     // cancels hook's built-in Z
     ])
-        spring_loop_catch();
-
-    // The former mirrored wet-thread hook is intentionally omitted. The PVA
-    // string now terminates at the reinforced two-hole cassette-wall bridge.
+        mirror([1, 0, 0])
+            right_thread_hook();
 }
 
 module wet_variant_subtractive_features(){
     // WET-ONLY: reservoir side fill bore through cassette wall.
     reservoir_side_fill_bore();
-    if(wet_use_integrated_pva_receiver)
-        integrated_pva_receiver_voids();
 }
 
 module cassette_body(){
@@ -3365,8 +2517,6 @@ module cassette_body(){
 
                 // Contains the dry clock tab plus print_supports-gated scaffold/crossbar geometry.
                 clock_movement_retainers();
-                if(print_supports)
-                    center_stack_pocket_sacrificial_posts();
 
                 if(dry)
                     dry_variant_additive_features();
@@ -3436,122 +2586,4 @@ body_y_max=back_socket_front_y+retainer_pad_d;
 
 module cassette_inverted(){translate([0,body_y_max,shell_inner_top_z])rotate([180,0,0])cassette_body();}
 
-// Isolated fit review for the four backing-board side hooks. The upper pair
-// is the same translated geometry as the lower pair, so all X pads are shown.
-module backing_board_side_hook_fit_review(){
-    lower_board_hooks();
-    side_backing_clips();
-}
-
-module backing_board_single_hook_fit_review(){
-    left_lower_board_hook();
-}
-
-module top_board_snap_lip_fit_review(){
-    left_back_socket_assembly();
-    right_back_socket_assembly();
-}
-
-module top_board_snap_lip_single_review(){
-    left_back_socket_assembly();
-}
-
-module front_scaffold_contact_review(){
-    clock_movement_retainers();
-    if(print_supports)
-        center_stack_pocket_sacrificial_posts();
-    front_buildout_parts();
-}
-
-module center_stack_pocket_review(){
-    clock_movement_retainers();
-    center_stack_registration_pocket();
-    center_stack_pocket_sacrificial_posts();
-    intersection(){
-        front_mask_plane();
-        translate([
-            center_stack_pocket_x0 - 4.0,
-            front_buildout_y0 - eps,
-            acrylic_shelf_z0 - 2.0
-        ])
-            cube([
-                center_stack_pocket_w_x + 8.0,
-                front_frame_t + center_stack_pocket_front_anchor_overlap_y
-                    + 2*eps,
-                center_stack_pocket_mouth_z1 - acrylic_shelf_z0 + 4.0
-            ]);
-    }
-}
-
-module center_stack_pocket_finished_review(){
-    center_stack_registration_pocket();
-    intersection(){
-        front_mask_plane();
-        translate([
-            center_stack_pocket_x0 - 4.0,
-            front_buildout_y0 - eps,
-            acrylic_shelf_z0 - 2.0
-        ])
-            cube([
-                center_stack_pocket_w_x + 8.0,
-                front_frame_t + center_stack_pocket_front_anchor_overlap_y
-                    + 2*eps,
-                center_stack_pocket_mouth_z1 - acrylic_shelf_z0 + 4.0
-            ]);
-    }
-}
-
-// Export selector for the cassette, isolated receiver reviews, or the complete
-// water system. Normal output is the cassette. Selector 2 was the former
-// printable drain plug and is deliberately retired: use the specified
-// commercial silicone snap-lock plug.
-// 0 = cassette, 1 = receiver, 2 = retired, 3 = receiver cutaway,
-// 4 = complete integrated water-system review,
-// 5 = standalone tester in functional orientation,
-// 6 = standalone tester in upside-down print orientation,
-// 8 = all backing-board side hooks, 9 = one side-hook close review,
-// 10 = both top hanging snap lips, 11 = front scaffold contacts,
-// 12 = one top hanging snap lip close review,
-// 13 = center acrylic/image pocket with removable support posts,
-// 14 = same pocket after the posts are removed,
-// 15 = isolated pocket plus its removable support posts
-render_part = 0;
-selected_render_part = is_undef(water_cassette_render_part)
-    ? render_part
-    : water_cassette_render_part;
-
-assert(selected_render_part != 2,
-       "render part 2 was retired; use the commercial silicone drain plug");
-
-if(selected_render_part == 1)
-    integrated_pva_receiver_finished();
-else if(selected_render_part == 3)
-    integrated_pva_receiver_cutaway();
-else if(selected_render_part == 4)
-    integrated_water_system_review();
-else if(selected_render_part == 5)
-    standalone_hydraulic_string_tester();
-else if(selected_render_part == 6)
-    standalone_hydraulic_string_tester_inverted();
-else if(selected_render_part == 8)
-    backing_board_side_hook_fit_review();
-else if(selected_render_part == 9)
-    backing_board_single_hook_fit_review();
-else if(selected_render_part == 10)
-    top_board_snap_lip_fit_review();
-else if(selected_render_part == 11)
-    front_scaffold_contact_review();
-else if(selected_render_part == 12)
-    top_board_snap_lip_single_review();
-else if(selected_render_part == 13)
-    center_stack_pocket_review();
-else if(selected_render_part == 14)
-    center_stack_pocket_finished_review();
-else if(selected_render_part == 15)
-    union(){
-        center_stack_registration_pocket();
-        if(print_supports)
-            center_stack_pocket_sacrificial_posts();
-    }
-else
-    union(){cassette_inverted();}
+union(){cassette_inverted();}

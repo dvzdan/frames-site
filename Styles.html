@@ -884,6 +884,39 @@ p {
   gap: 10px;
 }
 
+.design-release-summary {
+  background: color-mix(in srgb, var(--surface) 88%, #6f7f53);
+  border: 1px solid color-mix(in srgb, #6f7f53 35%, var(--line));
+  border-radius: 12px;
+  color: var(--text-muted);
+  display: grid;
+  font-size: 13px;
+  gap: 7px;
+  line-height: 1.5;
+  padding: 14px 16px;
+}
+
+.design-release-summary > div {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.design-release-summary strong {
+  color: var(--text-strong);
+  font-size: 16px;
+}
+
+.design-release-summary p,
+.design-release-summary ul {
+  margin: 0;
+}
+
+.design-release-summary ul {
+  padding-left: 19px;
+}
+
 .download-item-with-note {
   display: grid;
   gap: 5px;

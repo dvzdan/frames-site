@@ -274,26 +274,11 @@ function galleryMarkup() {
 }
 
 function downloadsMarkup() {
-  const downloads = [
-    {
-      file: "Frame and Stand 3mf, .6mm nozzle recommended.3mf",
-      name: "Frame and Stand.3mf",
-      meta: "3MF · 0.6 mm nozzle recommended"
-    },
-    {
-      file: "All other parts 3mf, .4mm nozzle required - includes roller, trap door rig, latch, C clip, Clock_string guide.3mf",
-      name: "Everything Else.3mf",
-      meta: "3MF · 0.4 mm nozzle required",
-      note: "You may need to clear some loose filament from inside the minute capstan after printing."
-    },
-    { file: "Capstans.scad", name: "Capstans.scad", meta: "OpenSCAD source" },
-    { file: "clock_string guide.scad", name: "clock_string guide.scad", meta: "OpenSCAD source" },
-    { file: "dry wall rig.scad", name: "dry wall rig.scad", meta: "OpenSCAD source" },
-    { file: "frame stand.scad", name: "frame stand.scad", meta: "OpenSCAD source" },
-    { file: "latch and keeper.scad", name: "latch and keeper.scad", meta: "OpenSCAD source" },
-    { file: "main Frame file.scad", name: "main Frame file.scad", meta: "OpenSCAD source" },
-    { file: "roller.scad", name: "roller.scad", meta: "OpenSCAD source" }
-  ];
+  const release = JSON.parse(read("release/current.json"));
+  const downloads = release.artifacts.map((artifact) => ({
+    ...artifact,
+    file: path.basename(artifact.public)
+  }));
 
   const rows = downloads.map((download) => {
     const source = path.join(root, "assets", "downloads", download.file);
@@ -305,17 +290,25 @@ function downloadsMarkup() {
         ? `${Math.round(bytes / 1024)} KB`
         : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
     const href = `/assets/downloads/${encodeURIComponent(download.file)}`;
-    const primaryClass = download.file.toLowerCase().endsWith(".3mf") ? " download-row-primary" : "";
+    const primaryClass = download.type === "3mf-project" ? " download-row-primary" : "";
     const row = `<a class="download-row${primaryClass}" download href="${href}"><span class="download-name">${download.name}</span><span class="download-meta">${download.meta} · ${size}</span><span class="download-action" aria-hidden="true">Download</span></a>`;
     const markup = download.note
       ? `<div class="download-item-with-note">${row}<p class="download-printing-note"><strong>Printing note:</strong> ${download.note}</p></div>`
       : row;
     return { ...download, markup };
   });
-  const printFiles = rows.filter((download) => download.file.toLowerCase().endsWith(".3mf"));
-  const sourceFiles = rows.filter((download) => download.file.toLowerCase().endsWith(".scad"));
-  return printFiles.map((download) => download.markup).join("") +
-    `<details class="download-source-group"><summary class="download-source-summary"><span class="download-source-title">Editable OpenSCAD source</span><span class="download-meta">${sourceFiles.length} files for modifying the design</span><span class="download-source-toggle" aria-hidden="true"></span></summary><div class="download-source-list">${sourceFiles.map((download) => download.markup).join("")}</div></details>`;
+  const printFiles = rows.filter((download) => download.type === "3mf-project");
+  const sourceFiles = rows.filter((download) => download.type === "scad");
+  const releaseNotesFile = path.basename(release.releaseNotesPublic);
+  const releaseNotesPath = path.join(root, release.releaseNotesPublic);
+  if (!fs.existsSync(releaseNotesPath)) throw new Error(`Missing release notes: ${release.releaseNotesPublic}`);
+  const releaseNotesSize = Math.round(fs.statSync(releaseNotesPath).size / 1024) || 1;
+  const releaseHeader = `<section class="design-release-summary" id="design-release"><div><strong>Current design release ${release.version}</strong><span>${release.releaseDate}</span></div><p>${release.summary}</p><ul>${release.changes.map((change) => `<li>${change}</li>`).join("")}</ul></section>`;
+  const releaseNotesRow = `<a class="download-row download-release-notes" download href="/assets/downloads/${encodeURIComponent(releaseNotesFile)}"><span class="download-name">Release notes — ${release.version}</span><span class="download-meta">TXT · ${releaseNotesSize} KB · changes and compatibility</span><span class="download-action" aria-hidden="true">Download</span></a>`;
+  return releaseHeader +
+    printFiles.map((download) => download.markup).join("") +
+    `<details class="download-source-group"><summary class="download-source-summary"><span class="download-source-title">Editable OpenSCAD source</span><span class="download-meta">${sourceFiles.length} files for modifying the design</span><span class="download-source-toggle" aria-hidden="true"></span></summary><div class="download-source-list">${sourceFiles.map((download) => download.markup).join("")}</div></details>` +
+    releaseNotesRow;
 }
 
 function transformTemplate(page) {

@@ -1,7 +1,8 @@
 ## Canonical project routing - mandatory
 
 At the start of every task in this worktree, read `PROJECT_STATE.md` and
-`project-state/assets.json`, then inspect the current branch and working tree.
+`project-state/assets.json`, `release/POLICY.md`, and `release/current.json`,
+then inspect the current branch and working tree.
 Treat repository evidence and these tracked records as authoritative over chat
 memory. If they disagree with the files, stop and reconcile the discrepancy
 before editing or publishing.
@@ -66,6 +67,28 @@ fails if a public download or its manifest differs from the canonical source.
 `C:\Users\zack and lil\Documents\codex-scad-experiment` is historical working
 material, not canonical input. Do not copy from it or update it automatically.
 Large renders, snapshots, meshes, and experiments belong on `D:`.
+
+## Public design release versioning - mandatory
+
+The complete public design-file set follows Semantic Versioning 2.0.0 exactly.
+The current version is declared by `VERSION` and `release/current.json`.
+Never invent another numbering scheme, silently replace a released artifact, or
+reuse a release number after changing any released file.
+
+Interpret the printed-part and hardware fit/assembly contract as the public
+compatibility interface:
+
+- MAJOR for an incompatible fit, mating, assembly, or required-hardware change.
+- MINOR for a backward-compatible part, option, or substantial improvement.
+- PATCH for a backward-compatible geometry, tolerance, documentation, metadata,
+  or packaging correction.
+
+Pending Canon may use a SemVer pre-release such as `1.1.0-rc.1`. Experimental
+work is unversioned. Before publishing, update the release record and notes,
+stamp supported file metadata, run `npm run release:prepare`, run `npm test`,
+commit, and create the annotated tag `design-vMAJOR.MINOR.PATCH`. The website
+must expose only the current artifacts while retaining change history in the
+release notes.
 
 ## Assembly instruction panel house style
 

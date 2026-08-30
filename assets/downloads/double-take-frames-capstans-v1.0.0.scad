@@ -1,3 +1,13 @@
+// DOUBLE TAKE FRAMES DESIGN RELEASE
+// DTF_RELEASE: 1.0.0
+// Released: 2026-08-30
+// Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
+// Status: CANONICAL
+// Changes in 1.0.0:
+// - Initial versioned public design release.
+// - Establishes the current accepted geometry as the 1.x compatibility baseline.
+// Full release notes: https://doubletakeframes.com/build/#design-release
+//
 // Young Town / 12888-style CANON capstan pair.
 // Minute remains canon at 3.58 mm. Hour is now a candidate set.
 //

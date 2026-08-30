@@ -13,6 +13,9 @@ working tree before making changes.
 - Apps Script and Google backend: `C:\Users\zack and lil\frames-site`
 - Canonical weight-system CAD: `cad/source/` in the public website worktree
 - Public CAD downloads: generated copies under `assets/downloads/`
+- Current public design release: `1.0.0`, governed by Semantic Versioning 2.0.0.
+- Release policy and current machine record: `release/POLICY.md` and
+  `release/current.json`.
 - Heavy recordings, renders, meshes, and intermediates: `D:`
 - User-facing file workspace: `C:\Users\zack and lil\Documents\Double Take Frames`
   - `1 - Canonical` contains accepted files.
@@ -25,8 +28,8 @@ working tree before making changes.
 
 ## Pending canon
 
-- `water cassette experiments.scad` is the primary pending-canon water-cassette
-  design. Its tracked source is `cad/pending-canon/water cassette experiments.scad`.
+- `water-cassette-v1.1.0-rc.1.scad` is the primary pending-canon water-cassette
+  design. Its tracked source is `cad/pending-canon/water-cassette-v1.1.0-rc.1.scad`.
 - It was copied byte-for-byte from the historical experiment on 2026-08-30.
 - It is not yet canonical and must not replace a public download until the user
   explicitly promotes it.
@@ -72,4 +75,6 @@ working tree before making changes.
   being live, and a live asset can be marked temporary while replacement is pending.
 - Never infer that a file named `canonical` elsewhere is authoritative.
 - Run `npm test` before publishing. CAD edits also require `npm run cad:sync`.
+- Never modify a released `1.0.0` file in place. Assign the next SemVer first,
+  record its changes, and generate a new complete release set.
 - Update this file when a design decision changes what is current or obsolete.

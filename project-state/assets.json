@@ -18,25 +18,25 @@
       "id": "dry-wall-rig-scad",
       "tier": "canonical",
       "status": "saved",
-      "canonical": "cad/source/dry wall rig.scad",
-      "publicCopies": ["assets/downloads/dry wall rig.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD - Editable Design Files/dry wall rig.scad"
+      "canonical": "cad/source/dry-wall-rig-v1.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-dry-wall-rig-v1.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD - Editable Design Files/dry-wall-rig-v1.0.0.scad"
     },
     {
       "id": "latch-and-keeper-scad",
       "tier": "canonical",
       "status": "saved",
-      "canonical": "cad/source/latch and keeper.scad",
-      "publicCopies": ["assets/downloads/latch and keeper.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD - Editable Design Files/latch and keeper.scad"
+      "canonical": "cad/source/latch-and-keeper-v1.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-latch-and-keeper-v1.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD - Editable Design Files/latch-and-keeper-v1.0.0.scad"
     },
     {
       "id": "water-cassette-scad",
       "tier": "pending-canon",
       "status": "saved",
-      "canonical": "cad/pending-canon/water cassette experiments.scad",
+      "canonical": "cad/pending-canon/water-cassette-v1.1.0-rc.1.scad",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/water cassette experiments.scad",
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/water-cassette-v1.1.0-rc.1.scad",
       "note": "Primary pending-canon water-cassette design; not yet approved as canonical."
     },
     {

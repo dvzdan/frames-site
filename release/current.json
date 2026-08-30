@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "product": "Double Take Frames",
+  "versionStandard": "Semantic Versioning 2.0.0",
+  "versionStandardUrl": "https://semver.org/",
+  "version": "1.0.0",
+  "releaseDate": "2026-08-30",
+  "status": "released",
+  "summary": "Initial versioned public design release.",
+  "changes": [
+    "Established the current printed-part geometry as the 1.x compatibility baseline.",
+    "Adopted the 25 g Gallardo FN-Series zinc clip-on wheel weight system.",
+    "Replaced the former thick cotton ligature with a simple brad pin/clip.",
+    "Included the current latch, keeper/C-clip, clock-string guide, frame, stand, roller, and capstan source files.",
+    "Added consistent release identification to source and prepared print projects."
+  ],
+  "artifacts": [
+    {
+      "id": "frame-and-stand-3mf",
+      "type": "3mf-project",
+      "source": "fabrication/canonical/3mf/frame-and-stand-v1.0.0.project.3mf",
+      "public": "assets/downloads/double-take-frames-frame-and-stand-v1.0.0.project.3mf",
+      "name": "Frame and Stand v1.0.0.project.3mf",
+      "title": "Double Take Frames — Frame and Stand — 1.0.0",
+      "description": "Prepared frame-and-stand print project for the Double Take Frames 1.0.0 design release.",
+      "meta": "3MF project · release 1.0.0 · 0.6 mm nozzle recommended"
+    },
+    {
+      "id": "everything-else-3mf",
+      "type": "3mf-project",
+      "source": "fabrication/canonical/3mf/everything-else-v1.0.0.project.3mf",
+      "public": "assets/downloads/double-take-frames-everything-else-v1.0.0.project.3mf",
+      "name": "Everything Else v1.0.0.project.3mf",
+      "title": "Double Take Frames — Everything Else — 1.0.0",
+      "description": "Prepared print project for the remaining Double Take Frames 1.0.0 mechanism parts.",
+      "meta": "3MF project · release 1.0.0 · 0.4 mm nozzle required",
+      "note": "You may need to clear some loose filament from inside the minute capstan after printing."
+    },
+    { "id": "capstans-scad", "type": "scad", "source": "cad/source/capstans-v1.0.0.scad", "public": "assets/downloads/double-take-frames-capstans-v1.0.0.scad", "name": "Capstans v1.0.0.scad", "meta": "OpenSCAD source · release 1.0.0" },
+    { "id": "clock-string-guide-scad", "type": "scad", "source": "cad/source/clock-string-guide-v1.0.0.scad", "public": "assets/downloads/double-take-frames-clock-string-guide-v1.0.0.scad", "name": "Clock String Guide v1.0.0.scad", "meta": "OpenSCAD source · release 1.0.0" },
+    { "id": "dry-wall-rig-scad", "type": "scad", "source": "cad/source/dry-wall-rig-v1.0.0.scad", "public": "assets/downloads/double-take-frames-dry-wall-rig-v1.0.0.scad", "name": "Dry Wall Rig v1.0.0.scad", "meta": "OpenSCAD source · release 1.0.0" },
+    { "id": "frame-stand-scad", "type": "scad", "source": "cad/source/frame-stand-v1.0.0.scad", "public": "assets/downloads/double-take-frames-frame-stand-v1.0.0.scad", "name": "Frame and Stand v1.0.0.scad", "meta": "OpenSCAD source · release 1.0.0" },
+    { "id": "latch-keeper-scad", "type": "scad", "source": "cad/source/latch-and-keeper-v1.0.0.scad", "public": "assets/downloads/double-take-frames-latch-and-keeper-v1.0.0.scad", "name": "Latch and Keeper v1.0.0.scad", "meta": "OpenSCAD source · release 1.0.0" },
+    { "id": "main-frame-scad", "type": "scad", "source": "cad/source/main-frame-v1.0.0.scad", "public": "assets/downloads/double-take-frames-main-frame-v1.0.0.scad", "name": "Main Frame v1.0.0.scad", "meta": "OpenSCAD source · release 1.0.0" },
+    { "id": "roller-scad", "type": "scad", "source": "cad/source/roller-v1.0.0.scad", "public": "assets/downloads/double-take-frames-roller-v1.0.0.scad", "name": "Roller v1.0.0.scad", "meta": "OpenSCAD source · release 1.0.0" }
+  ],
+  "releaseNotesSource": "release/RELEASE_NOTES.txt",
+  "releaseNotesPublic": "assets/downloads/double-take-frames-v1.0.0-release-notes.txt"
+}

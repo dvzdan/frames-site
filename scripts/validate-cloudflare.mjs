@@ -1,7 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const root = path.resolve(import.meta.dirname, "..", "dist");
+const projectRoot = path.resolve(import.meta.dirname, "..");
+const root = path.join(projectRoot, "dist");
+const release = JSON.parse(fs.readFileSync(path.join(projectRoot, "release", "current.json"), "utf8"));
 const routes = ["", "build", "kits", "assembly", "policies", "make-5x7", path.join("checkout", "success")];
 const errors = [];
 const files = [];
@@ -84,19 +86,12 @@ if (!galleryMatch) {
     errors.push("Static gallery snapshot is invalid JSON");
   }
 }
-const expectedDownloads = [
-  "Frame and Stand.3mf",
-  "Everything Else.3mf",
-  "Capstans.scad",
-  "clock_string guide.scad",
-  "dry wall rig.scad",
-  "frame stand.scad",
-  "latch and keeper.scad",
-  "main Frame file.scad",
-  "roller.scad"
-];
+const expectedDownloads = release.artifacts.map((artifact) => artifact.name);
 if (
   !build.includes('id="downloadsList"') ||
+  !build.includes('id="design-release"') ||
+  !build.includes(`Current design release ${release.version}`) ||
+  !build.includes(`Release notes — ${release.version}`) ||
   !build.includes('id="self-print-next"') ||
   (build.match(/class="download-row download-row-primary"/g) || []).length !== 2 ||
   (build.match(/class="download-source-group"/g) || []).length !== 1 ||
