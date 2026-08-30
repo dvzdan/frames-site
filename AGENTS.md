@@ -32,6 +32,20 @@ Before editing for a website request:
 4. State which worktree is being changed.
 5. Keep one canonical copy of each public asset in this Cloudflare worktree.
 
+## Canonical CAD routing - mandatory
+
+For the weight-system mechanism, the editable SCAD source of truth is under
+`cad/source/`. The matching files under `assets/downloads/` are public release
+copies generated from that source; do not edit those copies by hand.
+
+After changing a mapped SCAD source, run `npm run cad:sync`. Before committing
+or deploying, run `npm run cad:check` (also included in `npm test`). The check
+fails if a public download or its manifest differs from the canonical source.
+
+`C:\Users\zack and lil\Documents\codex-scad-experiment` is historical working
+material, not canonical input. Do not copy from it or update it automatically.
+Large renders, snapshots, meshes, and experiments belong on `D:`.
+
 ## Assembly instruction panel house style
 
 When creating assembly-instruction visuals, build a dedicated instruction SCAD scene rather than using the full master assembly.

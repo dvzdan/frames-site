@@ -4,9 +4,11 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build-cloudflare.mjs",
+    "cad:sync": "node scripts/cad-downloads.mjs sync",
+    "cad:check": "node scripts/cad-downloads.mjs check",
     "preview": "node scripts/serve-cloudflare.mjs",
     "validate": "node scripts/validate-cloudflare.mjs",
     "test:functions": "node scripts/test-cloudflare-functions.mjs",
-    "test": "npm run build && npm run validate && npm run test:functions"
+    "test": "npm run cad:check && npm run build && npm run validate && npm run test:functions"
   }
 }
