@@ -13,9 +13,11 @@ if (!Array.isArray(registry.assets) || registry.assets.length === 0) {
 }
 
 const ids = new Set();
+const allowedTiers = new Set(["canonical", "pending-canon", "experimental"]);
 for (const asset of registry.assets ?? []) {
   if (!asset.id || ids.has(asset.id)) problems.push(`missing or duplicate asset id: ${asset.id ?? "(missing)"}`);
   ids.add(asset.id);
+  if (!allowedTiers.has(asset.tier)) problems.push(`${asset.id} has invalid tier: ${asset.tier ?? "(missing)"}`);
   if (!asset.canonical) {
     problems.push(`${asset.id} has no canonical path`);
     continue;

@@ -14,8 +14,22 @@ working tree before making changes.
 - Canonical weight-system CAD: `cad/source/` in the public website worktree
 - Public CAD downloads: generated copies under `assets/downloads/`
 - Heavy recordings, renders, meshes, and intermediates: `D:`
+- User-facing file workspace: `C:\Users\zack and lil\Documents\Double Take Frames`
+  - `1 - Canonical` contains accepted files.
+  - `2 - Pending Canon` contains tracked candidates under review.
+  - `3 - Experimental` contains non-authoritative work stored on `D:`.
+  - Every tier is subdivided into `SCAD - Editable Design Files`,
+    `STL - Single Print Models`, and `3MF - Complete Print Projects`.
 - `C:\Users\zack and lil\Documents\codex-scad-experiment` is obsolete historical
   working material and must never be treated as canonical input.
+
+## Pending canon
+
+- `water cassette experiments.scad` is the primary pending-canon water-cassette
+  design. Its tracked source is `cad/pending-canon/water cassette experiments.scad`.
+- It was copied byte-for-byte from the historical experiment on 2026-08-30.
+- It is not yet canonical and must not replace a public download until the user
+  explicitly promotes it.
 
 ## Current weight system
 
@@ -47,9 +61,15 @@ working tree before making changes.
 
 ## Working rules
 
-- `DRAFT`: local experiment; not public and not presumed correct.
-- `SAVED`: committed source; recoverable and shared, but not necessarily public.
-- `LIVE`: selected public asset on the production branch.
+- `Canonical`: currently accepted truth; use by default.
+- `Pending Canon`: tracked intended successor under review; do not publish as
+  canonical without explicit promotion.
+- `Experimental`: exploratory and non-authoritative; large material lives on `D:`.
+- Promotion flows only `Experimental -> Pending Canon -> Canonical`.
+- SCAD is editable design source; STL is a geometry-only print model; 3MF is a
+  richer slicer/project package that can retain multiple parts, units, and settings.
+- Publication is recorded separately: a canonical source can be saved without
+  being live, and a live asset can be marked temporary while replacement is pending.
 - Never infer that a file named `canonical` elsewhere is authoritative.
 - Run `npm test` before publishing. CAD edits also require `npm run cad:sync`.
 - Update this file when a design decision changes what is current or obsolete.

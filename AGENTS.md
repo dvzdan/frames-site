@@ -40,6 +40,21 @@ Before editing for a website request:
 
 ## Canonical CAD routing - mandatory
 
+The user's visible file system is
+`C:\Users\zack and lil\Documents\Double Take Frames` with exactly three tiers:
+
+- `1 - Canonical`: currently accepted files; use these by default.
+- `2 - Pending Canon`: tracked likely replacements under review.
+- `3 - Experimental`: non-authoritative trials stored on `D:`.
+
+Each tier has the same user-facing subdivisions: `SCAD - Editable Design Files`,
+`STL - Single Print Models`, and `3MF - Complete Print Projects`. Preserve this
+plain-language naming when adding or moving files.
+
+Do not require the user to navigate repository internals. Promote files only in
+the direction Experimental -> Pending Canon -> Canonical, and only with explicit
+user approval for the promotion to Canonical.
+
 For the weight-system mechanism, the editable SCAD source of truth is under
 `cad/source/`. The matching files under `assets/downloads/` are public release
 copies generated from that source; do not edit those copies by hand.

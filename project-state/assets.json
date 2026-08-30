@@ -1,35 +1,61 @@
 {
   "schemaVersion": 1,
   "updated": "2026-08-30",
+  "userWorkspace": "C:/Users/zack and lil/Documents/Double Take Frames",
+  "workspaceFolders": [
+    { "tier": "canonical", "type": "scad", "local": "1 - Canonical/SCAD - Editable Design Files", "target": "cad/source" },
+    { "tier": "canonical", "type": "stl", "local": "1 - Canonical/STL - Single Print Models", "target": "fabrication/canonical/stl" },
+    { "tier": "canonical", "type": "3mf", "local": "1 - Canonical/3MF - Complete Print Projects", "target": "fabrication/canonical/3mf" },
+    { "tier": "pending-canon", "type": "scad", "local": "2 - Pending Canon/SCAD - Editable Design Files", "target": "cad/pending-canon" },
+    { "tier": "pending-canon", "type": "stl", "local": "2 - Pending Canon/STL - Single Print Models", "target": "fabrication/pending-canon/stl" },
+    { "tier": "pending-canon", "type": "3mf", "local": "2 - Pending Canon/3MF - Complete Print Projects", "target": "fabrication/pending-canon/3mf" },
+    { "tier": "experimental", "type": "scad", "local": "3 - Experimental/SCAD - Editable Design Files", "target": "D:/Double Take Frames/Experimental/scad", "external": true },
+    { "tier": "experimental", "type": "stl", "local": "3 - Experimental/STL - Single Print Models", "target": "D:/Double Take Frames/Experimental/stl", "external": true },
+    { "tier": "experimental", "type": "3mf", "local": "3 - Experimental/3MF - Complete Print Projects", "target": "D:/Double Take Frames/Experimental/3mf", "external": true }
+  ],
   "assets": [
     {
       "id": "dry-wall-rig-scad",
+      "tier": "canonical",
       "status": "saved",
       "canonical": "cad/source/dry wall rig.scad",
       "publicCopies": ["assets/downloads/dry wall rig.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames - CURRENT WEIGHT SYSTEM CAD/dry wall rig.scad"
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD - Editable Design Files/dry wall rig.scad"
     },
     {
       "id": "latch-and-keeper-scad",
+      "tier": "canonical",
       "status": "saved",
       "canonical": "cad/source/latch and keeper.scad",
       "publicCopies": ["assets/downloads/latch and keeper.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames - CURRENT WEIGHT SYSTEM CAD/latch and keeper.scad"
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD - Editable Design Files/latch and keeper.scad"
+    },
+    {
+      "id": "water-cassette-scad",
+      "tier": "pending-canon",
+      "status": "saved",
+      "canonical": "cad/pending-canon/water cassette experiments.scad",
+      "publicCopies": [],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/water cassette experiments.scad",
+      "note": "Primary pending-canon water-cassette design; not yet approved as canonical."
     },
     {
       "id": "weight-inventory-image",
+      "tier": "canonical",
       "status": "live",
       "canonical": "assets/setup-kit/weight.png",
       "publicCopies": []
     },
     {
       "id": "brad-pin-inventory-image",
+      "tier": "canonical",
       "status": "live",
       "canonical": "assets/setup-kit/brad-pin.png",
       "publicCopies": []
     },
     {
       "id": "zipper-insertion-instruction",
+      "tier": "canonical",
       "status": "temporary-live",
       "canonical": "assets/instruction images/03-trap-and-weight/02-insert-zipper-into-rig.png",
       "publicCopies": [],
