@@ -136,9 +136,7 @@ const partsItems = [
   { item: "Clock Movement", product: "Reference movement - Young Town 12888SA. Threadless / snap-in 12888-style quartz clock movement, approximately 8 mm total shaft, step/ticking movement.", url: "", quantity: "1", note: "Required. Capstans are fitted to the reference movement; if you use a different brand/model, you will have to adjust the bore sizes of the capstans." },
   { item: "Zipper", product: "UpBrands Fidget Zipper Bracelet", url: "", quantity: "1", note: "Recommended. Must unzip with very little resistance; reject any zipper that feels stiff or catches." },
   { item: "Pull Line", product: "X8 braided fishing line", url: "", quantity: "As required", note: "Required. Used as the clock-driven pull line." },
-  { item: "Adhesive Steel Weights", product: "Low-profile adhesive steel wheel-weight segments", url: "", quantity: "As needed; 1/4 oz segments", note: "Recommended. Stack the adhesive segments back-to-back and pack them into the printed weight carriage." },
-  { item: "Flat Birch Stick (Coffee Stirrer)", product: "Flat birch wood stick, 0.20 x 0.05 in. (5.1 x 1.3 mm)", url: "", quantity: "1 piece; cut to fit", note: "Required. The purchased stick length does not matter." },
-  { item: "Cotton String", product: "100% cotton stranded embroidery floss", url: "", quantity: "As required", note: "Required for the weight rig. Egyptian cotton embroidery floss is suitable, but the exact brand is not important." },
+  { item: "Weight", product: "Gallardo Tire Products | FN-Series Zinc Clip on Wheel Weights 25 Grams. | Heavy Duty | for Alloy Rims on Most Japanese Vehicles. (25Pcs/Pack)", url: "", quantity: "1 weight; 25 g (0.88 oz)", note: "The tested FN-style weight is approximately 40 x 12 x 6.5 mm. A substitute should be close to this size and mass, and its clip must provide an open eyelet that accepts the brad pin." },
   { item: "UHMW Tape", product: "", url: "", quantity: "About 4 inches", note: "The type of tape is important: UHMW is remarkably low-friction." }
 ];
 
@@ -190,24 +188,23 @@ function migrateLegacySiteContent(content) {
   if (content?.sections?.parts) {
     content.sections.parts.sourceIntro = "Use these dimensions and compatibility notes if you want to assemble your own material set.";
   }
+  for (let index = sourcingItems.length - 1; index >= 0; index -= 1) {
+    const itemName = String(sourcingItems[index]?.item || "");
+    if (itemName === "Cotton String" || itemName.startsWith("Flat Birch Stick")) {
+      sourcingItems.splice(index, 1);
+    }
+  }
   for (const item of sourcingItems) {
     if (item.item === "Display Image Material") {
       item.item = "Cover Image Material";
       item.note = String(item.note || "").replace(/Display Image/g, "Cover Image");
     }
-    if (item.item === "Weight Ballast" || item.item === "Adhesive Steel Weights") {
-      item.item = "Adhesive Steel Weights";
-      item.product = "Low-profile adhesive steel wheel-weight segments";
-      item.quantity = "As needed; 1/4 oz segments";
-      item.note = "Recommended. Stack the adhesive segments back-to-back and pack them into the printed weight carriage.";
+    if (item.item === "Weight Ballast" || item.item === "Adhesive Steel Weights" || item.item === "Weight") {
+      item.item = "Weight";
+      item.product = "Gallardo Tire Products | FN-Series Zinc Clip on Wheel Weights 25 Grams. | Heavy Duty | for Alloy Rims on Most Japanese Vehicles. (25Pcs/Pack)";
+      item.quantity = "1 weight; 25 g (0.88 oz)";
+      item.note = "The tested FN-style weight is approximately 40 x 12 x 6.5 mm. A substitute should be close to this size and mass, and its clip must provide an open eyelet that accepts the brad pin.";
     }
-  }
-  const requiredSourcingItems = [
-    { item: "Flat Birch Stick (Coffee Stirrer)", product: "Flat birch wood stick, 0.20 x 0.05 in. (5.1 x 1.3 mm)", url: "", quantity: "1 piece; cut to fit", note: "Required. The purchased stick length does not matter." },
-    { item: "Cotton String", product: "100% cotton stranded embroidery floss", url: "", quantity: "As required", note: "Required for the weight rig. Egyptian cotton embroidery floss is suitable, but the exact brand is not important." }
-  ];
-  for (const requiredItem of requiredSourcingItems) {
-    if (!sourcingItems.some((item) => item.item === requiredItem.item)) sourcingItems.push(requiredItem);
   }
 
   const assembly = content?.sections?.assembly;

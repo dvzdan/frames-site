@@ -124,9 +124,23 @@ if (assembly.includes('id="assembly-tools"') || !assembly.includes('class="term-
 if (/\.assembly-viewer-top\s*\{[^}]*position:\s*sticky/s.test(styles)) errors.push("Assembly navigation can overlap instruction images");
 if (!assembly.includes('<details class="inventory-disclosure">') || assembly.includes('<details class="inventory-disclosure" open') || !assembly.includes('check that you have everything')) errors.push("Parts inventory is not a closed preflight disclosure");
 if (!assembly.includes('class="make-5x7-inline-link"') || !assemblyScript.includes('setLinkedMake5x7Text') || !kitsScript.includes('setLinkedMake5x7Text(description, option.description)') || !kitsScript.includes('make5x7: "/make-5x7/"')) errors.push("Make 5x7 references are not consistently linked");
-if (!assembly.includes("Capstan x2") || !assembly.includes("Cotton String") || !assembly.includes("Flat Birch Stick") || !assembly.includes("Adhesive Steel Weights")) errors.push("Parts reference is incomplete");
+if (!assembly.includes("Capstan x2") || !assembly.includes('<h3>Weight Rig</h3>') || !assembly.includes('class="inventory-name">Weight</div>') || !assembly.includes('class="inventory-name">Brad Pin</div>')) errors.push("Parts reference is incomplete");
+if (assembly.includes("Cotton String") || assembly.includes("Flat Birch Stick") || assembly.includes("Adhesive Steel Weights")) errors.push("Obsolete Weight Rig inventory items remain");
+if (!buildScript.includes("Gallardo Tire Products | FN-Series Zinc Clip on Wheel Weights 25 Grams.") || !buildScript.includes("25 g (0.88 oz)") || !buildScript.includes("approximately 40 x 12 x 6.5 mm") || !buildScript.includes("open eyelet that accepts the brad pin")) errors.push("FN wheel-weight sourcing details are incomplete");
+if (buildScript.includes('item":"Cotton String"') || buildScript.includes('item":"Flat Birch Stick') || buildScript.includes('item":"Adhesive Steel Weights"')) errors.push("Obsolete weight-rig sourcing items remain");
 if (/QR Sticker|qr-sticker\.png/i.test(assembly)) errors.push("QR sticker remains in the parts inventory");
 if (assembly.includes("Tuck the stem of the weight")) errors.push("Removed assembly reference content remains");
+if (/Build the Five-Weight Rig|Tie the Rig to the Cover Image|Place Latch and Keeper in Rig|Place the Tied Weight Rig/.test(assemblyScript)) errors.push("Removed weight-system assembly steps remain");
+const requiredWeightAssemblySteps = [
+  ["Insert the Brad Pin into the Weight", "03-insert-brad-pin-into-weight.png"],
+  ["Seat the Weight in the Latch", "04-seat-weight-in-latch.png"],
+  ["Secure and Swing the Latch", "05-secure-and-swing-latch.png"],
+  ["Lock the Latch with the Zipper", "06-slide-zipper-under-latch.png"],
+  ["Fasten the Cover Image to the Weight", "07-fasten-cover-image-to-weight.png"]
+];
+for (const [title, image] of requiredWeightAssemblySteps) {
+  if (!assemblyScript.includes(title) || !assemblyScript.includes(image)) errors.push(`Weight-system assembly step is missing: ${title}`);
+}
 
 const requiredBackendFiles = [
   "cloudflare/api-helpers.js",

@@ -84,6 +84,15 @@ rear_post_w = 7.0;
 rear_post_t = collar_t;
 post_bevel = 0.8;
 
+// Localized friction take-up on the three rear backing-board capture posts.
+// These project into the existing Y clearance without moving the posts or
+// tightening the stand's overall envelope. The upper ramp eases insertion.
+rear_post_friction_pad_d = 0.20;
+rear_post_friction_pad_w = 3.5;
+rear_post_friction_pad_z0 = collar_z0 + low_rail_h - 2.0;
+rear_post_friction_pad_z1 = collar_z0 + collar_h - post_bevel;
+rear_post_friction_ramp_h = 5.0;
+
 // FEET
 front_foot_proj = 16.0;
 rear_foot_proj  = 18.0;
@@ -199,10 +208,33 @@ module rear_post(x_center) {
         beveled_post(rear_post_w, rear_post_t, collar_h, post_bevel);
 }
 
+module rear_post_friction_pad(x_center) {
+    pad_x0 = x_center - rear_post_friction_pad_w/2;
+    full_pad_y0 = inner_y1 - rear_post_friction_pad_d;
+    ramp_z0 = rear_post_friction_pad_z1 - rear_post_friction_ramp_h;
+
+    hull() {
+        translate([pad_x0, full_pad_y0, rear_post_friction_pad_z0])
+            cube([rear_post_friction_pad_w, rear_post_friction_pad_d + eps, eps]);
+        translate([pad_x0, full_pad_y0, ramp_z0])
+            cube([rear_post_friction_pad_w, rear_post_friction_pad_d + eps, eps]);
+        translate([pad_x0, inner_y1 - eps, rear_post_friction_pad_z1])
+            cube([rear_post_friction_pad_w, 2*eps, eps]);
+    }
+}
+
 module rear_posts() {
-    rear_post(inner_x0 + 18.0);
-    rear_post((inner_x0 + inner_x1) / 2);
-    rear_post(inner_x1 - 18.0);
+    left_post_x = inner_x0 + 18.0;
+    center_post_x = (inner_x0 + inner_x1) / 2;
+    right_post_x = inner_x1 - 18.0;
+
+    rear_post(left_post_x);
+    rear_post(center_post_x);
+    rear_post(right_post_x);
+
+    rear_post_friction_pad(left_post_x);
+    rear_post_friction_pad(center_post_x);
+    rear_post_friction_pad(right_post_x);
 }
 
 // BOTTOM RESTING LEDGE
