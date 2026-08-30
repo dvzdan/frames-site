@@ -3,15 +3,15 @@
   "updated": "2026-08-30",
   "userWorkspace": "C:/Users/zack and lil/Documents/Double Take Frames",
   "workspaceFolders": [
-    { "tier": "canonical", "type": "scad", "local": "1 - Canonical/SCAD - Editable Design Files", "target": "cad/source" },
-    { "tier": "canonical", "type": "stl", "local": "1 - Canonical/STL - Single Print Models", "target": "fabrication/canonical/stl" },
-    { "tier": "canonical", "type": "3mf", "local": "1 - Canonical/3MF - Complete Print Projects", "target": "fabrication/canonical/3mf" },
-    { "tier": "pending-canon", "type": "scad", "local": "2 - Pending Canon/SCAD - Editable Design Files", "target": "cad/pending-canon" },
-    { "tier": "pending-canon", "type": "stl", "local": "2 - Pending Canon/STL - Single Print Models", "target": "fabrication/pending-canon/stl" },
-    { "tier": "pending-canon", "type": "3mf", "local": "2 - Pending Canon/3MF - Complete Print Projects", "target": "fabrication/pending-canon/3mf" },
-    { "tier": "experimental", "type": "scad", "local": "3 - Experimental/SCAD - Editable Design Files", "target": "D:/Double Take Frames/Experimental/scad", "external": true },
-    { "tier": "experimental", "type": "stl", "local": "3 - Experimental/STL - Single Print Models", "target": "D:/Double Take Frames/Experimental/stl", "external": true },
-    { "tier": "experimental", "type": "3mf", "local": "3 - Experimental/3MF - Complete Print Projects", "target": "D:/Double Take Frames/Experimental/3mf", "external": true }
+    { "tier": "canonical", "type": "scad", "local": "1 - Canonical/SCAD", "target": "cad/source" },
+    { "tier": "canonical", "type": "stl", "local": "1 - Canonical/STL", "target": "fabrication/canonical/stl" },
+    { "tier": "canonical", "type": "3mf", "local": "1 - Canonical/3MF", "target": "fabrication/canonical/3mf" },
+    { "tier": "pending-canon", "type": "scad", "local": "2 - Pending Canon/SCAD", "target": "cad/pending-canon" },
+    { "tier": "pending-canon", "type": "stl", "local": "2 - Pending Canon/STL", "target": "fabrication/pending-canon/stl" },
+    { "tier": "pending-canon", "type": "3mf", "local": "2 - Pending Canon/3MF", "target": "fabrication/pending-canon/3mf" },
+    { "tier": "experimental", "type": "scad", "local": "3 - Experimental/SCAD", "target": "D:/Double Take Frames/Experimental/scad", "external": true },
+    { "tier": "experimental", "type": "stl", "local": "3 - Experimental/STL", "target": "D:/Double Take Frames/Experimental/stl", "external": true },
+    { "tier": "experimental", "type": "3mf", "local": "3 - Experimental/3MF", "target": "D:/Double Take Frames/Experimental/3mf", "external": true }
   ],
   "assets": [
     {
@@ -20,7 +20,7 @@
       "status": "saved",
       "canonical": "cad/source/dry-wall-rig-v1.0.0.scad",
       "publicCopies": ["assets/downloads/double-take-frames-dry-wall-rig-v1.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD - Editable Design Files/dry-wall-rig-v1.0.0.scad"
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/dry-wall-rig-v1.0.0.scad"
     },
     {
       "id": "latch-and-keeper-scad",
@@ -28,7 +28,7 @@
       "status": "saved",
       "canonical": "cad/source/latch-and-keeper-v1.0.0.scad",
       "publicCopies": ["assets/downloads/double-take-frames-latch-and-keeper-v1.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD - Editable Design Files/latch-and-keeper-v1.0.0.scad"
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/latch-and-keeper-v1.0.0.scad"
     },
     {
       "id": "water-cassette-scad",
@@ -36,7 +36,7 @@
       "status": "saved",
       "canonical": "cad/pending-canon/water-cassette-v1.1.0-rc.1.scad",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/water-cassette-v1.1.0-rc.1.scad",
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/water-cassette-v1.1.0-rc.1.scad",
       "note": "Primary pending-canon water-cassette design; not yet approved as canonical."
     },
     {
@@ -45,7 +45,7 @@
       "status": "saved",
       "canonical": "cad/pending-canon/capstans-and-clock-string-guide-captive-v1.1.0-rc.1.scad",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/capstans-and-clock-string-guide-captive-v1.1.0-rc.1.scad",
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/capstans-and-clock-string-guide-captive-v1.1.0-rc.1.scad",
       "note": "Authoritative working controller for the coordinated 1.1.0-rc.1 capstan and string-guide candidates."
     },
     {
@@ -54,7 +54,7 @@
       "status": "saved",
       "canonical": "cad/pending-canon/capstans-captive-v1.1.0-rc.1.scad",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/capstans-captive-v1.1.0-rc.1.scad"
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/capstans-captive-v1.1.0-rc.1.scad"
     },
     {
       "id": "captive-clock-string-guide-scad",
@@ -62,7 +62,7 @@
       "status": "saved",
       "canonical": "cad/pending-canon/clock-string-guide-captive-v1.1.0-rc.1.scad",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD - Editable Design Files/clock-string-guide-captive-v1.1.0-rc.1.scad"
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/clock-string-guide-captive-v1.1.0-rc.1.scad"
     },
     {
       "id": "weight-inventory-image",

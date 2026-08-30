@@ -21,8 +21,7 @@ working tree before making changes.
   - `1 - Canonical` contains accepted files.
   - `2 - Pending Canon` contains tracked candidates under review.
   - `3 - Experimental` contains non-authoritative work stored on `D:`.
-  - Every tier is subdivided into `SCAD - Editable Design Files`,
-    `STL - Single Print Models`, and `3MF - Complete Print Projects`.
+  - Every tier is subdivided into exactly `SCAD`, `STL`, and `3MF`.
 - `C:\Users\zack and lil\Documents\codex-scad-experiment` is obsolete historical
   working material and must never be treated as canonical input.
 

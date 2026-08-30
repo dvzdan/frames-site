@@ -48,9 +48,8 @@ The user's visible file system is
 - `2 - Pending Canon`: tracked likely replacements under review.
 - `3 - Experimental`: non-authoritative trials stored on `D:`.
 
-Each tier has the same user-facing subdivisions: `SCAD - Editable Design Files`,
-`STL - Single Print Models`, and `3MF - Complete Print Projects`. Preserve this
-plain-language naming when adding or moving files.
+Each tier has exactly the same three user-facing subdivisions: `SCAD`, `STL`,
+and `3MF`. Preserve these exact short names when adding or moving files.
 
 Do not require the user to navigate repository internals. Promote files only in
 the direction Experimental -> Pending Canon -> Canonical, and only with explicit
