@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-08-30",
+  "assets": [
+    {
+      "id": "dry-wall-rig-scad",
+      "status": "saved",
+      "canonical": "cad/source/dry wall rig.scad",
+      "publicCopies": ["assets/downloads/dry wall rig.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames - CURRENT WEIGHT SYSTEM CAD/dry wall rig.scad"
+    },
+    {
+      "id": "latch-and-keeper-scad",
+      "status": "saved",
+      "canonical": "cad/source/latch and keeper.scad",
+      "publicCopies": ["assets/downloads/latch and keeper.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames - CURRENT WEIGHT SYSTEM CAD/latch and keeper.scad"
+    },
+    {
+      "id": "weight-inventory-image",
+      "status": "live",
+      "canonical": "assets/setup-kit/weight.png",
+      "publicCopies": []
+    },
+    {
+      "id": "brad-pin-inventory-image",
+      "status": "live",
+      "canonical": "assets/setup-kit/brad-pin.png",
+      "publicCopies": []
+    },
+    {
+      "id": "zipper-insertion-instruction",
+      "status": "temporary-live",
+      "canonical": "assets/instruction images/03-trap-and-weight/02-insert-zipper-into-rig.png",
+      "publicCopies": [],
+      "note": "Replacement is in progress; do not treat the crude local SCAD experiment as approved."
+    }
+  ],
+  "obsoleteLocations": [
+    {
+      "path": "C:/Users/zack and lil/Documents/codex-scad-experiment",
+      "reason": "Historical untracked experiments; not canonical input."
+    }
+  ]
+}

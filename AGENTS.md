@@ -1,5 +1,11 @@
 ## Canonical project routing - mandatory
 
+At the start of every task in this worktree, read `PROJECT_STATE.md` and
+`project-state/assets.json`, then inspect the current branch and working tree.
+Treat repository evidence and these tracked records as authoritative over chat
+memory. If they disagree with the files, stop and reconcile the discrepancy
+before editing or publishing.
+
 This `frames-site-cloudflare` worktree is the **authoritative public frontend**
 for `https://doubletakeframes.com/`. Every browser-visible page, route, style,
 script, poster, downloadable public file, and public image or video asset
