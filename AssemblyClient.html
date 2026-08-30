@@ -114,6 +114,8 @@
     var progress = viewer.querySelector("[data-assembly-progress]");
     var addendum = viewer.querySelector("[data-assembly-addendum]");
     var addendumTitle = viewer.querySelector("[data-assembly-addendum-title]");
+    var instruction = viewer.querySelector("[data-assembly-instruction]");
+    var note = viewer.querySelector("[data-assembly-note]");
     var prev = viewer.querySelector("[data-assembly-prev]");
     var next = viewer.querySelector("[data-assembly-next]");
 
@@ -127,6 +129,10 @@
     addendum.hidden = !active.isAddendum;
     addendumTitle.hidden = !active.isAddendum;
     addendumTitle.textContent = active.isAddendum ? text(active.step.title) : "";
+    instruction.hidden = !text(active.step.instruction);
+    instruction.textContent = text(active.step.instruction);
+    note.hidden = !text(active.step.note);
+    note.textContent = text(active.step.note);
     prev.disabled = state.activeIndex === 0;
     next.disabled = state.activeIndex === state.steps.length - 1;
 
@@ -182,6 +188,14 @@
     image.loading = "eager";
     stage.appendChild(image);
 
+    var instruction = createElement("p", "assembly-step-instruction", "");
+    instruction.setAttribute("data-assembly-instruction", "true");
+    instruction.hidden = true;
+
+    var note = createElement("aside", "assembly-step-note", "");
+    note.setAttribute("data-assembly-note", "true");
+    note.hidden = true;
+
     var caption = createElement("div", "assembly-stage-caption");
     caption.appendChild(createElement("div", "assembly-current-section", ""));
     caption.lastChild.setAttribute("data-assembly-section", "true");
@@ -192,6 +206,8 @@
 
     viewer.appendChild(top);
     viewer.appendChild(stage);
+    viewer.appendChild(instruction);
+    viewer.appendChild(note);
     viewer.appendChild(caption);
     return viewer;
   }
