@@ -134,7 +134,7 @@ if (/Build the Five-Weight Rig|Tie the Rig to the Cover Image|Place Latch and Ke
 const requiredWeightAssemblySteps = [
   ["Insert the Brad Pin into the Weight", "03-insert-brad-pin-into-weight.png"],
   ["Seat the Weight in the Latch", "04-seat-weight-in-latch.png"],
-  ["Secure and Swing the Latch", "05-secure-and-swing-latch.png"],
+  ["Secure the Latch", "05-secure-and-swing-latch.png"],
   ["Lock the Latch with the Zipper", "06-slide-zipper-under-latch.png"],
   ["Fasten the Cover Image to the Weight", "07-fasten-cover-image-to-weight.png"]
 ];
