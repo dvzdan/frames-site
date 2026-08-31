@@ -91,6 +91,10 @@ release notes.
 
 ## Assembly instruction panel house style
 
+`ASSEMBLY_MANIFEST.version` is the cache version for assembly images. Increment
+it whenever a live instruction image is replaced without changing its filename,
+so deployed cards cannot continue showing an older browser-cached image.
+
 When creating assembly-instruction visuals, build a dedicated instruction SCAD scene rather than using the full master assembly.
 
 Use `assets/instruction images/03-trap-and-weight/01-insert-trap-rig.png` as the current style target for assembly-instruction panels. Match its overall layout language, neutral arrows with motion chevrons, compact step bubbles, white image cards with black labels, semantic SCAD colors, ghosted blue rig features where appropriate, and caption styling. Do not treat the geometry in the reference image as authoritative for future steps; use each step's SCAD scene for geometry.

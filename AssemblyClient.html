@@ -29,11 +29,12 @@
   }
 
   function getStepImageUrl(manifest, section, step) {
-    return [
+    var path = [
       manifest.imageBase,
       encodeURIComponent(text(section.folder)),
       encodeURIComponent(text(step.image))
     ].join("/");
+    return path + "?v=" + encodeURIComponent(text(manifest.version));
   }
 
   function getDisplayStepNumber(sectionIndex, step) {
