@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Clock String Guide</title>
+  <desc id="desc">Simplified lavender front view of the revised captive clock string guide with a closed lower body, central opening, and top string feed.</desc>
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a795d9"/>
+      <stop offset="1" stop-color="#7e6bbd"/>
+    </linearGradient>
+    <linearGradient id="center" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b7a8e3"/>
+      <stop offset="1" stop-color="#8d79c9"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="22" stdDeviation="18" flood-color="#30274f" flood-opacity=".22"/>
+    </filter>
+    <filter id="inner" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#4f427d" flood-opacity=".45"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <!-- The long closed body is the major change from the former open U-shaped guide. -->
+    <path fill="url(#body)" d="M125 405Q125 375 155 375H1045Q1075 375 1075 405V780Q1075 815 1040 815H160Q125 815 125 780Z"/>
+    <path fill="#6e5aa9" opacity=".65" d="M125 755H1075V780Q1075 815 1040 815H160Q125 815 125 780Z"/>
+
+    <!-- Central captive guide housing. -->
+    <path fill="url(#center)" stroke="#705da9" stroke-width="8" d="M430 815V585C430 490 506 415 600 415S770 490 770 585V815Z"/>
+    <circle cx="600" cy="590" r="90" fill="#fff" filter="url(#inner)"/>
+
+    <!-- Compact top string-feed feature. -->
+    <path fill="#8e79c7" stroke="#6b58a2" stroke-width="8" d="M555 375V315H645V375L628 422H572Z"/>
+    <rect x="572" y="286" width="56" height="35" rx="5" fill="#a996dc"/>
+  </g>
+</svg>

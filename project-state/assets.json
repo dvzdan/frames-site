@@ -79,6 +79,14 @@
       "publicCopies": []
     },
     {
+      "id": "clock-string-guide-inventory-image",
+      "tier": "pending-canon",
+      "status": "live",
+      "canonical": "assets/setup-kit/string-clock-guide-v2.svg",
+      "publicCopies": [],
+      "note": "Simplified inventory silhouette of the pending captive clock string guide; closed lower body, central opening, and top string feed shown."
+    },
+    {
       "id": "zipper-insertion-instruction",
       "tier": "canonical",
       "status": "temporary-live",
