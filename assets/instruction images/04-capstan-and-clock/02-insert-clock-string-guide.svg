@@ -15,7 +15,7 @@
   </defs>
 
   <!-- Authoritative old guide scene, cleaned while preserving the clock's exact position. -->
-  <image href="02-insert-clock-string-guide-base.png" x="0" y="0" width="1536" height="1024"/>
+  <image href="02-insert-clock-string-guide-base-flat.png" x="0" y="0" width="1536" height="1024"/>
 
   <!-- Replace the obsolete top guide card with the revised captive guide. -->
   <g filter="url(#shadow)">
