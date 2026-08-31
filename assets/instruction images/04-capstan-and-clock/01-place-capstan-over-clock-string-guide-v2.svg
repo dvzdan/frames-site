@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Place Capstan over Clock String Guide</title>
+  <desc id="desc">A yellow capstan is aligned above the clock spindle. The lavender clock string guide lies flat across the clock face beneath the spindle. A note explains how to align the capstan notch with the guide's top tab.</desc>
+  <defs>
+    <linearGradient id="lavenderBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#aa95e5"/>
+      <stop offset="1" stop-color="#8d76d0"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="150%" height="160%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#352c4d" flood-opacity=".25"/>
+    </filter>
+    <clipPath id="spindleSilhouette">
+      <path d="M866 412Q880 401 894 412V430Q908 437 908 452Q908 463 901 472Q913 481 912 497Q909 516 880 523Q852 516 848 498Q846 482 857 472Q850 461 852 449Q854 437 866 430Z"/>
+    </clipPath>
+  </defs>
+
+  <image href="01-place-capstan-on-clock-mechanism.png" x="0" y="0" width="1800" height="1200"/>
+
+  <!-- Approved lavender guide, laid flat over the clock face. -->
+  <g filter="url(#softShadow)">
+    <path d="M555 420L1195 433L1182 565L567 551Z" fill="url(#lavenderBody)" stroke="#8069c2" stroke-width="5"/>
+    <path d="M803 557L806 476Q808 415 880 414Q952 416 954 480L951 566Z" fill="#b8a8eb" stroke="#8069c2" stroke-width="5"/>
+    <path d="M858 418L859 377L902 378L902 421Z" fill="#aa95e5" stroke="#8069c2" stroke-width="5"/>
+    <ellipse cx="880" cy="463" rx="38" ry="40" fill="#fff" stroke="#8a74ca" stroke-width="5"/>
+    <path d="M568 529L804 535L803 557L572 552Q567 552 567 547ZM951 543L1184 548L1182 565L951 560Z" fill="#725bb2" opacity=".38"/>
+  </g>
+
+  <!-- Restore the original white spindle above the guide so the stacking order is clear. -->
+  <image href="01-place-capstan-on-clock-mechanism.png" x="0" y="0" width="1800" height="1200" clip-path="url(#spindleSilhouette)"/>
+
+  <!-- Replace the obsolete caption with the approved instruction and note. -->
+  <g filter="url(#softShadow)">
+    <rect x="300" y="900" width="1200" height="260" rx="24" fill="#fff" stroke="#d7d0c7" stroke-width="3"/>
+    <text x="900" y="968" text-anchor="middle" font-family="Arial, sans-serif" font-size="38" fill="#15171b">
+      <tspan>Choose the minute or hour </tspan><tspan fill="#d3aa00" font-weight="700">Capstan</tspan><tspan>. Place it over the</tspan>
+      <tspan x="900" dy="51" fill="#947dd5" font-weight="700">Clock String Guide</tspan><tspan fill="#15171b" font-weight="400">, then press it firmly onto the clock spindle.</tspan>
+    </text>
+    <path d="M405 1060H1395" stroke="#e4dfd8" stroke-width="2"/>
+    <text x="900" y="1115" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#4a4d52">
+      <tspan font-weight="700">Note: </tspan><tspan>Align the Capstan’s underside notch with the guide’s </tspan><tspan fill="#947dd5" font-weight="700">small top tab</tspan><tspan> before pressing.</tspan>
+    </text>
+  </g>
+</svg>

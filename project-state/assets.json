@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-08-30",
+  "updated": "2026-08-31",
   "userWorkspace": "C:/Users/zack and lil/Documents/Double Take Frames",
   "workspaceFolders": [
     { "tier": "canonical", "type": "scad", "local": "1 - Canonical/SCAD", "target": "cad/source", "view": "hardlink-mirror" },
@@ -93,6 +93,14 @@
       "canonical": "assets/instruction images/04-capstan-and-clock/02-insert-clock-string-guide-v5.png",
       "publicCopies": [],
       "note": "Self-contained flattened PNG used by the live assembly viewer. It preserves the old guide panel's established flat-clock placement, removes the obsolete guide/capstan/string content, and uses the approved lavender guide geometry: rectangular rear body, lighter rounded center collar, circular spindle opening, and small top tab. The guide name in the caption is lavender. Do not point the viewer at the layered SVG versions: nested raster images disappear when those SVGs are embedded as page images."
+    },
+    {
+      "id": "capstan-over-clock-string-guide-instruction",
+      "tier": "pending-canon",
+      "status": "live",
+      "canonical": "assets/instruction images/04-capstan-and-clock/01-place-capstan-over-clock-string-guide-v3.png",
+      "publicCopies": [],
+      "note": "Self-contained flattened PNG used by the live assembly viewer. Shows the approved lavender guide flat across the clock beneath the white spindle, with the yellow capstan approaching from above. Title: Place Capstan over Clock String Guide. The caption tells the user to choose the minute or hour capstan, place it over the guide, and press it onto the spindle; the note says to align the capstan's underside notch with the guide's small top tab. Editable layered source: 01-place-capstan-over-clock-string-guide-v2.svg; keep the viewer pointed at the flattened PNG."
     },
     {
       "id": "zipper-insertion-instruction",
