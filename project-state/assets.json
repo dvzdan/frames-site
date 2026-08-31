@@ -92,7 +92,7 @@
       "status": "live",
       "canonical": "assets/instruction images/04-capstan-and-clock/02-insert-clock-string-guide.svg",
       "publicCopies": [],
-      "note": "Direct continuation of the clock-installation panel. Uses 02-insert-clock-string-guide-base.png beneath a deterministic guide, card, arrow, and caption overlay; align over the clock spindle and press along Y before installing either capstan."
+      "note": "Uses the old guide panel's established flat-clock placement as the authoritative base. Obsolete guide/capstan/string marks are removed; the revised guide, cards, Y-axis press indicator, check, and caption are deterministic overlays."
     },
     {
       "id": "zipper-insertion-instruction",
