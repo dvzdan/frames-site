@@ -90,9 +90,9 @@
       "id": "clock-string-guide-insertion-instruction",
       "tier": "pending-canon",
       "status": "live",
-      "canonical": "assets/instruction images/04-capstan-and-clock/02-insert-clock-string-guide-v4.png",
+      "canonical": "assets/instruction images/04-capstan-and-clock/02-insert-clock-string-guide-v5.png",
       "publicCopies": [],
-      "note": "Self-contained flattened PNG used by the live assembly viewer. It preserves the old guide panel's established flat-clock placement, removes the obsolete guide/capstan/string content, and adds the revised guide, inventory card, Y-axis press indicator, check, and caption. Do not point the viewer at the layered SVG versions: nested raster images disappear when those SVGs are embedded as page images."
+      "note": "Self-contained flattened PNG used by the live assembly viewer. It preserves the old guide panel's established flat-clock placement, removes the obsolete guide/capstan/string content, and uses the approved lavender guide geometry: rectangular rear body, lighter rounded center collar, circular spindle opening, and small top tab. The guide name in the caption is lavender. Do not point the viewer at the layered SVG versions: nested raster images disappear when those SVGs are embedded as page images."
     },
     {
       "id": "zipper-insertion-instruction",
