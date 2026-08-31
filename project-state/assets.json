@@ -34,10 +34,10 @@
       "id": "water-cassette-scad",
       "tier": "pending-canon",
       "status": "saved",
-      "canonical": "cad/pending-canon/water-cassette-v1.1.0-rc.2.scad",
+      "canonical": "cad/pending-canon/water-cassette-v1.1.0-rc.3.scad",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/water-cassette-v1.1.0-rc.2.scad",
-      "note": "Primary pending-canon water-cassette design; rc.2 preserves roller insertion clearance by shortening the +Y backing-board return instead of extending the -Y fang. Not yet approved as canonical."
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/water-cassette-v1.1.0-rc.3.scad",
+      "note": "Primary pending-canon water-cassette design; rc.3 preserves the rc.2 roller-clearance correction and clips the clock-guide retention ridges to their parent material. Not yet approved as canonical."
     },
     {
       "id": "captive-capstan-guide-master-scad",
