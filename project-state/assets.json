@@ -90,9 +90,9 @@
       "id": "clock-string-guide-insertion-instruction",
       "tier": "pending-canon",
       "status": "live",
-      "canonical": "assets/instruction images/04-capstan-and-clock/02-insert-clock-string-guide.svg",
+      "canonical": "assets/instruction images/04-capstan-and-clock/02-insert-clock-string-guide-v4.png",
       "publicCopies": [],
-      "note": "Uses the old guide panel's established flat-clock placement as the authoritative base in 02-insert-clock-string-guide-base-flat.png. Obsolete guide/capstan/string marks are removed; the revised guide, cards, Y-axis press indicator, check, and caption are deterministic overlays."
+      "note": "Self-contained flattened PNG used by the live assembly viewer. It preserves the old guide panel's established flat-clock placement, removes the obsolete guide/capstan/string content, and adds the revised guide, inventory card, Y-axis press indicator, check, and caption. Do not point the viewer at the layered SVG versions: nested raster images disappear when those SVGs are embedded as page images."
     },
     {
       "id": "zipper-insertion-instruction",
