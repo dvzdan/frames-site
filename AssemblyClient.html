@@ -51,6 +51,28 @@
     return String(sectionIndex + 1) + "." + String(whole) + suffix;
   }
 
+  function renderInstruction(node, step) {
+    var instructionText = text(step.instruction);
+    var coloredTerms = Array.isArray(step.instructionTerms) ? step.instructionTerms : [];
+    node.hidden = !instructionText;
+    node.textContent = "";
+    if (!instructionText) return;
+
+    var termPattern = coloredTerms.length
+      ? new RegExp("(" + coloredTerms.join("|") + ")", "gi")
+      : null;
+    var parts = termPattern ? instructionText.split(termPattern) : [instructionText];
+    parts.forEach(function(part) {
+      var normalized = part.toLowerCase();
+      if (coloredTerms.indexOf(normalized) === -1) {
+        node.appendChild(document.createTextNode(part));
+        return;
+      }
+      var term = createElement("span", "assembly-instruction-term assembly-instruction-term-" + normalized, part);
+      node.appendChild(term);
+    });
+  }
+
   function flattenManifest(manifest) {
     var steps = [];
 
@@ -130,8 +152,7 @@
     addendum.hidden = !active.isAddendum;
     addendumTitle.hidden = !active.isAddendum;
     addendumTitle.textContent = active.isAddendum ? text(active.step.title) : "";
-    instruction.hidden = !text(active.step.instruction);
-    instruction.textContent = text(active.step.instruction);
+    renderInstruction(instruction, active.step);
     note.hidden = !text(active.step.note);
     note.textContent = text(active.step.note);
     prev.disabled = state.activeIndex === 0;
