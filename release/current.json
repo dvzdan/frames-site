@@ -33,8 +33,7 @@
       "name": "Everything Else v1.0.0.project.3mf",
       "title": "Double Take Frames — Everything Else — 1.0.0",
       "description": "Prepared print project for the remaining Double Take Frames 1.0.0 mechanism parts.",
-      "meta": "3MF project · release 1.0.0 · 0.4 mm nozzle required",
-      "note": "You may need to clear some loose filament from inside the minute capstan after printing."
+      "meta": "3MF project · release 1.0.0 · 0.4 mm nozzle required"
     },
     { "id": "capstans-scad", "type": "scad", "source": "cad/source/capstans-v1.0.0.scad", "public": "assets/downloads/double-take-frames-capstans-v1.0.0.scad", "name": "Capstans v1.0.0.scad", "meta": "OpenSCAD source · release 1.0.0" },
     { "id": "clock-string-guide-scad", "type": "scad", "source": "cad/source/clock-string-guide-v1.0.0.scad", "public": "assets/downloads/double-take-frames-clock-string-guide-v1.0.0.scad", "name": "Clock String Guide v1.0.0.scad", "meta": "OpenSCAD source · release 1.0.0" },

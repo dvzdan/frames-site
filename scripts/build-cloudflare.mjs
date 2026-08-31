@@ -291,11 +291,14 @@ function downloadsMarkup() {
         : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
     const href = `/assets/downloads/${encodeURIComponent(download.file)}`;
     const primaryClass = download.type === "3mf-project" ? " download-row-primary" : "";
-    const row = `<a class="download-row${primaryClass}" download href="${href}"><span class="download-name">${download.name}</span><span class="download-meta">${download.meta} · ${size}</span><span class="download-action" aria-hidden="true">Download</span></a>`;
-    const markup = download.note
-      ? `<div class="download-item-with-note">${row}<p class="download-printing-note"><strong>Printing note:</strong> ${download.note}</p></div>`
-      : row;
-    return { ...download, markup };
+    const displayName = download.type === "3mf-project"
+      ? (download.id === "frame-and-stand-3mf" ? "Frame and Stand" : "Everything Else")
+      : download.name;
+    const displayMeta = download.type === "3mf-project"
+      ? download.meta.replace(`release ${release.version} · `, "")
+      : `${download.meta} · ${size}`;
+    const row = `<a class="download-row${primaryClass}" download href="${href}"><span class="download-name">${displayName}</span><span class="download-meta">${displayMeta}</span><span class="download-action" aria-hidden="true">Download</span></a>`;
+    return { ...download, markup: row };
   });
   const printFiles = rows.filter((download) => download.type === "3mf-project");
   const sourceFiles = rows.filter((download) => download.type === "scad");
@@ -305,10 +308,8 @@ function downloadsMarkup() {
   const releaseNotesSize = Math.round(fs.statSync(releaseNotesPath).size / 1024) || 1;
   const releaseHeader = `<section class="design-release-summary" id="design-release"><div><strong>Current design release ${release.version}</strong><span>${release.releaseDate}</span></div><p>${release.summary}</p><ul>${release.changes.map((change) => `<li>${change}</li>`).join("")}</ul></section>`;
   const releaseNotesRow = `<a class="download-row download-release-notes" download href="/assets/downloads/${encodeURIComponent(releaseNotesFile)}"><span class="download-name">Release notes — ${release.version}</span><span class="download-meta">TXT · ${releaseNotesSize} KB · changes and compatibility</span><span class="download-action" aria-hidden="true">Download</span></a>`;
-  return releaseHeader +
-    printFiles.map((download) => download.markup).join("") +
-    `<details class="download-source-group"><summary class="download-source-summary"><span class="download-source-title">Editable OpenSCAD source</span><span class="download-meta">${sourceFiles.length} files for modifying the design</span><span class="download-source-toggle" aria-hidden="true"></span></summary><div class="download-source-list">${sourceFiles.map((download) => download.markup).join("")}</div></details>` +
-    releaseNotesRow;
+  return printFiles.map((download) => download.markup).join("") +
+    `<details class="download-advanced-group"><summary class="download-advanced-summary"><span>Advanced files and release details</span><span class="download-advanced-toggle" aria-hidden="true"></span></summary><div class="download-advanced-content">${releaseHeader}<section class="download-source-section"><h4>Editable OpenSCAD source</h4><p>${sourceFiles.length} files for modifying the design</p><div class="download-source-list">${sourceFiles.map((download) => download.markup).join("")}</div></section>${releaseNotesRow}<p class="fine-print plans-license"><a class="plans-license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> <span class="plans-license-text">For personal, noncommercial use. Remixing is encouraged under the same license. For commercial use, get in touch through the request form.</span></p><p class="advanced-support-note"><button class="text-link-button support-guide-trigger" type="button" data-support-guide-trigger="true">Support-removal guide</button> for the built-in print supports.</p></div></details>`;
 }
 
 function transformTemplate(page) {

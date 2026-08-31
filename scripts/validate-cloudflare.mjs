@@ -86,7 +86,7 @@ if (!galleryMatch) {
     errors.push("Static gallery snapshot is invalid JSON");
   }
 }
-const expectedDownloads = release.artifacts.map((artifact) => artifact.name);
+const expectedDownloads = release.artifacts.map((artifact) => encodeURIComponent(path.basename(artifact.public)));
 if (
   !build.includes('id="downloadsList"') ||
   !build.includes('id="design-release"') ||
@@ -94,11 +94,13 @@ if (
   !build.includes(`Release notes — ${release.version}`) ||
   !build.includes('id="self-print-next"') ||
   (build.match(/class="download-row download-row-primary"/g) || []).length !== 2 ||
-  (build.match(/class="download-source-group"/g) || []).length !== 1 ||
+  (build.match(/class="download-advanced-group"/g) || []).length !== 1 ||
   (build.match(/<a class="download-row"[^>]*\.scad/g) || []).length !== 7 ||
   !build.includes('7 files for modifying the design') ||
+  !build.includes('Cleanup tools:') ||
   expectedDownloads.some((name) => !build.includes(name))
 ) errors.push("Self-Print route or download set is incomplete");
+if (build.includes("minute capstan after printing") || JSON.stringify(release).includes("minute capstan after printing")) errors.push("Obsolete minute-capstan cleanup note remains");
 if (build.includes("gel super glue")) errors.push("Removed super-glue preparation copy remains in Self-Print");
 if (/\bstl\b|\.stl(?:[?"'#]|$)/i.test(build) || files.some((file) => /\.stl$/i.test(file))) {
   errors.push("STL files or references remain in the public build");

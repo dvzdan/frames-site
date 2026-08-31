@@ -885,15 +885,13 @@ p {
 }
 
 .design-release-summary {
-  background: color-mix(in srgb, var(--surface) 88%, #6f7f53);
-  border: 1px solid color-mix(in srgb, #6f7f53 35%, var(--line));
-  border-radius: 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
   color: var(--text-muted);
   display: grid;
   font-size: 13px;
   gap: 7px;
   line-height: 1.5;
-  padding: 14px 16px;
+  padding: 0 0 14px;
 }
 
 .design-release-summary > div {
@@ -915,24 +913,6 @@ p {
 
 .design-release-summary ul {
   padding-left: 19px;
-}
-
-.download-item-with-note {
-  display: grid;
-  gap: 5px;
-}
-
-.download-printing-note {
-  color: var(--text-muted);
-  font-size: 12px;
-  line-height: 1.45;
-  margin: 0;
-  padding: 0 8px;
-}
-
-.download-printing-note strong {
-  color: color-mix(in srgb, var(--text-strong) 78%, var(--text-muted));
-  font-weight: 700;
 }
 
 .download-row {
@@ -984,7 +964,7 @@ p {
   grid-column: 1 / -1;
 }
 
-.download-source-group {
+.download-advanced-group {
   background: color-mix(in srgb, var(--surface) 93%, var(--paper));
   border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
   border-radius: 8px;
@@ -992,57 +972,77 @@ p {
   overflow: hidden;
 }
 
-.download-source-summary {
+.download-advanced-summary {
   align-items: center;
   color: var(--text-body);
   cursor: pointer;
   display: grid;
-  gap: 4px 14px;
+  gap: 8px 14px;
   grid-template-columns: minmax(0, 1fr) auto;
   list-style: none;
   padding: 12px 14px;
 }
 
-.download-source-summary::-webkit-details-marker {
+.download-advanced-summary::-webkit-details-marker {
   display: none;
 }
 
-.download-source-summary:hover,
-.download-source-summary:focus-visible {
+.download-advanced-summary:hover,
+.download-advanced-summary:focus-visible {
   background: color-mix(in srgb, var(--accent-olive) 5%, var(--surface));
 }
 
-.download-source-title {
+.download-advanced-summary > span:first-child {
   color: var(--text-strong);
   font-size: 14px;
   font-weight: 700;
 }
 
-.download-source-summary .download-meta {
-  grid-column: 1;
-}
-
-.download-source-toggle {
+.download-advanced-toggle {
   color: var(--accent-olive);
   font-size: 12px;
   font-weight: 800;
-  grid-column: 2;
-  grid-row: 1 / span 2;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.download-source-toggle::after {
-  content: "Show files +";
+.download-advanced-toggle::after {
+  content: "Show +";
 }
 
-.download-source-group[open] .download-source-toggle::after {
-  content: "Hide files −";
+.download-advanced-group[open] .download-advanced-toggle::after {
+  content: "Hide −";
+}
+
+.download-advanced-content {
+  border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+}
+
+.download-source-section h4,
+.download-source-section p {
+  margin: 0;
+}
+
+.download-source-section h4 {
+  color: var(--text-strong);
+  font-size: 14px;
+}
+
+.download-source-section > p {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: 3px;
 }
 
 .download-source-list {
-  border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  border-radius: 8px;
   display: grid;
+  margin-top: 10px;
+  overflow: hidden;
 }
 
 .download-source-list .download-row {
@@ -1068,7 +1068,7 @@ p {
 
 .plans-license {
   line-height: 1.5;
-  margin-top: 12px;
+  margin: 0;
   overflow-wrap: anywhere;
 }
 
@@ -1077,21 +1077,20 @@ p {
   font-weight: 800;
 }
 
-.support-guide-print-callout {
-  background: color-mix(in srgb, #6f7f53 7%, var(--surface));
-  border: 1px solid color-mix(in srgb, #6f7f53 22%, var(--line));
-  border-radius: 8px;
-  color: var(--text-body);
+.advanced-support-note {
+  color: var(--text-muted);
   font-size: 13px;
   line-height: 1.45;
-  padding: 10px 12px;
+  margin: 0;
 }
 
-.support-guide-print-callout strong {
-  color: var(--text-strong);
+.print-cleanup-tools {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 2px 0 0;
 }
 
-.print-cleanup-tools,
 .image-preparation-tool {
   background: color-mix(in srgb, var(--accent-olive) 6%, var(--surface));
   border-left: 3px solid var(--accent-olive);
