@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Fit the Clock String Guide</title>
+  <desc id="desc">The clock remains flat in its lower-left wall pocket. The revised closed blue clock string guide fits over the bare spindle and presses straight back against the clock mechanism.</desc>
+  <defs>
+    <linearGradient id="guideBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3789ff"/>
+      <stop offset="1" stop-color="#0754cf"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#263247" flood-opacity=".24"/>
+    </filter>
+    <marker id="pressHead" markerWidth="18" markerHeight="18" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 12 12">
+      <path d="M0 0L12 6L0 12Z" fill="#20242a"/>
+    </marker>
+    <!-- Front silhouette of the revised captive guide: broad base, closed spindle opening, and top string tab. -->
+    <g id="guide">
+      <path fill="url(#guideBlue)" fill-rule="evenodd" d="M0 84H122V60C122 23 152 0 200 0S278 23 278 60V84H400V148H0ZM200 28A34 34 0 1 0 200 96A34 34 0 1 0 200 28Z"/>
+      <path fill="#5a9cff" stroke="#0754cf" stroke-width="5" d="M179 0V-27H221V0L215 20H185Z"/>
+      <path fill="#0648b8" opacity=".33" d="M0 127H400V148H0Z"/>
+      <path fill="none" stroke="#0754cf" stroke-width="5" d="M0 84H122V60C122 23 152 0 200 0S278 23 278 60V84H400V148H0Z"/>
+      <circle cx="200" cy="62" r="34" fill="none" stroke="#0754cf" stroke-width="5"/>
+    </g>
+  </defs>
+
+  <!-- Preserve the established frame and flat clock placement. -->
+  <image href="02-insert-clock-string-guide-base-flat.png" x="0" y="0" width="1536" height="1024"/>
+
+  <!-- Replace the obsolete guide card. -->
+  <g filter="url(#shadow)">
+    <rect x="112" y="42" width="208" height="220" rx="13" fill="#fff"/>
+    <g transform="translate(135 92) scale(.41)">
+      <use href="#guide"/>
+    </g>
+    <text x="216" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" fill="#15171b">Clock String Guide</text>
+  </g>
+
+  <!-- Remove the obsolete Capstan card completely. -->
+  <rect x="70" y="520" width="290" height="270" fill="#f9f8f8"/>
+
+  <!-- Fully clear the obsolete capstan check, then add the short seating check. -->
+  <rect x="1030" y="20" width="440" height="325" fill="#f9f8f8"/>
+  <g filter="url(#shadow)">
+    <rect x="1065" y="42" width="375" height="205" rx="15" fill="#fff" stroke="#dedbd5" stroke-width="2"/>
+    <text x="1093" y="91" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#17191d">Check:</text>
+    <text x="1093" y="136" font-family="Arial, sans-serif" font-size="23" fill="#24272c">
+      <tspan x="1093" dy="0">The guide should sit flat against</tspan>
+      <tspan x="1093" dy="36">the clock, with the spindle</tspan>
+      <tspan x="1093" dy="36">centered in the opening.</tspan>
+    </text>
+  </g>
+
+  <!-- Ghost the final seated position on the clock face. -->
+  <g transform="translate(430 563) scale(.575) rotate(-2 200 62)" opacity=".20">
+    <use href="#guide"/>
+  </g>
+
+  <!-- Show the guide just in front of the spindle, ready to press inward. -->
+  <g transform="translate(630 590) scale(.575) rotate(-2 200 62)" filter="url(#shadow)">
+    <use href="#guide"/>
+  </g>
+
+  <!-- One neutral depth-motion cue, from the loose guide toward its seated position. -->
+  <path d="M716 628C672 619 625 611 575 604" fill="none" stroke="#20242a" stroke-width="7" stroke-linecap="round" marker-end="url(#pressHead)"/>
+  <path d="M681 611L670 622M660 608L649 618" fill="none" stroke="#20242a" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Replace the old slide instruction. -->
+  <g filter="url(#shadow)">
+    <rect x="170" y="823" width="1195" height="170" rx="17" fill="#fff" stroke="#dedbd5" stroke-width="2"/>
+    <text x="768" y="885" text-anchor="middle" font-family="Arial, sans-serif" font-size="31" fill="#15171b">
+      <tspan>Fit the </tspan><tspan fill="#1468e9" font-weight="700">Clock String Guide</tspan><tspan> over the spindle, then press it straight back</tspan>
+      <tspan x="768" dy="49">until it sits flat against the </tspan><tspan font-weight="700">Clock Mechanism</tspan><tspan>.</tspan>
+    </text>
+  </g>
+</svg>
