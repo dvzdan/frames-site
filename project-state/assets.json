@@ -3,10 +3,10 @@
   "updated": "2026-08-30",
   "userWorkspace": "C:/Users/zack and lil/Documents/Double Take Frames",
   "workspaceFolders": [
-    { "tier": "canonical", "type": "scad", "local": "1 - Canonical/SCAD", "target": "cad/source" },
+    { "tier": "canonical", "type": "scad", "local": "1 - Canonical/SCAD", "target": "cad/source", "view": "hardlink-mirror" },
     { "tier": "canonical", "type": "stl", "local": "1 - Canonical/STL", "target": "fabrication/canonical/stl" },
     { "tier": "canonical", "type": "3mf", "local": "1 - Canonical/3MF", "target": "fabrication/canonical/3mf" },
-    { "tier": "pending-canon", "type": "scad", "local": "2 - Pending Canon/SCAD", "target": "cad/pending-canon" },
+    { "tier": "pending-canon", "type": "scad", "local": "2 - Pending Canon/SCAD", "target": "cad/pending-canon", "view": "hardlink-mirror" },
     { "tier": "pending-canon", "type": "stl", "local": "2 - Pending Canon/STL", "target": "fabrication/pending-canon/stl" },
     { "tier": "pending-canon", "type": "3mf", "local": "2 - Pending Canon/3MF", "target": "fabrication/pending-canon/3mf" },
     { "tier": "experimental", "type": "scad", "local": "3 - Experimental/SCAD", "target": "D:/Double Take Frames/Experimental/scad", "external": true },

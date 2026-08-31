@@ -51,6 +51,13 @@ The user's visible file system is
 Each tier has exactly the same three user-facing subdivisions: `SCAD`, `STL`,
 and `3MF`. Preserve these exact short names when adding or moving files.
 
+The Canonical and Pending Canon `SCAD` folders are ordinary local directories
+containing file-level hard links to the authoritative repository files. This is
+required because OpenSCAD 2021 crashes when a dependency-bearing SCAD file is
+opened through a Windows directory junction. Never recreate those two `SCAD`
+folders as junctions. After adding, renaming, replacing, or removing a managed
+SCAD file, run `npm run workspace:sync`, then `npm run workspace:check`.
+
 Do not require the user to navigate repository internals. Promote files only in
 the direction Experimental -> Pending Canon -> Canonical, and only with explicit
 user approval for the promotion to Canonical.

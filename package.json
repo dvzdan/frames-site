@@ -12,6 +12,7 @@
     "cad:check": "npm run release:check",
     "state:check": "node scripts/project-state-check.mjs",
     "workspace:check": "node scripts/user-workspace-check.mjs",
+    "workspace:sync": "node scripts/sync-user-workspace.mjs",
     "preview": "node scripts/serve-cloudflare.mjs",
     "validate": "node scripts/validate-cloudflare.mjs",
     "test:functions": "node scripts/test-cloudflare-functions.mjs",

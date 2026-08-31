@@ -22,6 +22,9 @@ working tree before making changes.
   - `2 - Pending Canon` contains tracked candidates under review.
   - `3 - Experimental` contains non-authoritative work stored on `D:`.
   - Every tier is subdivided into exactly `SCAD`, `STL`, and `3MF`.
+  - Canonical and Pending Canon `SCAD` are ordinary local folders with
+    file-level hard links, not directory junctions, for OpenSCAD 2021
+    compatibility. Refresh them with `npm run workspace:sync`.
 - `C:\Users\zack and lil\Documents\codex-scad-experiment` is obsolete historical
   working material and must never be treated as canonical input.
 
