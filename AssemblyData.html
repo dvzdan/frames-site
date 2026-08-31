@@ -116,23 +116,29 @@ window.ASSEMBLY_MANIFEST = {
       folder: "04-capstan-and-clock",
       steps: [
         {
-          id: "place-capstan-on-clock-mechanism",
+          id: "insert-clock-mechanism",
           order: 1,
+          title: "Insert Clock Mechanism",
+          image: "02-insert-clock-mechanism.png"
+        },
+        {
+          id: "insert-clock-string-guide",
+          order: 2,
+          title: "Insert Clock String Guide",
+          image: "02-insert-clock-string-guide.svg"
+        },
+        {
+          id: "place-capstan-on-clock-mechanism",
+          order: 3,
           title: "Place Capstan on Clock Mechanism",
           image: "01-place-capstan-on-clock-mechanism.png"
         },
         {
           id: "capstan-explanation",
-          order: 1.1,
+          order: 3.1,
           title: "Capstan Explanation",
           image: "01a-capstan-explanation.png",
           kind: "addendum"
-        },
-        {
-          id: "insert-clock-mechanism",
-          order: 2,
-          title: "Insert Clock Mechanism",
-          image: "02-insert-clock-mechanism.png"
         }
       ]
     },
@@ -165,12 +171,6 @@ window.ASSEMBLY_MANIFEST = {
           order: 4,
           title: "Tie Thread to Capstan",
           image: "04-tie-thread-to-capstan.png"
-        },
-        {
-          id: "insert-clock-string-guide",
-          order: 5,
-          title: "Insert Clock String Guide",
-          image: "05-insert-clock-string-guide.png"
         }
       ]
     },

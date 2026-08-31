@@ -87,6 +87,14 @@
       "note": "Simplified inventory silhouette of the pending captive clock string guide; closed lower body, central opening, and top string feed shown."
     },
     {
+      "id": "clock-string-guide-insertion-instruction",
+      "tier": "pending-canon",
+      "status": "live",
+      "canonical": "assets/instruction images/04-capstan-and-clock/02-insert-clock-string-guide.svg",
+      "publicCopies": [],
+      "note": "Guide-first installation panel: align over the clock spindle and press along the Y axis before installing either capstan."
+    },
+    {
       "id": "zipper-insertion-instruction",
       "tier": "canonical",
       "status": "temporary-live",
