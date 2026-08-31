@@ -29,7 +29,7 @@
   </g>
 
   <!-- Remove the obsolete Capstan card; the Clock Mechanism card remains untouched. -->
-  <rect x="70" y="520" width="290" height="270" fill="#fff"/>
+  <rect x="70" y="520" width="290" height="270" fill="#f9f8f8"/>
 
   <!-- Replace the obsolete capstan check with the seating check for this step. -->
   <g filter="url(#shadow)">
