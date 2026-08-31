@@ -27,11 +27,15 @@ working tree before making changes.
 
 ## Pending canon
 
-- `water-cassette-v1.1.0-rc.1.scad` is the primary pending-canon water-cassette
-  design. Its tracked source is `cad/pending-canon/water-cassette-v1.1.0-rc.1.scad`.
+- `water-cassette-v1.1.0-rc.2.scad` is the primary pending-canon water-cassette
+  design. Its tracked source is `cad/pending-canon/water-cassette-v1.1.0-rc.2.scad`.
 - It was copied byte-for-byte from the historical experiment on 2026-08-30.
 - It is not yet canonical and must not replace a public download until the user
   explicitly promotes it.
+- `rc.2` restores the original 5.0 mm -Y top fang and shortens the opposing +Y
+  return to 3.5 mm. This keeps the 1.5 mm insertion lead without consuming the
+  roller's existing minimum-clearance envelope. `rc.1` remains tracked as the
+  superseded candidate.
 - The coordinated captive capstan and clock-string-guide work is Pending Canon
   for `1.1.0-rc.1`. The authoritative working controller is
   `cad/pending-canon/capstans-and-clock-string-guide-captive-v1.1.0-rc.1.scad`;
