@@ -2762,21 +2762,27 @@ p {
 }
 
 .assembly-step-instruction {
+  background: color-mix(in srgb, var(--surface) 94%, #fff);
+  border: 1px solid color-mix(in srgb, var(--line) 78%, #d8ccc4);
+  border-radius: 12px;
   color: var(--text-strong);
-  font-size: 16px;
+  font-size: clamp(16px, 1.8vw, 20px);
   font-weight: 700;
-  line-height: 1.5;
-  margin: 14px 14px 0;
+  line-height: 1.55;
+  margin: 16px 14px 0;
+  padding: 18px clamp(18px, 3vw, 34px);
+  text-align: center;
 }
 
 .assembly-step-note {
   background: color-mix(in srgb, var(--assembly-accent) 8%, #fff);
   border-left: 3px solid color-mix(in srgb, var(--assembly-accent) 42%, #fff);
+  border-radius: 0 8px 8px 0;
   color: var(--text-strong);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1.45;
-  margin: 12px 12px 0;
+  margin: 10px 20px 0;
   padding: 10px 12px;
 }
 
