@@ -1,14 +1,14 @@
-// DOUBLE TAKE FRAMES DESIGN RELEASE CANDIDATE
-// DTF_RELEASE_CANDIDATE: 1.1.0-rc.1
-// Prepared: 2026-08-30
+// DOUBLE TAKE FRAMES DESIGN RELEASE
+// DTF_RELEASE: 2.0.0
+// Released: 2026-08-31
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
-// Status: PENDING CANON — not a public release
-// Candidate changes:
-// - Coordinates captive 16 mm-flange capstans with the revised clock-string guide.
-// - Requires physical fit, rotation, and line-containment testing before promotion.
+// Status: CANONICAL
+// Changes in 2.0.0:
+// - Coordinates the guide with captive 16 mm-flange capstans.
+// - Adds the closed beak, stationary floor, and keyed string-loading geometry.
+// Full release notes: https://doubletakeframes.com/build/#design-release
 //
-// MOCKUP ONLY — captive-beak variant of canonical clock_string guide.scad.
-// Source reviewed: canonical files/clock_string guide.scad (2026-08-26).
+// Canonical captive-beak clock-string guide.
 //
 // The canonical bar and boss are unchanged. A closed wedge grows directly out
 // of the pressure-bar wall and guides the string into the flange cavity.

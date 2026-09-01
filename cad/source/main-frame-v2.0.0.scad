@@ -1,17 +1,19 @@
-// DOUBLE TAKE FRAMES DESIGN RELEASE CANDIDATE
-// DTF_RELEASE_CANDIDATE: 1.1.0-rc.2
-// Prepared: 2026-08-30
+// DOUBLE TAKE FRAMES DESIGN RELEASE
+// DTF_RELEASE: 2.0.0
+// Released: 2026-08-31
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
-// Status: PENDING CANON — not a public release
-// Candidate changes:
-// - Develops the water-cassette replacement for a future compatible feature release.
+// Status: CANONICAL
+// Changes in 2.0.0:
+// - Promotes the latest water-cassette geometry as the shared main-frame source.
 // - Preserves roller insertion clearance by shortening the +Y backing-board
 //   pocket return instead of extending the existing minimum-clearance -Y fang.
-// - Must not replace Canonical until explicitly approved.
+// - Clips the clock-guide retention ridges to their parent wall and gusset so
+//   they cannot continue through empty space beyond the supporting material.
+// - Defaults to the dry clock configuration; set dry=false and wet=true to
+//   render the water-cassette configuration.
+// Full release notes: https://doubletakeframes.com/build/#design-release
 //
-// WATER CASSETTE EXPERIMENTS
-// Experimental copy of the shared cassette. The canonical main cassette is
-// intentionally unchanged.
+// CLEANED ACTIVE CASSETTE FILE — DRY/WET VARIANT SWITCHES
 //
 // Current experiment:
 // - replace the delicate drip aperture with a robust direct-drop outlet;
@@ -28,8 +30,8 @@ eps=0.05;
 // Variant switches.
 // dry controls clock-mechanism-specific cassette geometry.
 // wet controls water-reveal-specific cassette geometry.
-dry = false;
-wet = true;
+dry = true;
+wet = false;
 
 // Wet-system experiment selector. Only one lower receiver should be active.
 wet_use_legacy_bucket = false;
@@ -825,12 +827,14 @@ roller_receiver_right();
         }
         // DRY-ONLY: clock/seatbelt trap cut through the right side wall.
         if(dry)
-            translate([wall_w - side_panel_t - eps, clock_bar_trap_y0, clock_bar_trap_z0])
-                cube([clock_bar_trap_depth_x + eps, clock_bar_trap_y1 - clock_bar_trap_y0, clock_bar_trap_h_z]);
+            difference(){
+                translate([wall_w - side_panel_t - eps, clock_bar_trap_y0, clock_bar_trap_z0])
+                    cube([clock_bar_trap_depth_x + eps, clock_bar_trap_y1 - clock_bar_trap_y0, clock_bar_trap_h_z]);
+                // Preserve the ridge only where this panel already exists.
+                clock_bar_outer_y_detent();
+            }
 
     }
-    if(dry)
-        clock_bar_outer_y_detent();
 }
 
 
@@ -1691,11 +1695,14 @@ module right_clock_stop_floor_gusset(){
         gusset_trap_pos_y_lip = 0;
         // DRY-ONLY: matching clock/seatbelt trap clearance through this otherwise neutral gusset.
         if(dry)
-            translate([clock_side_gusset_x1 - clock_bar_trap_depth_x, clock_bar_trap_y0, clock_bar_trap_z0])
-                cube([clock_bar_trap_depth_x2+eps, clock_bar_trap_y1-clock_bar_trap_y0-gusset_trap_pos_y_lip, clock_bar_trap_h_z]);
+            difference(){
+                translate([clock_side_gusset_x1 - clock_bar_trap_depth_x, clock_bar_trap_y0, clock_bar_trap_z0])
+                    cube([clock_bar_trap_depth_x2+eps, clock_bar_trap_y1-clock_bar_trap_y0-gusset_trap_pos_y_lip, clock_bar_trap_h_z]);
+                // Leaving this volume uncut automatically clips the ridge to
+                // the sloped gusset instead of adding a free-standing spike.
+                clock_bar_gusset_y_detent();
+            }
     }
-    if(dry)
-        clock_bar_gusset_y_detent();
 }
 
 clock_backstop_inset_each_side = 6.0;

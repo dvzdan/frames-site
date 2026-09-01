@@ -1,19 +1,19 @@
-// DOUBLE TAKE FRAMES DESIGN RELEASE CANDIDATE
-// DTF_RELEASE_CANDIDATE: 1.1.0-rc.3
-// Prepared: 2026-08-30
+// DOUBLE TAKE FRAMES DESIGN RELEASE
+// DTF_RELEASE: 2.0.0
+// Released: 2026-08-31
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
-// Status: PENDING CANON — not a public release
-// Candidate changes:
-// - Develops the water-cassette replacement for a future compatible feature release.
+// Status: CANONICAL
+// Changes in 2.0.0:
+// - Promotes the latest water-cassette geometry as the shared main-frame source.
 // - Preserves roller insertion clearance by shortening the +Y backing-board
 //   pocket return instead of extending the existing minimum-clearance -Y fang.
 // - Clips the clock-guide retention ridges to their parent wall and gusset so
 //   they cannot continue through empty space beyond the supporting material.
-// - Must not replace Canonical until explicitly approved.
+// - Defaults to the dry clock configuration; set dry=false and wet=true to
+//   render the water-cassette configuration.
+// Full release notes: https://doubletakeframes.com/build/#design-release
 //
-// WATER CASSETTE EXPERIMENTS
-// Experimental copy of the shared cassette. The canonical main cassette is
-// intentionally unchanged.
+// CLEANED ACTIVE CASSETTE FILE — DRY/WET VARIANT SWITCHES
 //
 // Current experiment:
 // - replace the delicate drip aperture with a robust direct-drop outlet;
@@ -30,8 +30,8 @@ eps=0.05;
 // Variant switches.
 // dry controls clock-mechanism-specific cassette geometry.
 // wet controls water-reveal-specific cassette geometry.
-dry = false;
-wet = true;
+dry = true;
+wet = false;
 
 // Wet-system experiment selector. Only one lower receiver should be active.
 wet_use_legacy_bucket = false;

@@ -5,6 +5,7 @@ import path from "node:path";
 const root = path.resolve(import.meta.dirname, "..");
 const port = Number(process.env.PORT) || 4173;
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
+const release = JSON.parse(read("release/current.json"));
 
 const routeFiles = {
   home: {
@@ -67,7 +68,8 @@ function serverGalleryMarkup() {
 }
 
 function serverDownloadsMarkup() {
-  return `<a class="download-row download-row-primary" href="#"><span class="download-name">Frame and Stand</span><span class="download-meta">3MF project · 0.6 mm nozzle recommended</span><span class="download-action">Download</span></a><a class="download-row download-row-primary" href="#"><span class="download-name">Everything Else</span><span class="download-meta">3MF project · 0.4 mm nozzle required</span><span class="download-action">Download</span></a><details class="download-advanced-group"><summary class="download-advanced-summary"><span>Advanced files and release details</span><span class="download-advanced-toggle"></span></summary><div class="download-advanced-content"><section class="design-release-summary" id="design-release"><strong>Current design release 1.0.0</strong></section><section class="download-source-section"><h4>Editable OpenSCAD source</h4><p>7 files for modifying the design</p><div class="download-source-list"><a class="download-row" href="#"><span class="download-name">main Frame file.scad</span><span class="download-meta">OpenSCAD source</span><span class="download-action">Download</span></a></div></section><a class="download-row download-release-notes" href="#"><span class="download-name">Release notes — 1.0.0</span><span class="download-action">Download</span></a><p class="advanced-support-note"><button class="text-link-button support-guide-trigger" type="button">Support-removal guide</button> for the built-in print supports.</p></div></details>`;
+  const sourceCount = release.artifacts.filter((artifact) => artifact.type === "scad").length;
+  return `<a class="download-row download-row-primary" href="#"><span class="download-name">Frame and Stand</span><span class="download-meta">3MF project · 0.6 mm nozzle recommended</span><span class="download-action">Download</span></a><a class="download-row download-row-primary" href="#"><span class="download-name">Everything Else</span><span class="download-meta">3MF project · 0.4 mm nozzle required</span><span class="download-action">Download</span></a><details class="download-advanced-group"><summary class="download-advanced-summary"><span>Advanced files and release details</span><span class="download-advanced-toggle"></span></summary><div class="download-advanced-content"><section class="design-release-summary" id="design-release"><strong>Current design release ${release.version}</strong></section><section class="download-source-section"><h4>Editable OpenSCAD source</h4><p>${sourceCount} files for modifying the design</p><div class="download-source-list"><a class="download-row" href="#"><span class="download-name">Main Frame ${release.version}.scad</span><span class="download-meta">OpenSCAD source</span><span class="download-action">Download</span></a></div></section><a class="download-row download-release-notes" href="#"><span class="download-name">Release notes — ${release.version}</span><span class="download-action">Download</span></a><p class="advanced-support-note"><button class="text-link-button support-guide-trigger" type="button">Support-removal guide</button> for the built-in print supports.</p></div></details>`;
 }
 
 function renderPartial(page) {

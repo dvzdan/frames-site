@@ -1,77 +1,84 @@
 {
   "schemaVersion": 1,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "versionStandard": "Semantic Versioning 2.0.0",
   "files": [
     {
       "id": "frame-and-stand-3mf",
       "type": "3mf-project",
-      "source": "fabrication/canonical/3mf/frame-and-stand-v1.0.0.project.3mf",
-      "public": "assets/downloads/double-take-frames-frame-and-stand-v1.0.0.project.3mf",
-      "sha256": "9fb5741e859e18b5b4832fc727ce76bb3d2ac6c6632649889538f37a34983d6c"
+      "source": "fabrication/canonical/3mf/frame-and-stand-v2.0.0.project.3mf",
+      "public": "assets/downloads/double-take-frames-frame-and-stand-v2.0.0.project.3mf",
+      "sha256": "3c2d01d3864c994bc1bb488d9b0af1cb9f9d54291c9d9bddd38def9f75e46a2a"
     },
     {
       "id": "everything-else-3mf",
       "type": "3mf-project",
-      "source": "fabrication/canonical/3mf/everything-else-v1.0.0.project.3mf",
-      "public": "assets/downloads/double-take-frames-everything-else-v1.0.0.project.3mf",
-      "sha256": "2a4637b04c0db7bacbcc4fc7a80f353cdf260dfe53d7d148affe8d0cd7b7282d"
+      "source": "fabrication/canonical/3mf/everything-else-v2.0.0.project.3mf",
+      "public": "assets/downloads/double-take-frames-everything-else-v2.0.0.project.3mf",
+      "sha256": "c83325cf02d0af18ff52868470b08b365a79f1dcee8d442b51dd93d777a42888"
     },
     {
       "id": "capstans-scad",
       "type": "scad",
-      "source": "cad/source/capstans-v1.0.0.scad",
-      "public": "assets/downloads/double-take-frames-capstans-v1.0.0.scad",
-      "sha256": "99d36dc028312ee308ddd2b2c41581230cd7236c31e90acc2d8fd01434a11b11"
+      "source": "cad/source/capstans-v2.0.0.scad",
+      "public": "assets/downloads/double-take-frames-capstans-v2.0.0.scad",
+      "sha256": "864220c954001f70c6272087014afe2c0552bbfbfb678eebaf81c50d1f15b077"
+    },
+    {
+      "id": "capstan-guide-controller-scad",
+      "type": "scad",
+      "source": "cad/source/capstans-and-clock-string-guide-v2.0.0.scad",
+      "public": "assets/downloads/double-take-frames-capstans-and-clock-string-guide-v2.0.0.scad",
+      "sha256": "cb6dbcba2e578eb70c2d77786dae1c8771592094492d558d0e54915b70e74b19"
     },
     {
       "id": "clock-string-guide-scad",
       "type": "scad",
-      "source": "cad/source/clock-string-guide-v1.0.0.scad",
-      "public": "assets/downloads/double-take-frames-clock-string-guide-v1.0.0.scad",
-      "sha256": "94a58e8ce33efbb32a0f6621bae7a58dba8ea37c41f444a88e86bbec5aebcd99"
+      "source": "cad/source/clock-string-guide-v2.0.0.scad",
+      "public": "assets/downloads/double-take-frames-clock-string-guide-v2.0.0.scad",
+      "sha256": "c5ac8cfeea7b24a22fe6119e49bbb7ebc78992deeac074e9cdc15f4de9c157a5"
     },
     {
       "id": "dry-wall-rig-scad",
       "type": "scad",
-      "source": "cad/source/dry-wall-rig-v1.0.0.scad",
-      "public": "assets/downloads/double-take-frames-dry-wall-rig-v1.0.0.scad",
-      "sha256": "b9d24f6bc15d84824e24f4bfa6a422c07f5b1c4e39b91b5db6a8fc88b908ea98"
+      "source": "cad/source/dry-wall-rig-v2.0.0.scad",
+      "public": "assets/downloads/double-take-frames-dry-wall-rig-v2.0.0.scad",
+      "sha256": "93041ec6f5ab13c7b53d345c1e831fe99eec9a3704eea6c3f2dbe70c64b1213c"
     },
     {
       "id": "frame-stand-scad",
       "type": "scad",
-      "source": "cad/source/frame-stand-v1.0.0.scad",
-      "public": "assets/downloads/double-take-frames-frame-stand-v1.0.0.scad",
-      "sha256": "e80b72f9300fb834e690783960a93d4a2305345f2bc83190c1e9b6202b87f845"
+      "source": "cad/source/frame-stand-v2.0.0.scad",
+      "public": "assets/downloads/double-take-frames-frame-stand-v2.0.0.scad",
+      "sha256": "570af45b337e226e6ef87e2db07dba92b2566fc39e4f8ae5dd6939b9f766d782"
     },
     {
       "id": "latch-keeper-scad",
       "type": "scad",
-      "source": "cad/source/latch-and-keeper-v1.0.0.scad",
-      "public": "assets/downloads/double-take-frames-latch-and-keeper-v1.0.0.scad",
-      "sha256": "ce8deb32ea81eee57f6e79519d096a9eb98e4e800e377d9fb5dd357e51514e12"
+      "source": "cad/source/latch-and-keeper-v2.0.0.scad",
+      "public": "assets/downloads/double-take-frames-latch-and-keeper-v2.0.0.scad",
+      "sha256": "7258c243abdc5ebb7efeceabd72800571b669b4689f3fca6748c7507effb412b"
     },
     {
       "id": "main-frame-scad",
       "type": "scad",
-      "source": "cad/source/main-frame-v1.0.0.scad",
-      "public": "assets/downloads/double-take-frames-main-frame-v1.0.0.scad",
-      "sha256": "9a11dd9f1f810ae79d2ddafd77a5d2a416abfe01bb737f0324124e8da2949ae2"
+      "source": "cad/source/main-frame-v2.0.0.scad",
+      "public": "assets/downloads/double-take-frames-main-frame-v2.0.0.scad",
+      "sha256": "d8e3fd3d8c790e908d7de77ca1f27c1aa35f69af5100ed3370523460a0e4ba43"
     },
     {
       "id": "roller-scad",
       "type": "scad",
-      "source": "cad/source/roller-v1.0.0.scad",
-      "public": "assets/downloads/double-take-frames-roller-v1.0.0.scad",
-      "sha256": "37c1870dee34701a631626406ddb66017de10ee58631460acfe8739f59c0f0e8"
+      "source": "cad/source/roller-v2.0.0.scad",
+      "public": "assets/downloads/double-take-frames-roller-v2.0.0.scad",
+      "sha256": "8ba2049ad3b22e1650e3e5e4173600408bb684d4f59181e52cd64ec30036d20f"
     },
     {
       "id": "release-notes",
       "type": "release-notes",
       "source": "release/RELEASE_NOTES.txt",
-      "public": "assets/downloads/double-take-frames-v1.0.0-release-notes.txt",
-      "sha256": "4a322a611a1b48673b1aa2b27c6691abda63c27def8048d24fcf54a548560694"
+      "public": "assets/downloads/double-take-frames-v2.0.0-release-notes.txt",
+      "sha256": "c5ab33616f2d7fb25923d79eb9cb8d4ea68ef0fca5dcdee5965ff78ba14c2d06"
     }
   ]
 }

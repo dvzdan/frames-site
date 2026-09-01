@@ -1,14 +1,14 @@
-// DOUBLE TAKE FRAMES DESIGN RELEASE CANDIDATE
-// DTF_RELEASE_CANDIDATE: 1.1.0-rc.1
-// Prepared: 2026-08-30
+// DOUBLE TAKE FRAMES DESIGN RELEASE
+// DTF_RELEASE: 2.0.0
+// Released: 2026-08-31
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
-// Status: PENDING CANON — not a public release
-// Candidate changes:
-// - Coordinates captive 16 mm-flange capstans with the revised clock-string guide.
-// - Requires physical fit, rotation, and line-containment testing before promotion.
+// Status: CANONICAL
+// Changes in 2.0.0:
+// - Uses captive 16 mm flanges coordinated with the revised clock-string guide.
+// - Adds keyed bottom-flange loading slots and revised string anchors.
+// Full release notes: https://doubletakeframes.com/build/#design-release
 //
-// MOCKUP ONLY — larger-flange variant of canonical Capstans.scad.
-// Source reviewed: canonical files/Capstans.scad (2026-08-26).
+// Canonical captive-flange capstans.
 //
 // The capstans use 16 mm flanges. The hour horn is moved outward to suit that
 // flange, and the upside-down minute capstan uses a recessed orientation mark.

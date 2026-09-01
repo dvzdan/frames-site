@@ -1,11 +1,12 @@
-// DOUBLE TAKE FRAMES DESIGN RELEASE CANDIDATE
-// DTF_RELEASE_CANDIDATE: 1.1.0-rc.1
-// Prepared: 2026-08-30
+// DOUBLE TAKE FRAMES DESIGN RELEASE
+// DTF_RELEASE: 2.0.0
+// Released: 2026-08-31
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
-// Status: PENDING CANON — not a public release
-// Candidate changes:
-// - Coordinates captive 16 mm-flange capstans with the revised clock-string guide.
-// - Requires physical fit, rotation, and line-containment testing before promotion.
+// Status: CANONICAL
+// Changes in 2.0.0:
+// - Coordinates the captive 16 mm-flange capstans and revised clock-string guide.
+// - Centralizes their shared mechanical dimensions and print-plate arrangement.
+// Full release notes: https://doubletakeframes.com/build/#design-release
 //
 // Combined controller for the coordinated capstans and clock/string guide.
 // Adjust shared mechanical references here; both component models consume them.
@@ -56,11 +57,11 @@ show_clock_string_guide = true;
 // Scope each component so identically named local parameters cannot leak
 // between models. The shared references above remain visible to both scopes.
 module coordinated_capstans() {
-    include <capstans-captive-v1.1.0-rc.1.scad>
+    include <capstans-v2.0.0.scad>
 }
 
 module coordinated_clock_string_guide() {
-    include <clock-string-guide-captive-v1.1.0-rc.1.scad>
+    include <clock-string-guide-v2.0.0.scad>
 }
 
 // Print-plate arrangement: guide above, capstan pair below.

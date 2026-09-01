@@ -87,6 +87,7 @@ if (!galleryMatch) {
   }
 }
 const expectedDownloads = release.artifacts.map((artifact) => encodeURIComponent(path.basename(artifact.public)));
+const expectedSourceCount = release.artifacts.filter((artifact) => artifact.type === "scad").length;
 if (
   !build.includes('id="downloadsList"') ||
   !build.includes('id="design-release"') ||
@@ -95,8 +96,8 @@ if (
   !build.includes('id="self-print-next"') ||
   (build.match(/class="download-row download-row-primary"/g) || []).length !== 2 ||
   (build.match(/class="download-advanced-group"/g) || []).length !== 1 ||
-  (build.match(/<a class="download-row"[^>]*\.scad/g) || []).length !== 7 ||
-  !build.includes('7 files for modifying the design') ||
+  (build.match(/<a class="download-row"[^>]*\.scad/g) || []).length !== expectedSourceCount ||
+  !build.includes(`${expectedSourceCount} files for modifying the design`) ||
   !build.includes('Cleanup tools:') ||
   expectedDownloads.some((name) => !build.includes(name))
 ) errors.push("Self-Print route or download set is incomplete");

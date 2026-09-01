@@ -15,54 +15,95 @@
   ],
   "assets": [
     {
+      "id": "main-frame-scad",
+      "tier": "canonical",
+      "status": "released",
+      "canonical": "cad/source/main-frame-v2.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-main-frame-v2.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/main-frame-v2.0.0.scad",
+      "note": "Promoted from water-cassette-v1.1.0-rc.3. The saved configuration is dry = true and wet = false."
+    },
+    {
+      "id": "capstan-guide-controller-scad",
+      "tier": "canonical",
+      "status": "released",
+      "canonical": "cad/source/capstans-and-clock-string-guide-v2.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-capstans-and-clock-string-guide-v2.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/capstans-and-clock-string-guide-v2.0.0.scad",
+      "note": "Controller for the coordinated 2.0.0 captive capstans and clock-string guide."
+    },
+    {
+      "id": "capstans-scad",
+      "tier": "canonical",
+      "status": "released",
+      "canonical": "cad/source/capstans-v2.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-capstans-v2.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/capstans-v2.0.0.scad"
+    },
+    {
+      "id": "clock-string-guide-scad",
+      "tier": "canonical",
+      "status": "released",
+      "canonical": "cad/source/clock-string-guide-v2.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-clock-string-guide-v2.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/clock-string-guide-v2.0.0.scad"
+    },
+    {
       "id": "dry-wall-rig-scad",
       "tier": "canonical",
-      "status": "saved",
-      "canonical": "cad/source/dry-wall-rig-v1.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-dry-wall-rig-v1.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/dry-wall-rig-v1.0.0.scad"
+      "status": "released",
+      "canonical": "cad/source/dry-wall-rig-v2.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-dry-wall-rig-v2.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/dry-wall-rig-v2.0.0.scad"
+    },
+    {
+      "id": "frame-stand-scad",
+      "tier": "canonical",
+      "status": "released",
+      "canonical": "cad/source/frame-stand-v2.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-frame-stand-v2.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/frame-stand-v2.0.0.scad"
     },
     {
       "id": "latch-and-keeper-scad",
       "tier": "canonical",
-      "status": "saved",
-      "canonical": "cad/source/latch-and-keeper-v1.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-latch-and-keeper-v1.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/latch-and-keeper-v1.0.0.scad"
+      "status": "released",
+      "canonical": "cad/source/latch-and-keeper-v2.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-latch-and-keeper-v2.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/latch-and-keeper-v2.0.0.scad"
     },
     {
-      "id": "water-cassette-scad",
-      "tier": "pending-canon",
-      "status": "saved",
-      "canonical": "cad/pending-canon/water-cassette-v1.1.0-rc.3.scad",
-      "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/water-cassette-v1.1.0-rc.3.scad",
-      "note": "Primary pending-canon water-cassette design; rc.3 preserves the rc.2 roller-clearance correction and clips the clock-guide retention ridges to their parent material. Not yet approved as canonical."
+      "id": "roller-scad",
+      "tier": "canonical",
+      "status": "released",
+      "canonical": "cad/source/roller-v2.0.0.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-roller-v2.0.0.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/roller-v2.0.0.scad"
     },
     {
-      "id": "captive-capstan-guide-master-scad",
-      "tier": "pending-canon",
-      "status": "saved",
-      "canonical": "cad/pending-canon/capstans-and-clock-string-guide-captive-v1.1.0-rc.1.scad",
-      "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/capstans-and-clock-string-guide-captive-v1.1.0-rc.1.scad",
-      "note": "Authoritative working controller for the coordinated 1.1.0-rc.1 capstan and string-guide candidates."
+      "id": "frame-and-stand-3mf",
+      "tier": "canonical",
+      "status": "released",
+      "canonical": "fabrication/canonical/3mf/frame-and-stand-v2.0.0.project.3mf",
+      "publicCopies": ["assets/downloads/double-take-frames-frame-and-stand-v2.0.0.project.3mf"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/frame-and-stand-v2.0.0.project.3mf"
     },
     {
-      "id": "captive-capstans-scad",
-      "tier": "pending-canon",
-      "status": "saved",
-      "canonical": "cad/pending-canon/capstans-captive-v1.1.0-rc.1.scad",
-      "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/capstans-captive-v1.1.0-rc.1.scad"
+      "id": "everything-else-3mf",
+      "tier": "canonical",
+      "status": "released",
+      "canonical": "fabrication/canonical/3mf/everything-else-v2.0.0.project.3mf",
+      "publicCopies": ["assets/downloads/double-take-frames-everything-else-v2.0.0.project.3mf"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/everything-else-v2.0.0.project.3mf"
     },
     {
-      "id": "captive-clock-string-guide-scad",
+      "id": "combined-capstan-guide-stl",
       "tier": "pending-canon",
-      "status": "saved",
-      "canonical": "cad/pending-canon/clock-string-guide-captive-v1.1.0-rc.1.scad",
+      "status": "unverified",
+      "canonical": "fabrication/pending-canon/stl/Combined capstan and clock string guide.stl",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/SCAD/clock-string-guide-captive-v1.1.0-rc.1.scad"
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/2 - Pending Canon/STL/Combined capstan and clock string guide.stl",
+      "note": "User-supplied export. Its exact source/version relationship has not been verified, so it remains Pending Canon."
     },
     {
       "id": "weight-inventory-image",
@@ -80,27 +121,24 @@
     },
     {
       "id": "clock-string-guide-inventory-image",
-      "tier": "pending-canon",
+      "tier": "canonical",
       "status": "live",
       "canonical": "assets/setup-kit/string-clock-guide-v2.svg",
-      "publicCopies": [],
-      "note": "Simplified inventory silhouette of the pending captive clock string guide; closed lower body, central opening, and top string feed shown."
+      "publicCopies": []
     },
     {
       "id": "clock-string-guide-insertion-instruction",
-      "tier": "pending-canon",
+      "tier": "canonical",
       "status": "live",
       "canonical": "assets/instruction images/04-capstan-and-clock/02-insert-clock-string-guide-v5.png",
-      "publicCopies": [],
-      "note": "Self-contained flattened PNG used by the live assembly viewer. It preserves the old guide panel's established flat-clock placement, removes the obsolete guide/capstan/string content, and uses the approved lavender guide geometry: rectangular rear body, lighter rounded center collar, circular spindle opening, and small top tab. The guide name in the caption is lavender. Do not point the viewer at the layered SVG versions: nested raster images disappear when those SVGs are embedded as page images."
+      "publicCopies": []
     },
     {
       "id": "capstan-over-clock-string-guide-instruction",
-      "tier": "pending-canon",
+      "tier": "canonical",
       "status": "live",
       "canonical": "assets/instruction images/04-capstan-and-clock/01-place-capstan-over-clock-string-guide-v3.png",
-      "publicCopies": [],
-      "note": "Self-contained flattened PNG used by the live assembly viewer. Shows the approved lavender guide flat across the clock beneath the white spindle, with the yellow capstan approaching from above. Title: Place Capstan over Clock String Guide. The caption tells the user to choose the minute or hour capstan, place it over the guide, and press it onto the spindle; the note says to align the capstan's underside notch with the guide's small top tab. Editable layered source: 01-place-capstan-over-clock-string-guide-v2.svg; keep the viewer pointed at the flattened PNG."
+      "publicCopies": []
     },
     {
       "id": "zipper-insertion-instruction",
