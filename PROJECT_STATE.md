@@ -49,6 +49,10 @@ working tree before making changes.
   historical snapshots remain Experimental in the backend draft folder.
 - There is no dry-rig file in Pending Canon. The proper accepted dry rig is
   `cad/source/dry-wall-rig-v1.0.0.scad`.
+- `fabrication/pending-canon/stl/Combined capstan and clock string guide.stl`
+  is a user-supplied Pending Canon export. It was moved from the local SCAD
+  folder to the matching STL folder on 2026-08-31 without renaming or promotion.
+  Its exact source/version relationship is still unverified.
 
 ## Current weight system
 
