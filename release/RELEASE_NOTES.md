@@ -3,6 +3,23 @@
 Only the current design files are publicly downloadable. This history explains
 what changed between releases.
 
+## 2.0.3 - 2026-09-04
+
+Prepared-project printability correction.
+
+- Oriented the clock-string guide flat using the transform from its prepared
+  individual 3MF project.
+- Restored actual generated support for both capstans, beyond retaining their
+  painted support regions.
+- Re-packed the plate without changing object orientation and successfully
+  sliced all seven objects with Bambu Studio's non-interactive slicer.
+- Carried the frame-and-stand project and editable OpenSCAD geometry forward
+  unchanged.
+
+Compatibility note: this packaging-only patch does not change printed-part
+geometry or compatibility. Users who downloaded Everything Else 2.0.2 should
+replace it with 2.0.3.
+
 ## 2.0.2 - 2026-09-04
 
 Native Bambu project packaging hotfix.
