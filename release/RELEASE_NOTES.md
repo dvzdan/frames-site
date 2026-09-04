@@ -3,6 +3,25 @@
 Only the current design files are publicly downloadable. This history explains
 what changed between releases.
 
+## 2.0.2 - 2026-09-04
+
+Native Bambu project packaging hotfix.
+
+- Replaced the invalid hand-assembled Everything Else 2.0.1 package with a
+  native Bambu Studio project containing the current roller, dry-wall rig,
+  clock-string guide, capstans, latch, and keeper meshes.
+- Preserved the prepared capstan, dry-wall-rig support enforcer, object
+  placements, Bambu Lab A1 0.4 mm nozzle profile, 0.20 mm process, manual
+  supports, and snug support style.
+- Verified the repaired project by loading and slicing all six objects through
+  Bambu Studio's non-interactive slicer.
+- Carried the frame-and-stand project and editable OpenSCAD geometry forward
+  unchanged.
+
+Compatibility note: this packaging-only patch does not change printed-part
+geometry or compatibility. Users who downloaded Everything Else 2.0.1 should
+replace it with 2.0.2.
+
 ## 2.0.1 - 2026-09-02
 
 Prepared-project packaging correction.

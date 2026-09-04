@@ -13,7 +13,7 @@ working tree before making changes.
 - Apps Script and Google backend: `C:\Users\zack and lil\frames-site`
 - Canonical CAD source: `cad/source/` in the public website worktree
 - Public CAD downloads: generated copies under `assets/downloads/`
-- Current public design release: `2.0.1`, governed by Semantic Versioning 2.0.0
+- Current public design release: `2.0.2`, governed by Semantic Versioning 2.0.0
 - Release policy and machine record: `release/POLICY.md` and `release/current.json`
 - Heavy recordings, renders, meshes, and intermediates: `D:`
 - Superseded release working copies: `D:\\Double Take Frames\\Superseded\\<version>`
@@ -32,38 +32,39 @@ working tree before making changes.
 
 ## Current canonical design release
 
-- Release `2.0.1` is the complete Canonical design set. This patch corrects the
-  prepared Everything Else project while carrying the component geometry forward.
-- `cad/source/main-frame-v2.0.1.scad` is the accepted main-frame source. It was
+- Release `2.0.2` is the complete Canonical design set. This packaging hotfix
+  replaces the invalid 2.0.1 Everything Else package with a native Bambu Studio
+  project verified by loading and slicing all six intended objects.
+- `cad/source/main-frame-v2.0.2.scad` is the accepted main-frame source. It was
   promoted from `water-cassette-v1.1.0-rc.3.scad` and is intentionally saved as
   the dry configuration: `dry = true`, `wet = false`.
-- `capstans-v2.0.1.scad` and `clock-string-guide-v2.0.1.scad` are a coordinated
+- `capstans-v2.0.2.scad` and `clock-string-guide-v2.0.2.scad` are a coordinated
   captive pair and must be used together. Their controller is
-  `capstans-and-clock-string-guide-v2.0.1.scad`.
-- `dry-wall-rig-v2.0.1.scad`, `frame-stand-v2.0.1.scad`,
-  `latch-and-keeper-v2.0.1.scad`, and `roller-v2.0.1.scad` carry their accepted
-  geometry into the 2.0.1 set unchanged.
+  `capstans-and-clock-string-guide-v2.0.2.scad`.
+- `dry-wall-rig-v2.0.2.scad`, `frame-stand-v2.0.2.scad`,
+  `latch-and-keeper-v2.0.2.scad`, and `roller-v2.0.2.scad` carry their accepted
+  geometry into the 2.0.2 set unchanged.
 - The two prepared Bambu Studio projects are
-  `fabrication/canonical/3mf/frame-and-stand-v2.0.1.project.3mf` and
-  `fabrication/canonical/3mf/everything-else-v2.0.1.project.3mf`. The latter was
-  rebuilt from current canonical parts and retains the capstan and dry-rig
-  support painting from the user-prepared 3MFs.
+  `fabrication/canonical/3mf/frame-and-stand-v2.0.2.project.3mf` and
+  `fabrication/canonical/3mf/everything-else-v2.0.2.project.3mf`. The latter uses
+  a native Bambu package, retains the prepared capstan and dry-rig support
+  enforcer, and passed a full non-interactive Bambu load-and-slice round trip.
 - The retained support-painted component inputs live under the
   `component-sources/` subfolders in Canonical 3MF and STL. They are internal
   assembly sources, not separate current-release downloads.
-- Superseded 2.0.0 working copies are grouped under
-  `D:\Double Take Frames\Superseded\v2.0.0`; they do not remain in active
-  Canonical or public-download folders.
+- Superseded 2.0.0 and 2.0.1 working copies are grouped under their respective
+  `D:\Double Take Frames\Superseded\<version>` folders; they do not remain in
+  active Canonical or public-download folders.
 - Release 1.0.0 remains recoverable through Git tag `design-v1.0.0`; it is not
   part of the active Canonical folders or current public downloads.
 
 ## Pending canon
 
 - There are no active Pending Canon SCAD candidates immediately after the
-  2.0.1 promotion.
+  2.0.2 promotion.
 - `fabrication/pending-canon/stl/Combined capstan and clock string guide.stl`
   remains Pending Canon. It is a user-supplied export whose exact relationship
-  to the verified 2.0.1 sources is still unverified; do not publish or promote
+  to the verified 2.0.2 sources is still unverified; do not publish or promote
   it by inference.
 
 ## Current weight system
@@ -88,7 +89,7 @@ working tree before making changes.
   cover image with the brad pin sideways like a mustache.
 - The zipper-insertion illustration remains a temporary live asset and may be
   refined later without blocking the current design release.
-- Clock-string-guide instructions and inventory art reflect the 2.0.1 captive
+- Clock-string-guide instructions and inventory art reflect the 2.0.2 captive
   guide, and the capstan step places the capstan over that guide.
 
 ## Working rules
@@ -104,6 +105,9 @@ working tree before making changes.
 - Never infer that a file named `canonical` elsewhere is authoritative.
 - Run `npm test` before publishing. CAD edits also require the release and
   workspace synchronization checks.
+- Before publishing a prepared 3MF, run Bambu Studio's non-interactive
+  load-and-slice round trip and confirm that every intended object is present
+  and not skipped. ZIP/XML inspection alone is not an adequate project check.
 - Never modify a released version in place. Assign the next SemVer, record its
   changes, and generate a complete release set.
 - Update this file whenever a design decision changes what is current.
