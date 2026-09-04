@@ -3,6 +3,23 @@
 Only the current design files are publicly downloadable. This history explains
 what changed between releases.
 
+## 2.0.1 - 2026-09-02
+
+Prepared-project packaging correction.
+
+- Rebuilt the Everything Else project from the current canonical roller,
+  clock-string guide, latch, and keeper sources.
+- Used the exact prepared capstan and dry-wall-rig 3MF objects so their manual
+  support painting is retained.
+- Retained the Bambu Lab A1 0.4 mm nozzle, 0.20 mm layer, normal manual support,
+  and snug support-style settings.
+- Carried the frame-and-stand project and editable OpenSCAD geometry forward
+  unchanged.
+
+Compatibility note: this packaging-only patch does not change the printed-part
+compatibility contract. The 2.0.x capstans and clock-string guide remain a
+coordinated pair; do not mix either part with its 1.x counterpart.
+
 ## 2.0.0 - 2026-08-31
 
 Coordinated main-frame, capstan, and clock-string-guide release.

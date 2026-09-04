@@ -1,8 +1,10 @@
 // DOUBLE TAKE FRAMES DESIGN RELEASE
-// DTF_RELEASE: 2.0.0
-// Released: 2026-08-31
+// DTF_RELEASE: 2.0.1
+// Released: 2026-09-02
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
 // Status: CANONICAL
+// Changes in 2.0.1:
+// - Carried forward unchanged for the prepared-project packaging correction.
 // Changes in 2.0.0:
 // - Carried forward without geometry changes for the coordinated 2.0.0 release.
 // Full release notes: https://doubletakeframes.com/build/#design-release

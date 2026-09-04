@@ -21,36 +21,36 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 PROJECTS = {
     "everything": {
-        "project": REPO_ROOT / "fabrication/canonical/3mf/everything-else-v2.0.0.project.3mf",
+        "project": REPO_ROOT / "fabrication/canonical/3mf/everything-else-v2.0.1.project.3mf",
         "replacements": [
             {
                 "entry": "3D/Objects/object_3.model",
                 "mesh_object_id": "10",
                 "settings_object_id": "11",
                 "settings_part_id": "10",
-                "stl": "capstans-v2.0.0-ascii.stl",
-                "name": "Capstans v2.0.0.stl",
+                "stl": "capstans-v2.0.1-ascii.stl",
+                "name": "Capstans v2.0.1.stl",
             },
             {
                 "entry": "3D/Objects/object_4.model",
                 "mesh_object_id": "6",
                 "settings_object_id": "7",
                 "settings_part_id": "6",
-                "stl": "clock-string-guide-v2.0.0-ascii.stl",
-                "name": "Clock String Guide v2.0.0.stl",
+                "stl": "clock-string-guide-v2.0.1-ascii.stl",
+                "name": "Clock String Guide v2.0.1.stl",
             },
         ],
     },
     "frame": {
-        "project": REPO_ROOT / "fabrication/canonical/3mf/frame-and-stand-v2.0.0.project.3mf",
+        "project": REPO_ROOT / "fabrication/canonical/3mf/frame-and-stand-v2.0.1.project.3mf",
         "replacements": [
             {
                 "entry": "3D/Objects/object_20.model",
                 "mesh_object_id": "1",
                 "settings_object_id": "6",
                 "settings_part_id": "1",
-                "stl": "main-frame-v2.0.0-dry-ascii.stl",
-                "name": "Main Frame v2.0.0.stl",
+                "stl": "main-frame-v2.0.1-dry-ascii.stl",
+                "name": "Main Frame v2.0.1.stl",
             },
         ],
     },

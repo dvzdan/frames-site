@@ -1,8 +1,10 @@
 // DOUBLE TAKE FRAMES DESIGN RELEASE
-// DTF_RELEASE: 2.0.0
-// Released: 2026-08-31
+// DTF_RELEASE: 2.0.1
+// Released: 2026-09-02
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
 // Status: CANONICAL
+// Changes in 2.0.1:
+// - Carried forward unchanged for the prepared-project packaging correction.
 // Changes in 2.0.0:
 // - Uses captive 16 mm flanges coordinated with the revised clock-string guide.
 // - Adds keyed bottom-flange loading slots and revised string anchors.

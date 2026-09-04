@@ -1,6 +1,6 @@
 # Current project state
 
-Updated: 2026-08-31
+Updated: 2026-09-04
 
 This is the short briefing for a completely new chat. `AGENTS.md` defines how
 to work; this file records what is currently true. Confirm it against the
@@ -13,9 +13,12 @@ working tree before making changes.
 - Apps Script and Google backend: `C:\Users\zack and lil\frames-site`
 - Canonical CAD source: `cad/source/` in the public website worktree
 - Public CAD downloads: generated copies under `assets/downloads/`
-- Current public design release: `2.0.0`, governed by Semantic Versioning 2.0.0
+- Current public design release: `2.0.1`, governed by Semantic Versioning 2.0.0
 - Release policy and machine record: `release/POLICY.md` and `release/current.json`
 - Heavy recordings, renders, meshes, and intermediates: `D:`
+- Superseded release working copies: `D:\\Double Take Frames\\Superseded\\<version>`
+  (kept out of Canonical and public-download folders; Git release tags remain
+  the authoritative immutable history).
 - User-facing file workspace: `C:\Users\zack and lil\Documents\Double Take Frames`
   - `1 - Canonical` contains accepted files.
   - `2 - Pending Canon` contains tracked candidates under review.
@@ -29,29 +32,38 @@ working tree before making changes.
 
 ## Current canonical design release
 
-- Release `2.0.0` is the complete Canonical design set.
-- `cad/source/main-frame-v2.0.0.scad` is the accepted main-frame source. It was
+- Release `2.0.1` is the complete Canonical design set. This patch corrects the
+  prepared Everything Else project while carrying the component geometry forward.
+- `cad/source/main-frame-v2.0.1.scad` is the accepted main-frame source. It was
   promoted from `water-cassette-v1.1.0-rc.3.scad` and is intentionally saved as
   the dry configuration: `dry = true`, `wet = false`.
-- `capstans-v2.0.0.scad` and `clock-string-guide-v2.0.0.scad` are a coordinated
+- `capstans-v2.0.1.scad` and `clock-string-guide-v2.0.1.scad` are a coordinated
   captive pair and must be used together. Their controller is
-  `capstans-and-clock-string-guide-v2.0.0.scad`.
-- `dry-wall-rig-v2.0.0.scad`, `frame-stand-v2.0.0.scad`,
-  `latch-and-keeper-v2.0.0.scad`, and `roller-v2.0.0.scad` carry their accepted
-  geometry into the coordinated 2.0.0 set unchanged.
+  `capstans-and-clock-string-guide-v2.0.1.scad`.
+- `dry-wall-rig-v2.0.1.scad`, `frame-stand-v2.0.1.scad`,
+  `latch-and-keeper-v2.0.1.scad`, and `roller-v2.0.1.scad` carry their accepted
+  geometry into the 2.0.1 set unchanged.
 - The two prepared Bambu Studio projects are
-  `fabrication/canonical/3mf/frame-and-stand-v2.0.0.project.3mf` and
-  `fabrication/canonical/3mf/everything-else-v2.0.0.project.3mf`.
+  `fabrication/canonical/3mf/frame-and-stand-v2.0.1.project.3mf` and
+  `fabrication/canonical/3mf/everything-else-v2.0.1.project.3mf`. The latter was
+  rebuilt from current canonical parts and retains the capstan and dry-rig
+  support painting from the user-prepared 3MFs.
+- The retained support-painted component inputs live under the
+  `component-sources/` subfolders in Canonical 3MF and STL. They are internal
+  assembly sources, not separate current-release downloads.
+- Superseded 2.0.0 working copies are grouped under
+  `D:\Double Take Frames\Superseded\v2.0.0`; they do not remain in active
+  Canonical or public-download folders.
 - Release 1.0.0 remains recoverable through Git tag `design-v1.0.0`; it is not
   part of the active Canonical folders or current public downloads.
 
 ## Pending canon
 
 - There are no active Pending Canon SCAD candidates immediately after the
-  2.0.0 promotion.
+  2.0.1 promotion.
 - `fabrication/pending-canon/stl/Combined capstan and clock string guide.stl`
   remains Pending Canon. It is a user-supplied export whose exact relationship
-  to the verified 2.0.0 sources is still unverified; do not publish or promote
+  to the verified 2.0.1 sources is still unverified; do not publish or promote
   it by inference.
 
 ## Current weight system
@@ -76,7 +88,7 @@ working tree before making changes.
   cover image with the brad pin sideways like a mustache.
 - The zipper-insertion illustration remains a temporary live asset and may be
   refined later without blocking the current design release.
-- Clock-string-guide instructions and inventory art reflect the 2.0.0 captive
+- Clock-string-guide instructions and inventory art reflect the 2.0.1 captive
   guide, and the capstan step places the capstan over that guide.
 
 ## Working rules

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-08-31",
+  "updated": "2026-09-04",
   "userWorkspace": "C:/Users/zack and lil/Documents/Double Take Frames",
   "workspaceFolders": [
     { "tier": "canonical", "type": "scad", "local": "1 - Canonical/SCAD", "target": "cad/source", "view": "hardlink-mirror" },
@@ -18,83 +18,119 @@
       "id": "main-frame-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/main-frame-v2.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-main-frame-v2.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/main-frame-v2.0.0.scad",
+      "canonical": "cad/source/main-frame-v2.0.1.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-main-frame-v2.0.1.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/main-frame-v2.0.1.scad",
       "note": "Promoted from water-cassette-v1.1.0-rc.3. The saved configuration is dry = true and wet = false."
     },
     {
       "id": "capstan-guide-controller-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/capstans-and-clock-string-guide-v2.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-capstans-and-clock-string-guide-v2.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/capstans-and-clock-string-guide-v2.0.0.scad",
-      "note": "Controller for the coordinated 2.0.0 captive capstans and clock-string guide."
+      "canonical": "cad/source/capstans-and-clock-string-guide-v2.0.1.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-capstans-and-clock-string-guide-v2.0.1.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/capstans-and-clock-string-guide-v2.0.1.scad",
+      "note": "Controller for the coordinated 2.0.1 captive capstans and clock-string guide."
     },
     {
       "id": "capstans-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/capstans-v2.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-capstans-v2.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/capstans-v2.0.0.scad"
+      "canonical": "cad/source/capstans-v2.0.1.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-capstans-v2.0.1.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/capstans-v2.0.1.scad"
     },
     {
       "id": "clock-string-guide-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/clock-string-guide-v2.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-clock-string-guide-v2.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/clock-string-guide-v2.0.0.scad"
+      "canonical": "cad/source/clock-string-guide-v2.0.1.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-clock-string-guide-v2.0.1.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/clock-string-guide-v2.0.1.scad"
     },
     {
       "id": "dry-wall-rig-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/dry-wall-rig-v2.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-dry-wall-rig-v2.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/dry-wall-rig-v2.0.0.scad"
+      "canonical": "cad/source/dry-wall-rig-v2.0.1.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-dry-wall-rig-v2.0.1.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/dry-wall-rig-v2.0.1.scad"
     },
     {
       "id": "frame-stand-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/frame-stand-v2.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-frame-stand-v2.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/frame-stand-v2.0.0.scad"
+      "canonical": "cad/source/frame-stand-v2.0.1.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-frame-stand-v2.0.1.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/frame-stand-v2.0.1.scad"
     },
     {
       "id": "latch-and-keeper-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/latch-and-keeper-v2.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-latch-and-keeper-v2.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/latch-and-keeper-v2.0.0.scad"
+      "canonical": "cad/source/latch-and-keeper-v2.0.1.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-latch-and-keeper-v2.0.1.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/latch-and-keeper-v2.0.1.scad"
     },
     {
       "id": "roller-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/roller-v2.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-roller-v2.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/roller-v2.0.0.scad"
+      "canonical": "cad/source/roller-v2.0.1.scad",
+      "publicCopies": ["assets/downloads/double-take-frames-roller-v2.0.1.scad"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/roller-v2.0.1.scad"
     },
     {
       "id": "frame-and-stand-3mf",
       "tier": "canonical",
       "status": "released",
-      "canonical": "fabrication/canonical/3mf/frame-and-stand-v2.0.0.project.3mf",
-      "publicCopies": ["assets/downloads/double-take-frames-frame-and-stand-v2.0.0.project.3mf"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/frame-and-stand-v2.0.0.project.3mf"
+      "canonical": "fabrication/canonical/3mf/frame-and-stand-v2.0.1.project.3mf",
+      "publicCopies": ["assets/downloads/double-take-frames-frame-and-stand-v2.0.1.project.3mf"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/frame-and-stand-v2.0.1.project.3mf"
     },
     {
       "id": "everything-else-3mf",
       "tier": "canonical",
       "status": "released",
-      "canonical": "fabrication/canonical/3mf/everything-else-v2.0.0.project.3mf",
-      "publicCopies": ["assets/downloads/double-take-frames-everything-else-v2.0.0.project.3mf"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/everything-else-v2.0.0.project.3mf"
+      "canonical": "fabrication/canonical/3mf/everything-else-v2.0.1.project.3mf",
+      "publicCopies": ["assets/downloads/double-take-frames-everything-else-v2.0.1.project.3mf"],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/everything-else-v2.0.1.project.3mf"
+    },
+    {
+      "id": "capstans-support-source-3mf",
+      "tier": "canonical",
+      "status": "retained-component-source",
+      "canonical": "fabrication/canonical/3mf/component-sources/capstans-v2.0.0.3mf",
+      "publicCopies": [],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/component-sources/capstans-v2.0.0.3mf",
+      "note": "Internal support-painted component source retained for the 2.0.1 Everything Else project; not a standalone release download."
+    },
+    {
+      "id": "dry-wall-rig-support-source-3mf",
+      "tier": "canonical",
+      "status": "retained-component-source",
+      "canonical": "fabrication/canonical/3mf/component-sources/dry-wall-rig-v2.0.0.3mf",
+      "publicCopies": [],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/component-sources/dry-wall-rig-v2.0.0.3mf",
+      "note": "Internal support-painted component source retained for the 2.0.1 Everything Else project; not a standalone release download."
+    },
+    {
+      "id": "capstans-support-source-stl",
+      "tier": "canonical",
+      "status": "retained-component-source",
+      "canonical": "fabrication/canonical/stl/component-sources/capstans-v2.0.0.stl",
+      "publicCopies": [],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/STL/component-sources/capstans-v2.0.0.stl",
+      "note": "Internal mesh source paired with the retained support-painted capstans 3MF."
+    },
+    {
+      "id": "dry-wall-rig-support-source-stl",
+      "tier": "canonical",
+      "status": "retained-component-source",
+      "canonical": "fabrication/canonical/stl/component-sources/dry-wall-rig-v2.0.0.stl",
+      "publicCopies": [],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/STL/component-sources/dry-wall-rig-v2.0.0.stl",
+      "note": "Internal mesh source paired with the retained support-painted dry-wall-rig 3MF."
     },
     {
       "id": "combined-capstan-guide-stl",
@@ -150,6 +186,10 @@
     }
   ],
   "obsoleteLocations": [
+    {
+      "path": "D:/Double Take Frames/Superseded",
+      "reason": "Versioned internal archive for superseded release working copies; never a canonical or public input."
+    },
     {
       "path": "C:/Users/zack and lil/Documents/codex-scad-experiment",
       "reason": "Historical untracked experiments; not canonical input."
