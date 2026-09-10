@@ -114,8 +114,8 @@ const galleryItems = [
     title: "Good Cat",
     revealTitle: "Bad Cat",
     description: "",
-    cover: "/assets/gallery/good-cat-5x7.png",
-    reveal: "/assets/gallery/bad-cat-5x7.png"
+    cover: "/assets/gallery/good-cat-5x7.png?v=20260910-cat-refresh",
+    reveal: "/assets/gallery/bad-cat-5x7.png?v=20260910-cat-refresh"
   },
   {
     title: "Wholesome",
