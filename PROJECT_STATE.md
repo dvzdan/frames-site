@@ -1,6 +1,6 @@
 # Current project state
 
-Updated: 2026-09-04
+Updated: 2026-09-15
 
 This is the short briefing for a completely new chat. `AGENTS.md` defines how
 to work; this file records what is currently true. Confirm it against the
@@ -13,7 +13,7 @@ working tree before making changes.
 - Apps Script and Google backend: `C:\Users\zack and lil\frames-site`
 - Canonical CAD source: `cad/source/` in the public website worktree
 - Public CAD downloads: generated copies under `assets/downloads/`
-- Current public design release: `2.0.3`, governed by Semantic Versioning 2.0.0
+- Current public design release: `2.0.4`, governed by Semantic Versioning 2.0.0
 - Release policy and machine record: `release/POLICY.md` and `release/current.json`
 - Heavy recordings, renders, meshes, and intermediates: `D:`
 - Superseded release working copies: `D:\\Double Take Frames\\Superseded\\<version>`
@@ -21,36 +21,38 @@ working tree before making changes.
   the authoritative immutable history).
 - User-facing file workspace: `C:\Users\zack and lil\Documents\Double Take Frames`
   - `1 - Canonical` contains accepted files.
-  - `2 - Pending Canon` contains tracked candidates under review.
+  - `2 - Pending Canon` contains local-only candidates under review. Cloudflare
+    does not store, mirror, or track these files.
   - `3 - Experimental` contains non-authoritative work stored on `D:`.
   - Every tier is subdivided into exactly `SCAD`, `STL`, and `3MF`.
-  - Canonical and Pending Canon `SCAD` are ordinary local folders with
-    file-level hard links for OpenSCAD 2021 compatibility. Refresh the complete
-    local view with `npm run workspace:sync`.
+  - Canonical `SCAD` is an ordinary local folder with file-level hard links for
+    OpenSCAD 2021 compatibility. Refresh the Canonical local view with
+    `npm run workspace:sync`.
+  - Pending Canon `SCAD`, `STL`, and `3MF` are ordinary local folders and are
+    deliberately not linked to the Cloudflare worktree.
 - `C:\Users\zack and lil\Documents\codex-scad-experiment` is obsolete historical
   working material and must never be treated as canonical input.
 
 ## Current canonical design release
 
-- Release `2.0.3` is the complete Canonical design set. This packaging
-  correction fixes the Everything Else guide orientation and
-  restores generated capstan supports. Bambu Studio loaded and sliced all seven
-  intended objects without warnings.
-- `cad/source/main-frame-v2.0.3.scad` is the accepted main-frame source. It was
+- Release `2.0.4` is the complete Canonical design set. It introduces the
+  side-loaded capstan hitches and the coordinated clock-string-guide fit
+  refinement while retaining the capstans' manually painted supports.
+- `cad/source/main-frame-v2.0.4.scad` is the accepted main-frame source. It was
   promoted from `water-cassette-v1.1.0-rc.3.scad` and is intentionally saved as
-  the dry configuration: `dry = true`, `wet = false`.
-- `capstans-v2.0.3.scad` and `clock-string-guide-v2.0.3.scad` are a coordinated
-  captive pair and must be used together. Their controller is
-  `capstans-and-clock-string-guide-v2.0.3.scad`.
-- `dry-wall-rig-v2.0.3.scad`, `frame-stand-v2.0.3.scad`,
-  `latch-and-keeper-v2.0.3.scad`, and `roller-v2.0.3.scad` carry their accepted
-  geometry into the 2.0.3 set unchanged.
+  the dry configuration: `dry = true`, `wet = false`; its geometry is unchanged
+  from release 2.0.3.
+- `capstans-v2.0.4.scad` and `clock-string-guide-v2.0.4.scad` are a coordinated
+  pair and must be used together. They are intentionally published as separate
+  editable sources; the obsolete combined controller is no longer retained.
+- `dry-wall-rig-v2.0.4.scad`, `frame-stand-v2.0.4.scad`,
+  `latch-and-keeper-v2.0.4.scad`, and `roller-v2.0.4.scad` carry their accepted
+  geometry into the 2.0.4 set unchanged.
 - The two prepared Bambu Studio projects are
-  `fabrication/canonical/3mf/frame-and-stand-v2.0.3.project.3mf` and
-  `fabrication/canonical/3mf/everything-else-v2.0.3.project.3mf`. The latter
-  keeps the guide flat, generates support for both capstans, retains the dry-rig
-  support enforcer, and passed a full non-interactive Bambu load-and-slice round
-  trip.
+  `fabrication/canonical/3mf/frame-and-stand-v2.0.4.project.3mf` and
+  `fabrication/canonical/3mf/everything-else-v2.0.4.project.3mf`. The latter
+  contains the new support-painted capstans, the revised clock-string guide,
+  and the established remaining mechanism parts.
 - The retained support-painted component inputs live under the
   `component-sources/` subfolders in Canonical 3MF and STL. They are internal
   assembly sources, not separate current-release downloads.
@@ -62,12 +64,13 @@ working tree before making changes.
 
 ## Pending canon
 
-- There are no active Pending Canon SCAD candidates immediately after the
-  2.0.3 promotion.
-- `fabrication/pending-canon/stl/Combined capstan and clock string guide.stl`
-  remains Pending Canon. It is a user-supplied export whose exact relationship
-  to the verified 2.0.3 sources is still unverified; do not publish or promote
-  it by inference.
+- The local Pending Canon main-frame candidate is saved in its wet
+  configuration and adds a 45-degree internal tank-floor slope toward the
+  outlet plus a compact external gusset beneath the tank ledge to avoid the
+  unsupported transition implicated in the failed print.
+- That remaining main-frame candidate still carries a pre-release 2.0.4 name
+  locally. Because 2.0.4 is now released, assign it a new SemVer candidate name
+  before any later promotion.
 
 ## Current weight system
 
@@ -91,14 +94,15 @@ working tree before making changes.
   cover image with the brad pin sideways like a mustache.
 - The zipper-insertion illustration remains a temporary live asset and may be
   refined later without blocking the current design release.
-- Clock-string-guide instructions and inventory art reflect the 2.0.3 captive
+- Clock-string-guide instructions and inventory art reflect the 2.0.4 captive
   guide, and the capstan step places the capstan over that guide.
 
 ## Working rules
 
 - `Canonical`: currently accepted truth; use by default.
-- `Pending Canon`: tracked intended successor under review; do not publish as
-  canonical without explicit promotion.
+- `Pending Canon`: local intended successor under review; Cloudflare does not
+  store it, and it must not be published as canonical without explicit
+  promotion.
 - `Experimental`: exploratory and non-authoritative; large material lives on `D:`.
 - Promotion flows only `Experimental -> Pending Canon -> Canonical`.
 - SCAD is editable design source; STL is a geometry-only print model; 3MF is a

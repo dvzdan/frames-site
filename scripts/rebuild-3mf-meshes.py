@@ -4,8 +4,10 @@ The existing projects retain their printer, process, support-enforcer, and
 placement metadata. New meshes are centered on the model-space bounds of the
 objects they replace; Bambu Studio performs the final project round-trip.
 
-The prepared Everything Else project is intentionally excluded: raw mesh
-replacement would discard its guide orientation and capstan support behavior.
+The Everything Else guide is safe to replace in place because its established
+project transform supplies the print orientation. Capstans are deliberately
+excluded here: their painted-support meshes are transferred from the retained
+component 3MF instead of being reconstructed from STL.
 """
 
 from __future__ import annotations
@@ -23,16 +25,31 @@ import zipfile
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 PROJECTS = {
+    "everything": {
+        "project": REPO_ROOT / "fabrication/canonical/3mf/everything-else-v2.0.4.project.3mf",
+        "replacements": [
+            {
+                "entry": "3D/Objects/object_4.model",
+                "mesh_object_id": "6",
+                "settings_object_id": "7",
+                "settings_part_id": "6",
+                "stl": "clock-string-guide-v2.0.4-ascii.stl",
+                "name": "Clock String Guide v2.0.4.stl",
+                "build_object_id": "7",
+                "build_z": 4.0,
+            },
+        ],
+    },
     "frame": {
-        "project": REPO_ROOT / "fabrication/canonical/3mf/frame-and-stand-v2.0.3.project.3mf",
+        "project": REPO_ROOT / "fabrication/canonical/3mf/frame-and-stand-v2.0.4.project.3mf",
         "replacements": [
             {
                 "entry": "3D/Objects/object_20.model",
                 "mesh_object_id": "1",
                 "settings_object_id": "6",
                 "settings_part_id": "1",
-                "stl": "main-frame-v2.0.1-dry-ascii.stl",
-                "name": "Main Frame v2.0.3.stl",
+                "stl": "main-frame-v2.0.4-dry-ascii.stl",
+                "name": "Main Frame v2.0.4.stl",
             },
         ],
     },
@@ -172,6 +189,28 @@ def update_settings(xml_bytes: bytes, replacements_with_counts):
     return ET.tostring(root, encoding="utf-8", xml_declaration=True)
 
 
+def update_build_positions(xml_bytes: bytes, replacements):
+    xml = xml_bytes.decode("utf-8")
+    for replacement in replacements:
+        object_id = replacement.get("build_object_id")
+        build_z = replacement.get("build_z")
+        if object_id is None or build_z is None:
+            continue
+        pattern = re.compile(
+            rf'(<item\s+objectid="{re.escape(object_id)}"[^>]*\btransform=")([^"]+)(")'
+        )
+
+        def replace_transform(match):
+            values = match.group(2).split()
+            values[-1] = number(float(build_z))
+            return match.group(1) + " ".join(values) + match.group(3)
+
+        xml, count = pattern.subn(replace_transform, xml, count=1)
+        if count != 1:
+            raise ValueError(f"Build item {object_id} was not found")
+    return xml.encode("utf-8")
+
+
 def rewrite_project(project: Path, build_root: Path, replacements):
     with zipfile.ZipFile(project, "r") as source:
         infos = source.infolist()
@@ -199,6 +238,9 @@ def rewrite_project(project: Path, build_root: Path, replacements):
 
     settings_entry = "Metadata/model_settings.config"
     contents[settings_entry] = update_settings(contents[settings_entry], counts)
+    contents["3D/3dmodel.model"] = update_build_positions(
+        contents["3D/3dmodel.model"], replacements
+    )
 
     fd, temp_name = tempfile.mkstemp(prefix=project.stem + "-", suffix=".3mf", dir=project.parent)
     os.close(fd)
@@ -217,8 +259,11 @@ def rewrite_project(project: Path, build_root: Path, replacements):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--build-root", required=True, type=Path)
+    parser.add_argument("--project", choices=sorted(PROJECTS), action="append")
     args = parser.parse_args()
-    for spec in PROJECTS.values():
+    selected = args.project or list(PROJECTS)
+    for name in selected:
+        spec = PROJECTS[name]
         rewrite_project(spec["project"], args.build_root, spec["replacements"])
 
 

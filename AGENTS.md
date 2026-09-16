@@ -45,18 +45,25 @@ The user's visible file system is
 `C:\Users\zack and lil\Documents\Double Take Frames` with exactly three tiers:
 
 - `1 - Canonical`: currently accepted files; use these by default.
-- `2 - Pending Canon`: tracked likely replacements under review.
+- `2 - Pending Canon`: local-only likely replacements under review; Cloudflare
+  must not store, mirror, or track these files.
 - `3 - Experimental`: non-authoritative trials stored on `D:`.
 
 Each tier has exactly the same three user-facing subdivisions: `SCAD`, `STL`,
 and `3MF`. Preserve these exact short names when adding or moving files.
 
-The Canonical and Pending Canon `SCAD` folders are ordinary local directories
-containing file-level hard links to the authoritative repository files. This is
-required because OpenSCAD 2021 crashes when a dependency-bearing SCAD file is
-opened through a Windows directory junction. Never recreate those two `SCAD`
-folders as junctions. After adding, renaming, replacing, or removing a managed
+The Canonical `SCAD` folder is an ordinary local directory containing
+file-level hard links to the authoritative repository files. This is required
+because OpenSCAD 2021 crashes when a dependency-bearing SCAD file is opened
+through a Windows directory junction. Never recreate that `SCAD` folder as a
+junction. After adding, renaming, replacing, or removing a managed Canonical
 SCAD file, run `npm run workspace:sync`, then `npm run workspace:check`.
+
+Pending Canon is intentionally outside the Cloudflare worktree. Its `SCAD`,
+`STL`, and `3MF` folders are ordinary local folders under the user-facing
+workspace. Do not add Pending Canon paths to this repository or to
+`project-state/assets.json`. On explicit promotion, copy the approved local
+candidate into the appropriately versioned Canonical repository paths.
 
 Do not require the user to navigate repository internals. Promote files only in
 the direction Experimental -> Pending Canon -> Canonical, and only with explicit

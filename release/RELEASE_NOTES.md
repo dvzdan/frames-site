@@ -3,6 +3,26 @@
 Only the current design files are publicly downloadable. This history explains
 what changed between releases.
 
+## 2.0.4 - 2026-09-15
+
+Coordinated capstan and clock-string-guide refinement.
+
+- Replaced the capstans' external eyelets with matching side-loaded guide and
+  cleat hitches, tightened the hour fit, advanced the minute gripping
+  transition, and increased hour-side guide clearance.
+- Reduced clock-string-guide width, shifted its spindle opening downward, and
+  moved its loading boss outward while preserving the coordinated capstan
+  interface.
+- Retained the capstans' manually painted support regions in the prepared
+  Everything Else project.
+- Removed the obsolete combined OpenSCAD controller. The capstans and clock
+  string guide remain available as separate editable sources.
+- Carried the frame-and-stand project and remaining editable OpenSCAD geometry
+  forward unchanged.
+
+Compatibility note: the 2.0.4 capstans and clock-string guide are a coordinated
+pair and should replace their earlier versions together.
+
 ## 2.0.3 - 2026-09-04
 
 Prepared-project printability correction.

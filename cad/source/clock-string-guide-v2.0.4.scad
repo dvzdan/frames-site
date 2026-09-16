@@ -1,8 +1,16 @@
 // DOUBLE TAKE FRAMES DESIGN RELEASE
-// DTF_RELEASE: 2.0.3
-// Released: 2026-09-04
+// DTF_RELEASE: 2.0.4
+// Released: 2026-09-15
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
 // Status: CANONICAL
+// Changes in 2.0.4:
+// - Reduces overall width by 0.6 mm to relieve end compression and Y bowing.
+// - Moves the concentric spindle/opening group 0.4 mm downward so the installed
+//   guide and unchanged beak sit farther from the capstan flange rims.
+// - Rigidly translates the complete original boss, hole, channel, and beak
+//   1.2 mm, joining it to the guide with one plain rectangular neck.
+// - Reduces the standalone stationary-collar bore to 6.25 mm as an empirical
+//   tension-fit candidate for the nominal 6.8 mm stationary sleeve.
 // Changes in 2.0.3:
 // - Carried forward unchanged for the corrected prepared-project packaging.
 // Changes in 2.0.2:
@@ -24,7 +32,7 @@ eps = 0.05;
 
 // Canonical pressure bar.
 clock_bar_len_x = is_undef(shared_clock_guide_len_x)
-    ? 58.0 : shared_clock_guide_len_x;
+    ? 57.4 : shared_clock_guide_len_x;
 clock_bar_t_y = 3.0;
 clock_bar_h_z = 21.0;
 canonical_clock_bar_hole_d = 15.0;
@@ -33,7 +41,7 @@ capstan_flange_d = is_undef(shared_capstan_flange_d)
 capstan_flange_clearance_r = is_undef(shared_capstan_flange_clearance_r)
     ? 0.5 : shared_capstan_flange_clearance_r;
 clock_bar_hole_d = capstan_flange_d+2*capstan_flange_clearance_r;
-clock_bar_hole_z_offset = -0.06;
+clock_bar_hole_z_offset = -0.46;
 end_chamfer_y = 1.2;
 
 // One thickness boundary: inside this footprint the guide is the shared
@@ -59,7 +67,7 @@ stationary_collar_spec_d = is_undef(shared_stationary_collar_d)
     ? 6.8 : shared_stationary_collar_d;
 stationary_collar_bore_fit_allowance =
     is_undef(shared_stationary_collar_bore_fit_allowance)
-        ? 0.0 : shared_stationary_collar_bore_fit_allowance;
+        ? -0.55 : shared_stationary_collar_bore_fit_allowance;
 stationary_collar_bore_d = stationary_collar_spec_d
     + stationary_collar_bore_fit_allowance;
 stationary_pad_thickness_y = is_undef(shared_stationary_floor_thickness)
@@ -90,6 +98,8 @@ beak_wall_y = clock_bar_t_y/2-0.30;
 beak_root_front_y = string_hole_yc+string_hole_d/2+0.25;
 beak_axial_center_shift_y = is_undef(shared_beak_axial_center_shift)
     ? 0.50 : shared_beak_axial_center_shift;
+beak_rigid_raise_y = is_undef(shared_beak_rigid_raise_y)
+    ? 1.20 : shared_beak_rigid_raise_y;
 // In the final assembly guide-local +Y becomes eventual -Z. Keep this
 // projection independently registered to the wall and loading-hole geometry.
 // Inside the flange envelope, minimize flange-normal thickness and recover
@@ -208,9 +218,22 @@ module canonical_pressure_bar() {
         union() {
             flange_relieved_bar_body();
 
+            // Move the complete original boss with the beak. A plain
+            // rectangular neck extends the mounting wall to meet it.
             translate([
                 string_boss_xc-string_boss_w_x/2,
                 string_boss_y0,
+                string_boss_z0
+            ])
+                cube([
+                    string_boss_w_x,
+                    beak_rigid_raise_y+eps,
+                    string_boss_h_z
+                ]);
+
+            translate([
+                string_boss_xc-string_boss_w_x/2,
+                string_boss_y0+beak_rigid_raise_y,
                 string_boss_z0
             ])
                 cube([string_boss_w_x, string_boss_d_y, string_boss_h_z]);
@@ -233,7 +256,11 @@ module canonical_pressure_bar() {
             ]);
 
         // Existing vertical loading hole.
-        translate([string_hole_xc, string_hole_yc, string_boss_z0-0.4])
+        translate([
+            string_hole_xc,
+            string_hole_yc+beak_rigid_raise_y,
+            string_boss_z0-0.4
+        ])
             cylinder(
                 h=string_boss_h_z+0.8+2*eps,
                 d=string_hole_d,
@@ -244,10 +271,8 @@ module canonical_pressure_bar() {
 }
 
 module captive_beak_solid() {
-    hull() {
-        // Wide root remains outside the flange boundary and spreads load into
-        // the full-thickness boss/wall.
-        translate([beak_root_xc, beak_root_yc, beak_root_z])
+    translate([0,beak_rigid_raise_y,0]) hull() {
+        translate([beak_root_xc,beak_root_yc,beak_root_z])
             cube([
                 beak_root_w_x,
                 beak_root_d_y,
@@ -257,7 +282,7 @@ module captive_beak_solid() {
         // Wide, thin functional tongue. Its radial taper supplies clearance;
         // its tangential width supplies stiffness without crowding either
         // flange face.
-        translate([beak_tip_xc, beak_tip_yc, 0])
+        translate([beak_tip_xc,beak_tip_yc,0])
             rotate([90, 0, 0])
                 linear_extrude(height=beak_tip_d_y, center=true)
                     polygon(points=[
@@ -273,9 +298,17 @@ module captive_beak_solid() {
 
 module captive_beak_channel() {
     hull() {
-        translate([string_hole_xc, string_hole_yc, string_boss_z0+0.8])
+        translate([
+            string_hole_xc,
+            string_hole_yc+beak_rigid_raise_y,
+            string_boss_z0+0.8
+        ])
             sphere(d=beak_channel_root_d);
-        translate([beak_tip_xc, beak_channel_tip_yc, beak_outlet_local_z])
+        translate([
+            beak_tip_xc,
+            beak_channel_tip_yc+beak_rigid_raise_y,
+            beak_outlet_local_z
+        ])
             sphere(d=beak_channel_tip_d);
     }
 }
