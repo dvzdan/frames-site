@@ -2,10 +2,31 @@
   <div class="eyebrow">Instructions</div>
   <h1>Assembly instructions</h1>
   <p class="section-copy">Get the images and parts ready, then put the frame together.</p>
-  <aside class="assembly-self-print-callout">
-    <div><strong>3D-printing your own parts?</strong><span>Get the print files and review the printing and cleanup instructions before assembly.</span></div>
-    <a class="button secondary" href="<?= sitePageUrl('build', 'plans') ?>">Get 3D Print Files</a>
-  </aside>
+  <nav class="assembly-entry" aria-label="Choose how to begin">
+    <div class="assembly-entry-ready">
+      <svg class="assembly-entry-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path d="M4.5 9.5 16 4l11.5 5.5v13L16 28 4.5 22.5zM4.5 9.5 16 15l11.5-5.5M16 15v13"/>
+        <path d="m9.5 7.1 11.6 5.5v5.1"/>
+      </svg>
+      <strong>Already have your parts and images?</strong>
+      <a class="button" href="#setup-manual">Start assembly</a>
+    </div>
+    <div class="assembly-entry-options">
+      <a class="assembly-entry-option" href="<?= sitePageUrl('build', 'plans') ?>">
+        <svg class="assembly-entry-option-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M6 5h20v22H6zM10 9h12M16 9v5M13 14h6l-1 3h-4zM11 24h10M13 20h6v4h-6z"/>
+        </svg>
+        <span><strong>Print the parts</strong><small>3D print files</small></span>
+      </a>
+      <a class="assembly-entry-option" href="<?!= ScriptApp.getService().getUrl() ?>?page=make5x7" target="_blank" rel="noopener">
+        <svg class="assembly-entry-option-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M8 12V5h16v7M6 13h20a2 2 0 0 1 2 2v8h-5M9 23H4v-8a2 2 0 0 1 2-2M9 19h14v8H9z"/>
+          <path d="M12 9h8M24 16h.1M12 23h8"/>
+        </svg>
+        <span><strong>Prepare the images</strong><small>Make 5×7 tool</small></span>
+      </a>
+    </div>
+  </nav>
 </section>
 
 <?!= include('Preparation'); ?>

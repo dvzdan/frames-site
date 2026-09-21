@@ -8,10 +8,7 @@ function hydrateImagePreparation() {
     [".image-preparation-option:not(.image-preparation-skip) h3", content.selfHeading],
     [".image-preparation-tool", content.toolText],
     [".image-preparation-note", content.note],
-    [".image-preparation-link", content.linkLabel],
-    [".image-preparation-skip h3", content.skipHeading],
-    [".image-preparation-skip .image-preparation-text", content.skipText],
-    [".image-preparation-skip-link", content.skipLabel]
+    [".image-preparation-link", content.linkLabel]
   ];
   updates.forEach(function(update) {
     const node = section.querySelector(update[0]);
