@@ -1,27 +1,3 @@
-function hydrateImagePreparation() {
-  const section = document.getElementById("prepare-images");
-  const content = SITE_CONTENT.sections.imagePreparation || {};
-  if (!section) return;
-  const updates = [
-    ["h2", content.heading],
-    [".image-preparation-intro", content.intro],
-    [".image-preparation-option:not(.image-preparation-skip) h3", content.selfHeading],
-    [".image-preparation-tool", content.toolText],
-    [".image-preparation-note", content.note],
-    [".image-preparation-link", content.linkLabel]
-  ];
-  updates.forEach(function(update) {
-    const node = section.querySelector(update[0]);
-    if (node && update[1]) node.textContent = update[1];
-  });
-  if (content.selfText) {
-    setLinkedMake5x7Text(
-      section.querySelector(".image-preparation-option:not(.image-preparation-skip) .image-preparation-text"),
-      content.selfText
-    );
-  }
-}
-
 function enhanceAssemblyInventoryTerms() {
   document.querySelectorAll(".inventory-name").forEach(function(node) {
     if (node.querySelector("[data-term-help-trigger]")) return;
@@ -93,6 +69,20 @@ function renderAssemblyPreamble(content) {
     root.appendChild(checklist);
   }
   return root;
+}
+
+function bindAssemblyEntry() {
+  const inventory = document.querySelector("#setup-inventory .inventory-disclosure");
+  const checkpoint = document.querySelector("[data-inventory-checkpoint]");
+  if (!inventory) return;
+  const openInventory = function() {
+    inventory.open = true;
+  };
+  if (checkpoint) checkpoint.addEventListener("click", openInventory);
+  if (window.location.hash === "#setup-inventory") openInventory();
+  window.addEventListener("hashchange", function() {
+    if (window.location.hash === "#setup-inventory") openInventory();
+  });
 }
 
 function createAssemblyThreadingHelp() {
@@ -197,7 +187,7 @@ function hydrateAssemblyFaq() {
 }
 
 function startAssemblyPage() {
-  hydrateImagePreparation();
+  bindAssemblyEntry();
   enhanceAssemblyInventoryTerms();
   hydrateAssemblyPage();
   hydrateAssemblyFaq();

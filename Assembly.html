@@ -9,7 +9,7 @@
         <path d="m9.5 7.1 11.6 5.5v5.1"/>
       </svg>
       <strong>Already have your parts and images?</strong>
-      <a class="button" href="#setup-manual">Start assembly</a>
+      <a class="button" href="#setup-inventory" data-inventory-checkpoint>Check parts &amp; start</a>
     </div>
     <div class="assembly-entry-options">
       <a class="assembly-entry-option" href="<?= sitePageUrl('build', 'plans') ?>">
@@ -18,13 +18,19 @@
         </svg>
         <span><strong>Print the parts</strong><small>3D print files</small></span>
       </a>
-      <a class="assembly-entry-option" href="<?!= ScriptApp.getService().getUrl() ?>?page=make5x7" target="_blank" rel="noopener">
-        <svg class="assembly-entry-option-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <path d="M8 12V5h16v7M6 13h20a2 2 0 0 1 2 2v8h-5M9 23H4v-8a2 2 0 0 1 2-2M9 19h14v8H9z"/>
-          <path d="M12 9h8M24 16h.1M12 23h8"/>
-        </svg>
-        <span><strong>Prepare the images</strong><small>Make 5×7 tool</small></span>
-      </a>
+      <details class="assembly-entry-image-choice" id="prepare-images">
+        <summary class="assembly-entry-option">
+          <svg class="assembly-entry-option-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <path d="M8 12V5h16v7M6 13h20a2 2 0 0 1 2 2v8h-5M9 23H4v-8a2 2 0 0 1 2-2M9 19h14v8H9z"/>
+            <path d="M12 9h8M24 16h.1M12 23h8"/>
+          </svg>
+          <span><strong>Prepare the images</strong><small>Cover + Reveal</small></span>
+        </summary>
+        <div class="assembly-entry-image-prep">
+          <p>You need a Cover Image and a Reveal Image. If yours arrived prepared, no work is needed.</p>
+          <p>Otherwise, use <a class="make-5x7-inline-link" href="<?!= ScriptApp.getService().getUrl() ?>?page=make5x7" target="_blank" rel="noopener">Make 5×7</a>, then print and cut both images. Have a single-hole punch ready for the Cover Image.</p>
+        </div>
+      </details>
     </div>
   </nav>
 </section>

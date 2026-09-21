@@ -423,7 +423,7 @@ await kitsDeepLink.close();
 
 const assembly = await assertPage(
   "assembly",
-  ["h1", "#prepare-images", ".image-preparation-link", "#setup-inventory", ".assembly-threading-help", "#assemblyGuide", "[data-assembly-viewer]", "#faq"],
+  ["h1", "#prepare-images", ".assembly-entry-image-prep", "#setup-inventory", ".assembly-threading-help", "#assemblyGuide", "[data-assembly-viewer]", "#faq"],
   ["#gallery-section", "#pricingTiers"]
 );
 const assemblyProgressBefore = await assembly.locator("[data-assembly-progress]").innerText();

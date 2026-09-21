@@ -2657,6 +2657,58 @@ p {
   text-decoration: none;
 }
 
+.assembly-entry-image-choice {
+  min-width: 0;
+}
+
+.assembly-entry-image-choice > summary {
+  cursor: pointer;
+  list-style: none;
+  padding-right: 40px;
+  position: relative;
+}
+
+.assembly-entry-image-choice > summary::-webkit-details-marker {
+  display: none;
+}
+
+.assembly-entry-image-choice > summary::after {
+  color: var(--accent-brown);
+  content: "+";
+  font-size: 18px;
+  position: absolute;
+  right: 14px;
+  top: 14px;
+}
+
+.assembly-entry-image-choice[open] {
+  grid-column: 1 / -1;
+}
+
+.assembly-entry-image-choice[open] > summary {
+  border-radius: 8px 8px 0 0;
+}
+
+.assembly-entry-image-choice[open] > summary::after {
+  content: "−";
+}
+
+.assembly-entry-image-prep {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 0 0 8px 8px;
+  border-top: 0;
+  color: var(--text-body);
+  display: grid;
+  gap: 7px;
+  padding: 12px 14px 14px;
+}
+
+.assembly-entry-image-prep p {
+  line-height: 1.45;
+  margin: 0;
+}
+
 .assembly-entry-option:hover,
 .assembly-entry-option:focus-visible {
   background: color-mix(in srgb, var(--accent-olive) 5%, var(--surface));
@@ -4777,11 +4829,6 @@ button:not(.text-link-button):not(.term-help-trigger):not(.how-works-nested-trig
   height: 14px;
   left: 13px;
   width: 70px;
-}
-
-.image-preparation-diy-option {
-  margin-top: 20px;
-  max-width: 720px;
 }
 
 .inventory-card-material .inventory-image {
