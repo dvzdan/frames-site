@@ -211,7 +211,8 @@ function migrateLegacySiteContent(content) {
   if (assembly && Array.isArray(assembly.checklistItems)) {
     const removedWeightRigChecks = [
       "Keep the exposed string between the Cover Image and five-weight rig to about 1 inch.",
-      "Tuck the birch stick just under the roller lip so the rig stays in place when tilted."
+      "Tuck the birch stick just under the roller lip so the rig stays in place when tilted.",
+      "Fasten the trap-door latch with the C-clip."
     ];
     assembly.checklistItems = assembly.checklistItems.filter((item) => (
       !String(item).startsWith("Tuck the stem") && !removedWeightRigChecks.includes(item)
