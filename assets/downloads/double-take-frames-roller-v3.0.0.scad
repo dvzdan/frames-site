@@ -1,8 +1,11 @@
 // DOUBLE TAKE FRAMES DESIGN RELEASE
-// DTF_RELEASE: 2.0.4
-// Released: 2026-09-15
+// DTF_RELEASE: 3.0.0
+// Released: 2026-09-24
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
 // Status: CANONICAL
+// Changes in 3.0.0:
+// - Shortens the roller's overall keyed-shoe span by 1.2 mm: 0.6 mm removed
+//   from each outward X end after the cassette side walls were thickened.
 // Changes in 2.0.4:
 // - Carried forward unchanged for the coordinated capstan and clock-string-guide release.
 // Changes in 2.0.3:
@@ -83,6 +86,7 @@ uhmw_land_centers_x = [
 
 end_shoe_x_len = 8.0;          // how much roller length is converted to keyed end shoe
 end_cap_x_t = 1.2;             // solid cap thickness closing the functional shell near each shoe
+end_shoe_outer_trim_x = 0.6;   // remove only the outward tip of each keyed shoe
 
 end_shoe_y0 = -tube_r * 0.78;  // leading -Y edge of shoe
 end_shoe_y1 =  tube_r * 0.78;  // trailing +Y edge of shoe
@@ -348,13 +352,13 @@ module roller_glide_standalone() {
 
         // New non-round end shoes.
         keyed_end_shoe(
-            0,
+            end_shoe_outer_trim_x,
             end_shoe_x_len
         );
 
         keyed_end_shoe(
             roller_len_x - end_shoe_x_len,
-            roller_len_x
+            roller_len_x - end_shoe_outer_trim_x
         );
     }
 }

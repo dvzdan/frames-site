@@ -217,6 +217,10 @@ function migrateLegacySiteContent(content) {
     assembly.checklistItems = assembly.checklistItems.filter((item) => (
       !String(item).startsWith("Tuck the stem") && !removedWeightRigChecks.includes(item)
     ));
+    const bayonetCheck = "Align the latch keyway with the bayonet lug for installation, then rotate the latch away from that loading position.";
+    if (!assembly.checklistItems.includes(bayonetCheck)) {
+      assembly.checklistItems.unshift(bayonetCheck);
+    }
   }
 
   const imagePreparation = content?.sections?.imagePreparation;

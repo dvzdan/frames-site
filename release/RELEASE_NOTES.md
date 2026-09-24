@@ -3,6 +3,32 @@
 Only the current design files are publicly downloadable. This history explains
 what changed between releases.
 
+## 3.0.0 - 2026-09-24
+
+Clipless keyed wall-rig and latch release.
+
+- Replaced the C-clip retention system with a coordinated bayonet lug on the
+  wall-rig pivot and a matching generously clearanced latch keyway.
+- Gave the keyway a printable diagonal upper roof. The latch installs with its
+  keyway aligned to the lug and becomes captive after it is rotated away from
+  that loading position.
+- Added the latch's second retaining wall so the weight remains laterally
+  captive in either cassette orientation.
+- Shortened the roller's keyed-shoe span by 1.2 mm total (0.6 mm per end) for
+  clearance at the cassette side walls.
+- Renamed Dry Wall Rig to Wall Rig and Latch and Keeper to Latch.
+- Removed the obsolete keeper from Everything Else while retaining the wall
+  rig's support enforcer and the capstans' prepared support settings.
+- Carried the main frame, frame stand, capstans, and clock-string-guide
+  geometry forward unchanged.
+
+Compatibility note: the 3.0.0 wall rig and latch are a coordinated pair and
+must replace their 2.x versions together. The new latch does not use a C-clip.
+The remaining carried-forward parts retain their established interfaces.
+
+Known documentation note: some older instruction images may still depict the
+former C-clip. Follow the current written bayonet installation instruction.
+
 ## 2.0.4 - 2026-09-15
 
 Coordinated capstan and clock-string-guide refinement.

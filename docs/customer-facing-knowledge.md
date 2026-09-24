@@ -205,7 +205,9 @@ The design and assembly instructions include multiple layers of redundancy. Most
 ## Assembly Easy-To-Miss Checks
 
 - Tuck the stem of the weight inside the roller lip so it cannot fall out.
-- Fasten the trap-door latch with the C-clip.
+- Align the latch keyway with the bayonet lug, slide the eye fully onto the
+  pivot, and rotate the latch away from that loading position. Release 3.0.0
+  does not use a C-clip.
 - Thread the string through both the boss guide and the top-left eyelet.
 - Pull any remaining slack above the string/clock guide.
 

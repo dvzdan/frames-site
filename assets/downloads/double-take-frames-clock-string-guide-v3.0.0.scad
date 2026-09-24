@@ -1,8 +1,10 @@
 // DOUBLE TAKE FRAMES DESIGN RELEASE
-// DTF_RELEASE: 2.0.4
-// Released: 2026-09-15
+// DTF_RELEASE: 3.0.0
+// Released: 2026-09-24
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
 // Status: CANONICAL
+// Changes in 3.0.0:
+// - Carried forward unchanged for the clipless keyed wall-rig and latch release.
 // Changes in 2.0.4:
 // - Reduces overall width by 0.6 mm to relieve end compression and Y bowing.
 // - Moves the concentric spindle/opening group 0.4 mm downward so the installed

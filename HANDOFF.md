@@ -131,7 +131,7 @@ Documented build:
 Optional materials kit:
 
 - The commercial offering is the non-printable material bundle for one build.
-- Includes tested compatible one-frame quantities: clock mechanism, specialty media, pre-cut acrylic/backing, UHMW tape, string/threading wire, zipper/latch/eyelets/C-clip/fasteners, and similar small hardware/materials.
+- Includes tested compatible one-frame quantities: clock mechanism, specialty media, pre-cut acrylic/backing, UHMW tape, string/threading wire, zipper/latch/eyelets/fasteners, and similar small hardware/materials. Release 3.0.0 uses a clipless keyed latch and no C-clip.
 - Builder still uses the free build files and instructions, 3D prints the frame/stand, assembles the mechanism, and prints/loads an image pair.
 
 Custom finished build:

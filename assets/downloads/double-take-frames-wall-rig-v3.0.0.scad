@@ -1,8 +1,13 @@
-// DOUBLE TAKE FRAMES DESIGN RELEASE
-// DTF_RELEASE: 2.0.4
-// Released: 2026-09-15
+// DOUBLE TAKE FRAMES — CANONICAL CLIPLESS KEYED WALL RIG
+// DTF_RELEASE: 3.0.0
+// Released: 2026-09-24
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
 // Status: CANONICAL
+// Changes in 3.0.0:
+// Adds a print-friendly bayonet stop lug to the pivot peg so the keyed latch
+// needs no C-clip. On this mirrored wall rig, the lug faces
+// outward toward +X (right in the backside/SCAD view), preventing the released, downward-
+// hanging latch keyway from aligning with it and slipping off.
 // Changes in 2.0.4:
 // - Carried forward unchanged for the coordinated capstan and clock-string-guide release.
 // Changes in 2.0.3:
@@ -15,17 +20,12 @@
 // - Carried forward without geometry changes for the coordinated 2.0.0 release.
 // Full release notes: https://doubletakeframes.com/build/#design-release
 //
-// Public dry-wall rig source. Shared latch modules remain here so the mating
-// geometry stays synchronized; the default output is the fixed wall rig.
+// Public wall-rig source. This file contains only the fixed rig; the
+// standalone latch source is the sole authority for the moving part.
 $fn = 96;
 
 inch = 25.4;
 eps  = 0.05;
-
-// 0 = closed assembly review, 1 = fixed rig, 2 = moving latch,
-// 3 = keeper, 4 = separated printable parts
-render_part = 1;
-show_weight_proxy = false;
 
 // =========================================================
 // CONVENTIONAL FRAME
@@ -56,8 +56,24 @@ standoff_d = 9.5;
 standoff_h = 0.8;   // along Y
 post_d     = 5.5;
 post_h     = 4.0;   // along Y
-neck_d     = 4.7;
-neck_h     = 1.4;   // along Y
+// The bayonet needs no reduced C-clip groove. Continue the full post diameter
+// through the upper lug-ramp section for strength and layer support.
+neck_d     = post_d;
+neck_h     = 1.4;   // bayonet lug ramp length along Y
+
+// One minimal bayonet nub. Its outer radius is reached gradually across the
+// 1.4 mm upper ramp length, avoiding an unsupported shelf when the wall panel
+// prints flat. The mating latch has one loose arm-side bore recess.
+bayonet_lug_outer_r = 5.00;
+bayonet_lug_tangent_w = 1.80;
+bayonet_lug_root_overlap = 0.60;
+bayonet_lug_slice_y = 0.08;
+// The unrotated hull grows toward +X: outward/right in the mirrored wall rig's
+// backside/SCAD view.
+bayonet_lug_angle = 0;
+// A symmetric one-nozzle-wide outer tip is simpler and more reliable than a
+// barely visible one-sided taper. The structural root remains 1.80 mm wide.
+bayonet_lug_tip_w = 0.60;
 
 // The corral is the Y source of truth. Center the eye plane on its complete
 // outer depth, then derive the wall-rooted pad extension needed to put the
@@ -71,7 +87,7 @@ pad_t = -corral_center_y_target - standoff_h - post_h/2;
 
 // These are retained only because tunnel placement is still
 // logically referenced from where the latch bar tip used to be.
-eye_outer_d = 13.0;
+eye_outer_d = 14.0;
 arm_len     = 1.5 * inch;
 tip_len     = 2.0;
 
@@ -102,16 +118,9 @@ tip_x0 = bar_x_outer - tip_len;
 tip_x1 = bar_x_outer;
 
 // =========================================================
-// MOVING LATCH — CORRAL FLOOR + RELOCATABLE PIVOT EYE
+// STANDALONE LATCH INTERFACE DATUMS
 // =========================================================
 latch_t = 3.4;
-bar_up = 2.5;
-bar_t = latch_t + bar_up;
-arm_w = 6.0;
-tip_w = 6.0;
-bottom_relief = 0.8;
-bottom_y_round = 0.6;
-eye_inner_d = post_d + 2*0.22;
 
 // Solid far-end extension outside the centered 41.5 mm weight pocket. Five
 // millimeters leaves useful material on every side of the enclosed key socket.
@@ -151,27 +160,6 @@ corral_outer_y0 = corral_inner_y0 - corral_wall_t;
 corral_global_outer_y0 = latch_install_y + corral_outer_y0;
 corral_global_inner_y0 = latch_install_y + corral_inner_y0;
 corral_global_inner_y1 = latch_install_y + corral_inner_y1;
-
-// Compact transition into the pivot eye. It occupies exactly the eye's Y
-// plane: keeper outside, fixed shoulder inside. Extending it farther in either
-// direction would embed it in one of those fixed retention features.
-pivot_transition_x0 = corral_floor_x1;
-pivot_transition_x1 = pivot_x - (eye_inner_d/2 + 0.25);
-pivot_transition_y0 = 0;
-pivot_transition_y1 = latch_t;
-
-// Placeholder proxy height; X/Y are measured.
-weight_piece_w_x = 40.0;
-weight_piece_d_y = 12.0;
-weight_proxy_h_z = 6.5;
-
-// Preserve the canonical keeper unchanged.
-clip_outer_d = 10.0;
-clip_t       = 1.8;
-grip_hole_d  = 4.65;
-gap_w        = 2.8;
-flat_depth   = 1.5;
-keeper_install_y = neck_y1;
 
 // =========================================================
 // TUNNEL PARAMS
@@ -249,8 +237,6 @@ zipper_corral_nominal_gap_z = corral_floor_z0 - slot_z1;
 corral_floor_z  = corral_floor_z0 + corral_floor_t;
 corral_wall_z1 = corral_floor_z + corral_depth_z;
 pivot_z = (corral_floor_z0 + corral_wall_z1) / 2;
-pivot_eye_flat_z = corral_floor_z0;
-pivot_eye_flat_local_z = pivot_eye_flat_z - pivot_z;
 
 //=========================================================
 // SINGLE FN WHEEL-WEIGHT GARAGE
@@ -401,6 +387,13 @@ canonical_wall_z1 =  27.0;
 wall_w = canonical_wall_x1 - canonical_wall_x0;
 wall_h = canonical_wall_z1 - canonical_wall_z0;
 
+// The rig slides toward +X into the cassette's left-side capture lips. The
+// bevel is an X/Y cross-section extruded along the complete right edge in Z:
+// its top face stops short and slopes down toward the +X tip, while the bottom
+// face remains flat and full-length as the sliding datum.
+rig_right_edge_lead_in = 0.60;
+rig_right_edge_nose_t = wall_t - rig_right_edge_lead_in;
+
 // =========================================================
 // HELPERS
 // =========================================================
@@ -522,11 +515,37 @@ rig_wall_extra_z = 2.0;
 clock_wall_profile_dz = 5.0;
 module wall_only() {
     if (show_wall)
-        rect_prism(
-            canonical_wall_x0, canonical_wall_x1,
-            0, wall_t,
-            canonical_wall_z0, canonical_wall_z1
-        );
+        translate([0, 0, canonical_wall_z0])
+            linear_extrude(height = wall_h)
+                polygon(points = [
+                    [canonical_wall_x0, 0],
+                    [canonical_wall_x1 - rig_right_edge_lead_in, 0],
+                    [canonical_wall_x1,
+                     wall_t - rig_right_edge_nose_t],
+                    [canonical_wall_x1, wall_t],
+                    [canonical_wall_x0, wall_t]
+                ]);
+}
+
+module bayonet_stop_lug() {
+    translate([pivot_x, 0, pivot_z])
+        rotate([0, -bayonet_lug_angle, 0])
+            hull() {
+                // Begin within the supported post radius.
+                rect_prism(neck_d / 2 - bayonet_lug_root_overlap,
+                           post_d / 2,
+                           post_y1 - bayonet_lug_slice_y, post_y1,
+                           -bayonet_lug_tangent_w / 2,
+                           bayonet_lug_tangent_w / 2);
+
+                // Grow gradually to a simple symmetric printable tip at the
+                // neck end; the diagonal keyway supplies the asymmetry.
+                rect_prism(neck_d / 2 - bayonet_lug_root_overlap,
+                           bayonet_lug_outer_r,
+                           neck_y1, neck_y1 + bayonet_lug_slice_y,
+                           -bayonet_lug_tip_w / 2,
+                           bayonet_lug_tip_w / 2);
+            }
 }
 
 module latch_base_only() {
@@ -541,6 +560,8 @@ module latch_base_only() {
             cyl_y_span(post_d,     post_y0,     post_y1);
             cyl_y_span(neck_d,     neck_y0,     neck_y1);
         }
+
+        bayonet_stop_lug();
     }
 }
 
@@ -614,131 +635,7 @@ module fixed_rig() {
     }
 }
 
-// =========================================================
-// MOVING LATCH — ZIPPER-DATUM CORRAL WITH RELOCATED PIVOT
-// =========================================================
-module canonical_latch_core() {
-    translate([pivot_x,0,pivot_z])
-        difference() {
-            // The corral floor is now the latch beam. Retain only the
-            // canonical pivot eye; the redundant long arm is gone.
-            cyl_y_span(eye_outer_d, 0, latch_t);
-            cyl_y_span(eye_inner_d, -0.1, latch_t + 0.2);
+assert(bayonet_lug_angle == 0,
+       "wall-rig retention requires the fixed nub to face outward toward +X");
 
-            // Remove only the unused outer arc below the corral shelf so the
-            // complete moving latch prints on one coplanar Z surface. This
-            // cut remains well below the pivot bore and does not alter fit.
-            rect_prism(-eye_outer_d/2 - 1,
-                        eye_outer_d/2 + 1,
-                       -0.1, latch_t + 0.2,
-                       -eye_outer_d/2 - 1,
-                        pivot_eye_flat_local_z);
-        }
-}
-
-module fn_weight_corral() {
-    difference() {
-      union() {
-        // Shallow floor beneath both the pocket and solid keyed extension.
-        rect_prism(corral_floor_x0, corral_floor_x1,
-                   corral_outer_y0, corral_outer_y1,
-                   corral_floor_z0, corral_floor_z);
-
-        // Retain only the -Y wall. The frame wall itself closes the +Y side
-        // with 0.30 mm running clearance, so a second printed wall there is
-        // redundant.
-        rect_prism(corral_inner_x0, corral_inner_x1,
-                   corral_outer_y0, corral_inner_y0,
-                   corral_floor_z, corral_wall_z1);
-
-        // Only the pivot-side X wall belongs to the moving latch. The fixed
-        // rig's left guide closes the opposite end when the latch is parked.
-        rect_prism(corral_inner_x1, corral_floor_x1,
-                   corral_outer_y0, corral_outer_y1,
-                   corral_floor_z, corral_wall_z1);
-
-        // Full-depth far-end wall outside the 41.5 mm weight pocket. This is
-        // deliberately substantial so the Y-retention notch is not carried
-        // by a thin side-wall cantilever.
-        rect_prism(corral_floor_x0, corral_inner_x0,
-                   corral_outer_y0, corral_outer_y1,
-                   corral_floor_z, corral_wall_z1);
-
-        // Short load path from the pen into the eye, confined to the eye plane
-        // so it clears both the keeper and fixed shoulder.
-        rect_prism(pivot_transition_x0, pivot_transition_x1,
-                   pivot_transition_y0, pivot_transition_y1,
-                   corral_floor_z0, corral_wall_z1);
-      }
-
-      // Fully enclosed X/Y socket, open only at the top. It swings downward
-      // off the fixed tooth while the closed latch is positively guided in Y.
-      rect_prism(latch_key_notch_x0, latch_key_notch_x1,
-                 latch_key_notch_y0, latch_key_notch_y1,
-                 latch_key_notch_z0, corral_wall_z1 + eps);
-
-    }
-}
-
-module swinging_latch() {
-    union() {
-        canonical_latch_core();
-        fn_weight_corral();
-    }
-}
-
-// =========================================================
-// KEEPER — UNCHANGED CANONICAL GEOMETRY
-// =========================================================
-module c_keeper() {
-    difference() {
-        cyl_y_span(clip_outer_d, 0, clip_t);
-        cyl_y_span(grip_hole_d, -0.1, clip_t + 0.2);
-
-        rect_prism(0, clip_outer_d/2 + 0.5,
-                   -0.1, clip_t + 0.1,
-                   -gap_w/2, gap_w/2);
-
-        rect_prism(grip_hole_d/2 - 0.2,
-                   grip_hole_d/2 - 0.2 + flat_depth,
-                   -0.1, clip_t + 0.1,
-                   -gap_w/2 - 0.4, gap_w/2 + 0.4);
-    }
-}
-
-module fn_weight_proxy() {
-    proxy_x0 = corral_inner_x0 + (corral_clear_w_x-weight_piece_w_x)/2;
-    proxy_x1 = proxy_x0 + weight_piece_w_x;
-    proxy_y0 = corral_global_inner_y0 + (corral_clear_d_y-weight_piece_d_y)/2;
-    proxy_y1 = proxy_y0 + weight_piece_d_y;
-
-    color([0.42,0.44,0.46,0.85])
-        rect_prism(proxy_x0, proxy_x1,
-                   proxy_y0, proxy_y1,
-                   corral_floor_z, corral_floor_z + weight_proxy_h_z);
-}
-
-module closed_assembly() {
-    color([0.78,0.72,0.48]) fixed_rig();
-    color([0.18,0.48,0.88])
-        translate([0, latch_install_y, 0]) swinging_latch();
-    color([0.90,0.45,0.12])
-        translate([pivot_x, keeper_install_y, pivot_z]) c_keeper();
-    if (show_weight_proxy) fn_weight_proxy();
-}
-
-if (render_part == 0)
-    closed_assembly();
-else if (render_part == 1)
-    fixed_rig();
-else if (render_part == 2)
-    swinging_latch();
-else if (render_part == 3)
-    c_keeper();
-else {
-    fixed_rig();
-    translate([20, -28, 0]) swinging_latch();
-    // Keep the separate keeper clear of the translated latch's pivot eye.
-    // The latch reaches X=33 here; the keeper now begins at X=40.
-    translate([45, -28, 0]) c_keeper();
-}
+fixed_rig();

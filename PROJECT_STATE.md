@@ -1,6 +1,6 @@
 # Current project state
 
-Updated: 2026-09-15
+Updated: 2026-09-24
 
 This is the short briefing for a completely new chat. `AGENTS.md` defines how
 to work; this file records what is currently true. Confirm it against the
@@ -13,7 +13,7 @@ working tree before making changes.
 - Apps Script and Google backend: `C:\Users\zack and lil\frames-site`
 - Canonical CAD source: `cad/source/` in the public website worktree
 - Public CAD downloads: generated copies under `assets/downloads/`
-- Current public design release: `2.0.4`, governed by Semantic Versioning 2.0.0
+- Current public design release: `3.0.0`, governed by Semantic Versioning 2.0.0
 - Release policy and machine record: `release/POLICY.md` and `release/current.json`
 - Heavy recordings, renders, meshes, and intermediates: `D:`
 - Superseded release working copies: `D:\\Double Take Frames\\Superseded\\<version>`
@@ -35,27 +35,28 @@ working tree before making changes.
 
 ## Current canonical design release
 
-- Release `2.0.4` is the complete Canonical design set. It introduces the
-  side-loaded capstan hitches and the coordinated clock-string-guide fit
-  refinement while retaining the capstans' manually painted supports.
-- `cad/source/main-frame-v2.0.4.scad` is the accepted main-frame source. It was
-  promoted from `water-cassette-v1.1.0-rc.3.scad` and is intentionally saved as
-  the dry configuration: `dry = true`, `wet = false`; its geometry is unchanged
-  from release 2.0.3.
-- `capstans-v2.0.4.scad` and `clock-string-guide-v2.0.4.scad` are a coordinated
-  pair and must be used together. They are intentionally published as separate
-  editable sources; the obsolete combined controller is no longer retained.
-- `dry-wall-rig-v2.0.4.scad`, `frame-stand-v2.0.4.scad`,
-  `latch-and-keeper-v2.0.4.scad`, and `roller-v2.0.4.scad` carry their accepted
-  geometry into the 2.0.4 set unchanged.
-- The two prepared Bambu Studio projects are
-  `fabrication/canonical/3mf/frame-and-stand-v2.0.4.project.3mf` and
-  `fabrication/canonical/3mf/everything-else-v2.0.4.project.3mf`. The latter
-  contains the new support-painted capstans, the revised clock-string guide,
-  and the established remaining mechanism parts.
-- The retained support-painted component inputs live under the
-  `component-sources/` subfolders in Canonical 3MF and STL. They are internal
-  assembly sources, not separate current-release downloads.
+- Release `3.0.0` is the complete Canonical design set. It replaces the
+  C-clip latch retention system with a coordinated clipless keyed bayonet
+  between the wall rig and latch.
+- `wall-rig-v3.0.0.scad` and `latch-v3.0.0.scad` are a coordinated pair and
+  must replace their 2.x counterparts together. The latch installs with its
+  keyway aligned to the pivot lug and becomes captive after rotation.
+- The 3.0.0 latch adds the second retaining wall, and the roller shortens its
+  keyed-shoe span by 1.2 mm total for cassette-wall clearance.
+- The former Dry Wall Rig and Latch and Keeper names are retired. The canonical
+  source names are now `wall-rig-v3.0.0.scad` and `latch-v3.0.0.scad`.
+- `main-frame-v3.0.0.scad`, `frame-stand-v3.0.0.scad`,
+  `capstans-v3.0.0.scad`, and `clock-string-guide-v3.0.0.scad` carry their
+  accepted 2.0.4 geometry forward unchanged. The main frame remains saved in
+  the dry configuration: `dry = true`, `wet = false`.
+- The two public prepared Bambu Studio projects are
+  `fabrication/canonical/3mf/frame-and-stand-v3.0.0.project.3mf` and
+  `fabrication/canonical/3mf/everything-else-v3.0.0.project.3mf`. Everything
+  Else contains six objects: roller, wall rig, clock-string guide, latch, and
+  two capstans. It retains the wall-rig support enforcer and the capstans'
+  prepared support settings; the obsolete keeper is absent.
+- Standalone canonical wall-rig, latch, and roller 3MF/STL manufacturing files
+  are retained locally but are not separate public website downloads.
 - Superseded 2.0.0 through 2.0.2 working copies are grouped under their respective
   `D:\Double Take Frames\Superseded\<version>` folders; they do not remain in
   active Canonical or public-download folders.
@@ -68,9 +69,8 @@ working tree before making changes.
   configuration and adds a 45-degree internal tank-floor slope toward the
   outlet plus a compact external gusset beneath the tank ledge to avoid the
   unsupported transition implicated in the failed print.
-- That remaining main-frame candidate still carries a pre-release 2.0.4 name
-  locally. Because 2.0.4 is now released, assign it a new SemVer candidate name
-  before any later promotion.
+- That remaining main-frame candidate still carries a stale pre-release name
+  locally. Assign it a new SemVer candidate name before any later promotion.
 
 ## Current weight system
 
@@ -81,7 +81,8 @@ working tree before making changes.
 - The former adhesive steel weight, flat birch stick, and thick cotton ligature
   are no longer part of this mechanism.
 - A simple brad pin/clip replaces the thick cotton ligature.
-- Current mechanism uses the new latch/trap-door arrangement and C-clip.
+- Current mechanism uses the clipless keyed latch/trap-door arrangement. No
+  C-clip is required; the bayonet lug retains the latch after rotation.
 
 ## Website and assembly status
 
@@ -94,8 +95,8 @@ working tree before making changes.
   cover image with the brad pin sideways like a mustache.
 - The zipper-insertion illustration remains a temporary live asset and may be
   refined later without blocking the current design release.
-- Clock-string-guide instructions and inventory art reflect the 2.0.4 captive
-  guide, and the capstan step places the capstan over that guide.
+- Clock-string-guide instructions and inventory art reflect the captive guide
+  carried forward into 3.0.0, and the capstan step places the capstan over it.
 
 ## Working rules
 
