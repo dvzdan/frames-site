@@ -11,7 +11,7 @@
     "Promoted the current removable-roof main frame with its dry cassette configuration saved as dry=true, wet=false, and chimney=false; no wet-variant mesh is included in this release.",
     "Promoted the simplified stationary-collar clock/string guide, replacing the former long pressure-bar or seatbelt geometry while retaining the side-load thread slit and full beak.",
     "Promoted the current dry wall rig and matching latch, and retained the established standard frame stand with reservoir=false.",
-    "Rebuilt Frame and Stand from the promoted dry meshes while preserving its Bambu Lab A1 0.6 mm prepared profile, support enforcers, placements, and four wall loops.",
+    "Rebuilt Frame and Stand with the current dry frame and stand, the separate removable roof panel, the Bambu Lab X2D 0.6 mm 0.30 mm Standard profile, four wall loops, and supports disabled.",
     "Rebuilt Everything Else with the promoted dry clock/string guide, wall rig, and latch while retaining the roller, both capstans, the wall-rig support enforcer, and the capstans' prepared support settings."
   ],
   "artifacts": [
@@ -22,8 +22,8 @@
       "public": "assets/downloads/double-take-frames-frame-and-stand-v4.0.0.project.3mf",
       "name": "Frame and Stand v4.0.0.project.3mf",
       "title": "Double Take Frames \u2014 Frame and Stand \u2014 4.0.0",
-      "description": "Prepared dry frame-and-stand print project for Double Take Frames 4.0.0, with four wall loops retained for the frame/cassette plate.",
-      "meta": "3MF project \u00b7 dry release 4.0.0 \u00b7 4 wall loops \u00b7 0.6 mm nozzle recommended"
+      "description": "Prepared dry frame, stand, and separate removable roof-panel print project for Double Take Frames 4.0.0, using the current X2D 0.6 mm Standard profile with four wall loops and supports disabled.",
+      "meta": "3MF project \u00b7 dry release 4.0.0 \u00b7 frame + stand + roof \u00b7 X2D 0.6 mm Standard \u00b7 4 wall loops \u00b7 supports off"
     },
     {
       "id": "everything-else-3mf",

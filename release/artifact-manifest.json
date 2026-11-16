@@ -8,14 +8,14 @@
       "type": "3mf-project",
       "source": "fabrication/canonical/3mf/frame-and-stand-v4.0.0.project.3mf",
       "public": "assets/downloads/double-take-frames-frame-and-stand-v4.0.0.project.3mf",
-      "sha256": "b13e0316b22ab922359ad29a22f913419193e3330d2cf3e64107facb043383b9"
+      "sha256": "98cf3c1623324fa50c16df8d0a4bcdb5c1fccae78b681a58a840d3c20e5c1763"
     },
     {
       "id": "everything-else-3mf",
       "type": "3mf-project",
       "source": "fabrication/canonical/3mf/everything-else-v4.0.0.project.3mf",
       "public": "assets/downloads/double-take-frames-everything-else-v4.0.0.project.3mf",
-      "sha256": "7fede5995ab9db81440b87a7e30a16c91355253dab809e9806a379943bd50b99"
+      "sha256": "d53cf56c13a53d3c79bc0944b26ac2f9a1a686662bdd5edde1cdc549a0b29f31"
     },
     {
       "id": "capstans-scad",
