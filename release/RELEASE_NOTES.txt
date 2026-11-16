@@ -1,33 +1,21 @@
-DOUBLE TAKE FRAMES DESIGN RELEASE 3.0.0
-Released 2026-09-24
+DOUBLE TAKE FRAMES DESIGN RELEASE 4.0.0
+Released 2026-11-15
 
-Clipless keyed wall-rig and latch release.
+Current removable-roof dry cassette and simplified mechanism release.
 
 CHANGES
-- Replaced the C-clip retention system with a coordinated bayonet lug on the
-  wall-rig pivot and a matching keyway in the latch.
-- Made the latch keyway deliberately generous and gave its upper edge a
-  printable diagonal roof. Install the latch over the lug, then rotate it away
-  from the loading position so it cannot slip off.
-- Added the latch's second retaining wall so the weight remains laterally
-  captive in either cassette orientation.
-- Shortened the roller's keyed-shoe span by 1.2 mm total (0.6 mm per end) for
-  clearance at the cassette side walls.
-- Renamed Dry Wall Rig to Wall Rig and Latch and Keeper to Latch.
-- Removed the obsolete keeper from Everything Else while retaining the wall
-  rig's support enforcer and the capstans' prepared support settings.
-- Carried the main frame, frame stand, capstans, and clock-string-guide
-  geometry forward unchanged.
+- Promoted the current removable-roof main frame with its dry cassette configuration saved as dry=true, wet=false, and chimney=false; no wet-variant mesh is included in this release.
+- Promoted the simplified stationary-collar clock/string guide, replacing the former long pressure-bar or seatbelt geometry while retaining the side-load thread slit and full beak.
+- Promoted the current dry wall rig and matching latch, and retained the established standard frame stand with reservoir=false.
+- Rebuilt Frame and Stand from the promoted dry meshes while preserving its Bambu Lab A1 0.6 mm prepared profile, support enforcers, placements, and four wall loops.
+- Rebuilt Everything Else with the promoted dry clock/string guide, wall rig, and latch while retaining the roller, both capstans, the wall-rig support enforcer, and the capstans' prepared support settings.
+
 
 COMPATIBILITY
-The 3.0.0 wall rig and latch are a coordinated pair and must replace their 2.x
-versions together. The new latch does not use a C-clip. The remaining carried-
-forward parts retain their established interfaces.
-
-KNOWN DOCUMENTATION NOTE
-Some older instruction images may still depict the former C-clip. Follow the
-current written instruction: align the latch keyway with the bayonet lug for
-installation, then rotate the latch away from the loading position.
+4.0.0 is a coordinated replacement release. Use the Frame and Stand and
+Everything Else prepared projects from this same release. The public projects
+contain only the standard dry variants. The Frame and Stand project uses four
+wall loops.
 
 VERSIONING
 This project follows Semantic Versioning 2.0.0: https://semver.org/

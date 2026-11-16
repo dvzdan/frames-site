@@ -1,88 +1,141 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-09-24",
+  "updated": "2026-11-15",
   "userWorkspace": "C:/Users/zack and lil/Documents/Double Take Frames",
   "workspaceFolders": [
-    { "tier": "canonical", "type": "scad", "local": "1 - Canonical/SCAD", "target": "cad/source", "view": "hardlink-mirror" },
-    { "tier": "canonical", "type": "stl", "local": "1 - Canonical/STL", "target": "fabrication/canonical/stl" },
-    { "tier": "canonical", "type": "3mf", "local": "1 - Canonical/3MF", "target": "fabrication/canonical/3mf" },
-    { "tier": "experimental", "type": "scad", "local": "3 - Experimental/SCAD", "target": "D:/Double Take Frames/Experimental/scad", "external": true },
-    { "tier": "experimental", "type": "stl", "local": "3 - Experimental/STL", "target": "D:/Double Take Frames/Experimental/stl", "external": true },
-    { "tier": "experimental", "type": "3mf", "local": "3 - Experimental/3MF", "target": "D:/Double Take Frames/Experimental/3mf", "external": true }
+    {
+      "tier": "canonical",
+      "type": "scad",
+      "local": "1 - Canonical/SCAD",
+      "target": "cad/source",
+      "view": "hardlink-mirror"
+    },
+    {
+      "tier": "canonical",
+      "type": "stl",
+      "local": "1 - Canonical/STL",
+      "target": "fabrication/canonical/stl"
+    },
+    {
+      "tier": "canonical",
+      "type": "3mf",
+      "local": "1 - Canonical/3MF",
+      "target": "fabrication/canonical/3mf"
+    },
+    {
+      "tier": "experimental",
+      "type": "scad",
+      "local": "3 - Experimental/SCAD",
+      "target": "D:/Double Take Frames/Experimental/scad",
+      "external": true
+    },
+    {
+      "tier": "experimental",
+      "type": "stl",
+      "local": "3 - Experimental/STL",
+      "target": "D:/Double Take Frames/Experimental/stl",
+      "external": true
+    },
+    {
+      "tier": "experimental",
+      "type": "3mf",
+      "local": "3 - Experimental/3MF",
+      "target": "D:/Double Take Frames/Experimental/3mf",
+      "external": true
+    }
   ],
   "assets": [
     {
       "id": "main-frame-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/main-frame-v3.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-main-frame-v3.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/main-frame-v3.0.0.scad",
-      "note": "Promoted from water-cassette-v1.1.0-rc.3. The saved configuration is dry = true and wet = false."
+      "canonical": "cad/source/main-frame-v4.0.0.scad",
+      "publicCopies": [
+        "assets/downloads/double-take-frames-main-frame-v4.0.0.scad"
+      ],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/main-frame-v4.0.0.scad",
+      "note": "Promoted from Pending Canon. Saved public configuration: dry=true, wet=false, chimney=false."
     },
     {
       "id": "capstans-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/capstans-v3.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-capstans-v3.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/capstans-v3.0.0.scad"
+      "canonical": "cad/source/capstans-v4.0.0.scad",
+      "publicCopies": [
+        "assets/downloads/double-take-frames-capstans-v4.0.0.scad"
+      ],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/capstans-v4.0.0.scad"
     },
     {
       "id": "clock-string-guide-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/clock-string-guide-v3.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-clock-string-guide-v3.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/clock-string-guide-v3.0.0.scad"
+      "canonical": "cad/source/clock-string-guide-v4.0.0.scad",
+      "publicCopies": [
+        "assets/downloads/double-take-frames-clock-string-guide-v4.0.0.scad"
+      ],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/clock-string-guide-v4.0.0.scad"
     },
     {
       "id": "wall-rig-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/wall-rig-v3.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-wall-rig-v3.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/wall-rig-v3.0.0.scad"
+      "canonical": "cad/source/wall-rig-v4.0.0.scad",
+      "publicCopies": [
+        "assets/downloads/double-take-frames-wall-rig-v4.0.0.scad"
+      ],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/wall-rig-v4.0.0.scad"
     },
     {
       "id": "frame-stand-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/frame-stand-v3.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-frame-stand-v3.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/frame-stand-v3.0.0.scad"
+      "canonical": "cad/source/frame-stand-v4.0.0.scad",
+      "publicCopies": [
+        "assets/downloads/double-take-frames-frame-stand-v4.0.0.scad"
+      ],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/frame-stand-v4.0.0.scad"
     },
     {
       "id": "latch-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/latch-v3.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-latch-v3.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/latch-v3.0.0.scad"
+      "canonical": "cad/source/latch-v4.0.0.scad",
+      "publicCopies": [
+        "assets/downloads/double-take-frames-latch-v4.0.0.scad"
+      ],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/latch-v4.0.0.scad"
     },
     {
       "id": "roller-scad",
       "tier": "canonical",
       "status": "released",
-      "canonical": "cad/source/roller-v3.0.0.scad",
-      "publicCopies": ["assets/downloads/double-take-frames-roller-v3.0.0.scad"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/roller-v3.0.0.scad"
+      "canonical": "cad/source/roller-v4.0.0.scad",
+      "publicCopies": [
+        "assets/downloads/double-take-frames-roller-v4.0.0.scad"
+      ],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/SCAD/roller-v4.0.0.scad"
     },
     {
       "id": "frame-and-stand-3mf",
       "tier": "canonical",
       "status": "released",
-      "canonical": "fabrication/canonical/3mf/frame-and-stand-v3.0.0.project.3mf",
-      "publicCopies": ["assets/downloads/double-take-frames-frame-and-stand-v3.0.0.project.3mf"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/frame-and-stand-v3.0.0.project.3mf"
+      "canonical": "fabrication/canonical/3mf/frame-and-stand-v4.0.0.project.3mf",
+      "publicCopies": [
+        "assets/downloads/double-take-frames-frame-and-stand-v4.0.0.project.3mf"
+      ],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/frame-and-stand-v4.0.0.project.3mf",
+      "note": "Prepared dry frame/cassette project; the saved process uses four wall loops."
     },
     {
       "id": "everything-else-3mf",
       "tier": "canonical",
       "status": "released",
-      "canonical": "fabrication/canonical/3mf/everything-else-v3.0.0.project.3mf",
-      "publicCopies": ["assets/downloads/double-take-frames-everything-else-v3.0.0.project.3mf"],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/everything-else-v3.0.0.project.3mf"
+      "canonical": "fabrication/canonical/3mf/everything-else-v4.0.0.project.3mf",
+      "publicCopies": [
+        "assets/downloads/double-take-frames-everything-else-v4.0.0.project.3mf"
+      ],
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/everything-else-v4.0.0.project.3mf"
     },
     {
       "id": "capstans-support-source-3mf",
@@ -91,33 +144,33 @@
       "canonical": "fabrication/canonical/3mf/component-sources/capstans-v2.0.4.3mf",
       "publicCopies": [],
       "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/component-sources/capstans-v2.0.4.3mf",
-      "note": "Internal support-painted capstan source carried forward into the 3.0.0 Everything Else project; not a standalone release download."
+      "note": "Internal support-painted capstan source carried forward into the 4.0.0 Everything Else project; not a standalone release download."
     },
     {
       "id": "wall-rig-support-source-3mf",
       "tier": "canonical",
       "status": "retained-component-source",
-      "canonical": "fabrication/canonical/3mf/wall-rig-v3.0.0.3mf",
+      "canonical": "fabrication/canonical/3mf/wall-rig-v4.0.0.3mf",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/wall-rig-v3.0.0.3mf",
-      "note": "Canonical wall-rig project retaining the support enforcer used by the 3.0.0 Everything Else project; not a standalone public download."
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/wall-rig-v4.0.0.3mf",
+      "note": "Canonical wall-rig project retaining the support enforcer used by the 4.0.0 Everything Else project; not a standalone public download."
     },
     {
       "id": "latch-source-3mf",
       "tier": "canonical",
       "status": "manufacturing-source",
-      "canonical": "fabrication/canonical/3mf/latch-v3.0.0.3mf",
+      "canonical": "fabrication/canonical/3mf/latch-v4.0.0.3mf",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/latch-v3.0.0.3mf",
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/latch-v4.0.0.3mf",
       "note": "Standalone canonical latch project; the public prepared plate includes this part in Everything Else."
     },
     {
       "id": "roller-source-3mf",
       "tier": "canonical",
       "status": "manufacturing-source",
-      "canonical": "fabrication/canonical/3mf/roller-v3.0.0.3mf",
+      "canonical": "fabrication/canonical/3mf/roller-v4.0.0.3mf",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/roller-v3.0.0.3mf",
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/3MF/roller-v4.0.0.3mf",
       "note": "Standalone canonical roller project; the public prepared plate includes this part in Everything Else."
     },
     {
@@ -133,26 +186,26 @@
       "id": "wall-rig-support-source-stl",
       "tier": "canonical",
       "status": "retained-component-source",
-      "canonical": "fabrication/canonical/stl/wall-rig-v3.0.0.stl",
+      "canonical": "fabrication/canonical/stl/wall-rig-v4.0.0.stl",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/STL/wall-rig-v3.0.0.stl",
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/STL/wall-rig-v4.0.0.stl",
       "note": "Canonical wall-rig mesh paired with the retained support-enforcer 3MF."
     },
     {
       "id": "latch-source-stl",
       "tier": "canonical",
       "status": "manufacturing-source",
-      "canonical": "fabrication/canonical/stl/latch-v3.0.0.stl",
+      "canonical": "fabrication/canonical/stl/latch-v4.0.0.stl",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/STL/latch-v3.0.0.stl"
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/STL/latch-v4.0.0.stl"
     },
     {
       "id": "roller-source-stl",
       "tier": "canonical",
       "status": "manufacturing-source",
-      "canonical": "fabrication/canonical/stl/roller-v3.0.0.stl",
+      "canonical": "fabrication/canonical/stl/roller-v4.0.0.stl",
       "publicCopies": [],
-      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/STL/roller-v3.0.0.stl"
+      "localAccess": "C:/Users/zack and lil/Documents/Double Take Frames/1 - Canonical/STL/roller-v4.0.0.stl"
     },
     {
       "id": "weight-inventory-image",

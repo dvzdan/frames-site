@@ -1,11 +1,15 @@
-// DOUBLE TAKE FRAMES — CANONICAL CLIPLESS KEYED WALL RIG
-// DTF_RELEASE: 3.0.0
-// Released: 2026-09-24
+// DOUBLE TAKE FRAMES — STANDARD/WET CLIPLESS KEYED LATCH RIG
+// DTF_RELEASE: 4.0.0
+// Release revision: 4.0.0
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
-// Status: CANONICAL
-// Changes in 3.0.0:
-// Adds a print-friendly bayonet stop lug to the pivot peg so the keyed latch
-// needs no C-clip. On this mirrored wall rig, the lug faces
+// Status: CANONICAL.
+// Set wet=false for the unchanged neutral/standard wall rig. Set wet=true to
+// mirror the complete fixed rig in X and omit the zipper tunnel/crook package.
+// The wet pivot and bayonet therefore move to the opposite end so the latch
+// swings toward the intact side of its suspension line rather than toward the
+// side-load break.
+// Pending change: adds a print-friendly bayonet stop lug to the pivot peg so
+// the keyed latch needs no C-clip. On this mirrored dry-wall rig, the lug faces
 // outward toward +X (right in the backside/SCAD view), preventing the released, downward-
 // hanging latch keyway from aligning with it and slipping off.
 // Changes in 2.0.4:
@@ -20,12 +24,16 @@
 // - Carried forward without geometry changes for the coordinated 2.0.0 release.
 // Full release notes: https://doubletakeframes.com/build/#design-release
 //
-// Public wall-rig source. This file contains only the fixed rig; the
-// standalone latch source is the sole authority for the moving part.
+// Public dry-wall rig source. This file contains only the fixed rig; the
+// standalone latch-and-keeper source is the sole authority for moving parts.
 $fn = 96;
 
 inch = 25.4;
 eps  = 0.05;
+
+// false = unchanged neutral/standard rig with zipper tunnel architecture
+// true  = wet eyelet-swing rig with the entire zipper tunnel/crook omitted
+wet = false;
 
 // =========================================================
 // CONVENTIONAL FRAME
@@ -68,7 +76,7 @@ bayonet_lug_outer_r = 5.00;
 bayonet_lug_tangent_w = 1.80;
 bayonet_lug_root_overlap = 0.60;
 bayonet_lug_slice_y = 0.08;
-// The unrotated hull grows toward +X: outward/right in the mirrored wall rig's
+// The unrotated hull grows toward +X: outward/right in the mirrored dry rig's
 // backside/SCAD view.
 bayonet_lug_angle = 0;
 // A symmetric one-nozzle-wide outer tip is simpler and more reliable than a
@@ -384,6 +392,11 @@ canonical_wall_x1 =  16.0;
 canonical_wall_z0 = -13.0;
 canonical_wall_z1 =  27.0;
 
+// Shared wet-assembly mirror datum. The standalone wet latch uses the same
+// midpoint, keeping every mating interface registered while preserving this
+// rig's complete outer X envelope.
+wet_assembly_mirror_x = (canonical_wall_x0 + canonical_wall_x1) / 2;
+
 wall_w = canonical_wall_x1 - canonical_wall_x0;
 wall_h = canonical_wall_z1 - canonical_wall_z0;
 
@@ -626,16 +639,26 @@ module tunnel_system() {
     tunnel_crook();
 }
 
-module fixed_rig() {
+module fixed_rig(include_zipper_tunnel=true) {
     union() {
         wall_only();
         latch_base_only();
-        tunnel_system();
+        if(include_zipper_tunnel)
+            tunnel_system();
         carriage_blinders();
     }
 }
 
-assert(bayonet_lug_angle == 0,
-       "wall-rig retention requires the fixed nub to face outward toward +X");
+module selected_rig(){
+    if(wet)
+        translate([2*wet_assembly_mirror_x,0,0])
+            mirror([1,0,0])
+                fixed_rig(false);
+    else
+        fixed_rig(true);
+}
 
-fixed_rig();
+assert(bayonet_lug_angle == 0,
+       "local rig retention requires the fixed nub to use its proven angle");
+
+selected_rig();

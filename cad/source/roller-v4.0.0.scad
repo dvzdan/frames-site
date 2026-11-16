@@ -1,5 +1,5 @@
 // DOUBLE TAKE FRAMES DESIGN RELEASE
-// DTF_RELEASE: 3.0.0
+// DTF_RELEASE: 4.0.0
 // Released: 2026-09-24
 // Versioning: Semantic Versioning 2.0.0 (https://semver.org/)
 // Status: CANONICAL

@@ -3,95 +3,95 @@
   "product": "Double Take Frames",
   "versionStandard": "Semantic Versioning 2.0.0",
   "versionStandardUrl": "https://semver.org/",
-  "version": "3.0.0",
-  "releaseDate": "2026-09-24",
+  "version": "4.0.0",
+  "releaseDate": "2026-11-15",
   "status": "released",
-  "summary": "Replaced the C-clip latch retention with a coordinated clipless bayonet wall rig and latch.",
+  "summary": "Promoted the current removable-roof dry cassette and simplified dry mechanism into coordinated 4.0.0 prepared projects.",
   "changes": [
-    "Added a pronounced keyed bayonet lug to the wall-rig pivot and a matching printable diagonal latch keyway; install the latch over the lug, then rotate it to retain it without a C-clip.",
-    "Added the latch's second retaining wall so the weight remains laterally captive in either cassette orientation.",
-    "Shortened the roller's keyed-shoe span by 1.2 mm total for clearance at the cassette side walls.",
-    "Renamed Dry Wall Rig to Wall Rig and Latch and Keeper to Latch, and removed the obsolete keeper from the prepared Everything Else project.",
-    "Retained the wall rig's support enforcer and the capstans' prepared support settings; carried the frame, stand, capstans, clock-string guide, and main-frame geometry forward unchanged."
+    "Promoted the current removable-roof main frame with its dry cassette configuration saved as dry=true, wet=false, and chimney=false; no wet-variant mesh is included in this release.",
+    "Promoted the simplified stationary-collar clock/string guide, replacing the former long pressure-bar or seatbelt geometry while retaining the side-load thread slit and full beak.",
+    "Promoted the current dry wall rig and matching latch, and retained the established standard frame stand with reservoir=false.",
+    "Rebuilt Frame and Stand from the promoted dry meshes while preserving its Bambu Lab A1 0.6 mm prepared profile, support enforcers, placements, and four wall loops.",
+    "Rebuilt Everything Else with the promoted dry clock/string guide, wall rig, and latch while retaining the roller, both capstans, the wall-rig support enforcer, and the capstans' prepared support settings."
   ],
   "artifacts": [
     {
       "id": "frame-and-stand-3mf",
       "type": "3mf-project",
-      "source": "fabrication/canonical/3mf/frame-and-stand-v3.0.0.project.3mf",
-      "public": "assets/downloads/double-take-frames-frame-and-stand-v3.0.0.project.3mf",
-      "name": "Frame and Stand v3.0.0.project.3mf",
-      "title": "Double Take Frames — Frame and Stand — 3.0.0",
-      "description": "Prepared frame-and-stand print project for the Double Take Frames 3.0.0 design release.",
-      "meta": "3MF project · release 3.0.0 · 0.6 mm nozzle recommended"
+      "source": "fabrication/canonical/3mf/frame-and-stand-v4.0.0.project.3mf",
+      "public": "assets/downloads/double-take-frames-frame-and-stand-v4.0.0.project.3mf",
+      "name": "Frame and Stand v4.0.0.project.3mf",
+      "title": "Double Take Frames \u2014 Frame and Stand \u2014 4.0.0",
+      "description": "Prepared dry frame-and-stand print project for Double Take Frames 4.0.0, with four wall loops retained for the frame/cassette plate.",
+      "meta": "3MF project \u00b7 dry release 4.0.0 \u00b7 4 wall loops \u00b7 0.6 mm nozzle recommended"
     },
     {
       "id": "everything-else-3mf",
       "type": "3mf-project",
-      "source": "fabrication/canonical/3mf/everything-else-v3.0.0.project.3mf",
-      "public": "assets/downloads/double-take-frames-everything-else-v3.0.0.project.3mf",
-      "name": "Everything Else v3.0.0.project.3mf",
-      "title": "Double Take Frames — Everything Else — 3.0.0",
-      "description": "Prepared print project for the remaining Double Take Frames 3.0.0 mechanism parts.",
-      "meta": "3MF project · release 3.0.0 · 0.4 mm nozzle required"
+      "source": "fabrication/canonical/3mf/everything-else-v4.0.0.project.3mf",
+      "public": "assets/downloads/double-take-frames-everything-else-v4.0.0.project.3mf",
+      "name": "Everything Else v4.0.0.project.3mf",
+      "title": "Double Take Frames \u2014 Everything Else \u2014 4.0.0",
+      "description": "Prepared dry print project for the remaining Double Take Frames 4.0.0 mechanism parts.",
+      "meta": "3MF project \u00b7 release 4.0.0 \u00b7 0.4 mm nozzle required"
     },
     {
       "id": "capstans-scad",
       "type": "scad",
-      "source": "cad/source/capstans-v3.0.0.scad",
-      "public": "assets/downloads/double-take-frames-capstans-v3.0.0.scad",
-      "name": "Capstans v3.0.0.scad",
-      "meta": "OpenSCAD source · release 3.0.0"
+      "source": "cad/source/capstans-v4.0.0.scad",
+      "public": "assets/downloads/double-take-frames-capstans-v4.0.0.scad",
+      "name": "Capstans v4.0.0.scad",
+      "meta": "OpenSCAD source \u00b7 release 4.0.0"
     },
     {
       "id": "clock-string-guide-scad",
       "type": "scad",
-      "source": "cad/source/clock-string-guide-v3.0.0.scad",
-      "public": "assets/downloads/double-take-frames-clock-string-guide-v3.0.0.scad",
-      "name": "Clock String Guide v3.0.0.scad",
-      "meta": "OpenSCAD source · release 3.0.0"
+      "source": "cad/source/clock-string-guide-v4.0.0.scad",
+      "public": "assets/downloads/double-take-frames-clock-string-guide-v4.0.0.scad",
+      "name": "Clock String Guide v4.0.0.scad",
+      "meta": "OpenSCAD source \u00b7 release 4.0.0"
     },
     {
       "id": "wall-rig-scad",
       "type": "scad",
-      "source": "cad/source/wall-rig-v3.0.0.scad",
-      "public": "assets/downloads/double-take-frames-wall-rig-v3.0.0.scad",
-      "name": "Wall Rig v3.0.0.scad",
-      "meta": "OpenSCAD source · release 3.0.0"
+      "source": "cad/source/wall-rig-v4.0.0.scad",
+      "public": "assets/downloads/double-take-frames-wall-rig-v4.0.0.scad",
+      "name": "Wall Rig v4.0.0.scad",
+      "meta": "OpenSCAD source \u00b7 release 4.0.0"
     },
     {
       "id": "frame-stand-scad",
       "type": "scad",
-      "source": "cad/source/frame-stand-v3.0.0.scad",
-      "public": "assets/downloads/double-take-frames-frame-stand-v3.0.0.scad",
-      "name": "Frame and Stand v3.0.0.scad",
-      "meta": "OpenSCAD source · release 3.0.0"
+      "source": "cad/source/frame-stand-v4.0.0.scad",
+      "public": "assets/downloads/double-take-frames-frame-stand-v4.0.0.scad",
+      "name": "Frame and Stand v4.0.0.scad",
+      "meta": "OpenSCAD source \u00b7 release 4.0.0"
     },
     {
       "id": "latch-scad",
       "type": "scad",
-      "source": "cad/source/latch-v3.0.0.scad",
-      "public": "assets/downloads/double-take-frames-latch-v3.0.0.scad",
-      "name": "Latch v3.0.0.scad",
-      "meta": "OpenSCAD source · release 3.0.0"
+      "source": "cad/source/latch-v4.0.0.scad",
+      "public": "assets/downloads/double-take-frames-latch-v4.0.0.scad",
+      "name": "Latch v4.0.0.scad",
+      "meta": "OpenSCAD source \u00b7 release 4.0.0"
     },
     {
       "id": "main-frame-scad",
       "type": "scad",
-      "source": "cad/source/main-frame-v3.0.0.scad",
-      "public": "assets/downloads/double-take-frames-main-frame-v3.0.0.scad",
-      "name": "Main Frame v3.0.0.scad",
-      "meta": "OpenSCAD source · release 3.0.0"
+      "source": "cad/source/main-frame-v4.0.0.scad",
+      "public": "assets/downloads/double-take-frames-main-frame-v4.0.0.scad",
+      "name": "Main Frame v4.0.0.scad",
+      "meta": "OpenSCAD source \u00b7 release 4.0.0"
     },
     {
       "id": "roller-scad",
       "type": "scad",
-      "source": "cad/source/roller-v3.0.0.scad",
-      "public": "assets/downloads/double-take-frames-roller-v3.0.0.scad",
-      "name": "Roller v3.0.0.scad",
-      "meta": "OpenSCAD source · release 3.0.0"
+      "source": "cad/source/roller-v4.0.0.scad",
+      "public": "assets/downloads/double-take-frames-roller-v4.0.0.scad",
+      "name": "Roller v4.0.0.scad",
+      "meta": "OpenSCAD source \u00b7 release 4.0.0"
     }
   ],
   "releaseNotesSource": "release/RELEASE_NOTES.txt",
-  "releaseNotesPublic": "assets/downloads/double-take-frames-v3.0.0-release-notes.txt"
+  "releaseNotesPublic": "assets/downloads/double-take-frames-v4.0.0-release-notes.txt"
 }

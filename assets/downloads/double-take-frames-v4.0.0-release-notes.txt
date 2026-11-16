@@ -1,0 +1,24 @@
+DOUBLE TAKE FRAMES DESIGN RELEASE 4.0.0
+Released 2026-11-15
+
+Current removable-roof dry cassette and simplified mechanism release.
+
+CHANGES
+- Promoted the current removable-roof main frame with its dry cassette configuration saved as dry=true, wet=false, and chimney=false; no wet-variant mesh is included in this release.
+- Promoted the simplified stationary-collar clock/string guide, replacing the former long pressure-bar or seatbelt geometry while retaining the side-load thread slit and full beak.
+- Promoted the current dry wall rig and matching latch, and retained the established standard frame stand with reservoir=false.
+- Rebuilt Frame and Stand from the promoted dry meshes while preserving its Bambu Lab A1 0.6 mm prepared profile, support enforcers, placements, and four wall loops.
+- Rebuilt Everything Else with the promoted dry clock/string guide, wall rig, and latch while retaining the roller, both capstans, the wall-rig support enforcer, and the capstans' prepared support settings.
+
+
+COMPATIBILITY
+4.0.0 is a coordinated replacement release. Use the Frame and Stand and
+Everything Else prepared projects from this same release. The public projects
+contain only the standard dry variants. The Frame and Stand project uses four
+wall loops.
+
+VERSIONING
+This project follows Semantic Versioning 2.0.0: https://semver.org/
+MAJOR = incompatible printed-part or hardware interface change.
+MINOR = backward-compatible new part, option, or substantial improvement.
+PATCH = backward-compatible geometry, tolerance, documentation, or packaging fix.

@@ -1,6 +1,6 @@
 # Current project state
 
-Updated: 2026-09-24
+Updated: 2026-11-15
 
 This is the short briefing for a completely new chat. `AGENTS.md` defines how
 to work; this file records what is currently true. Confirm it against the
@@ -13,7 +13,7 @@ working tree before making changes.
 - Apps Script and Google backend: `C:\Users\zack and lil\frames-site`
 - Canonical CAD source: `cad/source/` in the public website worktree
 - Public CAD downloads: generated copies under `assets/downloads/`
-- Current public design release: `3.0.0`, governed by Semantic Versioning 2.0.0
+- Current public design release: `4.0.0`, governed by Semantic Versioning 2.0.0
 - Release policy and machine record: `release/POLICY.md` and `release/current.json`
 - Heavy recordings, renders, meshes, and intermediates: `D:`
 - Superseded release working copies: `D:\\Double Take Frames\\Superseded\\<version>`
@@ -35,42 +35,32 @@ working tree before making changes.
 
 ## Current canonical design release
 
-- Release `3.0.0` is the complete Canonical design set. It replaces the
-  C-clip latch retention system with a coordinated clipless keyed bayonet
-  between the wall rig and latch.
-- `wall-rig-v3.0.0.scad` and `latch-v3.0.0.scad` are a coordinated pair and
-  must replace their 2.x counterparts together. The latch installs with its
-  keyway aligned to the pivot lug and becomes captive after rotation.
-- The 3.0.0 latch adds the second retaining wall, and the roller shortens its
-  keyed-shoe span by 1.2 mm total for cassette-wall clearance.
-- The former Dry Wall Rig and Latch and Keeper names are retired. The canonical
-  source names are now `wall-rig-v3.0.0.scad` and `latch-v3.0.0.scad`.
-- `main-frame-v3.0.0.scad`, `frame-stand-v3.0.0.scad`,
-  `capstans-v3.0.0.scad`, and `clock-string-guide-v3.0.0.scad` carry their
-  accepted 2.0.4 geometry forward unchanged. The main frame remains saved in
-  the dry configuration: `dry = true`, `wet = false`.
+- Release `4.0.0` is the complete Canonical design set and a coordinated
+  replacement for 3.x printed parts.
+- The canonical main frame is the promoted removable-roof source saved as
+  `dry = true`, `wet = false`, and `chimney = false`. No wet-variant STL is
+  included in the public prepared projects.
+- The canonical clock/string guide is the compact stationary-collar design
+  with its side-loading thread slit and full beak; the obsolete long pressure
+  bar is not part of the release.
+- The canonical wall rig and latch are saved in their standard dry conditions:
+  `wet = false` and `wet_latch = false`. The frame stand is saved with
+  `reservoir = false`.
 - The two public prepared Bambu Studio projects are
-  `fabrication/canonical/3mf/frame-and-stand-v3.0.0.project.3mf` and
-  `fabrication/canonical/3mf/everything-else-v3.0.0.project.3mf`. Everything
-  Else contains six objects: roller, wall rig, clock-string guide, latch, and
-  two capstans. It retains the wall-rig support enforcer and the capstans'
-  prepared support settings; the obsolete keeper is absent.
-- Standalone canonical wall-rig, latch, and roller 3MF/STL manufacturing files
-  are retained locally but are not separate public website downloads.
-- Superseded 2.0.0 through 2.0.2 working copies are grouped under their respective
-  `D:\Double Take Frames\Superseded\<version>` folders; they do not remain in
-  active Canonical or public-download folders.
-- Release 1.0.0 remains recoverable through Git tag `design-v1.0.0`; it is not
-  part of the active Canonical folders or current public downloads.
+  `fabrication/canonical/3mf/frame-and-stand-v4.0.0.project.3mf` and
+  `fabrication/canonical/3mf/everything-else-v4.0.0.project.3mf`.
+- Frame and Stand retains its 0.6 mm-nozzle profile, support enforcers,
+  placements, and four wall loops. Everything Else retains the wall-rig
+  support enforcer and the capstans' prepared support settings.
+- Capstan and roller geometry is carried forward under the 4.0.0 release
+  number. Standalone wall-rig, latch, and roller manufacturing projects remain
+  local canonical sources rather than separate public downloads.
 
 ## Pending canon
 
-- The local Pending Canon main-frame candidate is saved in its wet
-  configuration and adds a 45-degree internal tank-floor slope toward the
-  outlet plus a compact external gusset beneath the tank ledge to avoid the
-  unsupported transition implicated in the failed print.
-- That remaining main-frame candidate still carries a stale pre-release name
-  locally. Assign it a new SemVer candidate name before any later promotion.
+- The 2026-11-15 dry candidates were promoted into release `4.0.0`.
+- Wet, chimney, and reservoir alternatives remain source-controlled options
+  inside the canonical SCAD files but are not current prepared release meshes.
 
 ## Current weight system
 
@@ -96,7 +86,7 @@ working tree before making changes.
 - The zipper-insertion illustration remains a temporary live asset and may be
   refined later without blocking the current design release.
 - Clock-string-guide instructions and inventory art reflect the captive guide
-  carried forward into 3.0.0, and the capstan step places the capstan over it.
+  carried forward into 4.0.0, and the capstan step places the capstan over it.
 
 ## Working rules
 

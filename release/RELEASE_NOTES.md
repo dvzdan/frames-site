@@ -3,6 +3,21 @@
 Only the current design files are publicly downloadable. This history explains
 what changed between releases.
 
+## 4.0.0 - 2026-11-15
+
+Current removable-roof dry cassette and simplified mechanism release.
+
+- Promoted the current removable-roof main frame with its dry cassette configuration saved as dry=true, wet=false, and chimney=false; no wet-variant mesh is included in this release.
+- Promoted the simplified stationary-collar clock/string guide, replacing the former long pressure-bar or seatbelt geometry while retaining the side-load thread slit and full beak.
+- Promoted the current dry wall rig and matching latch, and retained the established standard frame stand with reservoir=false.
+- Rebuilt Frame and Stand from the promoted dry meshes while preserving its Bambu Lab A1 0.6 mm prepared profile, support enforcers, placements, and four wall loops.
+- Rebuilt Everything Else with the promoted dry clock/string guide, wall rig, and latch while retaining the roller, both capstans, the wall-rig support enforcer, and the capstans' prepared support settings.
+
+Compatibility note: 4.0.0 is a coordinated replacement release. Use the
+Frame and Stand and Everything Else projects from the same release. The public
+prepared projects contain only the standard dry variants; the editable sources
+retain their variant switches for future work.
+
 ## 3.0.0 - 2026-09-24
 
 Clipless keyed wall-rig and latch release.
