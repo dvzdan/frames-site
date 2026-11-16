@@ -15,7 +15,7 @@
       "type": "3mf-project",
       "source": "fabrication/canonical/3mf/everything-else-v4.0.0.project.3mf",
       "public": "assets/downloads/double-take-frames-everything-else-v4.0.0.project.3mf",
-      "sha256": "f6c59373b222fdcc984b6b1fc2a26a52fd8ff38034eb7261c31862b03d03da49"
+      "sha256": "7fede5995ab9db81440b87a7e30a16c91355253dab809e9806a379943bd50b99"
     },
     {
       "id": "capstans-scad",
